@@ -5,15 +5,30 @@
   "season": "2025-2026",
   "location": "Atlanta, GA",
   "organization": "Stars National Softball",
+  "coaches": [
+    {
+      "name": "Adrian Diaz",
+      "title": "Head Coach",
+      "email": "adrian.diaz@starsnational.com",
+      "bio": "Coach Adrian brings years of competitive softball experience and a passion for player development. His coaching philosophy emphasizes fundamentals, mental toughness, and preparing athletes for the next level."
+    },
+    {
+      "name": "Jeremiah Perez",
+      "title": "Assistant Coach",
+      "email": "jeremiah.perez@starsnational.com",
+      "bio": "Coach Jeremiah specializes in hitting and infield development. His attention to detail and positive coaching style help players reach their full potential."
+    }
+  ],
   "headCoach": {
-    "name": "Joe Walker",
+    "name": "Adrian Diaz",
     "title": "Head Coach",
-    "email": "coach@starsnatwalker.com"
+    "email": "adrian.diaz@starsnational.com"
   },
   "recruitingCoordinator": {
     "name": "Mike Usry",
     "title": "Recruiting Coordinator",
-    "email": "mike@point.dog"
+    "email": "mike@point.dog",
+    "bio": "Mike works with each player to navigate the college recruiting process, from initial outreach to college commitment. He maintains relationships with coaches across all divisions."
   },
   "description": "Stars National Walker is an elite 18U travel softball team based in Atlanta, GA. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
   "socialLinks": {
@@ -23,5 +38,7 @@
   "achievements": [
     "Alliance Atlantic Region Champions - Fall 2025",
     "PGF Southeast Qualifier - Top 8"
-  ]
+  ],
+  "contactEmail": "info@starsnatwalker.com",
+  "contactPhone": "(404) 555-STAR"
 }

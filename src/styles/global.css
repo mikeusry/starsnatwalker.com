@@ -2,14 +2,17 @@
 
 /* Stars National Walker Brand Colors */
 @theme {
-  --color-stars-navy: #0a1628;
-  --color-stars-navy-light: #152238;
+  --color-stars-navy: #062a4b;
+  --color-stars-navy-light: #0a3d63;
   --color-stars-red: #c41e3a;
   --color-stars-red-light: #e8324f;
   --color-stars-gold: #d4af37;
   --color-stars-gold-light: #f0c75e;
   --color-stars-silver: #c0c0c0;
   --color-stars-white: #ffffff;
+  --color-stars-gray-light: #c8ccd1;
+  --color-stars-gray-medium: #737e94;
+  --color-stars-gray-dark: #555655;
 
   /* Semantic colors */
   --color-primary: var(--color-stars-navy);

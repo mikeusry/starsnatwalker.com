@@ -8,10 +8,11 @@ interface Props {
 const { transparent = false } = Astro.props;
 
 const navLinks = [
+  { href: '/', label: 'Home' },
   { href: '#roster', label: 'Roster' },
   { href: '#schedule', label: 'Schedule' },
   { href: '#about', label: 'About' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/contact', label: 'Contact' },
 ];
 ---
 
@@ -49,12 +50,6 @@ const navLinks = [
             {link.label}
           </a>
         ))}
-        <a
-          href="#contact"
-          class="btn-primary text-sm"
-        >
-          Contact Us
-        </a>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -82,12 +77,6 @@ const navLinks = [
           {link.label}
         </a>
       ))}
-      <a
-        href="#contact"
-        class="btn-primary text-sm w-full text-center mt-4"
-      >
-        Contact Us
-      </a>
     </div>
   </div>
 </header>

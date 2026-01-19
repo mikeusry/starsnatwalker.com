@@ -1,0 +1,236 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import players from '../../data/players.json';
+
+export async function getStaticPaths() {
+  return players.map((player) => ({
+    params: { slug: player.id },
+    props: { player },
+  }));
+}
+
+const { player } = Astro.props;
+
+const positions = [player.position, ...(player.secondaryPositions || [])].filter(Boolean).join(' / ');
+const handedness = player.bats && player.throws ? `${player.bats}/${player.throws}` : null;
+
+// Extract YouTube video ID from URL if present
+const getYouTubeId = (url: string | null) => {
+  if (!url) return null;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+  return match ? match[1] : null;
+};
+
+const videoId = getYouTubeId(player.highlightVideoUrl);
+---
+
+<Layout title={`${player.firstName} ${player.lastName} | Stars National Walker`}>
+  <Header />
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="bg-stars-navy py-12 md:py-16">
+      <div class="container-narrow">
+        <div class="grid md:grid-cols-3 gap-8 items-start">
+          <!-- Photo -->
+          <div class="md:col-span-1">
+            <div class="aspect-[4/5] bg-gradient-to-br from-stars-navy-light to-stars-navy rounded-2xl overflow-hidden">
+              {player.photoUrl ? (
+                <img
+                  src={player.photoUrl}
+                  alt={`${player.firstName} ${player.lastName}`}
+                  class="w-full h-full object-cover"
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center">
+                  <div class="text-center">
+                    <div class="text-8xl text-stars-red/50 mb-4">★</div>
+                    <div class="text-white/30 font-bold text-2xl">
+                      {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <!-- Player Info -->
+          <div class="md:col-span-2">
+            <div class="flex items-start gap-4 mb-6">
+              <div class="flex-1">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">
+                  {player.firstName} {player.lastName}
+                </h1>
+                <div class="flex flex-wrap items-center gap-3 text-white/80">
+                  <span class="inline-flex items-center px-3 py-1 bg-stars-gold rounded-full text-stars-navy font-semibold">
+                    Class of {player.gradYear}
+                  </span>
+                  <span class="text-lg font-medium">{positions}</span>
+                  {handedness && (
+                    <>
+                      <span class="text-white/40">•</span>
+                      <span>B/T: {handedness}</span>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Stats Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+              {player.gradYear && (
+                <div class="bg-white/10 rounded-xl p-4 text-center">
+                  <div class="text-stars-gold font-bold text-2xl mb-1">{player.gradYear}</div>
+                  <div class="text-white/70 text-sm">Grad Year</div>
+                </div>
+              )}
+              {player.position && (
+                <div class="bg-white/10 rounded-xl p-4 text-center">
+                  <div class="text-stars-gold font-bold text-2xl mb-1">{player.position}</div>
+                  <div class="text-white/70 text-sm">Position</div>
+                </div>
+              )}
+              {player.bats && (
+                <div class="bg-white/10 rounded-xl p-4 text-center">
+                  <div class="text-stars-gold font-bold text-2xl mb-1">{player.bats}</div>
+                  <div class="text-white/70 text-sm">Bats</div>
+                </div>
+              )}
+              {player.throws && (
+                <div class="bg-white/10 rounded-xl p-4 text-center">
+                  <div class="text-stars-gold font-bold text-2xl mb-1">{player.throws}</div>
+                  <div class="text-white/70 text-sm">Throws</div>
+                </div>
+              )}
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex gap-4 mt-6">
+              {player.profileUrl && (
+                <a
+                  href={player.profileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-primary text-sm"
+                >
+                  View Full Profile
+                </a>
+              )}
+              {player.twitter && (
+                <a
+                  href={`https://x.com/${player.twitter}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  @{player.twitter}
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bio Section -->
+    {player.bio && (
+      <section class="section-padding bg-white">
+        <div class="container-narrow max-w-4xl">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">About {player.firstName}</h2>
+          <div class="prose prose-lg max-w-none text-gray-600">
+            <p>{player.bio}</p>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Highlight Video -->
+    {videoId && (
+      <section class="section-padding bg-gray-50">
+        <div class="container-narrow max-w-4xl">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Highlight Video</h2>
+          <div class="aspect-video rounded-xl overflow-hidden shadow-2xl">
+            <iframe
+              width="100%"
+              height="100%"
+              src={`https://www.youtube.com/embed/${videoId}`}
+              title="Player Highlights"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Player Details -->
+    <section class="section-padding bg-white">
+      <div class="container-narrow max-w-4xl">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">Player Details</h2>
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+          <table class="w-full">
+            <tbody class="divide-y divide-gray-200">
+              <tr>
+                <td class="px-6 py-4 text-gray-600 font-medium">Full Name</td>
+                <td class="px-6 py-4 text-gray-900">{player.firstName} {player.lastName}</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-gray-600 font-medium">Graduation Year</td>
+                <td class="px-6 py-4 text-gray-900">{player.gradYear}</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-gray-600 font-medium">Position(s)</td>
+                <td class="px-6 py-4 text-gray-900">{positions}</td>
+              </tr>
+              {handedness && (
+                <tr>
+                  <td class="px-6 py-4 text-gray-600 font-medium">Bats/Throws</td>
+                  <td class="px-6 py-4 text-gray-900">{handedness}</td>
+                </tr>
+              )}
+              {player.heightInches && (
+                <tr>
+                  <td class="px-6 py-4 text-gray-600 font-medium">Height</td>
+                  <td class="px-6 py-4 text-gray-900">
+                    {Math.floor(player.heightInches / 12)}'{player.heightInches % 12}"
+                  </td>
+                </tr>
+              )}
+              {player.highSchool && (
+                <tr>
+                  <td class="px-6 py-4 text-gray-600 font-medium">High School</td>
+                  <td class="px-6 py-4 text-gray-900">
+                    {player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}
+                  </td>
+                </tr>
+              )}
+              {player.gpa && (
+                <tr>
+                  <td class="px-6 py-4 text-gray-600 font-medium">GPA</td>
+                  <td class="px-6 py-4 text-gray-900">{player.gpa}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    <!-- Back to Roster -->
+    <section class="section-padding bg-gray-50">
+      <div class="container-narrow text-center">
+        <a href="/#roster" class="btn-primary inline-flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Roster
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

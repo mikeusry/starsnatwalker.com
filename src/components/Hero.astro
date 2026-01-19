@@ -1,0 +1,70 @@
+---
+import team from '../data/team.json';
+---
+
+<section class="relative bg-stars-navy min-h-[80vh] flex items-center">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.4\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+  </div>
+
+  <div class="container-narrow relative z-10 py-24 md:py-32">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Text Content -->
+      <div class="text-center md:text-left">
+        <div class="inline-flex items-center gap-2 bg-stars-red/20 border border-stars-red/30 rounded-full px-4 py-1.5 mb-6">
+          <span class="text-stars-gold text-sm font-semibold">★</span>
+          <span class="text-white text-sm font-medium">{team.division} Elite Travel Softball</span>
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">
+          Stars National
+          <span class="block text-stars-gold">Walker</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-white/70 mb-6">
+          {team.description}
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+          <a href="#roster" class="btn-primary">
+            View Roster
+          </a>
+          <a href="#contact" class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy">
+            Contact Us
+          </a>
+        </div>
+
+        <!-- Achievements -->
+        {team.achievements.length > 0 && (
+          <div class="mt-8 pt-8 border-t border-white/10">
+            <p class="text-stars-gold text-sm font-medium mb-2">Recent Achievements</p>
+            {team.achievements.map(achievement => (
+              <p class="text-white/80 text-sm">★ {achievement}</p>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- Team Logo/Image Placeholder -->
+      <div class="hidden md:flex justify-center">
+        <div class="w-80 h-80 bg-stars-navy-light rounded-full flex items-center justify-center border-4 border-stars-gold/30">
+          <div class="text-center">
+            <div class="text-8xl text-stars-red mb-2">★</div>
+            <div class="text-white font-bold text-xl">STARS</div>
+            <div class="text-stars-gold font-semibold tracking-widest">NATIONAL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <a href="#roster" class="text-white/50 hover:text-white transition-colors">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </a>
+  </div>
+</section>

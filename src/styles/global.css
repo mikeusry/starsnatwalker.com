@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* Stars National Walker Brand Colors */
+@theme {
+  --color-stars-navy: #0a1628;
+  --color-stars-navy-light: #152238;
+  --color-stars-red: #c41e3a;
+  --color-stars-red-light: #e8324f;
+  --color-stars-gold: #d4af37;
+  --color-stars-gold-light: #f0c75e;
+  --color-stars-silver: #c0c0c0;
+  --color-stars-white: #ffffff;
+
+  /* Semantic colors */
+  --color-primary: var(--color-stars-navy);
+  --color-accent: var(--color-stars-red);
+  --color-highlight: var(--color-stars-gold);
+}
+
+/* Custom components */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3
+           bg-stars-red text-white font-semibold rounded-lg
+           hover:bg-stars-red-light transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3
+           border-2 border-stars-red text-stars-red font-semibold rounded-lg
+           hover:bg-stars-red hover:text-white transition-colors duration-200;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center px-6 py-3
+           bg-stars-gold text-stars-navy font-semibold rounded-lg
+           hover:bg-stars-gold-light transition-colors duration-200;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-20 px-4 md:px-8;
+  }
+
+  .container-narrow {
+    @apply max-w-6xl mx-auto px-4;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-lg overflow-hidden;
+  }
+}
+
+/* Global styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}

@@ -1,0 +1,129 @@
+---
+import team from '../data/team.json';
+
+interface Props {
+  transparent?: boolean;
+}
+
+const { transparent = false } = Astro.props;
+
+const navLinks = [
+  { href: '#roster', label: 'Roster' },
+  { href: '#schedule', label: 'Schedule' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header
+  id="header"
+  class:list={[
+    "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+    transparent ? "bg-transparent" : "bg-stars-navy shadow-lg"
+  ]}
+>
+  <nav class="container-narrow">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 md:w-12 md:h-12 bg-stars-red rounded-full flex items-center justify-center">
+          <span class="text-white font-bold text-lg md:text-xl">★</span>
+        </div>
+        <div>
+          <div class="text-white font-bold text-lg md:text-xl leading-tight">
+            Stars National
+          </div>
+          <div class="text-stars-gold text-xs md:text-sm font-medium tracking-wider">
+            WALKER
+          </div>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            class="text-white/80 hover:text-white font-medium transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+        <a
+          href="#contact"
+          class="btn-primary text-sm"
+        >
+          Contact Us
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden text-white p-2"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-stars-navy-light border-t border-white/10">
+    <div class="container-narrow py-4 space-y-3">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class="block text-white/80 hover:text-white font-medium py-2"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="#contact"
+        class="btn-primary text-sm w-full text-center mt-4"
+      >
+        Contact Us
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+
+  // Close menu on link click
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    });
+  });
+
+  // Header background on scroll
+  const header = document.getElementById('header');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.remove('bg-transparent');
+      header?.classList.add('bg-stars-navy', 'shadow-lg');
+    } else if (header?.dataset.transparent === 'true') {
+      header?.classList.add('bg-transparent');
+      header?.classList.remove('bg-stars-navy', 'shadow-lg');
+    }
+  });
+</script>

@@ -1,0 +1,5 @@
+# Cloudflare Pages configuration
+name = "starsnatwalker"
+
+# Static site - no workers needed
+# Pages will auto-detect the Astro framework

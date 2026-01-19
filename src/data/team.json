@@ -1,0 +1,27 @@
+{
+  "name": "Stars National Walker",
+  "shortName": "Stars Walker",
+  "division": "18U",
+  "season": "2025-2026",
+  "location": "Atlanta, GA",
+  "organization": "Stars National Softball",
+  "headCoach": {
+    "name": "Joe Walker",
+    "title": "Head Coach",
+    "email": "coach@starsnatwalker.com"
+  },
+  "recruitingCoordinator": {
+    "name": "Mike Usry",
+    "title": "Recruiting Coordinator",
+    "email": "mike@point.dog"
+  },
+  "description": "Stars National Walker is an elite 18U travel softball team based in Atlanta, GA. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
+  "socialLinks": {
+    "twitter": "https://x.com/StarsNatWalker",
+    "instagram": "https://instagram.com/starsnatwalker"
+  },
+  "achievements": [
+    "Alliance Atlantic Region Champions - Fall 2025",
+    "PGF Southeast Qualifier - Top 8"
+  ]
+}

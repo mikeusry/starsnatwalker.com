@@ -1,0 +1,35 @@
+{
+  "season": "Summer 2026",
+  "events": [
+    {
+      "name": "Show Me The Money",
+      "org": "PGF",
+      "dates": "Jun 5-8",
+      "location": "Newberry, FL",
+      "type": "tournament"
+    },
+    {
+      "name": "PGF Nationals",
+      "org": "PGF",
+      "dates": "Jul 24-31",
+      "location": "Orange County, CA",
+      "type": "tournament"
+    },
+    {
+      "name": "Alliance Nationals",
+      "org": "Alliance",
+      "dates": "Jul 10-14",
+      "location": "TBD",
+      "type": "tournament"
+    }
+  ],
+  "pastEvents": [
+    {
+      "name": "Alliance Atlantic Region Championship",
+      "org": "Alliance",
+      "dates": "Oct 2025",
+      "location": "Atlanta, GA",
+      "result": "Champions"
+    }
+  ]
+}

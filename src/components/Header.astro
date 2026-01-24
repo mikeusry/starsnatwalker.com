@@ -12,6 +12,7 @@ const navLinks = [
   { href: '#roster', label: 'Roster' },
   { href: '#schedule', label: 'Schedule' },
   { href: '#about', label: 'About' },
+  { href: '/coaches', label: 'For Coaches', highlight: true },
   { href: '/contact', label: 'Contact' },
 ];
 ---
@@ -43,11 +44,16 @@ const navLinks = [
       </a>
 
       <!-- Desktop Nav -->
-      <div class="hidden md:flex items-center gap-8">
+      <div class="hidden md:flex items-center gap-6">
         {navLinks.map(link => (
           <a
             href={link.href}
-            class="text-white/80 hover:text-white font-medium transition-colors"
+            class:list={[
+              "font-medium transition-colors",
+              link.highlight
+                ? "px-3 py-1.5 bg-stars-gold text-stars-navy rounded-lg hover:bg-stars-gold/90"
+                : "text-white/80 hover:text-white"
+            ]}
           >
             {link.label}
           </a>

@@ -1,0 +1,328 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import players from '../data/players.json';
+import team from '../data/team.json';
+import schedule from '../data/schedule.json';
+import { generatePlayerSlug } from '../lib/slug';
+
+// Sort players by grad year, then by last name
+const sortedPlayers = [...players].sort((a, b) => {
+  if (a.gradYear !== b.gradYear) return a.gradYear - b.gradYear;
+  return a.lastName.localeCompare(b.lastName);
+});
+
+// Group by grad year
+const playersByYear = sortedPlayers.reduce((acc, player) => {
+  const year = player.gradYear;
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(player);
+  return acc;
+}, {} as Record<number, typeof players>);
+
+// Format height helper
+const formatHeight = (inches: number | null) => {
+  if (!inches) return '-';
+  return `${Math.floor(inches / 12)}'${inches % 12}"`;
+};
+
+// Get unique positions for filter
+const positions = [...new Set(players.map(p => p.position))].sort();
+const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
+---
+
+<Layout
+  title="College Coaches | Stars National Walker Softball"
+  description="College coaches: view the Stars National Walker 16U roster, player stats, recruiting information, and schedule. Contact us about our student-athletes."
+>
+  <Header />
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="bg-stars-navy py-16 md:py-24">
+      <div class="container-narrow text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          College Coach Resources
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto mb-8">
+          Everything you need to evaluate our student-athletes. View our roster, schedule, and contact our recruiting coordinator.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#roster" class="btn-primary bg-stars-gold text-stars-navy hover:bg-stars-gold/90">
+            View Roster
+          </a>
+          <a href="#schedule" class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy">
+            See Our Schedule
+          </a>
+          <a
+            href={`mailto:${team.recruitingCoordinator.email}?subject=College Coach Inquiry - Stars National Walker`}
+            class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy"
+          >
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="bg-white py-8 border-b">
+      <div class="container-narrow">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div>
+            <div class="text-3xl font-bold text-stars-navy">{players.length}</div>
+            <div class="text-gray-600">Players</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-stars-navy">{gradYears.length}</div>
+            <div class="text-gray-600">Grad Years</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-stars-navy">{players.filter(p => p.gpa && p.gpa >= 3.5).length}</div>
+            <div class="text-gray-600">3.5+ GPA</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-stars-navy">{schedule.events?.length || 0}</div>
+            <div class="text-gray-600">Upcoming Events</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roster Section with Filters -->
+    <section id="roster" class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+          <h2 class="text-3xl font-bold text-gray-900">Team Roster</h2>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap gap-3">
+            <select id="yearFilter" class="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-stars-navy focus:border-transparent">
+              <option value="">All Years</option>
+              {gradYears.map(year => (
+                <option value={year}>{year}</option>
+              ))}
+            </select>
+            <select id="positionFilter" class="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-stars-navy focus:border-transparent">
+              <option value="">All Positions</option>
+              {positions.map(pos => (
+                <option value={pos}>{pos}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <!-- Roster Table -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full" id="rosterTable">
+              <thead class="bg-stars-navy text-white">
+                <tr>
+                  <th class="px-4 py-3 text-left font-semibold">Player</th>
+                  <th class="px-4 py-3 text-left font-semibold">Grad</th>
+                  <th class="px-4 py-3 text-left font-semibold">Position</th>
+                  <th class="px-4 py-3 text-left font-semibold">B/T</th>
+                  <th class="px-4 py-3 text-left font-semibold">Height</th>
+                  <th class="px-4 py-3 text-left font-semibold">GPA</th>
+                  <th class="px-4 py-3 text-left font-semibold">NCAA ID</th>
+                  <th class="px-4 py-3 text-left font-semibold">Status</th>
+                  <th class="px-4 py-3 text-center font-semibold">Profile</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                {sortedPlayers.map((player) => (
+                  <tr
+                    class="hover:bg-gray-50 transition-colors player-row"
+                    data-year={player.gradYear}
+                    data-position={player.position}
+                  >
+                    <td class="px-4 py-4">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
+                          {player.photoUrl ? (
+                            <img src={player.photoUrl} alt="" class="w-full h-full object-cover" />
+                          ) : (
+                            <div class="w-full h-full flex items-center justify-center text-stars-navy font-bold text-sm">
+                              {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <a href={`/players/${generatePlayerSlug(player.firstName, player.lastName)}`} class="font-semibold text-gray-900 hover:text-stars-blue">
+                            {player.firstName} {player.lastName}
+                          </a>
+                          {player.highSchool && (
+                            <p class="text-xs text-gray-500">{player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}</p>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-4 py-4 font-medium text-gray-900">{player.gradYear}</td>
+                    <td class="px-4 py-4 text-gray-600">{player.position}</td>
+                    <td class="px-4 py-4 text-gray-600">{player.bats && player.throws ? `${player.bats}/${player.throws}` : '-'}</td>
+                    <td class="px-4 py-4 text-gray-600">{formatHeight(player.heightInches)}</td>
+                    <td class="px-4 py-4">
+                      {player.gpa ? (
+                        <span class={`font-semibold ${player.gpa >= 3.5 ? 'text-green-600' : 'text-gray-900'}`}>
+                          {player.gpa}
+                        </span>
+                      ) : (
+                        <span class="text-gray-400">-</span>
+                      )}
+                    </td>
+                    <td class="px-4 py-4">
+                      {player.ncaaId ? (
+                        <span class="text-xs font-mono text-gray-600">{player.ncaaId}</span>
+                      ) : (
+                        <span class="text-gray-400">-</span>
+                      )}
+                    </td>
+                    <td class="px-4 py-4">
+                      {player.recruitingStatus === 'committed' ? (
+                        <span class="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                          Committed
+                        </span>
+                      ) : (
+                        <span class="inline-flex items-center px-2 py-1 bg-stars-gold/20 text-stars-navy rounded-full text-xs font-medium">
+                          Open
+                        </span>
+                      )}
+                    </td>
+                    <td class="px-4 py-4 text-center">
+                      <a
+                        href={`/players/${generatePlayerSlug(player.firstName, player.lastName)}`}
+                        class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-stars-navy text-white hover:bg-stars-blue transition-colors"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p class="text-center text-gray-500 text-sm mt-4" id="noResults" style="display: none;">
+          No players match your filters.
+        </p>
+      </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="section-padding bg-white">
+      <div class="container-narrow">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Upcoming Schedule</h2>
+
+        <div class="space-y-4">
+          {schedule.events && schedule.events.map((event: any) => (
+            <div class="bg-gray-50 rounded-xl p-6 flex flex-col md:flex-row md:items-center gap-4">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-gray-900">{event.name}</h3>
+                  {event.isShowcase && (
+                    <span class="inline-flex items-center px-2 py-0.5 bg-stars-gold text-stars-navy text-xs font-bold rounded">
+                      SHOWCASE
+                    </span>
+                  )}
+                </div>
+                <p class="text-gray-600">{event.dates}</p>
+                <div class="flex items-center gap-2 mt-2 text-sm text-gray-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>{event.location}</span>
+                  {event.venue && <span class="text-gray-400">• {event.venue}</span>}
+                </div>
+                {event.org && (
+                  <p class="text-xs text-gray-400 mt-1">{event.org}</p>
+                )}
+              </div>
+              <div class="flex gap-2">
+                {event.address && (
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    </svg>
+                    Map
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section-padding bg-stars-navy">
+      <div class="container-narrow text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Get In Touch</h2>
+        <p class="text-white/80 max-w-2xl mx-auto mb-8">
+          Interested in one of our players? Contact our recruiting coordinator for more information, video, transcripts, and to arrange a conversation.
+        </p>
+
+        <div class="bg-white/10 rounded-xl p-8 max-w-md mx-auto">
+          <div class="w-16 h-16 bg-stars-gold rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-stars-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">{team.recruitingCoordinator.name}</h3>
+          <p class="text-stars-gold mb-4">{team.recruitingCoordinator.title}</p>
+          <a
+            href={`mailto:${team.recruitingCoordinator.email}`}
+            class="btn-primary bg-stars-gold text-stars-navy hover:bg-stars-gold/90 inline-flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            {team.recruitingCoordinator.email}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <!-- Filter Script -->
+  <script>
+    const yearFilter = document.getElementById('yearFilter') as HTMLSelectElement;
+    const positionFilter = document.getElementById('positionFilter') as HTMLSelectElement;
+    const rows = document.querySelectorAll('.player-row') as NodeListOf<HTMLElement>;
+    const noResults = document.getElementById('noResults') as HTMLElement;
+
+    function filterTable() {
+      const selectedYear = yearFilter.value;
+      const selectedPosition = positionFilter.value;
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const year = row.dataset.year;
+        const position = row.dataset.position;
+
+        const yearMatch = !selectedYear || year === selectedYear;
+        const positionMatch = !selectedPosition || position === selectedPosition;
+
+        if (yearMatch && positionMatch) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    yearFilter.addEventListener('change', filterTable);
+    positionFilter.addEventListener('change', filterTable);
+  </script>
+</Layout>

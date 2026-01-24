@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import players from '../../data/players.json';
+import team from '../../data/team.json';
 import { generatePlayerSlug, generateAthleteStructuredData } from '../../lib/slug';
 
 export async function getStaticPaths() {
@@ -20,19 +21,32 @@ const structuredData = generateAthleteStructuredData(player);
 const positions = [player.position, ...(player.secondaryPositions || [])].filter(Boolean).join(' / ');
 const handedness = player.bats && player.throws ? `${player.bats}/${player.throws}` : null;
 
+// Format height
+const formatHeight = (inches: number | null) => {
+  if (!inches) return null;
+  return `${Math.floor(inches / 12)}'${inches % 12}"`;
+};
+
 // Extract YouTube video ID from URL if present
 const getYouTubeId = (url: string | null) => {
   if (!url) return null;
-  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|channel\/))([^&?\/]+)/);
   return match ? match[1] : null;
 };
 
-const videoId = getYouTubeId(player.highlightVideoUrl);
+const highlightVideoId = getYouTubeId(player.videos?.highlightUrl);
+const skillsVideoId = getYouTubeId(player.videos?.skillsUrl);
+
+// Check if player has any measurables
+const hasMeasurables = player.measurables && Object.values(player.measurables).some(v => v !== null);
+
+// Check if player has stats
+const hasStats = player.stats && Object.keys(player.stats).length > 0;
 ---
 
 <Layout
   title={`${player.firstName} ${player.lastName} - ${player.position} - Class of ${player.gradYear} | Stars National Walker`}
-  description={player.bio || `${player.firstName} ${player.lastName} is a ${player.position} for Stars National Walker 18U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
+  description={player.bio || `${player.firstName} ${player.lastName} is a ${player.position} for Stars National Walker 16U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
   image={player.photoUrl}
 >
   <!-- Structured Data for SEO -->
@@ -46,7 +60,7 @@ const videoId = getYouTubeId(player.highlightVideoUrl);
         <div class="grid md:grid-cols-3 gap-8 items-start">
           <!-- Photo -->
           <div class="md:col-span-1">
-            <div class="aspect-[4/5] bg-gradient-to-br from-stars-navy-light to-stars-navy rounded-2xl overflow-hidden">
+            <div class="aspect-[4/5] bg-gradient-to-br from-stars-navy-light to-stars-navy rounded-2xl overflow-hidden relative">
               {player.photoUrl ? (
                 <img
                   src={player.photoUrl}
@@ -63,7 +77,23 @@ const videoId = getYouTubeId(player.highlightVideoUrl);
                   </div>
                 </div>
               )}
+              <!-- Recruiting Status Badge -->
+              {player.recruitingStatus && (
+                <div class={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-bold ${
+                  player.recruitingStatus === 'committed'
+                    ? 'bg-green-500 text-white'
+                    : 'bg-stars-gold text-stars-navy'
+                }`}>
+                  {player.recruitingStatus === 'committed' ? `Committed` : 'Uncommitted'}
+                </div>
+              )}
             </div>
+            {player.committedTo && (
+              <div class="mt-4 bg-green-500/20 border border-green-500 rounded-lg p-4 text-center">
+                <p class="text-green-400 text-sm font-medium">Committed to</p>
+                <p class="text-white font-bold text-lg">{player.committedTo}</p>
+              </div>
+            )}
           </div>
 
           <!-- Player Info -->
@@ -96,41 +126,49 @@ const videoId = getYouTubeId(player.highlightVideoUrl);
                   <div class="text-white/70 text-sm">Grad Year</div>
                 </div>
               )}
-              {player.position && (
+              {formatHeight(player.heightInches) && (
                 <div class="bg-white/10 rounded-xl p-4 text-center">
-                  <div class="text-stars-gold font-bold text-2xl mb-1">{player.position}</div>
-                  <div class="text-white/70 text-sm">Position</div>
+                  <div class="text-stars-gold font-bold text-2xl mb-1">{formatHeight(player.heightInches)}</div>
+                  <div class="text-white/70 text-sm">Height</div>
                 </div>
               )}
-              {player.bats && (
+              {player.gpa && (
                 <div class="bg-white/10 rounded-xl p-4 text-center">
-                  <div class="text-stars-gold font-bold text-2xl mb-1">{player.bats}</div>
-                  <div class="text-white/70 text-sm">Bats</div>
+                  <div class="text-stars-gold font-bold text-2xl mb-1">{player.gpa}</div>
+                  <div class="text-white/70 text-sm">GPA</div>
                 </div>
               )}
-              {player.throws && (
+              {player.ncaaId && (
                 <div class="bg-white/10 rounded-xl p-4 text-center">
-                  <div class="text-stars-gold font-bold text-2xl mb-1">{player.throws}</div>
-                  <div class="text-white/70 text-sm">Throws</div>
+                  <a
+                    href={`https://web3.ncaa.org/ecwr3/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="block hover:bg-white/5 rounded-lg transition-colors"
+                  >
+                    <div class="text-stars-gold font-bold text-lg mb-1">NCAA ✓</div>
+                    <div class="text-white/70 text-xs">ID: {player.ncaaId}</div>
+                  </a>
                 </div>
               )}
             </div>
 
-            <!-- Social Links -->
-            <div class="flex gap-4 mt-6">
-              {player.profileUrl && (
-                <a
-                  href={player.profileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn-primary text-sm"
-                >
-                  View Full Profile
-                </a>
-              )}
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-4 mt-6">
+              <!-- Contact About Player Button -->
+              <a
+                href={`mailto:${team.recruitingCoordinator.email}?subject=Recruiting Inquiry: ${player.firstName} ${player.lastName} (${player.gradYear})&body=Hello,%0D%0A%0D%0AI am interested in learning more about ${player.firstName} ${player.lastName} (Class of ${player.gradYear}, ${player.position}).%0D%0A%0D%0APlease send me additional information.%0D%0A%0D%0AThank you`}
+                class="btn-primary inline-flex items-center gap-2"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Contact About This Player
+              </a>
+
               {player.twitter && (
                 <a
-                  href={`https://x.com/${player.twitter}`}
+                  href={`https://x.com/${player.twitter.replace('https://x.com/', '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
@@ -138,7 +176,7 @@ const videoId = getYouTubeId(player.highlightVideoUrl);
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                   </svg>
-                  @{player.twitter}
+                  @{player.twitter.replace('https://x.com/', '')}
                 </a>
               )}
             </div>
@@ -155,12 +193,120 @@ const videoId = getYouTubeId(player.highlightVideoUrl);
           <div class="prose prose-lg max-w-none text-gray-600">
             <p>{player.bio}</p>
           </div>
+
+          <!-- Achievements -->
+          {player.achievements && player.achievements.length > 0 && (
+            <div class="mt-8">
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Achievements & Honors</h3>
+              <div class="flex flex-wrap gap-2">
+                {player.achievements.map((achievement: string) => (
+                  <span class="inline-flex items-center px-3 py-1 bg-stars-gold/20 text-stars-navy rounded-full text-sm font-medium">
+                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    {achievement}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+
+    <!-- Stats Section (if available) -->
+    {hasStats && (
+      <section class="section-padding bg-gray-50">
+        <div class="container-narrow max-w-4xl">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Season Stats</h2>
+          <div class="bg-white rounded-xl shadow-lg p-6">
+            <p class="text-sm text-gray-500 mb-4">{player.stats.season}</p>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+              {player.stats.avg && (
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-stars-navy">{player.stats.avg}</div>
+                  <div class="text-gray-500 text-sm">AVG</div>
+                </div>
+              )}
+              {player.stats.obp && (
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-stars-navy">{player.stats.obp}</div>
+                  <div class="text-gray-500 text-sm">OBP</div>
+                </div>
+              )}
+              {player.stats.ops && (
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-stars-navy">{player.stats.ops}</div>
+                  <div class="text-gray-500 text-sm">OPS</div>
+                </div>
+              )}
+              {player.stats.games && (
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-stars-navy">{player.stats.games}</div>
+                  <div class="text-gray-500 text-sm">Games</div>
+                </div>
+              )}
+              {player.stats.stolenBases && (
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-stars-navy">{player.stats.stolenBases}</div>
+                  <div class="text-gray-500 text-sm">SB</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Measurables Section -->
+    {hasMeasurables && (
+      <section class="section-padding bg-white">
+        <div class="container-narrow max-w-4xl">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Measurables</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {player.measurables.sixtyYard && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.sixtyYard}</div>
+                <div class="text-gray-500 text-sm">60 Yard</div>
+              </div>
+            )}
+            {player.measurables.exitVelo && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.exitVelo} mph</div>
+                <div class="text-gray-500 text-sm">Exit Velo</div>
+              </div>
+            )}
+            {player.measurables.popTime && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.popTime}</div>
+                <div class="text-gray-500 text-sm">Pop Time</div>
+              </div>
+            )}
+            {player.measurables.infieldVelo && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.infieldVelo} mph</div>
+                <div class="text-gray-500 text-sm">IF Velo</div>
+              </div>
+            )}
+            {player.measurables.outfieldVelo && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.outfieldVelo} mph</div>
+                <div class="text-gray-500 text-sm">OF Velo</div>
+              </div>
+            )}
+            {player.measurables.pitchSpeed && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.pitchSpeed} mph</div>
+                <div class="text-gray-500 text-sm">Pitch Speed</div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
     )}
 
     <!-- Highlight Video -->
-    {videoId && (
+    {highlightVideoId && (
       <section class="section-padding bg-gray-50">
         <div class="container-narrow max-w-4xl">
           <h2 class="text-3xl font-bold text-gray-900 mb-6">Highlight Video</h2>
@@ -168,7 +314,7 @@ const videoId = getYouTubeId(player.highlightVideoUrl);
             <iframe
               width="100%"
               height="100%"
-              src={`https://www.youtube.com/embed/${videoId}`}
+              src={`https://www.youtube.com/embed/${highlightVideoId}`}
               title="Player Highlights"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -179,57 +325,124 @@ const videoId = getYouTubeId(player.highlightVideoUrl);
       </section>
     )}
 
-    <!-- Player Details -->
+    <!-- Academic & Recruiting Info -->
     <section class="section-padding bg-white">
       <div class="container-narrow max-w-4xl">
-        <h2 class="text-3xl font-bold text-gray-900 mb-6">Player Details</h2>
-        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <table class="w-full">
-            <tbody class="divide-y divide-gray-200">
-              <tr>
-                <td class="px-6 py-4 text-gray-600 font-medium">Full Name</td>
-                <td class="px-6 py-4 text-gray-900">{player.firstName} {player.lastName}</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 text-gray-600 font-medium">Graduation Year</td>
-                <td class="px-6 py-4 text-gray-900">{player.gradYear}</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 text-gray-600 font-medium">Position(s)</td>
-                <td class="px-6 py-4 text-gray-900">{positions}</td>
-              </tr>
-              {handedness && (
-                <tr>
-                  <td class="px-6 py-4 text-gray-600 font-medium">Bats/Throws</td>
-                  <td class="px-6 py-4 text-gray-900">{handedness}</td>
-                </tr>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Academic Info -->
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Academic Profile</h2>
+            <div class="bg-gray-50 rounded-xl p-6 space-y-4">
+              {player.gpa && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">GPA</span>
+                  <span class="font-semibold text-gray-900">{player.gpa}</span>
+                </div>
               )}
-              {player.heightInches && (
-                <tr>
-                  <td class="px-6 py-4 text-gray-600 font-medium">Height</td>
-                  <td class="px-6 py-4 text-gray-900">
-                    {Math.floor(player.heightInches / 12)}'{player.heightInches % 12}"
-                  </td>
-                </tr>
+              {player.satScore && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">SAT Score</span>
+                  <span class="font-semibold text-gray-900">{player.satScore}</span>
+                </div>
+              )}
+              {player.actScore && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">ACT Score</span>
+                  <span class="font-semibold text-gray-900">{player.actScore}</span>
+                </div>
+              )}
+              {player.intendedMajor && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Intended Major</span>
+                  <span class="font-semibold text-gray-900">{player.intendedMajor}</span>
+                </div>
               )}
               {player.highSchool && (
-                <tr>
-                  <td class="px-6 py-4 text-gray-600 font-medium">High School</td>
-                  <td class="px-6 py-4 text-gray-900">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">High School</span>
+                  <span class="font-semibold text-gray-900">
                     {player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}
-                  </td>
-                </tr>
+                  </span>
+                </div>
               )}
-              {player.gpa && (
-                <tr>
-                  <td class="px-6 py-4 text-gray-600 font-medium">GPA</td>
-                  <td class="px-6 py-4 text-gray-900">{player.gpa}</td>
-                </tr>
+              {player.ncaaId && (
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-600">NCAA ID</span>
+                  <a
+                    href="https://web3.ncaa.org/ecwr3/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="font-semibold text-stars-blue hover:underline"
+                  >
+                    {player.ncaaId}
+                  </a>
+                </div>
               )}
-            </tbody>
-          </table>
+              {!player.gpa && !player.highSchool && !player.ncaaId && (
+                <p class="text-gray-500 text-sm">Academic information coming soon.</p>
+              )}
+            </div>
+          </div>
+
+          <!-- Physical Profile -->
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Physical Profile</h2>
+            <div class="bg-gray-50 rounded-xl p-6 space-y-4">
+              {formatHeight(player.heightInches) && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Height</span>
+                  <span class="font-semibold text-gray-900">{formatHeight(player.heightInches)}</span>
+                </div>
+              )}
+              {player.weightLbs && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Weight</span>
+                  <span class="font-semibold text-gray-900">{player.weightLbs} lbs</span>
+                </div>
+              )}
+              {player.bats && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Bats</span>
+                  <span class="font-semibold text-gray-900">{player.bats === 'R' ? 'Right' : player.bats === 'L' ? 'Left' : 'Switch'}</span>
+                </div>
+              )}
+              {player.throws && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Throws</span>
+                  <span class="font-semibold text-gray-900">{player.throws === 'R' ? 'Right' : 'Left'}</span>
+                </div>
+              )}
+              <div class="flex justify-between">
+                <span class="text-gray-600">Position(s)</span>
+                <span class="font-semibold text-gray-900">{positions}</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="section-padding bg-stars-navy">
+      <div class="container-narrow max-w-4xl text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Interested in {player.firstName}?</h2>
+        <p class="text-white/80 mb-8">Contact our recruiting coordinator for more information, video, and to schedule a conversation.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href={`mailto:${team.recruitingCoordinator.email}?subject=Recruiting Inquiry: ${player.firstName} ${player.lastName} (${player.gradYear})&body=Hello,%0D%0A%0D%0AI am interested in learning more about ${player.firstName} ${player.lastName} (Class of ${player.gradYear}, ${player.position}).%0D%0A%0D%0APlease send me additional information.%0D%0A%0D%0AThank you`}
+            class="btn-primary bg-stars-gold text-stars-navy hover:bg-stars-gold/90 inline-flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            Email Recruiting Coordinator
+          </a>
+          <a href="/coaches" class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy inline-flex items-center gap-2">
+            View Full Roster
+          </a>
+        </div>
+      </div>
+    </section>
 
     <!-- Back to Roster -->
     <section class="section-padding bg-gray-50">

@@ -4,60 +4,88 @@
     {
       "name": "Show Me The Money",
       "org": "PGF",
-      "dates": "Jun 5-8",
+      "dates": "Jun 5-8, 2026",
       "location": "Newberry, FL",
-      "type": "tournament"
+      "venue": "Easton Newberry Sports Complex",
+      "address": "25365 W Newberry Rd, Newberry, FL 32669",
+      "type": "tournament",
+      "isShowcase": true
     },
     {
       "name": "Top Gun Invitational",
-      "org": "",
-      "dates": "Jun 11-14",
+      "org": "Top Gun Events",
+      "dates": "Jun 11-14, 2026",
       "location": "Shawnee, KS",
-      "type": "tournament"
+      "venue": "Shawnee Mission Park",
+      "address": "7900 Renner Rd, Shawnee, KS 66219",
+      "type": "tournament",
+      "isShowcase": true
     },
     {
       "name": "Connect Sports Summer Scenic City",
       "org": "Connect Sports",
-      "dates": "Jun 18-21",
+      "dates": "Jun 18-21, 2026",
       "location": "Dalton, GA",
-      "type": "tournament"
+      "venue": "Heritage Point Park",
+      "address": "1034 Brookwood Ave, Dalton, GA 30720",
+      "type": "tournament",
+      "isShowcase": false
     },
     {
-      "name": "Colorado 4th of July Sparkle",
-      "org": "",
-      "dates": "Jun 28 - Jul 5",
+      "name": "Colorado 4th of July Sparkler",
+      "org": "Triple Crown Sports",
+      "dates": "Jun 28 - Jul 5, 2026",
       "location": "Denver, CO",
-      "type": "tournament"
+      "venue": "Aurora Sports Park",
+      "address": "19300 E Colfax Ave, Aurora, CO 80011",
+      "type": "tournament",
+      "isShowcase": true
     },
     {
       "name": "Stars Org Camp",
       "org": "Stars National",
-      "dates": "Jun 29",
+      "dates": "Jun 29, 2026",
       "location": "Atlanta, GA",
-      "type": "camp"
+      "venue": null,
+      "address": null,
+      "type": "camp",
+      "isShowcase": false
     },
     {
       "name": "Atlanta Legacy Invitational",
-      "org": "",
-      "dates": "Jul 10-12",
+      "org": "Legacy Sports",
+      "dates": "Jul 10-12, 2026",
       "location": "Atlanta, GA",
-      "type": "tournament"
+      "venue": "LakePoint Sports",
+      "address": "261 Stars Way, Emerson, GA 30137",
+      "type": "tournament",
+      "isShowcase": true
     },
     {
       "name": "Alliance Fastpitch Championship Series",
-      "org": "Alliance",
-      "dates": "Jul 19-26",
+      "org": "Alliance Fastpitch",
+      "dates": "Jul 19-26, 2026",
       "location": "Kokomo, IN",
-      "type": "tournament"
+      "venue": "Champion Fields at Grand Park",
+      "address": "19000 Grand Park Blvd, Westfield, IN 46074",
+      "type": "tournament",
+      "isShowcase": true
     }
   ],
   "pastEvents": [
     {
       "name": "Alliance Atlantic Region Championship",
-      "org": "Alliance",
+      "org": "Alliance Fastpitch",
       "dates": "Oct 2025",
       "location": "Atlanta, GA",
       "result": "Champions"
+    },
+    {
+      "name": "PGF Southeast Qualifier",
+      "org": "PGF",
+      "dates": "Sep 2025",
+      "location": "Tampa, FL",
+      "result": "Top 8"
     }
   ]
 }

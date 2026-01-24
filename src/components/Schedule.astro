@@ -1,5 +1,14 @@
 ---
 import schedule from '../data/schedule.json';
+
+// Helper to generate ICS calendar data
+const generateIcsUrl = (event: any) => {
+  const startDate = event.dates.split('-')[0].trim().replace(/,?\s*\d{4}$/, '');
+  // For now, just return a Google Calendar link as ICS requires more complex handling
+  const title = encodeURIComponent(event.name);
+  const location = encodeURIComponent(`${event.venue || ''} ${event.location}`);
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&location=${location}&details=${encodeURIComponent('Stars National Walker tournament')}`;
+};
 ---
 
 <section id="schedule" class="section-padding bg-gray-50">
@@ -29,14 +38,61 @@ import schedule from '../data/schedule.json';
                 <th class="px-6 py-4 text-left font-semibold">Tournament</th>
                 <th class="px-6 py-4 text-left font-semibold">Dates</th>
                 <th class="px-6 py-4 text-left font-semibold">Location</th>
+                <th class="px-6 py-4 text-center font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-              {schedule.events.map((event, i) => (
+              {schedule.events.map((event: any, i: number) => (
                 <tr class="hover:bg-gray-50 transition-colors">
-                  <td class="px-6 py-4 font-medium text-gray-900">{event.name}</td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <span class="font-medium text-gray-900">{event.name}</span>
+                      {event.isShowcase && (
+                        <span class="inline-flex items-center px-2 py-0.5 bg-stars-gold text-stars-navy text-xs font-bold rounded">
+                          SHOWCASE
+                        </span>
+                      )}
+                    </div>
+                    {event.org && (
+                      <p class="text-xs text-gray-500 mt-1">{event.org}</p>
+                    )}
+                  </td>
                   <td class="px-6 py-4 text-gray-600">{event.dates}</td>
-                  <td class="px-6 py-4 text-gray-600">{event.location}</td>
+                  <td class="px-6 py-4">
+                    <div class="text-gray-900">{event.location}</div>
+                    {event.venue && (
+                      <p class="text-xs text-gray-500">{event.venue}</p>
+                    )}
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center justify-center gap-2">
+                      {event.address && (
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-stars-navy hover:text-white transition-colors"
+                          title="View on map"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                        </a>
+                      )}
+                      <a
+                        href={generateIcsUrl(event)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-stars-navy hover:text-white transition-colors"
+                        title="Add to calendar"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -45,9 +101,21 @@ import schedule from '../data/schedule.json';
 
         <!-- Mobile Cards -->
         <div class="md:hidden space-y-4">
-          {schedule.events.map(event => (
+          {schedule.events.map((event: any) => (
             <div class="bg-white rounded-xl shadow-lg p-5">
-              <h4 class="font-bold text-gray-900 mb-3">{event.name}</h4>
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h4 class="font-bold text-gray-900">{event.name}</h4>
+                  {event.org && (
+                    <p class="text-xs text-gray-500">{event.org}</p>
+                  )}
+                </div>
+                {event.isShowcase && (
+                  <span class="inline-flex items-center px-2 py-0.5 bg-stars-gold text-stars-navy text-xs font-bold rounded">
+                    SHOWCASE
+                  </span>
+                )}
+              </div>
               <div class="space-y-2 text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <svg class="w-4 h-4 text-stars-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,8 +128,39 @@ import schedule from '../data/schedule.json';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  {event.location}
+                  <div>
+                    <span>{event.location}</span>
+                    {event.venue && (
+                      <span class="text-gray-400"> • {event.venue}</span>
+                    )}
+                  </div>
                 </div>
+              </div>
+              <div class="flex gap-2 mt-4">
+                {event.address && (
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    </svg>
+                    Map
+                  </a>
+                )}
+                <a
+                  href={generateIcsUrl(event)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 bg-stars-navy text-white rounded-lg text-sm font-medium hover:bg-stars-blue transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg>
+                  Calendar
+                </a>
               </div>
             </div>
           ))}
@@ -78,11 +177,11 @@ import schedule from '../data/schedule.json';
         </h3>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {schedule.pastEvents.map(event => (
+          {schedule.pastEvents.map((event: any) => (
             <div class="bg-white rounded-xl shadow-lg p-5 border-l-4 border-stars-blue">
               <h4 class="font-bold text-gray-900 mb-2">{event.name}</h4>
               <p class="text-sm text-gray-600 mb-3">{event.dates} • {event.location}</p>
-              <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-stars-blue/20 text-stars-navy">
+              <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-stars-gold/20 text-stars-navy">
                 {event.result}
               </div>
             </div>

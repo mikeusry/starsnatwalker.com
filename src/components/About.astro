@@ -21,15 +21,19 @@ const about = team.about || {
     <div class="grid md:grid-cols-2 gap-12 items-center">
       <!-- Text Content -->
       <div>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           {about.title}
         </h2>
+
+        <p class="text-xl text-gray-700 mb-4 font-medium">
+          Where elite talent meets elite opportunity.
+        </p>
 
         <p class="text-lg text-gray-600 mb-6">
           {about.description}
         </p>
 
-        <div class="space-y-4">
+        <div class="space-y-4 mb-8">
           {about.features && about.features.map((feature: any, index: number) => (
             <div class="flex items-start gap-4">
               <div class={`w-10 h-10 ${index % 2 === 0 ? 'bg-stars-navy/10' : 'bg-stars-blue/20'} rounded-lg flex items-center justify-center flex-shrink-0`}>
@@ -44,60 +48,53 @@ const about = team.about || {
             </div>
           ))}
         </div>
+
+        <!-- Why Join Us -->
+        <div class="bg-stars-navy/5 rounded-xl p-6 mb-6">
+          <h3 class="font-bold text-gray-900 mb-3">Why Stars National Walker?</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li class="flex items-center gap-2">
+              <span style="color: #FFD700;">★</span>
+              Play in front of 50+ D1 scouts at premier showcases
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color: #FFD700;">★</span>
+              Personalized recruiting guidance from day one
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color: #FFD700;">★</span>
+              Train with top-tier coaching staff year-round
+            </li>
+            <li class="flex items-center gap-2">
+              <span style="color: #FFD700;">★</span>
+              Join a team culture built on excellence and integrity
+            </li>
+          </ul>
+        </div>
+
+        <!-- CTA -->
+        <a
+          href="/tryout"
+          class="inline-flex items-center gap-2 font-bold px-6 py-3 rounded-lg transition-all hover:opacity-90"
+          style="background-color: #FFD700; color: #062a4b;"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+          Join Our Team - Apply Now
+        </a>
       </div>
 
-      <!-- Coaching Staff -->
-      <div class="space-y-6">
-        <!-- Coaches -->
-        {team.coaches && team.coaches.map((coach: any) => (
-          <div class="bg-white rounded-xl p-6 shadow-lg">
-            <div class="flex items-start gap-4">
-              <div class="w-12 h-12 bg-stars-navy/10 rounded-full flex items-center justify-center flex-shrink-0">
-                <svg class="w-6 h-6 text-stars-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h3 class="font-bold text-gray-900 text-lg">{coach.name}</h3>
-                <p class="text-stars-blue font-medium text-sm mb-2">{coach.title}</p>
-                {coach.bio && <p class="text-gray-600 text-sm">{coach.bio}</p>}
-                <a
-                  href={`mailto:${coach.email}`}
-                  class="inline-flex items-center text-sm text-stars-navy hover:text-stars-blue transition-colors mt-3"
-                >
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  {coach.email}
-                </a>
-              </div>
-            </div>
-          </div>
-        ))}
-
-        <!-- Recruiting Coordinator -->
-        <div class="bg-white rounded-xl p-6 shadow-lg">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 bg-stars-blue/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <svg class="w-6 h-6 text-stars-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h3 class="font-bold text-gray-900 text-lg">{team.recruitingCoordinator.name}</h3>
-              <p class="text-stars-blue font-medium text-sm mb-2">{team.recruitingCoordinator.title}</p>
-              {team.recruitingCoordinator.bio && <p class="text-gray-600 text-sm">{team.recruitingCoordinator.bio}</p>}
-              <a
-                href={`mailto:${team.recruitingCoordinator.email}`}
-                class="inline-flex items-center text-sm text-stars-navy hover:text-stars-blue transition-colors mt-3"
-              >
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                {team.recruitingCoordinator.email}
-              </a>
-            </div>
-          </div>
+      <!-- Team Image -->
+      <div class="relative">
+        <img
+          src="/team.webp"
+          alt="Stars National Walker Team"
+          class="w-full rounded-2xl shadow-2xl"
+        />
+        <div class="absolute -bottom-4 -right-4 bg-stars-navy text-white px-6 py-3 rounded-xl shadow-lg">
+          <p class="font-bold text-lg">Alliance Atlantic Region</p>
+          <p class="text-stars-blue text-sm">Champions 2025</p>
         </div>
       </div>
     </div>

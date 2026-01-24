@@ -16,6 +16,11 @@ const {
 } = Astro.props;
 
 const isDark = variant === 'dark';
+
+// Generate slug from name
+function generateSlug(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, '-');
+}
 ---
 
 <section class:list={[
@@ -44,20 +49,28 @@ const isDark = variant === 'dark';
         "rounded-xl p-6 text-center",
         isDark ? "bg-white/10" : "bg-white shadow-lg"
       ]}>
-        <div
-          class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-          style={isDark ? "background-color: rgba(255, 255, 255, 0.2);" : "background-color: rgba(6, 42, 75, 0.1);"}
-        >
-          <svg class="w-8 h-8" fill="none" stroke={isDark ? "#ffffff" : "#062a4b"} viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        </div>
-        <h3 class:list={[
-          "text-lg font-bold mb-1",
+        {team.coaches[0].photo ? (
+          <img
+            src={team.coaches[0].photo}
+            alt={team.coaches[0].name}
+            class="w-16 h-16 rounded-full object-cover mx-auto mb-4"
+          />
+        ) : (
+          <div
+            class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+            style={isDark ? "background-color: rgba(255, 255, 255, 0.2);" : "background-color: rgba(6, 42, 75, 0.1);"}
+          >
+            <svg class="w-8 h-8" fill="none" stroke={isDark ? "#ffffff" : "#062a4b"} viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+        )}
+        <a href={`/staff/${generateSlug(team.coaches[0].name)}`} class:list={[
+          "text-lg font-bold mb-1 block hover:text-stars-blue transition-colors",
           isDark ? "text-white" : "text-gray-900"
         ]}>
           {team.coaches[0].name}
-        </h3>
+        </a>
         <p class="font-medium text-sm mb-3" style="color: #3b82f6;">{team.coaches[0].title}</p>
         <a
           href={`mailto:${team.coaches[0].email}`}
@@ -79,20 +92,28 @@ const isDark = variant === 'dark';
           "rounded-xl p-6 text-center",
           isDark ? "bg-white/10" : "bg-white shadow-lg"
         ]}>
-          <div class:list={[
-            "w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4",
-            isDark ? "bg-white/20" : "bg-stars-navy/10"
-          ]}>
-            <svg class:list={["w-8 h-8", isDark ? "text-white" : "text-stars-navy"]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-          </div>
-          <h3 class:list={[
-            "text-lg font-bold mb-1",
+          {coach.photo ? (
+            <img
+              src={coach.photo}
+              alt={coach.name}
+              class="w-16 h-16 rounded-full object-cover mx-auto mb-4"
+            />
+          ) : (
+            <div class:list={[
+              "w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4",
+              isDark ? "bg-white/20" : "bg-stars-navy/10"
+            ]}>
+              <svg class:list={["w-8 h-8", isDark ? "text-white" : "text-stars-navy"]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+          )}
+          <a href={`/staff/${generateSlug(coach.name)}`} class:list={[
+            "text-lg font-bold mb-1 block hover:text-stars-blue transition-colors",
             isDark ? "text-white" : "text-gray-900"
           ]}>
             {coach.name}
-          </h3>
+          </a>
           <p class:list={[
             "font-medium text-sm mb-3",
             isDark ? "text-stars-blue" : "text-stars-blue"
@@ -117,20 +138,28 @@ const isDark = variant === 'dark';
         "rounded-xl p-6 text-center",
         isDark ? "bg-white/10" : "bg-white shadow-lg"
       ]}>
-        <div class:list={[
-          "w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4",
-          isDark ? "bg-white/20" : "bg-stars-navy/10"
-        ]}>
-          <svg class:list={["w-8 h-8", isDark ? "text-white" : "text-stars-navy"]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        </div>
-        <h3 class:list={[
-          "text-lg font-bold mb-1",
+        {team.recruitingCoordinator.photo ? (
+          <img
+            src={team.recruitingCoordinator.photo}
+            alt={team.recruitingCoordinator.name}
+            class="w-16 h-16 rounded-full object-cover mx-auto mb-4"
+          />
+        ) : (
+          <div class:list={[
+            "w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4",
+            isDark ? "bg-white/20" : "bg-stars-navy/10"
+          ]}>
+            <svg class:list={["w-8 h-8", isDark ? "text-white" : "text-stars-navy"]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+        )}
+        <a href={`/staff/${generateSlug(team.recruitingCoordinator.name)}`} class:list={[
+          "text-lg font-bold mb-1 block hover:text-stars-blue transition-colors",
           isDark ? "text-white" : "text-gray-900"
         ]}>
           {team.recruitingCoordinator.name}
-        </h3>
+        </a>
         <p class:list={[
           "font-medium text-sm mb-3",
           isDark ? "text-stars-blue" : "text-stars-blue"

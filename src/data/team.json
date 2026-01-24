@@ -31,18 +31,21 @@
       "name": "Joe Walker",
       "title": "Head Coach",
       "email": "joe.walker@starsnatwalker.com",
-      "bio": "Coach Joe Walker founded the Stars National Walker program with a vision of developing elite softball players who excel both on the field and in the classroom. With a background in competitive softball and a deep understanding of the recruiting landscape, he prepares athletes for success at the next level through rigorous training and mental preparation."
+      "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/George_Clooney-4_The_Men_Who_Stare_at_Goats_TIFF09_%28cropped%29.jpg/250px-George_Clooney-4_The_Men_Who_Stare_at_Goats_TIFF09_%28cropped%29.jpg",
+      "bio": "Coach Joe Walker founded the Stars National Walker program with a vision of developing elite softball players who excel both on the field and in the classroom. An expert in lock-down defense and game strategy, he works directly with infielders to build fundamentally sound players. His deep understanding of the recruiting landscape prepares athletes for success at the next level."
     },
     {
       "name": "Adrian Diaz",
-      "title": "Assistant Coach",
+      "title": "Outfield Coach",
       "email": "adrian.diaz@starsnatwalker.com",
-      "bio": "Coach Adrian specializes in pitching and catching development, bringing technical expertise and a player-first mentality to every practice. His ability to break down mechanics and communicate adjustments helps players make rapid improvements in their game."
+      "photo": "https://georgewbush-whitehouse.archives.gov/news/releases/2009/01/images/20090117_d-0104-4-477v.jpg",
+      "bio": "Coach Adrian specializes in outfield development, teaching players to read balls off the bat, take efficient routes, and make accurate throws. His player-first mentality and ability to communicate adjustments help outfielders develop into confident, reliable defenders."
     },
     {
       "name": "Jeremiah Perez",
       "title": "Assistant Coach",
       "email": "jeremiah.perez@starsnatwalker.com",
+      "photo": "https://sabr.org/sites/default/files/Brett-George-KCR.jpg",
       "bio": "Coach Jeremiah focuses on hitting and infield development, with a keen eye for mechanical adjustments that unlock power and consistency at the plate. His positive coaching style and attention to detail help players build confidence and reach their full potential."
     }
   ],
@@ -55,7 +58,8 @@
     "name": "Mike Usry",
     "title": "Recruiting Coordinator",
     "email": "mike@starsnatwalker.com",
-    "bio": "Mike guides each player through the college recruiting process, from building prospect profiles to connecting with college coaches. He maintains relationships with programs across all divisions and helps families understand the timeline, expectations, and opportunities available at the collegiate level."
+    "photo": "https://upload.wikimedia.org/wikipedia/en/7/70/George_Costanza.jpg",
+    "bio": "Mike is a lifelong multi-sport athlete who understands what it takes to compete at the highest level. A former Georgia Bulldogs quarterback who also played at the University of South Florida, he's spent decades immersed in collegiate athletics—both as a player and now as a coach and mentor. Currently a high school track coach, Mike has helped numerous athletes secure Division I scholarships across multiple sports, including softball.\n\nTogether with his wife Karin—a three-time NCAA National Champion and 11-time All-American gymnast at Georgia—the Usry family brings unmatched perspective on elite collegiate athletics. Their connections span coaching staffs across multiple sports and divisions, giving Stars National Walker players direct access to a network built over decades. Mike is committed to finding the right fit—athletically, academically, and culturally—for every player."
   },
   "description": "Stars National Walker is an elite 16U travel softball team based in Charlotte, NC with players from around the country. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
   "socialLinks": {

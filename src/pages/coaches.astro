@@ -170,16 +170,8 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
                         <span class="text-gray-400">-</span>
                       )}
                     </td>
-                    <td class="px-4 py-4">
-                      {player.recruitingStatus === 'committed' ? (
-                        <span class="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-                          Committed
-                        </span>
-                      ) : (
-                        <span class="inline-flex items-center px-2 py-1 bg-stars-gold/20 text-stars-navy rounded-full text-xs font-medium">
-                          Open
-                        </span>
-                      )}
+                    <td class="px-4 py-4 text-gray-600">
+                      Uncommitted
                     </td>
                     <td class="px-4 py-4 text-center">
                       <a

@@ -9,7 +9,7 @@
       "venue": "Easton Newberry Sports Complex",
       "address": "25365 W Newberry Rd, Newberry, FL 32669",
       "type": "tournament",
-      "isShowcase": true
+      "isShowcase": false
     },
     {
       "name": "Top Gun Invitational",
@@ -19,7 +19,7 @@
       "venue": "Shawnee Mission Park",
       "address": "7900 Renner Rd, Shawnee, KS 66219",
       "type": "tournament",
-      "isShowcase": true
+      "isShowcase": false
     },
     {
       "name": "Connect Sports Summer Scenic City",
@@ -69,7 +69,7 @@
       "venue": "Champion Fields at Grand Park",
       "address": "19000 Grand Park Blvd, Westfield, IN 46074",
       "type": "tournament",
-      "isShowcase": true
+      "isShowcase": false
     }
   ],
   "pastEvents": [

@@ -36,10 +36,11 @@ export const GET: APIRoute = async () => {
             type: 'img',
             props: {
               src: logoDataUrl,
-              width: 300,
-              height: 300,
+              width: 400,
+              height: 138,
               style: {
-                marginBottom: '30px',
+                marginBottom: '40px',
+                objectFit: 'contain',
               },
             },
           },

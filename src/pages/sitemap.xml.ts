@@ -7,6 +7,8 @@ const siteUrl = 'https://starsnatwalker.com';
 export const GET: APIRoute = () => {
   const pages = [
     { url: '', changefreq: 'weekly', priority: '1.0' },
+    { url: 'coaches', changefreq: 'weekly', priority: '0.9' },
+    { url: 'tryout', changefreq: 'weekly', priority: '0.9' },
     { url: 'contact', changefreq: 'monthly', priority: '0.8' },
   ];
 

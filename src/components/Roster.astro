@@ -2,23 +2,10 @@
 import PlayerCard from './PlayerCard.astro';
 import players from '../data/players.json';
 
-// Sort: featured first, then by grad year, then alphabetically
+// Sort alphabetically by last name
 const sortedPlayers = [...players].sort((a, b) => {
-  if (a.featured && !b.featured) return -1;
-  if (!a.featured && b.featured) return 1;
-  if (a.gradYear !== b.gradYear) return a.gradYear - b.gradYear;
   return a.lastName.localeCompare(b.lastName);
 });
-
-// Group by grad year
-const playersByYear = sortedPlayers.reduce((acc, player) => {
-  const year = player.gradYear;
-  if (!acc[year]) acc[year] = [];
-  acc[year].push(player);
-  return acc;
-}, {} as Record<number, typeof players>);
-
-const years = Object.keys(playersByYear).map(Number).sort();
 ---
 
 <section id="roster" class="section-padding bg-white">
@@ -27,29 +14,24 @@ const years = Object.keys(playersByYear).map(Number).sort();
       <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
         Our Roster
       </h2>
-      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-4">
         Meet the talented athletes of Stars National Walker. Click on a player to view their full recruiting profile.
       </p>
+      <a href="/coaches" class="inline-flex items-center gap-2 text-stars-blue hover:text-stars-navy font-medium transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+        College coaches: View our filterable roster with stats, GPA, and recruiting status
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
     </div>
 
-    {years.map(year => (
-      <div class="mb-12 last:mb-0">
-        <div class="flex items-center gap-4 mb-6">
-          <div class="bg-stars-blue text-white font-bold px-4 py-2 rounded-lg shadow-sm">
-            Class of {year}
-          </div>
-          <div class="flex-1 h-px bg-gray-200"></div>
-          <span class="text-gray-400 text-sm">
-            {playersByYear[year].length} player{playersByYear[year].length !== 1 ? 's' : ''}
-          </span>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {playersByYear[year].map(player => (
-            <PlayerCard {...player} />
-          ))}
-        </div>
-      </div>
-    ))}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {sortedPlayers.map(player => (
+        <PlayerCard {...player} />
+      ))}
+    </div>
   </div>
 </section>

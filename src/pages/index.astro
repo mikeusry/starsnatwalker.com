@@ -5,6 +5,7 @@ import Hero from '../components/Hero.astro';
 import Roster from '../components/Roster.astro';
 import Schedule from '../components/Schedule.astro';
 import About from '../components/About.astro';
+import CoachesSection from '../components/CoachesSection.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 
@@ -12,8 +13,8 @@ import team from '../data/team.json';
 ---
 
 <Layout
-  title={`${team.name} | Elite 18U Travel Softball Team in Atlanta, GA`}
-  description={`${team.name} is an elite 18U travel softball team based in Atlanta, GA. We compete in top-tier national tournaments including PGF, Alliance, and Connect Sports. View our roster, schedule, and coaching staff led by Joe Walker. Dedicated to player development and college placement.`}
+  title={`${team.name} | Elite ${team.division} Travel Softball Team in ${team.location}`}
+  description={`${team.name} is an elite ${team.division} travel softball team based in ${team.location}. We compete in top-tier national tournaments including PGF, Alliance, and Connect Sports. View our roster, schedule, and coaching staff led by Joe Walker. Dedicated to player development and college placement.`}
 >
   <Header transparent />
   <main>
@@ -21,6 +22,7 @@ import team from '../data/team.json';
     <Roster />
     <Schedule />
     <About />
+    <CoachesSection />
     <Contact />
   </main>
   <Footer />

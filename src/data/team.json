@@ -3,11 +3,11 @@
   "shortName": "Stars Walker",
   "division": "16U",
   "season": "2025-2026",
-  "location": "Atlanta, GA",
+  "location": "Charlotte, NC",
   "organization": "Stars National Softball",
   "about": {
     "title": "About Our Team",
-    "description": "Stars National Walker is an elite 16U travel softball team based in Atlanta, GA. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
+    "description": "Stars National Walker is an elite 16U travel softball team based in Charlotte, NC with players from around the country. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
     "features": [
       {
         "title": "Elite Competition",
@@ -57,7 +57,7 @@
     "email": "mike@starsnatwalker.com",
     "bio": "Mike guides each player through the college recruiting process, from building prospect profiles to connecting with college coaches. He maintains relationships with programs across all divisions and helps families understand the timeline, expectations, and opportunities available at the collegiate level."
   },
-  "description": "Stars National Walker is an elite 16U travel softball team based in Atlanta, GA. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
+  "description": "Stars National Walker is an elite 16U travel softball team based in Charlotte, NC with players from around the country. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
   "socialLinks": {
     "twitter": "https://x.com/StarsNatWalker",
     "instagram": "https://instagram.com/starsnatwalker"
@@ -67,5 +67,5 @@
     "PGF Southeast Qualifier - Top 8"
   ],
   "contactEmail": "info@starsnatwalker.com",
-  "contactPhone": "(404) 555-STAR"
+  "contactPhone": "(704) 555-STAR"
 }

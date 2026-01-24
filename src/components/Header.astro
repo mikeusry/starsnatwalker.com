@@ -12,8 +12,9 @@ const navLinks = [
   { href: '#roster', label: 'Roster' },
   { href: '#schedule', label: 'Schedule' },
   { href: '#about', label: 'About' },
-  { href: '/coaches', label: 'For Coaches', highlight: true },
   { href: '/contact', label: 'Contact' },
+  { href: '/coaches', label: 'College Coaches', highlight: 'primary' },
+  { href: '/tryout', label: 'Join Us', highlight: 'secondary' },
 ];
 ---
 
@@ -46,17 +47,29 @@ const navLinks = [
       <!-- Desktop Nav -->
       <div class="hidden md:flex items-center gap-6">
         {navLinks.map(link => (
-          <a
-            href={link.href}
-            class:list={[
-              "font-medium transition-colors",
-              link.highlight
-                ? "px-3 py-1.5 bg-stars-gold text-stars-navy rounded-lg hover:bg-stars-gold/90"
-                : "text-white/80 hover:text-white"
-            ]}
-          >
-            {link.label}
-          </a>
+          link.highlight === 'primary' ? (
+            <a
+              href={link.href}
+              class="font-bold px-4 py-2 rounded-lg transition-all hover:opacity-90"
+              style="background-color: #FFD700; color: #062a4b;"
+            >
+              {link.label}
+            </a>
+          ) : link.highlight === 'secondary' ? (
+            <a
+              href={link.href}
+              class="font-semibold px-4 py-2 rounded-lg border-2 border-white text-white transition-all hover:bg-white hover:text-stars-navy"
+            >
+              {link.label}
+            </a>
+          ) : (
+            <a
+              href={link.href}
+              class="font-medium text-white/80 hover:text-white transition-colors"
+            >
+              {link.label}
+            </a>
+          )
         ))}
         <!-- X/Twitter Link -->
         <a
@@ -90,12 +103,29 @@ const navLinks = [
   <div id="mobile-menu" class="hidden md:hidden bg-stars-navy-light border-t border-white/10">
     <div class="container-narrow py-4 space-y-3">
       {navLinks.map(link => (
-        <a
-          href={link.href}
-          class="block text-white/80 hover:text-white font-medium py-2"
-        >
-          {link.label}
-        </a>
+        link.highlight === 'primary' ? (
+          <a
+            href={link.href}
+            class="block font-bold py-2"
+            style="color: #FFD700;"
+          >
+            {link.label}
+          </a>
+        ) : link.highlight === 'secondary' ? (
+          <a
+            href={link.href}
+            class="block font-semibold py-2 text-white"
+          >
+            {link.label}
+          </a>
+        ) : (
+          <a
+            href={link.href}
+            class="block font-medium py-2 text-white/80 hover:text-white"
+          >
+            {link.label}
+          </a>
+        )
       ))}
       <!-- X/Twitter Link -->
       <a

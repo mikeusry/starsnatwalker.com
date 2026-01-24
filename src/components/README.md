@@ -93,7 +93,7 @@ To change hero text, edit `src/data/team.json`:
   "name": "Stars National Walker",
   "division": "18U",
   "season": "2025-2026",
-  "location": "Atlanta, GA"
+  "location": "Charlotte, NC"
 }
 ```
 

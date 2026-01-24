@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import CoachContact from '../../components/CoachContact.astro';
 import players from '../../data/players.json';
 import team from '../../data/team.json';
 import { generatePlayerSlug, generateAthleteStructuredData } from '../../lib/slug';
@@ -423,26 +424,11 @@ const hasStats = player.stats && Object.keys(player.stats).length > 0;
     </section>
 
     <!-- Contact CTA -->
-    <section class="section-padding bg-stars-navy">
-      <div class="container-narrow max-w-4xl text-center">
-        <h2 class="text-3xl font-bold text-white mb-4">Interested in {player.firstName}?</h2>
-        <p class="text-white/80 mb-8">Contact our recruiting coordinator for more information, video, and to schedule a conversation.</p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <a
-            href={`mailto:${team.recruitingCoordinator.email}?subject=Recruiting Inquiry: ${player.firstName} ${player.lastName} (${player.gradYear})&body=Hello,%0D%0A%0D%0AI am interested in learning more about ${player.firstName} ${player.lastName} (Class of ${player.gradYear}, ${player.position}).%0D%0A%0D%0APlease send me additional information.%0D%0A%0D%0AThank you`}
-            class="btn-primary bg-stars-gold text-stars-navy hover:bg-stars-gold/90 inline-flex items-center gap-2"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Email Recruiting Coordinator
-          </a>
-          <a href="/coaches" class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy inline-flex items-center gap-2">
-            View Full Roster
-          </a>
-        </div>
-      </div>
-    </section>
+    <CoachContact
+      title={`Interested in ${player.firstName}?`}
+      description="Contact our coaching staff for more information, video, and to schedule a conversation."
+      variant="dark"
+    />
 
     <!-- Back to Roster -->
     <section class="section-padding bg-gray-50">

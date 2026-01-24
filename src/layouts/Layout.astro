@@ -3,12 +3,14 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
 const {
   title,
-  description = "Stars National Walker - Elite 16U Travel Softball Team based in Atlanta, GA. Competing in top-tier national tournaments and dedicated to player development and college placement.",
-  image = "/og.png"
+  description = "Stars National Walker - Elite 16U Travel Softball Team based in Charlotte, NC with players from around the country. Competing in top-tier national tournaments and dedicated to player development and college placement.",
+  image = "/og.png",
+  noindex = false
 } = Astro.props;
 
 const siteUrl = "https://starsnatwalker.com";
@@ -26,8 +28,8 @@ const organizationStructuredData = {
     '@type': 'Place',
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Atlanta',
-      addressRegion: 'GA',
+      addressLocality: 'Charlotte',
+      addressRegion: 'NC',
       addressCountry: 'US',
     },
   },
@@ -44,8 +46,8 @@ const organizationStructuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/webp" href="/icon.webp" />
-    <link rel="apple-touch-icon" href="/icon.webp" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
 
     <!-- SEO -->
     <title>{title}</title>
@@ -53,12 +55,12 @@ const organizationStructuredData = {
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Keywords -->
-    <meta name="keywords" content="Stars National Walker, 16U softball, travel softball, Atlanta softball, college softball recruiting, Stars National Softball, youth softball, elite softball team, softball players, NCAA softball" />
+    <meta name="keywords" content="Stars National Walker, 16U softball, travel softball, Charlotte softball, North Carolina softball, college softball recruiting, Stars National Softball, youth softball, elite softball team, softball players, NCAA softball" />
 
     <!-- Author and Copyright -->
     <meta name="author" content="Stars National Walker" />
     <meta name="copyright" content="Stars National Walker" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -82,10 +84,17 @@ const organizationStructuredData = {
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationStructuredData)} />
 
-    <!-- Fonts -->
+    <!-- Preload LCP image -->
+    <link rel="preload" as="image" href="/team.webp" type="image/webp" fetchpriority="high" />
+
+    <!-- Fonts - Non-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    </noscript>
 
     <!-- Styles -->
     <style is:global>

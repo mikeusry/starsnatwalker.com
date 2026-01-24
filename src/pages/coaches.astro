@@ -2,14 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CoachContact from '../components/CoachContact.astro';
 import players from '../data/players.json';
 import team from '../data/team.json';
 import schedule from '../data/schedule.json';
 import { generatePlayerSlug } from '../lib/slug';
 
-// Sort players by grad year, then by last name
+// Sort players alphabetically by last name
 const sortedPlayers = [...players].sort((a, b) => {
-  if (a.gradYear !== b.gradYear) return a.gradYear - b.gradYear;
   return a.lastName.localeCompare(b.lastName);
 });
 
@@ -48,17 +48,11 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
           Everything you need to evaluate our student-athletes. View our roster, schedule, and contact our recruiting coordinator.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="#roster" class="btn-primary bg-stars-gold text-stars-navy hover:bg-stars-gold/90">
+          <a href="#roster" class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy">
             View Roster
           </a>
           <a href="#schedule" class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy">
             See Our Schedule
-          </a>
-          <a
-            href={`mailto:${team.recruitingCoordinator.email}?subject=College Coach Inquiry - Stars National Walker`}
-            class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy"
-          >
-            Contact Us
           </a>
         </div>
       </div>
@@ -262,33 +256,11 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
     </section>
 
     <!-- Contact Section -->
-    <section class="section-padding bg-stars-navy">
-      <div class="container-narrow text-center">
-        <h2 class="text-3xl font-bold text-white mb-4">Get In Touch</h2>
-        <p class="text-white/80 max-w-2xl mx-auto mb-8">
-          Interested in one of our players? Contact our recruiting coordinator for more information, video, transcripts, and to arrange a conversation.
-        </p>
-
-        <div class="bg-white/10 rounded-xl p-8 max-w-md mx-auto">
-          <div class="w-16 h-16 bg-stars-gold rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-stars-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-white mb-1">{team.recruitingCoordinator.name}</h3>
-          <p class="text-stars-gold mb-4">{team.recruitingCoordinator.title}</p>
-          <a
-            href={`mailto:${team.recruitingCoordinator.email}`}
-            class="btn-primary bg-stars-gold text-stars-navy hover:bg-stars-gold/90 inline-flex items-center gap-2"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            {team.recruitingCoordinator.email}
-          </a>
-        </div>
-      </div>
-    </section>
+    <CoachContact
+      title="Get In Touch"
+      description="Interested in one of our players? Contact our coaching staff for more information, video, transcripts, and to arrange a conversation."
+      variant="dark"
+    />
   </main>
   <Footer />
 

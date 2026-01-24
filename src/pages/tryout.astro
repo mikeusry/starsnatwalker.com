@@ -1,0 +1,558 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CoachContact from '../components/CoachContact.astro';
+import team from '../data/team.json';
+
+const benefits = [
+  {
+    icon: 'trophy',
+    title: 'Elite Nationwide Competition',
+    description: 'We don\'t just play locally—we compete coast to coast against the best 16U teams in America. PGF, Alliance, Triple Crown, and top-tier national tournaments that test your skills and build your reputation.'
+  },
+  {
+    icon: 'eye',
+    title: '50+ D1 Scouts Watched Us Play',
+    description: 'In Fall 2025 alone, over 50 Division I college scouts were in attendance at our games. When you wear the Stars jersey, college coaches take notice. Your next level starts here.'
+  },
+  {
+    icon: 'map',
+    title: 'National Exposure, Every Weekend',
+    description: 'From Georgia to California, Florida to Colorado—we travel to where the competition and the scouts are. Our schedule is built for maximum visibility against top-tier opponents across the country.'
+  },
+  {
+    icon: 'coach',
+    title: 'Coaches Who Develop Champions',
+    description: 'Our staff doesn\'t just coach games—they build players. Specialized training in pitching, hitting, fielding, and the mental game. Player welfare comes first, always. Your development is our mission.'
+  },
+  {
+    icon: 'growth',
+    title: 'Metrics That Matter',
+    description: 'Exit velo. Pop times. Pitch speed. We track the numbers that college coaches want to see, and we work relentlessly to improve them. Data-driven development that produces results.'
+  },
+  {
+    icon: 'family',
+    title: 'A Family That Pushes You',
+    description: 'We build unstoppable, confident leaders. Teammates become sisters. The bonds formed here last a lifetime. This isn\'t just a team—it\'s a community that will challenge you to become your best self.'
+  }
+];
+
+const positions = [
+  'Pitcher',
+  'Catcher',
+  'First Base',
+  'Second Base',
+  'Shortstop',
+  'Third Base',
+  'Left Field',
+  'Center Field',
+  'Right Field',
+  'Utility'
+];
+
+const gradYears = ['2027', '2028', '2029', '2030', '2031'];
+---
+
+<Layout
+  title="Join Stars National Walker | Player Tryouts & Application"
+  description="Ready to take your softball career to the next level? Apply to join Stars National Walker 16U—elite competition, college exposure, and a proven track record of player development."
+>
+  <Header />
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="relative bg-stars-navy py-20 md:py-28 overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.4\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+      </div>
+
+      <div class="container-narrow relative">
+        <div class="text-center max-w-4xl mx-auto">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6" style="background-color: rgba(192, 192, 192, 0.2); color: #C0C0C0;">
+            <svg class="w-5 h-5" fill="#C0C0C0" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            Now Recruiting for 2025-2026 Season
+          </div>
+
+          <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+            Become a <span style="color: #FFD700;">Star</span>
+          </h1>
+
+          <p class="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto">
+            Join one of the top travel softball programs in the country. Elite competition. College exposure. A family that pushes you to be your best.
+          </p>
+
+          <div class="flex flex-wrap justify-center gap-4">
+            <a
+              href="#apply"
+              class="inline-flex items-center justify-center px-8 py-4 font-bold text-lg rounded-lg transition-all hover:opacity-90"
+              style="background-color: #FFD700; color: #062a4b;"
+            >
+              Apply Now
+            </a>
+            <a href="#benefits" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold text-lg rounded-lg hover:bg-white hover:text-stars-navy transition-colors">
+              Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Stars National Section -->
+    <section id="benefits" class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Why Stars National Walker?
+          </h2>
+          <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+            We're more than a travel softball team. We're a development program committed to helping you reach your full potential—on the field, in the classroom, and beyond.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {benefits.map((benefit) => (
+            <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+              <div class="w-14 h-14 bg-stars-navy rounded-xl flex items-center justify-center mb-4">
+                {benefit.icon === 'trophy' && (
+                  <svg class="w-7 h-7" fill="#FFD700" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                )}
+                {benefit.icon === 'eye' && (
+                  <svg class="w-7 h-7" fill="none" stroke="#FFD700" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                )}
+                {benefit.icon === 'map' && (
+                  <svg class="w-7 h-7" fill="none" stroke="#FFD700" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                )}
+                {benefit.icon === 'coach' && (
+                  <svg class="w-7 h-7" fill="none" stroke="#FFD700" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                )}
+                {benefit.icon === 'growth' && (
+                  <svg class="w-7 h-7" fill="none" stroke="#FFD700" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                )}
+                {benefit.icon === 'family' && (
+                  <svg class="w-7 h-7" fill="#FFD700" viewBox="0 0 24 24">
+                    <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                  </svg>
+                )}
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
+              <p class="text-gray-600">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Organization Section -->
+    <section class="section-padding bg-stars-navy">
+      <div class="container-narrow">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+              Part of the Stars National Family
+            </h2>
+            <p class="text-white/80 text-lg mb-6">
+              Stars National is one of the top fast-pitch organizations in the country, headquartered in Pennsville, NJ with teams across multiple regions. Led by Coach Rachel Coleman, the organization has built a reputation for developing elite players who succeed at the next level.
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-stars-gold rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-4 h-4" fill="none" stroke="#062a4b" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p class="text-white/90"><strong class="text-white">Nationally Recognized Program</strong> — Part of one of the top fast-pitch organizations in the country with documented success at the highest levels</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-stars-gold rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-4 h-4" fill="none" stroke="#062a4b" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p class="text-white/90"><strong class="text-white">East Coast Softball</strong> — Access to the premier college showcase in the Northeast, where hundreds of coaches come to evaluate talent</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-stars-gold rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-4 h-4" fill="none" stroke="#062a4b" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p class="text-white/90"><strong class="text-white">Year-Round Development</strong> — Structured training programs that build complete players, students, and community leaders</p>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="bg-white/10 rounded-2xl p-8 border border-white/20">
+              <blockquote class="text-white text-lg italic mb-6">
+                "Our mission is to fuel the potential of young female athletes by inspiring a culture of teamwork, resilience, and personal growth."
+              </blockquote>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-stars-gold rounded-full flex items-center justify-center">
+                  <svg class="w-6 h-6 text-stars-navy" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-white font-bold">Stars National</p>
+                  <p class="text-white/60 text-sm">Organization Mission</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We're Looking For -->
+    <section class="section-padding bg-white">
+      <div class="container-narrow">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            What We're Looking For
+          </h2>
+          <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+            We recruit athletes who are committed to excellence—players who want to compete at the highest level and are willing to put in the work to get there.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-stars-navy rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8" fill="#FFD700" viewBox="0 0 24 24">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">Competitive Drive</h3>
+            <p class="text-gray-600 text-sm">Players who thrive under pressure and love to compete</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-stars-navy rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="#FFD700" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">Coachable Attitude</h3>
+            <p class="text-gray-600 text-sm">Open to feedback and committed to improvement</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-stars-navy rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="#FFD700" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">Academic Excellence</h3>
+            <p class="text-gray-600 text-sm">Strong students who balance athletics and academics</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-stars-navy rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="#FFD700" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">Team-First Mentality</h3>
+            <p class="text-gray-600 text-sm">Players who lift up their teammates and lead by example</p>
+          </div>
+        </div>
+
+        <!-- Pitcher Callout -->
+        <div class="mt-12 rounded-2xl p-8 md:p-12" style="background: linear-gradient(135deg, #062a4b 0%, #0a3d6b 50%, #062a4b 100%);">
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="w-24 h-24 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-stars-gold" style="background-color: #062a4b;">
+              <svg class="w-12 h-12" fill="#FFD700" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div class="text-center md:text-left flex-1">
+              <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">
+                Pitchers: We Want You!
+              </h3>
+              <p class="text-white/90 text-lg leading-relaxed">
+                We're actively recruiting elite pitchers for our 16U roster. If you have a strong arm, great mechanics, and the competitive fire to dominate in the circle, we want to hear from you. Our pitching coach specializes in mechanical development and will help you take your game to the next level.
+              </p>
+            </div>
+            <a
+              href="#apply"
+              class="inline-flex items-center justify-center px-8 py-4 font-bold text-lg rounded-lg whitespace-nowrap transition-all hover:scale-105"
+              style="background-color: #FFD700; color: #062a4b;"
+            >
+              Apply Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Application Form -->
+    <section id="apply" class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <div class="max-w-3xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Player Application
+            </h2>
+            <p class="text-lg text-gray-600">
+              Complete the form below and our coaching staff will review your application. We'll reach out to schedule a tryout or evaluation.
+            </p>
+          </div>
+
+          <form class="bg-white rounded-2xl shadow-xl p-8 md:p-10 space-y-8">
+            <!-- Player Information -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-200">Player Information</h3>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="gradYear" class="block text-sm font-medium text-gray-700 mb-2">
+                    Graduation Year *
+                  </label>
+                  <select
+                    id="gradYear"
+                    name="gradYear"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  >
+                    <option value="">Select Year</option>
+                    {gradYears.map(year => (
+                      <option value={year}>{year}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label for="position" class="block text-sm font-medium text-gray-700 mb-2">
+                    Primary Position *
+                  </label>
+                  <select
+                    id="position"
+                    name="position"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  >
+                    <option value="">Select Position</option>
+                    {positions.map(pos => (
+                      <option value={pos}>{pos}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label for="secondaryPosition" class="block text-sm font-medium text-gray-700 mb-2">
+                    Secondary Position
+                  </label>
+                  <select
+                    id="secondaryPosition"
+                    name="secondaryPosition"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  >
+                    <option value="">Select Position (Optional)</option>
+                    {positions.map(pos => (
+                      <option value={pos}>{pos}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label for="highSchool" class="block text-sm font-medium text-gray-700 mb-2">
+                    High School
+                  </label>
+                  <input
+                    type="text"
+                    id="highSchool"
+                    name="highSchool"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="currentTeam" class="block text-sm font-medium text-gray-700 mb-2">
+                    Current Travel Team
+                  </label>
+                  <input
+                    type="text"
+                    id="currentTeam"
+                    name="currentTeam"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="gpa" class="block text-sm font-medium text-gray-700 mb-2">
+                    GPA
+                  </label>
+                  <input
+                    type="text"
+                    id="gpa"
+                    name="gpa"
+                    placeholder="e.g., 3.8"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Parent/Guardian Information -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-200">Parent/Guardian Information</h3>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="parentName" class="block text-sm font-medium text-gray-700 mb-2">
+                    Parent/Guardian Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="parentName"
+                    name="parentName"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="relationship" class="block text-sm font-medium text-gray-700 mb-2">
+                    Relationship
+                  </label>
+                  <input
+                    type="text"
+                    id="relationship"
+                    name="relationship"
+                    placeholder="e.g., Mother, Father, Guardian"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-200">Additional Information</h3>
+              <div class="space-y-6">
+                <div>
+                  <label for="videoLink" class="block text-sm font-medium text-gray-700 mb-2">
+                    Skills/Highlight Video Link
+                  </label>
+                  <input
+                    type="url"
+                    id="videoLink"
+                    name="videoLink"
+                    placeholder="YouTube, Hudl, or other video link"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="twitter" class="block text-sm font-medium text-gray-700 mb-2">
+                    Twitter/X Handle
+                  </label>
+                  <input
+                    type="text"
+                    id="twitter"
+                    name="twitter"
+                    placeholder="@username"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label for="whyStars" class="block text-sm font-medium text-gray-700 mb-2">
+                    Why do you want to play for Stars National Walker? *
+                  </label>
+                  <textarea
+                    id="whyStars"
+                    name="whyStars"
+                    rows="4"
+                    required
+                    placeholder="Tell us about your goals and why you'd be a great fit for our team..."
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  ></textarea>
+                </div>
+                <div>
+                  <label for="achievements" class="block text-sm font-medium text-gray-700 mb-2">
+                    Notable Achievements/Awards
+                  </label>
+                  <textarea
+                    id="achievements"
+                    name="achievements"
+                    rows="3"
+                    placeholder="All-Tournament, All-State, MVP, etc."
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full btn-primary bg-stars-navy hover:bg-stars-blue text-lg py-4"
+            >
+              Submit Application
+            </button>
+
+            <p class="text-center text-sm text-gray-500">
+              By submitting this application, you agree to be contacted by Stars National Walker coaching staff.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <CoachContact
+      title="Questions? We're Here to Help"
+      description="Have questions about tryouts, team fees, or the program? Reach out to our coaching staff."
+      variant="dark"
+    />
+  </main>
+  <Footer />
+</Layout>

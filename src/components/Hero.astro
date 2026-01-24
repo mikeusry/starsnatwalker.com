@@ -23,8 +23,8 @@ const teamImages = teamImageIds.map(publicId =>
   })
 );
 
-// Fallback to local image
-const fallbackImage = '/team.jpeg';
+// Fallback to local image (WebP for better performance)
+const fallbackImage = '/team.webp';
 ---
 
 <section class="relative bg-stars-navy min-h-[80vh] flex items-center">
@@ -78,6 +78,8 @@ const fallbackImage = '/team.jpeg';
             <img
               src={imageUrl}
               alt={`Stars National Walker Team ${index + 1}`}
+              width="640"
+              height="640"
               class={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-2xl transition-opacity duration-1000 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
               data-carousel-image={index}
               onerror={`this.style.display='none';document.querySelector('[data-fallback-image]').style.display='block'`}
@@ -87,8 +89,12 @@ const fallbackImage = '/team.jpeg';
           <img
             src={fallbackImage}
             alt="Stars National Walker Team"
+            width="1920"
+            height="1440"
             class="absolute inset-0 w-full h-full object-cover rounded-2xl shadow-2xl hidden"
             data-fallback-image
+            fetchpriority="high"
+            loading="eager"
           />
         </div>
       </div>

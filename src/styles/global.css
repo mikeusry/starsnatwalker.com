@@ -4,8 +4,11 @@
 @theme {
   /* Primary Colors - From starsnational.com */
   --color-stars-navy: #062a4b;
+  --color-stars-navy-light: #0a3d6a;
   --color-stars-blue: #2E91FC;
   --color-stars-silver: #C0C0C0;
+  --color-stars-gold: #FFD700;
+  --color-stars-red: #DC2626;
 
   /* Gray Scale */
   --color-stars-gray-blue: #737e94;

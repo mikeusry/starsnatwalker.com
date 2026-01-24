@@ -1,0 +1,391 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Brand Guidelines - Stars National Walker">
+  <main class="min-h-screen bg-gray-50 py-16">
+    <div class="container-narrow">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-5xl font-bold text-stars-navy mb-4">
+          Stars National Walker
+        </h1>
+        <p class="text-xl text-gray-600">
+          Brand Guidelines & Design System
+        </p>
+        <p class="text-sm text-gray-500 mt-2">
+          Based on <a href="https://www.starsnational.com/" target="_blank" class="text-stars-blue underline">starsnational.com</a>
+        </p>
+      </div>
+
+      <!-- Color Palette -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Color Palette</h2>
+
+        <!-- Primary Colors -->
+        <div class="mb-12">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-6">Primary Colors</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Navy -->
+            <div class="card">
+              <div class="h-32 bg-stars-navy"></div>
+              <div class="p-6">
+                <h4 class="font-bold text-lg mb-2">Stars Navy</h4>
+                <p class="text-gray-600 font-mono text-sm mb-1">#062a4b</p>
+                <p class="text-gray-600 font-mono text-sm mb-1">RGB: 6, 42, 75</p>
+                <p class="text-gray-500 text-sm mt-2">Primary brand color. Use for headers, navigation, buttons, and key UI elements.</p>
+              </div>
+            </div>
+
+            <!-- Blue -->
+            <div class="card">
+              <div class="h-32 bg-stars-blue"></div>
+              <div class="p-6">
+                <h4 class="font-bold text-lg mb-2">Stars Blue</h4>
+                <p class="text-gray-600 font-mono text-sm mb-1">#2E91FC</p>
+                <p class="text-gray-600 font-mono text-sm mb-1">RGB: 46, 145, 252</p>
+                <p class="text-gray-500 text-sm mt-2">Accent color. Use for links, interactive elements, and hover states.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gray Scale -->
+        <div class="mb-12">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-6">Gray Scale</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- White -->
+            <div class="card">
+              <div class="h-20 bg-stars-white border border-gray-200"></div>
+              <div class="p-4">
+                <h4 class="font-semibold mb-1">White</h4>
+                <p class="text-gray-600 font-mono text-sm">#ffffff</p>
+                <p class="text-gray-500 text-xs mt-1">Backgrounds, cards</p>
+              </div>
+            </div>
+
+            <!-- Gray Light -->
+            <div class="card">
+              <div class="h-20 bg-stars-gray-light"></div>
+              <div class="p-4">
+                <h4 class="font-semibold mb-1">Gray Light</h4>
+                <p class="text-gray-600 font-mono text-sm">#c8ccd1</p>
+                <p class="text-gray-500 text-xs mt-1">Borders, dividers</p>
+              </div>
+            </div>
+
+            <!-- Gray Blue -->
+            <div class="card">
+              <div class="h-20 bg-stars-gray-blue"></div>
+              <div class="p-4">
+                <h4 class="font-semibold mb-1 text-white">Gray Blue</h4>
+                <p class="text-gray-200 font-mono text-sm">#737e94</p>
+                <p class="text-gray-300 text-xs mt-1">Section backgrounds</p>
+              </div>
+            </div>
+
+            <!-- Gray Dark -->
+            <div class="card">
+              <div class="h-20 bg-stars-gray-dark"></div>
+              <div class="p-4">
+                <h4 class="font-semibold mb-1 text-white">Gray Dark</h4>
+                <p class="text-gray-200 font-mono text-sm">#555655</p>
+                <p class="text-gray-300 text-xs mt-1">Body text</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Typography -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Typography</h2>
+
+        <div class="card p-8">
+          <div class="mb-8">
+            <p class="text-sm text-gray-500 mb-2">Primary Font</p>
+            <h3 class="text-4xl font-bold text-stars-navy mb-2">Inter</h3>
+            <p class="text-gray-600">Used for all body text, headings, and UI elements</p>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Heading Examples -->
+            <div>
+              <p class="text-sm text-gray-500 mb-2">Heading 1 - 48px Bold</p>
+              <h1 class="text-5xl font-bold text-stars-navy">Stars National Walker</h1>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 mb-2">Heading 2 - 36px Bold</p>
+              <h2 class="text-4xl font-bold text-stars-navy">Elite Softball Recruiting</h2>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 mb-2">Heading 3 - 30px Semibold</p>
+              <h3 class="text-3xl font-semibold text-stars-navy">Player Profiles</h3>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 mb-2">Body Text - 16px Regular</p>
+              <p class="text-base text-gray-700">
+                The quick brown fox jumps over the lazy dog. Stars National Walker is committed to helping every player reach their potential and achieve their dreams of playing college softball.
+              </p>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 mb-2">Small Text - 14px Regular</p>
+              <p class="text-sm text-gray-600">
+                Additional details and supporting information in a smaller size for hierarchy.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Buttons -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Buttons</h2>
+
+        <div class="card p-8">
+          <div class="space-y-8">
+            <!-- Primary Button -->
+            <div>
+              <p class="text-sm text-gray-500 mb-4">Primary Button (.btn-primary)</p>
+              <button class="btn-primary">
+                Contact Coach
+              </button>
+              <p class="text-sm text-gray-600 mt-2">
+                <code class="bg-gray-100 px-2 py-1 rounded">bg-stars-navy hover:bg-stars-blue</code>
+              </p>
+            </div>
+
+            <!-- Secondary Button -->
+            <div>
+              <p class="text-sm text-gray-500 mb-4">Secondary Button (.btn-secondary)</p>
+              <button class="btn-secondary">
+                View Schedule
+              </button>
+              <p class="text-sm text-gray-600 mt-2">
+                <code class="bg-gray-100 px-2 py-1 rounded">border-stars-navy hover:bg-stars-navy</code>
+              </p>
+            </div>
+
+            <!-- Accent Button -->
+            <div>
+              <p class="text-sm text-gray-500 mb-4">Accent Button (.btn-accent)</p>
+              <button class="btn-accent">
+                View Player Profile
+              </button>
+              <p class="text-sm text-gray-600 mt-2">
+                <code class="bg-gray-100 px-2 py-1 rounded">bg-stars-blue hover:opacity-90</code>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Spacing Scale -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Spacing Scale</h2>
+
+        <div class="card p-8">
+          <div class="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="w-32 text-sm text-gray-600">4px (1)</div>
+              <div class="h-1 bg-stars-navy" style="width: 4px;"></div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-32 text-sm text-gray-600">8px (2)</div>
+              <div class="h-2 bg-stars-navy" style="width: 8px;"></div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-32 text-sm text-gray-600">16px (4)</div>
+              <div class="h-4 bg-stars-navy" style="width: 16px;"></div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-32 text-sm text-gray-600">24px (6)</div>
+              <div class="h-6 bg-stars-navy" style="width: 24px;"></div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-32 text-sm text-gray-600">32px (8)</div>
+              <div class="h-8 bg-stars-navy" style="width: 32px;"></div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-32 text-sm text-gray-600">48px (12)</div>
+              <div class="h-12 bg-stars-navy" style="width: 48px;"></div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-32 text-sm text-gray-600">64px (16)</div>
+              <div class="h-16 bg-stars-navy" style="width: 64px;"></div>
+            </div>
+          </div>
+
+          <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+            <p class="text-sm text-gray-700">
+              <strong>Usage:</strong> Use Tailwind's spacing scale (e.g., <code class="bg-white px-2 py-1 rounded">p-4</code>, <code class="bg-white px-2 py-1 rounded">mb-8</code>).
+              Component padding should be 16px (4) minimum. Section padding should be 64px (16) on desktop, 48px (12) on mobile.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cards & Components -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Cards & Components</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Standard Card -->
+          <div class="card p-6">
+            <h3 class="text-xl font-bold text-stars-navy mb-2">Standard Card</h3>
+            <p class="text-gray-600 mb-4">
+              White background with rounded corners, shadow, and padding.
+            </p>
+            <code class="text-xs bg-gray-100 px-2 py-1 rounded">
+              .card (bg-white rounded-xl shadow-lg)
+            </code>
+          </div>
+
+          <!-- Player Card Example -->
+          <div class="card">
+            <img
+              src="https://via.placeholder.com/400x500/062a4b/ffffff?text=Player+Photo"
+              alt="Player placeholder"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-stars-navy mb-1">Player Name</h3>
+              <p class="text-stars-blue font-semibold mb-2">SS • Class of 2027</p>
+              <p class="text-gray-600 text-sm mb-4">
+                Brief player bio highlighting key achievements and position...
+              </p>
+              <button class="btn-primary w-full">
+                View Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Logo Usage -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Logo Usage</h2>
+
+        <div class="card p-8">
+          <div class="space-y-8">
+            <div>
+              <p class="text-sm text-gray-500 mb-4">Light Backgrounds</p>
+              <div class="bg-white p-8 border border-gray-200 rounded-lg">
+                <p class="text-4xl font-bold text-stars-navy">STARS NATIONAL WALKER</p>
+                <p class="text-stars-blue font-semibold mt-2">18U Gold Fastpitch</p>
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm text-gray-500 mb-4">Dark Backgrounds</p>
+              <div class="bg-stars-navy p-8 rounded-lg">
+                <p class="text-4xl font-bold text-white">STARS NATIONAL WALKER</p>
+                <p class="text-stars-blue font-semibold mt-2">18U Gold Fastpitch</p>
+              </div>
+            </div>
+
+            <div class="p-4 bg-gray-50 rounded-lg">
+              <p class="text-sm text-gray-700">
+                <strong>Clear Space:</strong> Maintain minimum spacing of 16px around logo on all sides.
+                <br />
+                <strong>Minimum Size:</strong> Logo should never be smaller than 120px wide.
+                <br />
+                <strong>Don't:</strong> Distort, rotate, or change logo colors.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Accessibility -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Accessibility Guidelines</h2>
+
+        <div class="card p-8">
+          <div class="space-y-6">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-3">Color Contrast</h3>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between p-3 bg-stars-navy text-white rounded">
+                  <span>Navy on White</span>
+                  <span class="text-stars-blue font-mono">✓ WCAG AAA</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-stars-blue text-white rounded">
+                  <span>Blue on White</span>
+                  <span class="text-stars-navy font-mono">✓ WCAG AA</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-3">Interactive Elements</h3>
+              <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>All buttons must have 44x44px minimum touch target</li>
+                <li>Links must be underlined or clearly distinguished</li>
+                <li>Form inputs must have visible labels</li>
+                <li>Focus states must be visible (outline or shadow)</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-3">Images</h3>
+              <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>All images must have descriptive alt text</li>
+                <li>Decorative images should have empty alt ("")</li>
+                <li>Player headshots: "Headshot of [Player Name]"</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Design Principles -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Design Principles</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="card p-6">
+            <div class="w-12 h-12 bg-stars-navy rounded-full flex items-center justify-center mb-4">
+              <span class="text-white text-2xl">🎯</span>
+            </div>
+            <h3 class="text-xl font-bold text-stars-navy mb-2">Player-First</h3>
+            <p class="text-gray-600">
+              Every design decision should make players look their best and coaches' jobs easier.
+            </p>
+          </div>
+
+          <div class="card p-6">
+            <div class="w-12 h-12 bg-stars-blue rounded-full flex items-center justify-center mb-4">
+              <span class="text-white text-2xl">📱</span>
+            </div>
+            <h3 class="text-xl font-bold text-stars-navy mb-2">Mobile-Optimized</h3>
+            <p class="text-gray-600">
+              Coaches browse on phones. Mobile experience must be flawless.
+            </p>
+          </div>
+
+          <div class="card p-6">
+            <div class="w-12 h-12 bg-stars-gray-blue rounded-full flex items-center justify-center mb-4">
+              <span class="text-white text-2xl">⚡</span>
+            </div>
+            <h3 class="text-xl font-bold text-stars-navy mb-2">Fast & Focused</h3>
+            <p class="text-gray-600">
+              Load quickly, remove distractions, make the content shine.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Back to Home -->
+      <div class="text-center">
+        <a href="/" class="btn-secondary">
+          ← Back to Home
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>

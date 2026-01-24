@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://starsnatwalker.com/sitemap.xml

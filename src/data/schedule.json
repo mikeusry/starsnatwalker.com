@@ -9,17 +9,45 @@
       "type": "tournament"
     },
     {
-      "name": "PGF Nationals",
-      "org": "PGF",
-      "dates": "Jul 24-31",
-      "location": "Orange County, CA",
+      "name": "Top Gun Invitational",
+      "org": "",
+      "dates": "Jun 11-14",
+      "location": "Shawnee, KS",
       "type": "tournament"
     },
     {
-      "name": "Alliance Nationals",
+      "name": "Connect Sports Summer Scenic City",
+      "org": "Connect Sports",
+      "dates": "Jun 18-21",
+      "location": "Dalton, GA",
+      "type": "tournament"
+    },
+    {
+      "name": "Colorado 4th of July Sparkle",
+      "org": "",
+      "dates": "Jun 28 - Jul 5",
+      "location": "Denver, CO",
+      "type": "tournament"
+    },
+    {
+      "name": "Stars Org Camp",
+      "org": "Stars National",
+      "dates": "Jun 29",
+      "location": "Atlanta, GA",
+      "type": "camp"
+    },
+    {
+      "name": "Atlanta Legacy Invitational",
+      "org": "",
+      "dates": "Jul 10-12",
+      "location": "Atlanta, GA",
+      "type": "tournament"
+    },
+    {
+      "name": "Alliance Fastpitch Championship Series",
       "org": "Alliance",
-      "dates": "Jul 10-14",
-      "location": "TBD",
+      "dates": "Jul 19-26",
+      "location": "Kokomo, IN",
       "type": "tournament"
     }
   ],

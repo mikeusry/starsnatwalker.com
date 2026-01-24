@@ -2,42 +2,52 @@
 
 /* Stars National Walker Brand Colors */
 @theme {
+  /* Primary Colors - From starsnational.com */
   --color-stars-navy: #062a4b;
-  --color-stars-navy-light: #0a3d63;
-  --color-stars-red: #c41e3a;
-  --color-stars-red-light: #e8324f;
-  --color-stars-gold: #d4af37;
-  --color-stars-gold-light: #f0c75e;
-  --color-stars-silver: #c0c0c0;
-  --color-stars-white: #ffffff;
+  --color-stars-blue: #2E91FC;
+  --color-stars-silver: #C0C0C0;
+
+  /* Gray Scale */
+  --color-stars-gray-blue: #737e94;
   --color-stars-gray-light: #c8ccd1;
-  --color-stars-gray-medium: #737e94;
+  --color-stars-gray-medium: #595959;
   --color-stars-gray-dark: #555655;
+
+  /* Base Colors */
+  --color-stars-white: #ffffff;
 
   /* Semantic colors */
   --color-primary: var(--color-stars-navy);
-  --color-accent: var(--color-stars-red);
-  --color-highlight: var(--color-stars-gold);
+  --color-accent: var(--color-stars-silver);
+  --color-action: var(--color-stars-blue);
+  --color-background: var(--color-stars-white);
+  --color-text: var(--color-stars-gray-dark);
 }
 
 /* Custom components */
 @layer components {
   .btn-primary {
     @apply inline-flex items-center justify-center px-6 py-3
-           bg-stars-red text-white font-semibold rounded-lg
-           hover:bg-stars-red-light transition-colors duration-200;
+           bg-stars-navy text-white font-semibold rounded-lg
+           hover:bg-stars-blue transition-colors duration-200;
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center px-6 py-3
-           border-2 border-stars-red text-stars-red font-semibold rounded-lg
-           hover:bg-stars-red hover:text-white transition-colors duration-200;
+           border-2 border-stars-navy text-stars-navy font-semibold rounded-lg
+           hover:bg-stars-navy hover:text-white transition-colors duration-200;
   }
 
-  .btn-gold {
+  .btn-accent {
     @apply inline-flex items-center justify-center px-6 py-3
-           bg-stars-gold text-stars-navy font-semibold rounded-lg
-           hover:bg-stars-gold-light transition-colors duration-200;
+           bg-stars-silver text-stars-navy font-semibold rounded-lg
+           hover:opacity-90 transition-opacity duration-200;
+  }
+
+  .btn-action {
+    @apply inline-flex items-center justify-center px-6 py-3
+           bg-stars-blue text-white font-semibold rounded-lg
+           hover:opacity-90 transition-opacity duration-200;
   }
 
   .section-padding {

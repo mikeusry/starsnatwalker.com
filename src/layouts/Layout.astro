@@ -7,11 +7,36 @@ interface Props {
 
 const {
   title,
-  description = "Stars National Walker - Elite 18U Travel Softball Team based in Atlanta, GA. View our roster, schedule, and contact information.",
-  image = "/og-image.png"
+  description = "Stars National Walker - Elite 16U Travel Softball Team based in Atlanta, GA. Competing in top-tier national tournaments and dedicated to player development and college placement.",
+  image = "/og.png"
 } = Astro.props;
 
 const siteUrl = "https://starsnatwalker.com";
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+
+// Structured data for organization
+const organizationStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsTeam',
+  name: 'Stars National Walker',
+  sport: 'Softball',
+  url: siteUrl,
+  logo: `${siteUrl}/logo.webp`,
+  location: {
+    '@type': 'Place',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Atlanta',
+      addressRegion: 'GA',
+      addressCountry: 'US',
+    },
+  },
+  memberOf: {
+    '@type': 'SportsOrganization',
+    name: 'Stars National Softball',
+  },
+  ...(description && { description }),
+};
 ---
 
 <!doctype html>
@@ -19,25 +44,43 @@ const siteUrl = "https://starsnatwalker.com";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/webp" href="/icon.webp" />
+    <link rel="apple-touch-icon" href="/icon.webp" />
 
     <!-- SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={siteUrl} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Keywords -->
+    <meta name="keywords" content="Stars National Walker, 16U softball, travel softball, Atlanta softball, college softball recruiting, Stars National Softball, youth softball, elite softball team, softball players, NCAA softball" />
+
+    <!-- Author and Copyright -->
+    <meta name="author" content="Stars National Walker" />
+    <meta name="copyright" content="Stars National Walker" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={siteUrl} />
+    <meta property="og:site_name" content="Stars National Walker" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteUrl}${image}`} />
+    <meta property="og:image" content={image && image.startsWith('http') ? image : `${siteUrl}${image || '/logo.webp'}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@StarsNatWalker" />
+    <meta name="twitter:creator" content="@StarsNatWalker" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${siteUrl}${image}`} />
+    <meta name="twitter:image" content={image && image.startsWith('http') ? image : `${siteUrl}${image || '/logo.webp'}`} />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationStructuredData)} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

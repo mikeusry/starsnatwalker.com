@@ -3,15 +3,19 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import players from '../../data/players.json';
+import { generatePlayerSlug, generateAthleteStructuredData } from '../../lib/slug';
 
 export async function getStaticPaths() {
   return players.map((player) => ({
-    params: { slug: player.id },
+    params: { slug: generatePlayerSlug(player.firstName, player.lastName) },
     props: { player },
   }));
 }
 
 const { player } = Astro.props;
+
+// Generate structured data for SEO
+const structuredData = generateAthleteStructuredData(player);
 
 const positions = [player.position, ...(player.secondaryPositions || [])].filter(Boolean).join(' / ');
 const handedness = player.bats && player.throws ? `${player.bats}/${player.throws}` : null;
@@ -26,7 +30,14 @@ const getYouTubeId = (url: string | null) => {
 const videoId = getYouTubeId(player.highlightVideoUrl);
 ---
 
-<Layout title={`${player.firstName} ${player.lastName} | Stars National Walker`}>
+<Layout
+  title={`${player.firstName} ${player.lastName} - ${player.position} - Class of ${player.gradYear} | Stars National Walker`}
+  description={player.bio || `${player.firstName} ${player.lastName} is a ${player.position} for Stars National Walker 18U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
+  image={player.photoUrl}
+>
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
   <Header />
   <main class="pt-20">
     <!-- Hero Section -->

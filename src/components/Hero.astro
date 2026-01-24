@@ -1,5 +1,30 @@
 ---
 import team from '../data/team.json';
+import { buildCloudinaryUrl } from '../lib/cloudinary';
+
+// Team images from Cloudinary (using team_1, team_2, etc. naming)
+const teamImageIds = [
+  'StarsNationalWalker/team_1',
+  'StarsNationalWalker/team_2',
+  'StarsNationalWalker/team_3',
+  'StarsNationalWalker/team_4',
+  'StarsNationalWalker/team_5',
+];
+
+const teamImages = teamImageIds.map(publicId =>
+  buildCloudinaryUrl({
+    publicId,
+    width: 640,
+    height: 640,
+    crop: 'fill',
+    quality: 'auto',
+    format: 'auto',
+    gravity: 'faces',
+  })
+);
+
+// Fallback to local image
+const fallbackImage = '/team.jpeg';
 ---
 
 <section class="relative bg-stars-navy min-h-[80vh] flex items-center">
@@ -12,14 +37,14 @@ import team from '../data/team.json';
     <div class="grid md:grid-cols-2 gap-12 items-center">
       <!-- Text Content -->
       <div class="text-center md:text-left">
-        <div class="inline-flex items-center gap-2 bg-stars-red/20 border border-stars-red/30 rounded-full px-4 py-1.5 mb-6">
-          <span class="text-stars-gold text-sm font-semibold">★</span>
+        <div class="inline-flex items-center gap-2 bg-stars-blue/20 border border-stars-blue/30 rounded-full px-4 py-1.5 mb-6">
+          <span class="text-stars-blue text-sm font-semibold">★</span>
           <span class="text-white text-sm font-medium">{team.division} Elite Travel Softball</span>
         </div>
 
         <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">
           Stars National
-          <span class="block text-stars-gold">Walker</span>
+          <span class="block text-stars-blue">Walker</span>
         </h1>
 
         <p class="text-lg md:text-xl text-white/70 mb-6">
@@ -38,7 +63,7 @@ import team from '../data/team.json';
         <!-- Achievements -->
         {team.achievements.length > 0 && (
           <div class="mt-8 pt-8 border-t border-white/10">
-            <p class="text-stars-gold text-sm font-medium mb-2">Recent Achievements</p>
+            <p class="text-stars-blue text-sm font-medium mb-2">Recent Achievements</p>
             {team.achievements.map(achievement => (
               <p class="text-white/80 text-sm">★ {achievement}</p>
             ))}
@@ -46,14 +71,25 @@ import team from '../data/team.json';
         )}
       </div>
 
-      <!-- Team Logo/Image Placeholder -->
-      <div class="hidden md:flex justify-center">
-        <div class="w-80 h-80 bg-stars-navy-light rounded-full flex items-center justify-center border-4 border-stars-gold/30">
-          <div class="text-center">
-            <div class="text-8xl text-stars-red mb-2">★</div>
-            <div class="text-white font-bold text-xl">STARS</div>
-            <div class="text-stars-gold font-semibold tracking-widest">NATIONAL</div>
-          </div>
+      <!-- Team Images Carousel -->
+      <div class="hidden md:flex justify-center items-center">
+        <div class="relative w-full max-w-2xl aspect-[4/3]">
+          {teamImages.map((imageUrl, index) => (
+            <img
+              src={imageUrl}
+              alt={`Stars National Walker Team ${index + 1}`}
+              class={`absolute inset-0 w-full h-full object-cover rounded-2xl shadow-2xl transition-opacity duration-1000 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+              data-carousel-image={index}
+              onerror={`this.style.display='none';document.querySelector('[data-fallback-image]').style.display='block'`}
+            />
+          ))}
+          <!-- Fallback local image if Cloudinary fails -->
+          <img
+            src={fallbackImage}
+            alt="Stars National Walker Team"
+            class="absolute inset-0 w-full h-full object-cover rounded-2xl shadow-2xl hidden"
+            data-fallback-image
+          />
         </div>
       </div>
     </div>
@@ -68,3 +104,36 @@ import team from '../data/team.json';
     </a>
   </div>
 </section>
+
+<script>
+  // Rotate through team images
+  const images = document.querySelectorAll('[data-carousel-image]') as NodeListOf<HTMLImageElement>;
+  let currentIndex = 0;
+  let loadedImages = 0;
+
+  // Check if images load successfully
+  images.forEach((img) => {
+    img.addEventListener('load', () => {
+      loadedImages++;
+    });
+  });
+
+  // Start carousel if we have multiple loaded images
+  setTimeout(() => {
+    if (loadedImages > 0 && images.length > 1) {
+      setInterval(() => {
+        // Fade out current image
+        images[currentIndex].classList.remove('opacity-100');
+        images[currentIndex].classList.add('opacity-0');
+
+        // Move to next image
+        currentIndex = (currentIndex + 1) % images.length;
+
+        // Fade in next image
+        images[currentIndex].classList.remove('opacity-0');
+        images[currentIndex].classList.add('opacity-100');
+      }, 4000); // Change image every 4 seconds
+    }
+  }, 1000);
+</script>
+

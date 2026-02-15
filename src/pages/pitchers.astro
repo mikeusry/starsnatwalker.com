@@ -1,0 +1,166 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PositionPlayerCard from '../components/PositionPlayerCard.astro';
+import players from '../data/players.json';
+import { generatePlayerSlug } from '../lib/slug';
+
+// Pitchers in display order: Kendall > Avery > Kierra
+const pitcherOrder = ['LaManche', 'Jones', 'Wunderlich'];
+const pitchers = pitcherOrder
+  .map(name => players.find(p => p.lastName === name))
+  .filter(Boolean) as typeof players;
+
+// Calculate stats
+const gradYears = [...new Set(pitchers.map(p => p.gradYear))].sort();
+const withSpeed = pitchers.filter(p => p.measurables?.pitchSpeed);
+const avgPitchSpeed = withSpeed.length > 0
+  ? Math.round(withSpeed.reduce((sum, p) => sum + (p.measurables?.pitchSpeed || 0), 0) / withSpeed.length)
+  : null;
+
+// Structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Stars National Walker Pitchers",
+  "description": "Elite 16U softball pitchers available for college recruiting",
+  "numberOfItems": pitchers.length,
+  "itemListElement": pitchers.map((p, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "item": {
+      "@type": "Person",
+      "name": `${p.firstName} ${p.lastName}`,
+      "jobTitle": "Softball Pitcher",
+      "url": `https://starsnatwalker.com/players/${generatePlayerSlug(p.firstName, p.lastName)}`
+    }
+  }))
+};
+---
+
+<Layout
+  title="Pitchers | Stars National Walker 16U Softball | College Recruiting"
+  description={`View our ${pitchers.length} elite pitchers available for college softball recruiting. Class of ${gradYears.join('-')} pitchers with verified stats and video.`}
+>
+  <Header />
+  <main class="pt-20">
+    <!-- Hero -->
+    <section class="bg-gradient-to-br from-stars-navy to-stars-navy-light py-16">
+      <div class="container-narrow text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          Stars National Walker Pitchers
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto mb-6">
+          Elite 16U pitchers from across the country, ready for college softball
+        </p>
+        <div class="flex flex-wrap justify-center gap-6 text-white/90">
+          <div>
+            <span class="text-3xl font-bold text-stars-gold">{pitchers.length}</span>
+            <span class="ml-2">Pitchers</span>
+          </div>
+          <div>
+            <span class="text-3xl font-bold text-stars-gold">{gradYears.length > 1 ? `${gradYears[0]}-${gradYears[gradYears.length - 1]}` : gradYears[0]}</span>
+            <span class="ml-2">Grad Years</span>
+          </div>
+          {avgPitchSpeed && (
+            <div>
+              <span class="text-3xl font-bold text-stars-gold">{avgPitchSpeed}</span>
+              <span class="ml-2">Avg MPH</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <section class="bg-white py-4 border-b sticky top-16 z-30">
+      <div class="container-narrow">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <p class="text-gray-600">
+            Showing <strong>{pitchers.length}</strong> pitchers
+          </p>
+          <div class="flex gap-3">
+            <select id="yearFilter" class="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm">
+              <option value="">All Years</option>
+              {gradYears.map(year => (
+                <option value={year}>Class of {year}</option>
+              ))}
+            </select>
+            <a href="/recruiting" class="px-4 py-2 bg-stars-navy text-white rounded-lg text-sm font-medium hover:bg-stars-blue transition-colors">
+              Full Roster →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Player Grid -->
+    <section class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="playerGrid">
+          {pitchers.map((player) => (
+            <div class="player-card" data-year={player.gradYear}>
+              <PositionPlayerCard
+                player={player}
+                slug={generatePlayerSlug(player.firstName, player.lastName)}
+                primaryStatKey="pitchSpeed"
+                primaryStatLabel="Pitch Speed"
+                primaryStatSuffix=" mph"
+                secondaryStatKey="era"
+                secondaryStatLabel="ERA"
+              />
+            </div>
+          ))}
+        </div>
+
+        <p class="text-center text-gray-500 text-sm mt-6" id="noResults" style="display: none;">
+          No pitchers match your filter.
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-stars-navy py-12">
+      <div class="container-narrow text-center">
+        <h2 class="text-2xl font-bold text-white mb-4">Interested in Our Pitchers?</h2>
+        <p class="text-white/80 mb-6">Request detailed stats, video, and academic information</p>
+        <a href="/recruiting#inquiry" class="inline-block bg-stars-gold text-stars-navy font-bold py-3 px-8 rounded-lg hover:bg-yellow-400 transition-colors">
+          Request Information
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <!-- Filter Script -->
+  <script>
+    const yearFilter = document.getElementById('yearFilter') as HTMLSelectElement;
+    const cards = document.querySelectorAll('.player-card') as NodeListOf<HTMLElement>;
+    const noResults = document.getElementById('noResults') as HTMLElement;
+
+    function filterPlayers() {
+      const selectedYear = yearFilter.value;
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const year = card.dataset.year;
+        const match = !selectedYear || year === selectedYear;
+
+        if (match) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    yearFilter.addEventListener('change', filterPlayers);
+  </script>
+</Layout>

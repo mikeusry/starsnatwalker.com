@@ -1,0 +1,240 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import players from '../../data/players.json';
+import schedule from '../../data/schedule.json';
+import { generatePlayerSlug } from '../../lib/slug';
+
+// Generate event slug from name
+function generateEventSlug(name: string): string {
+  return name.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+// Get all events and generate paths
+export function getStaticPaths() {
+  // Generate event slug from name (duplicated here for static generation)
+  function genSlug(name: string): string {
+    return name.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
+  }
+
+  const events = schedule.events || [];
+  return events.map((event: any) => ({
+    params: { slug: genSlug(event.name) },
+    props: { event }
+  }));
+}
+
+const { event } = Astro.props;
+const eventSlug = generateEventSlug(event.name);
+
+// Sort players by position for display
+const sortedPlayers = [...players].sort((a, b) => {
+  // Sort by grad year, then last name
+  if (a.gradYear !== b.gradYear) return a.gradYear - b.gradYear;
+  return a.lastName.localeCompare(b.lastName);
+});
+
+// Format height helper
+const formatHeight = (inches: number | null) => {
+  if (!inches) return '-';
+  return `${Math.floor(inches / 12)}'${inches % 12}"`;
+};
+
+// Check for video
+const hasVideo = (player: any) => {
+  return player.videos?.muxVideos?.length > 0 || player.videos?.highlightUrl;
+};
+
+// Players with video count
+const playersWithVideo = players.filter(p => hasVideo(p)).length;
+---
+
+<Layout
+  title={`${event.name} | Stars National Walker Roster`}
+  description={`See the Stars National Walker roster for ${event.name} (${event.dates}). ${players.length} elite 16U softball players competing in ${event.location}.`}
+>
+  <Header />
+  <main class="pt-20">
+    <!-- Event Hero -->
+    <section class="bg-gradient-to-br from-stars-navy to-stars-navy-light py-12 md:py-16">
+      <div class="container-narrow">
+        <div class="text-center mb-8">
+          {event.isShowcase && (
+            <span class="inline-flex items-center gap-2 bg-stars-gold text-stars-navy px-4 py-2 rounded-full text-sm font-bold mb-4">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              SHOWCASE EVENT
+            </span>
+          )}
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Stars National Walker
+          </h1>
+          <p class="text-2xl text-stars-gold font-semibold mb-2">{event.name}</p>
+          <p class="text-xl text-white/80">{event.dates}</p>
+        </div>
+
+        <!-- Event Details Card -->
+        <div class="bg-white/10 backdrop-blur rounded-xl p-6 max-w-xl mx-auto">
+          <div class="grid grid-cols-2 gap-4 text-white">
+            <div>
+              <p class="text-white/60 text-sm">Location</p>
+              <p class="font-semibold">{event.location}</p>
+            </div>
+            <div>
+              <p class="text-white/60 text-sm">Organization</p>
+              <p class="font-semibold">{event.org}</p>
+            </div>
+            {event.venue && (
+              <div class="col-span-2">
+                <p class="text-white/60 text-sm">Venue</p>
+                <p class="font-semibold">{event.venue}</p>
+              </div>
+            )}
+          </div>
+          {event.address && (
+            <div class="mt-4 pt-4 border-t border-white/20">
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 text-white hover:text-stars-gold transition-colors"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                </svg>
+                Get Directions
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="bg-white py-6 border-b">
+      <div class="container-narrow">
+        <div class="flex flex-wrap justify-center gap-8 text-center">
+          <div>
+            <div class="text-2xl font-bold text-stars-navy">{players.length}</div>
+            <div class="text-gray-600 text-sm">Players</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-stars-navy">{players.filter(p => p.recruitingStatus === 'uncommitted').length}</div>
+            <div class="text-gray-600 text-sm">Uncommitted</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-green-600">{playersWithVideo}</div>
+            <div class="text-gray-600 text-sm">With Video</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roster Table -->
+    <section class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-900">Event Roster</h2>
+          <a href="/recruiting#inquiry" class="text-stars-navy font-medium hover:text-stars-blue">
+            Request Info →
+          </a>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-stars-navy text-white">
+                <tr>
+                  <th class="px-4 py-3 text-left font-semibold">#</th>
+                  <th class="px-4 py-3 text-left font-semibold">Player</th>
+                  <th class="px-4 py-3 text-left font-semibold">Grad</th>
+                  <th class="px-4 py-3 text-left font-semibold">Pos</th>
+                  <th class="px-4 py-3 text-left font-semibold">B/T</th>
+                  <th class="px-4 py-3 text-left font-semibold">Ht</th>
+                  <th class="px-4 py-3 text-center font-semibold">Video</th>
+                  <th class="px-4 py-3 text-center font-semibold">Profile</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                {sortedPlayers.map((player, idx) => (
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 text-gray-500 font-mono">{(idx + 1).toString().padStart(2, '0')}</td>
+                    <td class="px-4 py-3">
+                      <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
+                          {player.photoUrl ? (
+                            <img src={player.photoUrl} alt="" class="w-full h-full object-cover" loading="lazy" />
+                          ) : (
+                            <div class="w-full h-full flex items-center justify-center text-stars-navy font-bold text-xs">
+                              {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                            </div>
+                          )}
+                        </div>
+                        <span class="font-semibold text-gray-900">{player.firstName} {player.lastName}</span>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3 font-medium">{player.gradYear}</td>
+                    <td class="px-4 py-3 text-gray-600">{player.position}</td>
+                    <td class="px-4 py-3 text-gray-600">{player.bats}/{player.throws}</td>
+                    <td class="px-4 py-3 text-gray-600">{formatHeight(player.heightInches)}</td>
+                    <td class="px-4 py-3 text-center">
+                      {hasVideo(player) ? (
+                        <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 text-green-600 rounded-full">
+                          <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                          </svg>
+                        </span>
+                      ) : (
+                        <span class="text-gray-300">-</span>
+                      )}
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      <a
+                        href={`/players/${generatePlayerSlug(player.firstName, player.lastName)}`}
+                        class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-stars-navy text-white hover:bg-stars-blue transition-colors"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Print Note -->
+        <p class="text-center text-gray-500 text-sm mt-4">
+          Scan QR code on printed roster or visit <strong>starsnatwalker.com/events/{eventSlug}</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-stars-navy py-12">
+      <div class="container-narrow text-center">
+        <h2 class="text-2xl font-bold text-white mb-4">Interested in Our Players?</h2>
+        <p class="text-white/80 mb-6">Request detailed stats, video, transcripts, and schedule a conversation</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/recruiting#inquiry" class="inline-block bg-stars-gold text-stars-navy font-bold py-3 px-8 rounded-lg hover:bg-yellow-400 transition-colors">
+            Request Information
+          </a>
+          <a href="/recruiting" class="inline-block border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-stars-navy transition-colors">
+            Full Recruiting Hub
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

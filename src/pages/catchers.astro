@@ -1,0 +1,128 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PositionPlayerCard from '../components/PositionPlayerCard.astro';
+import players from '../data/players.json';
+import { generatePlayerSlug } from '../lib/slug';
+
+// Filter catchers
+const catchers = players.filter(p => {
+  const pos = p.position.toLowerCase();
+  return pos.includes('catch') || pos.includes('c/');
+}).sort((a, b) => {
+  // Sort by pop time (asc - lower is better), then grad year
+  const aPop = a.measurables?.popTime || 99;
+  const bPop = b.measurables?.popTime || 99;
+  if (aPop !== bPop) return aPop - bPop;
+  return a.gradYear - b.gradYear;
+});
+
+const gradYears = [...new Set(catchers.map(p => p.gradYear))].sort();
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Stars National Walker Catchers",
+  "description": "Elite 16U softball catchers available for college recruiting",
+  "numberOfItems": catchers.length,
+  "itemListElement": catchers.map((p, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "item": {
+      "@type": "Person",
+      "name": `${p.firstName} ${p.lastName}`,
+      "jobTitle": "Softball Catcher",
+      "url": `https://starsnatwalker.com/players/${generatePlayerSlug(p.firstName, p.lastName)}`
+    }
+  }))
+};
+---
+
+<Layout
+  title="Catchers | Stars National Walker 16U Softball | College Recruiting"
+  description={`View our ${catchers.length} elite catchers available for college softball recruiting. Class of ${gradYears.join('-')} catchers with verified pop times and video.`}
+>
+  <Header />
+  <main class="pt-20">
+    <section class="bg-gradient-to-br from-stars-navy to-stars-navy-light py-16">
+      <div class="container-narrow text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          Stars National Walker Catchers
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto mb-6">
+          Elite 16U catchers with strong arms, quick releases, and leadership behind the plate
+        </p>
+        <div class="flex flex-wrap justify-center gap-6 text-white/90">
+          <div>
+            <span class="text-3xl font-bold text-stars-gold">{catchers.length}</span>
+            <span class="ml-2">Catchers</span>
+          </div>
+          <div>
+            <span class="text-3xl font-bold text-stars-gold">{gradYears.length > 1 ? `${gradYears[0]}-${gradYears[gradYears.length - 1]}` : gradYears[0]}</span>
+            <span class="ml-2">Grad Years</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-4 border-b sticky top-16 z-30">
+      <div class="container-narrow">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <p class="text-gray-600">Showing <strong>{catchers.length}</strong> catchers</p>
+          <div class="flex gap-3">
+            <select id="yearFilter" class="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm">
+              <option value="">All Years</option>
+              {gradYears.map(year => (<option value={year}>Class of {year}</option>))}
+            </select>
+            <a href="/recruiting" class="px-4 py-2 bg-stars-navy text-white rounded-lg text-sm font-medium hover:bg-stars-blue">Full Roster →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="playerGrid">
+          {catchers.map((player) => (
+            <div class="player-card" data-year={player.gradYear}>
+              <PositionPlayerCard
+                player={player}
+                slug={generatePlayerSlug(player.firstName, player.lastName)}
+                primaryStatKey="popTime"
+                primaryStatLabel="Pop Time"
+                primaryStatSuffix="s"
+              />
+            </div>
+          ))}
+        </div>
+        <p class="text-center text-gray-500 text-sm mt-6" id="noResults" style="display: none;">No catchers match your filter.</p>
+      </div>
+    </section>
+
+    <section class="bg-stars-navy py-12">
+      <div class="container-narrow text-center">
+        <h2 class="text-2xl font-bold text-white mb-4">Interested in Our Catchers?</h2>
+        <p class="text-white/80 mb-6">Request detailed stats, video, and academic information</p>
+        <a href="/recruiting#inquiry" class="inline-block bg-stars-gold text-stars-navy font-bold py-3 px-8 rounded-lg hover:bg-yellow-400">Request Information</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <script>
+    const yearFilter = document.getElementById('yearFilter') as HTMLSelectElement;
+    const cards = document.querySelectorAll('.player-card') as NodeListOf<HTMLElement>;
+    const noResults = document.getElementById('noResults') as HTMLElement;
+    yearFilter.addEventListener('change', () => {
+      const selected = yearFilter.value;
+      let visible = 0;
+      cards.forEach(card => {
+        const match = !selected || card.dataset.year === selected;
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      noResults.style.display = visible === 0 ? 'block' : 'none';
+    });
+  </script>
+</Layout>

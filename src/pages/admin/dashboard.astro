@@ -1,0 +1,329 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="pd-dashboard | Stars National Walker" noindex={true}>
+  <div id="auth-check" class="min-h-screen bg-gray-100">
+    <!-- Loading state -->
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-gray-500">Loading...</div>
+    </div>
+
+    <!-- Dashboard content (hidden until auth verified) -->
+    <div id="dashboard" class="hidden">
+      <!-- Header -->
+      <header class="bg-stars-navy text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+            <div>
+              <h1 class="text-xl font-bold">pd-dashboard</h1>
+              <p class="text-sm text-white/70">Profile View Analytics</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <button id="refresh-btn" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+              ↻ Refresh
+            </button>
+            <button id="logout-btn" class="px-4 py-2 bg-stars-red hover:bg-red-700 rounded-lg text-sm transition-colors">
+              Logout
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Stats Overview -->
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div class="bg-white rounded-xl shadow p-6">
+            <div class="text-sm text-gray-500 mb-1">Total Views (7d)</div>
+            <div id="stat-views" class="text-3xl font-bold text-stars-navy">-</div>
+          </div>
+          <div class="bg-white rounded-xl shadow p-6">
+            <div class="text-sm text-gray-500 mb-1">Unique Sessions</div>
+            <div id="stat-sessions" class="text-3xl font-bold text-stars-navy">-</div>
+          </div>
+          <div class="bg-white rounded-xl shadow p-6">
+            <div class="text-sm text-gray-500 mb-1">Video Plays</div>
+            <div id="stat-videos" class="text-3xl font-bold text-green-600">-</div>
+          </div>
+          <div class="bg-white rounded-xl shadow p-6">
+            <div class="text-sm text-gray-500 mb-1">Contact Clicks</div>
+            <div id="stat-contacts" class="text-3xl font-bold text-stars-red">-</div>
+          </div>
+        </div>
+
+        <!-- Three Column Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <!-- Top Players -->
+          <div class="bg-white rounded-xl shadow">
+            <div class="p-4 border-b border-gray-100">
+              <h2 class="font-bold text-gray-900">Top Players (7d)</h2>
+            </div>
+            <div id="top-players" class="p-4">
+              <div class="text-gray-400 text-sm">Loading...</div>
+            </div>
+          </div>
+
+          <!-- Top Locations -->
+          <div class="bg-white rounded-xl shadow">
+            <div class="p-4 border-b border-gray-100">
+              <h2 class="font-bold text-gray-900">Top Locations (7d)</h2>
+            </div>
+            <div id="top-locations" class="p-4">
+              <div class="text-gray-400 text-sm">Loading...</div>
+            </div>
+          </div>
+
+          <!-- Top Referrers -->
+          <div class="bg-white rounded-xl shadow">
+            <div class="p-4 border-b border-gray-100">
+              <h2 class="font-bold text-gray-900">Top Referrers</h2>
+            </div>
+            <div id="top-referrers" class="p-4">
+              <div class="text-gray-400 text-sm">Loading...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <div class="bg-white rounded-xl shadow">
+          <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+            <h2 class="font-bold text-gray-900">Recent Activity</h2>
+            <select id="filter-event" class="text-sm border border-gray-200 rounded px-2 py-1">
+              <option value="">All Events</option>
+              <option value="page_view">Page Views</option>
+              <option value="video_play">Video Plays</option>
+              <option value="contact_click">Contact Clicks</option>
+            </select>
+          </div>
+          <div id="activity-feed" class="divide-y divide-gray-100">
+            <div class="p-4 text-gray-400 text-sm">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    const AUTH_KEY = 'snw_admin_auth';
+    const SUPABASE_URL = 'https://dludfgxxjstzpbrrysqp.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_z-ud8xw7O743S00vGnN3fg_xtTbM7ot';
+
+    // Check auth
+    if (sessionStorage.getItem(AUTH_KEY) !== 'true') {
+      window.location.href = '/admin/';
+    } else {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      loadDashboard();
+    }
+
+    // Logout
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      sessionStorage.removeItem(AUTH_KEY);
+      window.location.href = '/admin/';
+    });
+
+    // Refresh
+    document.getElementById('refresh-btn').addEventListener('click', loadDashboard);
+
+    // Filter
+    document.getElementById('filter-event').addEventListener('change', loadActivity);
+
+    async function supabaseQuery(table, params = '') {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${params}`, {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`
+          }
+        });
+        const data = await res.json();
+        if (!Array.isArray(data)) {
+          console.error('Supabase error:', data);
+          return [];
+        }
+        return data;
+      } catch (err) {
+        console.error('Fetch error:', err);
+        return [];
+      }
+    }
+
+    async function loadDashboard() {
+      try {
+        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+        // Load stats
+        const views = await supabaseQuery('profile_views', `?site=eq.starsnatwalker&created_at=gte.${sevenDaysAgo}&select=id,session_id,event_type`);
+
+        const totalViews = views.filter(v => v.event_type === 'page_view').length;
+      const uniqueSessions = [...new Set(views.map(v => v.session_id))].length;
+      const videoPlays = views.filter(v => v.event_type === 'video_play').length;
+      const contactClicks = views.filter(v => v.event_type === 'contact_click').length;
+
+      document.getElementById('stat-views').textContent = totalViews.toLocaleString();
+      document.getElementById('stat-sessions').textContent = uniqueSessions.toLocaleString();
+      document.getElementById('stat-videos').textContent = videoPlays.toLocaleString();
+      document.getElementById('stat-contacts').textContent = contactClicks.toLocaleString();
+
+      // Load top players
+      const playerViews = await supabaseQuery('profile_views', `?site=eq.starsnatwalker&event_type=eq.page_view&created_at=gte.${sevenDaysAgo}&select=player_slug,player_name`);
+
+      const playerCounts = {};
+      playerViews.forEach(v => {
+        const key = v.player_slug;
+        if (!playerCounts[key]) {
+          playerCounts[key] = { name: v.player_name || v.player_slug, count: 0 };
+        }
+        playerCounts[key].count++;
+      });
+
+      const topPlayers = Object.entries(playerCounts)
+        .sort((a, b) => b[1].count - a[1].count)
+        .slice(0, 10);
+
+      const playersHtml = topPlayers.length > 0
+        ? topPlayers.map(([slug, data], i) => `
+            <div class="flex items-center justify-between py-2 ${i > 0 ? 'border-t border-gray-100' : ''}">
+              <div class="flex items-center gap-3">
+                <span class="w-6 h-6 rounded-full bg-stars-navy text-white text-xs flex items-center justify-center">${i + 1}</span>
+                <a href="/players/${slug}" target="_blank" class="text-stars-navy hover:underline">${data.name}</a>
+              </div>
+              <span class="text-gray-500">${data.count} views</span>
+            </div>
+          `).join('')
+        : '<div class="text-gray-400 text-sm">No data yet</div>';
+
+      document.getElementById('top-players').innerHTML = playersHtml;
+
+      // Load top referrers
+      const referrerViews = await supabaseQuery('profile_views', `?site=eq.starsnatwalker&referrer_domain=not.is.null&created_at=gte.${sevenDaysAgo}&select=referrer_domain`);
+
+      const refCounts = {};
+      referrerViews.forEach(v => {
+        if (v.referrer_domain && v.referrer_domain !== 'starsnatwalker.com') {
+          refCounts[v.referrer_domain] = (refCounts[v.referrer_domain] || 0) + 1;
+        }
+      });
+
+      const topRefs = Object.entries(refCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
+
+      const refsHtml = topRefs.length > 0
+        ? topRefs.map(([domain, count], i) => `
+            <div class="flex items-center justify-between py-2 ${i > 0 ? 'border-t border-gray-100' : ''}">
+              <div class="flex items-center gap-3">
+                <span class="text-gray-400">${i + 1}.</span>
+                <span class="${domain.includes('.edu') ? 'text-green-600 font-medium' : 'text-gray-700'}">${domain}</span>
+                ${domain.includes('.edu') ? '<span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">College</span>' : ''}
+              </div>
+              <span class="text-gray-500">${count}</span>
+            </div>
+          `).join('')
+        : '<div class="text-gray-400 text-sm">No referrer data yet</div>';
+
+      document.getElementById('top-referrers').innerHTML = refsHtml;
+
+      // Load top locations
+      const locationViews = await supabaseQuery('profile_views', `?site=eq.starsnatwalker&city=not.is.null&created_at=gte.${sevenDaysAgo}&select=city,region`);
+
+      const locCounts = {};
+      locationViews.forEach(v => {
+        if (v.city && v.region) {
+          const key = `${v.city}, ${v.region}`;
+          locCounts[key] = (locCounts[key] || 0) + 1;
+        }
+      });
+
+      const topLocs = Object.entries(locCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
+
+      // Known college towns (can expand this list)
+      const collegeTowns = ['Chapel Hill', 'Durham', 'Raleigh', 'Clemson', 'Tuscaloosa', 'Athens', 'Knoxville', 'Gainesville', 'Tallahassee', 'Auburn', 'Starkville', 'Oxford', 'Baton Rouge', 'Columbia', 'Blacksburg', 'Charlottesville', 'College Station', 'Norman', 'Stillwater', 'Fayetteville', 'Lexington', 'Louisville', 'Tempe', 'Tucson', 'Eugene', 'Corvallis', 'Pullman', 'Seattle', 'Los Angeles', 'Stanford', 'Berkeley', 'Palo Alto'];
+
+      const locsHtml = topLocs.length > 0
+        ? topLocs.map(([loc, count], i) => {
+            const city = loc.split(',')[0].trim();
+            const isCollege = collegeTowns.some(t => city.toLowerCase().includes(t.toLowerCase()));
+            return `
+              <div class="flex items-center justify-between py-2 ${i > 0 ? 'border-t border-gray-100' : ''}">
+                <div class="flex items-center gap-3">
+                  <span class="text-gray-400">${i + 1}.</span>
+                  <span class="${isCollege ? 'text-purple-600 font-medium' : 'text-gray-700'}">${loc}</span>
+                  ${isCollege ? '<span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">College Town</span>' : ''}
+                </div>
+                <span class="text-gray-500">${count}</span>
+              </div>
+            `;
+          }).join('')
+        : '<div class="text-gray-400 text-sm">No location data yet</div>';
+
+      document.getElementById('top-locations').innerHTML = locsHtml;
+
+      // Load activity
+      loadActivity();
+      } catch (err) {
+        console.error('Dashboard load error:', err);
+      }
+    }
+
+    async function loadActivity() {
+      const filter = document.getElementById('filter-event').value;
+      let params = `?site=eq.starsnatwalker&order=created_at.desc&limit=50`;
+      if (filter) {
+        params += `&event_type=eq.${filter}`;
+      }
+
+      const activity = await supabaseQuery('profile_views', params + '&select=*');
+
+      const eventIcons = {
+        'page_view': '<span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm">👁</span>',
+        'video_play': '<span class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-sm">▶</span>',
+        'contact_click': '<span class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-sm">✉</span>'
+      };
+
+      const activityHtml = activity.length > 0
+        ? activity.map(a => {
+            const time = new Date(a.created_at);
+            const timeStr = time.toLocaleDateString() + ' ' + time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const refBadge = a.referrer_domain && a.referrer_domain.includes('.edu')
+              ? `<span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full ml-2">${a.referrer_domain}</span>`
+              : '';
+
+            let action = 'viewed';
+            if (a.event_type === 'video_play') action = 'watched video on';
+            if (a.event_type === 'contact_click') action = 'clicked contact on';
+
+            // Location badge
+            let locBadge = '';
+            if (a.city && a.region) {
+              locBadge = `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">${a.city}, ${a.region}</span>`;
+            } else if (a.region) {
+              locBadge = `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">${a.region}</span>`;
+            }
+
+            return `
+              <div class="flex items-start gap-4 p-4 hover:bg-gray-50">
+                ${eventIcons[a.event_type] || eventIcons['page_view']}
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-gray-500">Someone ${action}</span>
+                    <a href="/players/${a.player_slug}" target="_blank" class="font-medium text-stars-navy hover:underline truncate">${a.player_name || a.player_slug}</a>
+                    ${refBadge}
+                    ${locBadge}
+                  </div>
+                  <div class="text-xs text-gray-400 mt-1">${timeStr}</div>
+                </div>
+              </div>
+            `;
+          }).join('')
+        : '<div class="p-4 text-gray-400 text-sm">No activity yet</div>';
+
+      document.getElementById('activity-feed').innerHTML = activityHtml;
+    }
+  </script>
+</Layout>

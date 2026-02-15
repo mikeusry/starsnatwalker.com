@@ -13,8 +13,15 @@ const navLinks = [
   { href: '/#schedule', label: 'Schedule' },
   { href: '/#about', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  { href: '/coaches', label: 'College Coaches', highlight: 'primary' },
+  { href: '/recruiting', label: 'College Coaches', highlight: 'primary' },
   { href: '/tryout', label: 'Join Us', highlight: 'secondary' },
+];
+
+const positionLinks = [
+  { href: '/pitchers', label: 'Pitchers' },
+  { href: '/catchers', label: 'Catchers' },
+  { href: '/infielders', label: 'Infielders' },
+  { href: '/outfielders', label: 'Outfielders' },
 ];
 ---
 
@@ -46,11 +53,42 @@ const navLinks = [
 
       <!-- Desktop Nav -->
       <div class="hidden md:flex items-center gap-6">
-        {navLinks.map(link => (
+        {navLinks.slice(0, 5).map(link => (
+          <a
+            href={link.href}
+            class="font-medium text-white/80 hover:text-white transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+
+        <!-- Positions Dropdown -->
+        <div class="relative group">
+          <button class="font-medium text-white/80 hover:text-white transition-colors flex items-center gap-1">
+            Positions
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="absolute top-full left-0 mt-2 w-40 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            {positionLinks.map(link => (
+              <a
+                href={link.href}
+                class="block px-4 py-2 text-gray-700 hover:bg-stars-navy hover:text-white first:rounded-t-lg last:rounded-b-lg transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="border-l border-white/20 h-6 ml-1"></div>
+
+        {navLinks.slice(5).map(link => (
           link.highlight === 'primary' ? (
             <a
               href={link.href}
-              class="font-bold px-4 py-2 rounded-lg transition-all hover:opacity-90"
+              class="font-bold text-[0.95rem] px-5 py-2.5 rounded-lg transition-all hover:opacity-90"
               style="background-color: #FFD700; color: #062a4b;"
             >
               {link.label}
@@ -58,7 +96,7 @@ const navLinks = [
           ) : link.highlight === 'secondary' ? (
             <a
               href={link.href}
-              class="font-semibold px-4 py-2 rounded-lg border-2 border-white text-white transition-all hover:bg-white hover:text-stars-navy"
+              class="font-semibold text-[0.95rem] px-5 py-2.5 rounded-lg border-2 border-white text-white transition-all hover:bg-white hover:text-stars-navy"
             >
               {link.label}
             </a>
@@ -102,31 +140,56 @@ const navLinks = [
   <!-- Mobile Menu -->
   <div id="mobile-menu" class="hidden md:hidden bg-stars-navy-light border-t border-white/10">
     <div class="container-narrow py-4 space-y-3">
-      {navLinks.map(link => (
-        link.highlight === 'primary' ? (
-          <a
-            href={link.href}
-            class="block font-bold py-2"
-            style="color: #FFD700;"
-          >
-            {link.label}
-          </a>
-        ) : link.highlight === 'secondary' ? (
-          <a
-            href={link.href}
-            class="block font-semibold py-2 text-white"
-          >
-            {link.label}
-          </a>
-        ) : (
-          <a
-            href={link.href}
-            class="block font-medium py-2 text-white/80 hover:text-white"
-          >
-            {link.label}
-          </a>
-        )
+      {navLinks.slice(0, 5).map(link => (
+        <a
+          href={link.href}
+          class="block font-medium py-2 text-white/80 hover:text-white"
+        >
+          {link.label}
+        </a>
       ))}
+
+      <!-- Positions Section -->
+      <div class="border-t border-white/10 pt-3 mt-3">
+        <p class="text-white/50 text-sm mb-2">By Position</p>
+        {positionLinks.map(link => (
+          <a
+            href={link.href}
+            class="block font-medium py-2 text-white/80 hover:text-white pl-4"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+
+      <div class="border-t border-white/10 pt-3 mt-3">
+        {navLinks.slice(5).map(link => (
+          link.highlight === 'primary' ? (
+            <a
+              href={link.href}
+              class="block font-bold py-2"
+              style="color: #FFD700;"
+            >
+              {link.label}
+            </a>
+          ) : link.highlight === 'secondary' ? (
+            <a
+              href={link.href}
+              class="block font-semibold py-2 text-white"
+            >
+              {link.label}
+            </a>
+          ) : (
+            <a
+              href={link.href}
+              class="block font-medium py-2 text-white/80 hover:text-white"
+            >
+              {link.label}
+            </a>
+          )
+        ))}
+      </div>
+
       <!-- X/Twitter Link -->
       <a
         href={team.socialLinks.twitter}

@@ -1,0 +1,530 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import players from '../data/players.json';
+import team from '../data/team.json';
+import schedule from '../data/schedule.json';
+import { generatePlayerSlug } from '../lib/slug';
+
+// Sort players by grad year, then last name
+const sortedPlayers = [...players].sort((a, b) => {
+  if (a.gradYear !== b.gradYear) return a.gradYear - b.gradYear;
+  return a.lastName.localeCompare(b.lastName);
+});
+
+// Calculate team stats
+const teamStats = {
+  totalPlayers: players.length,
+  uncommitted: players.filter(p => p.recruitingStatus === 'uncommitted').length,
+  withVideo: players.filter(p => (p.videos?.muxVideos?.length ?? 0) > 0 || p.videos?.highlightUrl).length,
+  avgGPA: (players.filter(p => p.gpa).reduce((sum, p) => sum + (p.gpa || 0), 0) / players.filter(p => p.gpa).length).toFixed(2),
+  honor35: players.filter(p => p.gpa && p.gpa >= 3.5).length,
+  honor40: players.filter(p => p.gpa && p.gpa >= 4.0).length,
+};
+
+// Get unique values for filters
+const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
+const positions = [...new Set(players.flatMap(p => [p.position, ...(p.secondaryPositions || [])]))].sort();
+
+// Format height helper
+const formatHeight = (inches: number | null) => {
+  if (!inches) return '-';
+  return `${Math.floor(inches / 12)}'${inches % 12}"`;
+};
+
+// Check if player has video
+const hasVideo = (player: any) => {
+  return player.videos?.muxVideos?.length > 0 || player.videos?.highlightUrl || player.videos?.skillsUrl;
+};
+
+// Upcoming events (next 3)
+const upcomingEvents = schedule.events?.slice(0, 3) || [];
+---
+
+<Layout
+  title="College Coach Recruiting Hub | Stars National Walker 16U Softball"
+  description="College coaches: evaluate our uncommitted 2027-2029 student-athletes with verified metrics, video, and academics. Stars National Walker 16U elite travel softball."
+>
+  <Header />
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-stars-navy to-stars-navy-light py-16 md:py-20">
+      <div class="container-narrow text-center">
+        <div class="inline-flex items-center gap-2 bg-stars-gold/20 text-stars-gold px-4 py-2 rounded-full text-sm font-semibold mb-6">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          Elite 16U Travel Softball
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          College Coach<br />Recruiting Hub
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto mb-8">
+          {teamStats.uncommitted} uncommitted student-athletes • Classes of {gradYears.join(', ')} • Verified metrics and video
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#roster" class="btn-primary bg-stars-gold text-stars-navy hover:bg-yellow-400">
+            View Roster
+          </a>
+          <a href="#inquiry" class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy">
+            Request Info
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Academic + Team Stats Banner -->
+    <section class="bg-white py-8 border-b">
+      <div class="container-narrow">
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-6 text-center">
+          <div>
+            <div class="text-3xl font-bold text-stars-navy">{teamStats.totalPlayers}</div>
+            <div class="text-gray-600 text-sm">Players</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-stars-navy">{teamStats.uncommitted}</div>
+            <div class="text-gray-600 text-sm">Uncommitted</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-green-600">{teamStats.avgGPA}</div>
+            <div class="text-gray-600 text-sm">Team GPA</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-green-600">{teamStats.honor40}</div>
+            <div class="text-gray-600 text-sm">4.0+ GPA</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-stars-blue">{teamStats.withVideo}</div>
+            <div class="text-gray-600 text-sm">With Video</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-stars-navy">{upcomingEvents.length}+</div>
+            <div class="text-gray-600 text-sm">Events</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roster Section with Enhanced Filters -->
+    <section id="roster" class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900">Player Roster</h2>
+            <p class="text-gray-600">Click any player for full profile, stats, and video</p>
+          </div>
+
+          <!-- Enhanced Filters -->
+          <div class="flex flex-wrap gap-3">
+            <select id="yearFilter" class="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-stars-navy">
+              <option value="">All Years</option>
+              {gradYears.map(year => (
+                <option value={year}>Class of {year}</option>
+              ))}
+            </select>
+            <select id="positionFilter" class="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-stars-navy">
+              <option value="">All Positions</option>
+              <option value="pitcher">Pitchers</option>
+              <option value="catcher">Catchers</option>
+              <option value="infield">Infielders</option>
+              <option value="outfield">Outfielders</option>
+            </select>
+            <label class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-white cursor-pointer hover:bg-gray-50">
+              <input type="checkbox" id="videoFilter" class="rounded text-stars-navy focus:ring-stars-navy" />
+              <span class="text-gray-700">Has Video</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Player Cards Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="playerGrid">
+          {sortedPlayers.map((player) => {
+            const slug = generatePlayerSlug(player.firstName, player.lastName);
+            const playerHasVideo = hasVideo(player);
+            const positionCategory =
+              player.position.toLowerCase().includes('pitch') || player.secondaryPositions?.some((p: string) => p.toLowerCase().includes('rhp') || p.toLowerCase().includes('lhp')) ? 'pitcher' :
+              player.position.toLowerCase().includes('catch') ? 'catcher' :
+              player.position.toLowerCase().includes('outfield') || player.position.toLowerCase() === 'of' ? 'outfield' : 'infield';
+
+            return (
+              <div
+                class="player-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                data-year={player.gradYear}
+                data-position={positionCategory}
+                data-video={playerHasVideo ? 'yes' : 'no'}
+              >
+                <a href={`/players/${slug}`} class="block">
+                  <div class="flex items-start gap-4 p-6">
+                    <div class="w-16 h-16 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
+                      {player.photoUrl ? (
+                        <img src={player.photoUrl} alt="" class="w-full h-full object-cover" />
+                      ) : (
+                        <div class="w-full h-full flex items-center justify-center text-stars-navy font-bold text-lg">
+                          {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                        </div>
+                      )}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-start justify-between gap-2">
+                        <div>
+                          <h3 class="font-bold text-gray-900 truncate">{player.firstName} {player.lastName}</h3>
+                          <p class="text-sm text-gray-600">{player.position}</p>
+                        </div>
+                        <span class="flex-shrink-0 px-2 py-1 bg-stars-navy text-white text-xs font-bold rounded">
+                          '{String(player.gradYear).slice(-2)}
+                        </span>
+                      </div>
+                      <div class="flex items-center gap-3 mt-2 text-sm text-gray-500">
+                        <span>{player.bats}/{player.throws}</span>
+                        <span>{formatHeight(player.heightInches)}</span>
+                        {player.gpa && (
+                          <span class={player.gpa >= 3.5 ? 'text-green-600 font-semibold' : ''}>
+                            {player.gpa} GPA
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Key Stats Row -->
+                  <div class="px-6 pb-4">
+                    <div class="flex flex-wrap gap-2">
+                      {player.measurables?.exitVelo && (
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                          Exit Velo: {player.measurables.exitVelo}
+                        </span>
+                      )}
+                      {player.measurables?.pitchSpeed && (
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                          Pitch: {player.measurables.pitchSpeed} mph
+                        </span>
+                      )}
+                      {player.measurables?.popTime && (
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                          Pop: {player.measurables.popTime}
+                        </span>
+                      )}
+                      {player.measurables?.infieldVelo && (
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                          IF Velo: {player.measurables.infieldVelo}
+                        </span>
+                      )}
+                      {player.measurables?.outfieldVelo && (
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                          OF Velo: {player.measurables.outfieldVelo}
+                        </span>
+                      )}
+                      {playerHasVideo && (
+                        <span class="px-2 py-1 bg-stars-blue/10 text-stars-blue text-xs rounded font-medium">
+                          Video
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <!-- Location & School -->
+                  {player.highSchool && (
+                    <div class="px-6 pb-4 text-xs text-gray-500">
+                      {player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}
+                    </div>
+                  )}
+                </a>
+              </div>
+            );
+          })}
+        </div>
+
+        <p class="text-center text-gray-500 text-sm mt-6" id="noResults" style="display: none;">
+          No players match your filters.
+        </p>
+      </div>
+    </section>
+
+    <!-- Coach Inquiry Form -->
+    <section id="inquiry" class="section-padding bg-stars-navy">
+      <div class="container-narrow">
+        <div class="max-w-2xl mx-auto">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-white mb-4">Request Player Information</h2>
+            <p class="text-white/80">
+              Interested in one of our players? Submit your info and we'll send you a detailed recruiting packet.
+            </p>
+          </div>
+
+          <form id="coachInquiryForm" class="bg-white rounded-xl p-8 shadow-2xl">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label for="coachName" class="block text-sm font-medium text-gray-700 mb-2">Your Name *</label>
+                <input type="text" id="coachName" name="coachName" required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  placeholder="Coach Name" />
+              </div>
+              <div>
+                <label for="coachTitle" class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                <input type="text" id="coachTitle" name="coachTitle"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  placeholder="Head Coach, Assistant, etc." />
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label for="school" class="block text-sm font-medium text-gray-700 mb-2">School/University *</label>
+              <input type="text" id="school" name="school" required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                placeholder="University Name" />
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label for="coachEmail" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                <input type="email" id="coachEmail" name="coachEmail" required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  placeholder="coach@university.edu" />
+              </div>
+              <div>
+                <label for="coachPhone" class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                <input type="tel" id="coachPhone" name="coachPhone"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                  placeholder="(555) 123-4567" />
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Which players are you interested in?</label>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-48 overflow-y-auto p-4 border border-gray-200 rounded-lg bg-gray-50">
+                {sortedPlayers.map((player) => (
+                  <label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-white p-1 rounded">
+                    <input type="checkbox" name="players" value={player.firstName + ' ' + player.lastName}
+                      class="rounded text-stars-navy focus:ring-stars-navy" />
+                    <span>{player.firstName} {player.lastName} '{String(player.gradYear).slice(-2)}</span>
+                  </label>
+                ))}
+                <label class="flex items-center gap-2 text-sm cursor-pointer hover:bg-white p-1 rounded col-span-2 md:col-span-3 font-medium text-stars-navy">
+                  <input type="checkbox" name="players" value="All Players"
+                    class="rounded text-stars-navy focus:ring-stars-navy" />
+                  <span>All Players / Full Roster</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message (optional)</label>
+              <textarea id="message" name="message" rows="3"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                placeholder="Any specific information you're looking for?"></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn"
+              class="w-full bg-stars-navy text-white font-bold py-4 px-6 rounded-lg hover:bg-stars-blue transition-colors">
+              Request Information
+            </button>
+
+            <div id="formSuccess" class="hidden mt-4 p-4 bg-green-100 text-green-800 rounded-lg text-center">
+              Thank you! We'll send you the player information shortly.
+            </div>
+            <div id="formError" class="hidden mt-4 p-4 bg-red-100 text-red-800 rounded-lg text-center">
+              There was an error. Please email us directly at {team.recruitingCoordinator.email}
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section id="events" class="section-padding bg-white">
+      <div class="container-narrow">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900">Where to See Us</h2>
+            <p class="text-gray-600">Upcoming tournaments and showcases</p>
+          </div>
+          <a href="/coaches#schedule" class="text-stars-navy font-medium hover:text-stars-blue">
+            Full Schedule →
+          </a>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          {upcomingEvents.map((event: any) => (
+            <div class="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition-colors">
+              <div class="flex items-center gap-2 mb-2">
+                <h3 class="font-bold text-gray-900">{event.name}</h3>
+                {event.isShowcase && (
+                  <span class="px-2 py-0.5 bg-stars-gold text-stars-navy text-xs font-bold rounded">
+                    SHOWCASE
+                  </span>
+                )}
+              </div>
+              <p class="text-gray-600 mb-2">{event.dates}</p>
+              <div class="flex items-center gap-2 text-sm text-gray-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                </svg>
+                <span>{event.location}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- About Stars National -->
+    <section class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">About Stars National Walker</h2>
+          <p class="text-lg text-gray-600 mb-6">
+            Stars National Walker is an elite 16U travel softball team competing on a national schedule.
+            Part of the Stars National organization, we focus on player development, academic excellence,
+            and college placement. Our players come from across the country and compete in top-tier
+            tournaments including PGF, TCS, and Alliance events.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <div class="px-4 py-2 bg-white rounded-lg shadow">
+              <span class="font-bold text-stars-navy">National Schedule</span>
+            </div>
+            <div class="px-4 py-2 bg-white rounded-lg shadow">
+              <span class="font-bold text-stars-navy">Academic Focus</span>
+            </div>
+            <div class="px-4 py-2 bg-white rounded-lg shadow">
+              <span class="font-bold text-stars-navy">College Placement</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Contact -->
+    <section class="bg-stars-navy py-12">
+      <div class="container-narrow text-center">
+        <p class="text-white/80 mb-4">Questions? Reach out directly:</p>
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href={`mailto:${team.recruitingCoordinator.email}`} class="text-white font-medium hover:text-stars-gold transition-colors">
+            {team.recruitingCoordinator.email}
+          </a>
+          {team.contactPhone && (
+            <a href={`tel:${team.contactPhone.replace(/[^0-9+]/g, '')}`} class="text-white font-medium hover:text-stars-gold transition-colors">
+              {team.contactPhone}
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <!-- Filter Script -->
+  <script>
+    const yearFilter = document.getElementById('yearFilter') as HTMLSelectElement;
+    const positionFilter = document.getElementById('positionFilter') as HTMLSelectElement;
+    const videoFilter = document.getElementById('videoFilter') as HTMLInputElement;
+    const cards = document.querySelectorAll('.player-card') as NodeListOf<HTMLElement>;
+    const noResults = document.getElementById('noResults') as HTMLElement;
+
+    function filterPlayers() {
+      const selectedYear = yearFilter.value;
+      const selectedPosition = positionFilter.value;
+      const requireVideo = videoFilter.checked;
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const year = card.dataset.year;
+        const position = card.dataset.position;
+        const hasVideo = card.dataset.video === 'yes';
+
+        const yearMatch = !selectedYear || year === selectedYear;
+        const positionMatch = !selectedPosition || position === selectedPosition;
+        const videoMatch = !requireVideo || hasVideo;
+
+        if (yearMatch && positionMatch && videoMatch) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    yearFilter.addEventListener('change', filterPlayers);
+    positionFilter.addEventListener('change', filterPlayers);
+    videoFilter.addEventListener('change', filterPlayers);
+  </script>
+
+  <!-- Pre-select player from query param -->
+  <script is:inline>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const playerName = params.get('player');
+      if (playerName) {
+        const checkboxes = document.querySelectorAll('input[name="players"]');
+        checkboxes.forEach(function(cb) {
+          if (cb.value === playerName) cb.checked = true;
+        });
+      }
+    })();
+  </script>
+
+  <!-- Form Submission Script -->
+  <script is:inline>
+    document.getElementById('coachInquiryForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const submitBtn = document.getElementById('submitBtn');
+      const formSuccess = document.getElementById('formSuccess');
+      const formError = document.getElementById('formError');
+
+      // Get form data
+      const formData = new FormData(form);
+      const selectedPlayers = formData.getAll('players');
+
+      const data = {
+        coachName: formData.get('coachName'),
+        coachTitle: formData.get('coachTitle'),
+        school: formData.get('school'),
+        coachEmail: formData.get('coachEmail'),
+        coachPhone: formData.get('coachPhone'),
+        players: selectedPlayers.join(', '),
+        message: formData.get('message'),
+        timestamp: new Date().toISOString(),
+        source: 'recruiting_hub'
+      };
+
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+
+      try {
+        // Submit to API endpoint (stores in Supabase + sends email)
+        const response = await fetch('/api/coach-inquiry', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to submit');
+        }
+
+        // Track the inquiry
+        if (window.pdTrack) {
+          window.pdTrack('coach_inquiry', { school: data.school });
+        }
+
+        formSuccess.classList.remove('hidden');
+        formError.classList.add('hidden');
+        form.reset();
+      } catch (err) {
+        console.error('Form submission error:', err);
+        formError.classList.remove('hidden');
+        formSuccess.classList.add('hidden');
+      } finally {
+        submitBtn.textContent = 'Request Information';
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</Layout>

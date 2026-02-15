@@ -103,5 +103,103 @@ const organizationStructuredData = {
   </head>
   <body class="bg-gray-50 text-gray-900 antialiased">
     <slot />
+
+    <!-- pd-pixel: Profile view tracking -->
+    <script is:inline>
+      (function() {
+        var SUPABASE_URL = 'https://dludfgxxjstzpbrrysqp.supabase.co';
+        var SUPABASE_ANON_KEY = 'sb_publishable_z-ud8xw7O743S00vGnN3fg_xtTbM7ot';
+        var SITE_ID = 'starsnatwalker';
+
+        function getSessionId() {
+          var s = sessionStorage.getItem('pd_sid');
+          if (!s) {
+            s = 's_' + Math.random().toString(36).slice(2,11) + Date.now().toString(36);
+            sessionStorage.setItem('pd_sid', s);
+          }
+          return s;
+        }
+
+        function getGeoData() {
+          var cached = sessionStorage.getItem('pd_geo');
+          if (cached) {
+            try { return JSON.parse(cached); } catch(e) {}
+          }
+          return null;
+        }
+
+        function fetchGeoData(callback) {
+          var cached = getGeoData();
+          if (cached) { callback(cached); return; }
+          fetch('https://ipapi.co/json/')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              var geo = {
+                city: data.city || null,
+                region: data.region || null,
+                country: data.country_name || null
+              };
+              sessionStorage.setItem('pd_geo', JSON.stringify(geo));
+              callback(geo);
+            })
+            .catch(function() { callback({ city: null, region: null, country: null }); });
+        }
+
+        function isBot() {
+          return /bot|crawl|spider|slurp|bingpreview|facebook|mediapartners/i.test(navigator.userAgent);
+        }
+
+        function getPlayerInfo() {
+          var m = location.pathname.match(/\/players\/([^\/]+)/);
+          return m ? { slug: m[1], name: (document.querySelector('h1') || {}).textContent || null } : null;
+        }
+
+        function track(eventType, eventData) {
+          if (isBot()) return;
+          var p = getPlayerInfo();
+          var basePayload = {
+            site: SITE_ID,
+            player_slug: p ? p.slug : location.pathname,
+            player_name: p ? p.name : null,
+            page_path: location.pathname,
+            referrer: document.referrer || 'direct',
+            user_agent: navigator.userAgent,
+            session_id: getSessionId(),
+            is_bot: false,
+            event_type: eventType,
+            event_data: eventData || null
+          };
+
+          fetchGeoData(function(geo) {
+            var payload = Object.assign({}, basePayload, {
+              city: geo.city,
+              region: geo.region,
+              country: geo.country
+            });
+            fetch(SUPABASE_URL + '/rest/v1/profile_views', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify(payload),
+              keepalive: true
+            }).catch(function(){});
+          });
+        }
+
+        window.pdTrack = track;
+
+        if (location.pathname.indexOf('/players/') === 0) {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() { track('page_view'); });
+          } else {
+            track('page_view');
+          }
+        }
+      })();
+    </script>
   </body>
 </html>

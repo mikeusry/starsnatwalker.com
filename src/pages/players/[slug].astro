@@ -4,7 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import CoachContact from '../../components/CoachContact.astro';
 import players from '../../data/players.json';
-import team from '../../data/team.json';
+
 import { generatePlayerSlug, generateAthleteStructuredData } from '../../lib/slug';
 
 export async function getStaticPaths() {
@@ -38,11 +38,17 @@ const getYouTubeId = (url: string | null) => {
 const highlightVideoId = getYouTubeId(player.videos?.highlightUrl);
 const skillsVideoId = getYouTubeId(player.videos?.skillsUrl);
 
+// Check for Mux videos
+const muxVideos = player.videos?.muxVideos || [];
+
 // Check if player has any measurables
 const hasMeasurables = player.measurables && Object.values(player.measurables).some(v => v !== null);
 
 // Check if player has stats
 const hasStats = player.stats && Object.keys(player.stats).length > 0;
+
+// Check for additional photos
+const photos = (player as any).photos || [];
 ---
 
 <Layout
@@ -158,7 +164,8 @@ const hasStats = player.stats && Object.keys(player.stats).length > 0;
             <div class="flex flex-wrap gap-4 mt-6">
               <!-- Contact About Player Button -->
               <a
-                href={`mailto:${team.recruitingCoordinator.email}?subject=Recruiting Inquiry: ${player.firstName} ${player.lastName} (${player.gradYear})&body=Hello,%0D%0A%0D%0AI am interested in learning more about ${player.firstName} ${player.lastName} (Class of ${player.gradYear}, ${player.position}).%0D%0A%0D%0APlease send me additional information.%0D%0A%0D%0AThank you`}
+                id="contact-player-btn"
+                href={`/recruiting?player=${encodeURIComponent(player.firstName + ' ' + player.lastName)}#inquiry`}
                 class="btn-primary inline-flex items-center gap-2"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -191,26 +198,51 @@ const hasStats = player.stats && Object.keys(player.stats).length > 0;
       <section class="section-padding bg-white">
         <div class="container-narrow max-w-4xl">
           <h2 class="text-3xl font-bold text-gray-900 mb-6">About {player.firstName}</h2>
-          <div class="prose prose-lg max-w-none text-gray-600">
-            <p>{player.bio}</p>
-          </div>
-
-          <!-- Achievements -->
-          {player.achievements && player.achievements.length > 0 && (
-            <div class="mt-8">
-              <h3 class="text-xl font-bold text-gray-900 mb-4">Achievements & Honors</h3>
-              <div class="flex flex-wrap gap-2">
-                {player.achievements.map((achievement: string) => (
-                  <span class="inline-flex items-center px-3 py-1 bg-stars-gold/20 text-stars-navy rounded-full text-sm font-medium">
-                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    {achievement}
-                  </span>
+          <div class={`${photos.length > 0 ? 'grid md:grid-cols-3 gap-8' : ''}`}>
+            {/* Photos on the left */}
+            {photos.length > 0 && (
+              <div class="md:col-span-1 space-y-4">
+                {photos.map((photo: { url: string; caption?: string }) => (
+                  <div class="rounded-xl overflow-hidden shadow-lg">
+                    <img
+                      src={photo.url}
+                      alt={photo.caption || `${player.firstName} ${player.lastName}`}
+                      class="w-full h-auto object-cover"
+                      loading="lazy"
+                    />
+                    {photo.caption && (
+                      <div class="bg-gray-50 px-3 py-2">
+                        <p class="text-xs font-medium text-gray-600">{photo.caption}</p>
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
+            )}
+            {/* Bio on the right (or full width if no photos) */}
+            <div class={photos.length > 0 ? 'md:col-span-2' : ''}>
+              <div class="prose prose-lg max-w-none text-gray-600">
+                <p>{player.bio}</p>
+              </div>
+
+              <!-- Achievements -->
+              {player.achievements && player.achievements.length > 0 && (
+                <div class="mt-8">
+                  <h3 class="text-xl font-bold text-gray-900 mb-4">Achievements & Honors</h3>
+                  <div class="flex flex-wrap gap-2">
+                    {player.achievements.map((achievement: string) => (
+                      <span class="inline-flex items-center px-3 py-1 bg-stars-gold/20 text-stars-navy rounded-full text-sm font-medium">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        {achievement}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </section>
     )}
@@ -292,7 +324,7 @@ const hasStats = player.stats && Object.keys(player.stats).length > 0;
             {player.measurables.outfieldVelo && (
               <div class="bg-gray-50 rounded-xl p-4 text-center">
                 <div class="text-2xl font-bold text-stars-navy">{player.measurables.outfieldVelo} mph</div>
-                <div class="text-gray-500 text-sm">OF Velo</div>
+                <div class="text-gray-500 text-sm">OH Velo</div>
               </div>
             )}
             {player.measurables.pitchSpeed && (
@@ -306,7 +338,7 @@ const hasStats = player.stats && Object.keys(player.stats).length > 0;
       </section>
     )}
 
-    <!-- Highlight Video -->
+    <!-- Highlight Video (YouTube) -->
     {highlightVideoId && (
       <section class="section-padding bg-gray-50">
         <div class="container-narrow max-w-4xl">
@@ -324,6 +356,89 @@ const hasStats = player.stats && Object.keys(player.stats).length > 0;
           </div>
         </div>
       </section>
+    )}
+
+    <!-- Mux Videos -->
+    {muxVideos.length > 0 && (
+      <section class="section-padding bg-gray-50">
+        <div class="container-narrow max-w-4xl">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">
+            {muxVideos.length === 1 ? 'Video' : 'Videos'}
+          </h2>
+          <!-- Desktop: 3-column grid with thumbnails -->
+          <div class="hidden md:grid md:grid-cols-3 gap-4">
+            {muxVideos.map((video: { playbackId: string; title?: string }, index: number) => (
+              <button
+                type="button"
+                class="video-thumbnail group relative aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all cursor-pointer"
+                data-playback-id={video.playbackId}
+                data-title={video.title || `${player.firstName} ${player.lastName}`}
+              >
+                <img
+                  src={`https://image.mux.com/${video.playbackId}/thumbnail.jpg?time=5`}
+                  alt={video.title || 'Video thumbnail'}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                  <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-stars-red ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {video.title && (
+                  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                    <p class="text-white text-sm font-medium truncate">{video.title}</p>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+          <!-- Mobile: Stacked full-width players -->
+          <div class="md:hidden space-y-6">
+            {muxVideos.map((video: { playbackId: string; title?: string }) => (
+              <div>
+                {video.title && (
+                  <h3 class="text-lg font-semibold text-gray-800 mb-2">{video.title}</h3>
+                )}
+                <div class="aspect-video rounded-xl overflow-hidden shadow-xl">
+                  <mux-player
+                    stream-type="on-demand"
+                    playback-id={video.playbackId}
+                    metadata-video-title={video.title || `${player.firstName} ${player.lastName}`}
+                    accent-color="#c41e3a"
+                  ></mux-player>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Video Lightbox Modal -->
+    {muxVideos.length > 0 && (
+      <div id="video-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-4">
+        <button
+          type="button"
+          id="lightbox-close"
+          class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10"
+          aria-label="Close video"
+        >
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div class="w-full max-w-5xl aspect-video">
+          <mux-player
+            id="lightbox-player"
+            stream-type="on-demand"
+            playback-id=""
+            accent-color="#c41e3a"
+            class="w-full h-full"
+          ></mux-player>
+        </div>
+      </div>
     )}
 
     <!-- Academic & Recruiting Info -->
@@ -443,4 +558,79 @@ const hasStats = player.stats && Object.keys(player.stats).length > 0;
     </section>
   </main>
   <Footer />
+
+  {muxVideos.length > 0 && (
+    <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
+  )}
+
+  <script>
+    // Video lightbox functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const lightbox = document.getElementById('video-lightbox');
+      const lightboxPlayer = document.getElementById('lightbox-player') as HTMLElement & { pause?: () => void };
+      const closeBtn = document.getElementById('lightbox-close');
+      const thumbnails = document.querySelectorAll('.video-thumbnail');
+
+      if (!lightbox || !lightboxPlayer || thumbnails.length === 0) return;
+
+      // Open lightbox when thumbnail is clicked
+      thumbnails.forEach((thumb) => {
+        thumb.addEventListener('click', () => {
+          const playbackId = thumb.getAttribute('data-playback-id');
+          const title = thumb.getAttribute('data-title');
+
+          if (playbackId) {
+            lightboxPlayer.setAttribute('playback-id', playbackId);
+            lightboxPlayer.setAttribute('metadata-video-title', title || '');
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+
+            // Track video play
+            if ((window as any).pdTrack) {
+              (window as any).pdTrack('video_play', { video_title: title, playback_id: playbackId });
+            }
+          }
+        });
+      });
+
+      // Close lightbox
+      const closeLightbox = () => {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        document.body.style.overflow = '';
+        // Pause and reset the player
+        lightboxPlayer.setAttribute('playback-id', '');
+        if (lightboxPlayer.pause) lightboxPlayer.pause();
+      };
+
+      closeBtn?.addEventListener('click', closeLightbox);
+
+      // Close on backdrop click
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+          closeLightbox();
+        }
+      });
+    });
+  </script>
+
+  <script>
+    // Track contact button clicks
+    document.addEventListener('DOMContentLoaded', () => {
+      const contactBtn = document.getElementById('contact-player-btn');
+      if (contactBtn && (window as any).pdTrack) {
+        contactBtn.addEventListener('click', () => {
+          (window as any).pdTrack('contact_click', { contact_type: 'email' });
+        });
+      }
+    });
+  </script>
 </Layout>

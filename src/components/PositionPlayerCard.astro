@@ -1,0 +1,124 @@
+---
+interface Props {
+  player: any;
+  slug: string;
+  primaryStatKey?: string;
+  primaryStatLabel?: string;
+  primaryStatSuffix?: string;
+  secondaryStatKey?: string;
+  secondaryStatLabel?: string;
+  secondaryStatSuffix?: string;
+}
+
+const {
+  player,
+  slug,
+  primaryStatKey,
+  primaryStatLabel,
+  primaryStatSuffix = '',
+  secondaryStatKey,
+  secondaryStatLabel,
+  secondaryStatSuffix = ''
+} = Astro.props;
+
+// Get stat value from measurables or stats
+const getStatValue = (key: string | undefined) => {
+  if (!key) return null;
+  return player.measurables?.[key] || player.stats?.[key] || null;
+};
+
+const primaryValue = getStatValue(primaryStatKey);
+const secondaryValue = getStatValue(secondaryStatKey);
+
+// Format height
+const formatHeight = (inches: number | null) => {
+  if (!inches) return null;
+  return `${Math.floor(inches / 12)}'${inches % 12}"`;
+};
+
+// Check for video
+const hasVideo = player.videos?.muxVideos?.length > 0 || player.videos?.highlightUrl || player.videos?.skillsUrl;
+---
+
+<article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
+  <a href={`/players/${slug}`} class="block">
+    <!-- Header with photo -->
+    <div class="flex items-start gap-4 p-5">
+      <div class="w-16 h-16 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
+        {player.photoUrl ? (
+          <img src={player.photoUrl} alt="" class="w-full h-full object-cover" loading="lazy" />
+        ) : (
+          <div class="w-full h-full flex items-center justify-center text-stars-navy font-bold text-lg">
+            {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+          </div>
+        )}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <h3 class="font-bold text-gray-900 text-lg">{player.firstName} {player.lastName}</h3>
+            <p class="text-sm text-gray-600">{player.position}</p>
+          </div>
+          <span class="flex-shrink-0 px-2 py-1 bg-stars-navy text-white text-xs font-bold rounded">
+            '{String(player.gradYear).slice(-2)}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="px-5 pb-4">
+      <div class="grid grid-cols-3 gap-3 text-center">
+        <!-- Primary Stat -->
+        {primaryValue && primaryStatLabel && (
+          <div class="bg-stars-navy/5 rounded-lg p-2">
+            <div class="text-lg font-bold text-stars-navy">{primaryValue}{primaryStatSuffix}</div>
+            <div class="text-xs text-gray-500">{primaryStatLabel}</div>
+          </div>
+        )}
+
+        <!-- Height -->
+        {player.heightInches && (
+          <div class="bg-gray-50 rounded-lg p-2">
+            <div class="text-lg font-bold text-gray-900">{formatHeight(player.heightInches)}</div>
+            <div class="text-xs text-gray-500">Height</div>
+          </div>
+        )}
+
+        <!-- GPA -->
+        {player.gpa && (
+          <div class={`rounded-lg p-2 ${player.gpa >= 3.5 ? 'bg-green-50' : 'bg-gray-50'}`}>
+            <div class={`text-lg font-bold ${player.gpa >= 3.5 ? 'text-green-600' : 'text-gray-900'}`}>{player.gpa}</div>
+            <div class="text-xs text-gray-500">GPA</div>
+          </div>
+        )}
+
+        <!-- Secondary Stat (if available and no GPA shown) -->
+        {secondaryValue && secondaryStatLabel && !player.gpa && (
+          <div class="bg-gray-50 rounded-lg p-2">
+            <div class="text-lg font-bold text-gray-900">{secondaryValue}{secondaryStatSuffix}</div>
+            <div class="text-xs text-gray-500">{secondaryStatLabel}</div>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <!-- Footer with badges -->
+    <div class="px-5 pb-5">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-xs text-gray-500">{player.bats}/{player.throws}</span>
+        {player.highSchoolState && (
+          <span class="text-xs text-gray-500">• {player.highSchoolState}</span>
+        )}
+        {hasVideo && (
+          <span class="ml-auto px-2 py-1 bg-stars-blue/10 text-stars-blue text-xs rounded font-medium flex items-center gap-1">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+            </svg>
+            Video
+          </span>
+        )}
+      </div>
+    </div>
+  </a>
+</article>

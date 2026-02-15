@@ -131,6 +131,21 @@ import Layout from '../../layouts/Layout.astro';
     // Filter
     document.getElementById('filter-event').addEventListener('change', loadActivity);
 
+    // Domains/referrers to exclude from all metrics
+    const EXCLUDED_REFERRERS = ['localhost', 'localhost:4321', 'localhost:4322', '127.0.0.1'];
+    // Your known cities to filter out (add more as needed)
+    const EXCLUDED_CITIES = ['Sharpsburg'];
+
+    function filterOwnTraffic(rows) {
+      return rows.filter(r => {
+        // Exclude localhost referrers
+        if (r.referrer_domain && EXCLUDED_REFERRERS.some(ex => r.referrer_domain.includes(ex))) return false;
+        // Exclude your city
+        if (r.city && EXCLUDED_CITIES.some(c => r.city === c)) return false;
+        return true;
+      });
+    }
+
     async function supabaseQuery(table, params = '') {
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${params}`, {
@@ -144,7 +159,7 @@ import Layout from '../../layouts/Layout.astro';
           console.error('Supabase error:', data);
           return [];
         }
-        return data;
+        return filterOwnTraffic(data);
       } catch (err) {
         console.error('Fetch error:', err);
         return [];
@@ -203,7 +218,7 @@ import Layout from '../../layouts/Layout.astro';
 
       const refCounts = {};
       referrerViews.forEach(v => {
-        if (v.referrer_domain && v.referrer_domain !== 'starsnatwalker.com') {
+        if (v.referrer_domain && v.referrer_domain !== 'starsnatwalker.com' && !EXCLUDED_REFERRERS.some(ex => v.referrer_domain.includes(ex))) {
           refCounts[v.referrer_domain] = (refCounts[v.referrer_domain] || 0) + 1;
         }
       });

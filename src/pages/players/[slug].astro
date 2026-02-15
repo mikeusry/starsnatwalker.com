@@ -49,12 +49,16 @@ const hasStats = player.stats && Object.keys(player.stats).length > 0;
 
 // Check for additional photos
 const photos = (player as any).photos || [];
+
+// OG image: generated at build time via satori (1200x630)
+const slug = generatePlayerSlug(player.firstName, player.lastName);
+const ogImage = `/players/og/${slug}.png`;
 ---
 
 <Layout
   title={`${player.firstName} ${player.lastName} - ${player.position} - Class of ${player.gradYear} | Stars National Walker`}
   description={player.bio || `${player.firstName} ${player.lastName} is a ${player.position} for Stars National Walker 16U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
-  image={player.photoUrl}
+  image={ogImage}
 >
   <!-- Structured Data for SEO -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

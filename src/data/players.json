@@ -4,35 +4,37 @@
     "firstName": "Isabel",
     "lastName": "Findlay",
     "gradYear": 2027,
-    "position": "Corner IF",
-    "secondaryPositions": ["Utility"],
+    "position": "3B",
+    "secondaryPositions": ["SS", "Utility"],
     "bats": "R",
     "throws": "R",
     "twitter": "FindlayBel2027",
     "featured": false,
     "photoUrl": "https://pbs.twimg.com/profile_images/2011533652065198080/B_Xp02R2_400x400.jpg",
-    "bio": "At 5'10\" with elite bat speed, Isabel is one of the most dangerous hitters on the roster — the kind of player who can change a game with one swing. A power-hitting corner infielder with a strong arm and quick hands, she brings energy and intensity to every at-bat. Her versatility across multiple positions and natural leadership make her a high-impact player that college programs need to see.",
+    "bio": "Isabel is a college-ready power hitter with D1-caliber bat speed and the athleticism to play anywhere on the left side of the infield. At 5'10\" with an 83.8 mph bat speed, 4.90 kW power output, and a .14-second time to contact, she generates the kind of exit velocities and launch metrics that project to the next level right now. A natural third baseman with shortstop-type range, soft hands, and a cannon arm, she covers ground and makes throws that most corner infielders can't. Isabel brings a rare combination of size, speed, and power — the kind of player who changes lineups and defensive alignments the moment she steps on the field.",
+    "achievements": ["83.8 mph Bat Speed (Blast Motion)", "4.90 kW Power Output", ".14s Time to Contact", "76 mph Exit Velocity", "4.0 GPA"],
     "heightInches": 70,
     "weightLbs": null,
     "gpa": 4.0,
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
-    "highSchool": null,
-    "highSchoolState": null,
-    "ncaaId": null,
+    "highSchool": "Maranatha Christian School",
+    "highSchoolState": "ON",
+    "ncaaId": "2306940938",
     "recruitingStatus": "uncommitted",
     "committedTo": null,
     "measurables": {
       "sixtyYard": null,
       "exitVelo": 76,
+      "batSpeed": 83.8,
       "popTime": null,
       "infieldVelo": null,
       "outfieldVelo": null,
       "pitchSpeed": null
     },
     "videos": {
-      "highlightUrl": null,
+      "highlightUrl": "https://www.youtube.com/watch?v=2x7WRkltaMs",
       "skillsUrl": null,
       "gameFootageUrl": null,
       "muxVideos": [
@@ -43,9 +45,15 @@
         }
       ]
     },
+    "photos": [
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/v1/StarsNationalWalker/isabel-findlay-blast-motion",
+        "caption": "Isabel Findlay — 83.8 mph Bat Speed, 4.90 kW Power, .14s Time to Contact (Blast Motion)"
+      }
+    ],
     "contactEmail": "belbelfindlay@gmail.com",
     "socialScore": null,
-    "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
+    "lastUpdated": "2026-03-15T12:00:00.000000+00:00"
   },
   {
     "id": "f283f6e0-53bd-4f94-b2f8-a333f16c556a",
@@ -54,8 +62,8 @@
     "gradYear": 2028,
     "position": "Outfield",
     "secondaryPositions": [],
-    "bats": "R",
-    "throws": "R",
+    "bats": "L",
+    "throws": "L",
     "twitter": "MaddieDiaz2028",
     "featured": false,
     "photoUrl": "https://pbs.twimg.com/profile_images/2010849593504784384/6ih2GHwE_400x400.jpg",
@@ -66,9 +74,9 @@
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
-    "highSchool": null,
-    "highSchoolState": null,
-    "ncaaId": null,
+    "highSchool": "Weddington",
+    "highSchoolState": "NC",
+    "ncaaId": "2412471951",
     "recruitingStatus": "uncommitted",
     "committedTo": null,
     "measurables": {
@@ -89,7 +97,7 @@
       "target": ["Elon", "USC Aiken", "UNCW", "Coastal Carolina", "Western Carolina", "Charleston Southern", "Gardner Webb", "UNC Greensboro", "UNC Charlotte", "Campbell", "USF", "Radford University", "Samford University"],
       "likely": ["Georgia Southern", "Wofford", "Belmont Abbey", "Carson Newman", "College of Charleston", "ETSU", "Queens University", "Francis Marion University", "Winthrop", "Wingate", "Lenoir Rhyne University"]
     },
-    "contactEmail": null,
+    "contactEmail": "MadelynEDiaz67@gmail.com",
     "socialScore": null,
     "lastUpdated": "2026-02-02T18:00:00.000000+00:00"
   },
@@ -134,7 +142,7 @@
       "skillsUrl": null,
       "gameFootageUrl": null
     },
-    "contactEmail": null,
+    "contactEmail": "Kelsey.fliss@icloud.com",
     "socialScore": null,
     "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
   },
@@ -219,7 +227,7 @@
     },
     "recruitingNotes": "Wants to go out West. Favorites: ASU (campus), Purdue (academics).",
     "measurablesVerified": "HPP & Alliance Camps",
-    "contactEmail": null,
+    "contactEmail": "Keirafraz@icloud.com",
     "socialScore": null,
     "lastUpdated": "2026-02-02T18:30:00.000000+00:00"
   },
@@ -319,7 +327,7 @@
     "secondaryPositions": [],
     "bats": "R",
     "throws": "R",
-    "twitter": "Charlotte_L220",
+    "twitter": "C_Llaneza02",
     "featured": false,
     "photoUrl": "https://pbs.twimg.com/profile_images/1881487403623358464/8Crkpkiv_400x400.jpg",
     "bio": "Charlotte is a versatile player who excels behind the plate and at the hot corner. Her strong arm and quick release make her a threat to opposing base runners, while her bat provides consistent offensive production.",
@@ -329,8 +337,8 @@
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
-    "highSchool": null,
-    "highSchoolState": null,
+    "highSchool": "Covenant Day School",
+    "highSchoolState": "NC",
     "ncaaId": null,
     "recruitingStatus": "uncommitted",
     "committedTo": null,
@@ -347,7 +355,7 @@
       "skillsUrl": null,
       "gameFootageUrl": null
     },
-    "contactEmail": null,
+    "contactEmail": "cmllaneza@cdslearn.org",
     "socialScore": null,
     "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
   },
@@ -363,9 +371,9 @@
     "twitter": "Caraorlando2028",
     "featured": false,
     "photoUrl": "https://pbs.twimg.com/profile_images/1980340848064692224/W1Dn_GjU_400x400.jpg",
-    "bio": "Cara is a dynamic multi-sport athlete who brings elite speed, agility, and competitive fire to the diamond. A varsity ski racer and 4x sectional champion, she placed 5th overall at the 2026 Section V Championships — the same explosiveness and fearlessness that make her a standout outfielder with exceptional range. Her versatility allows her to contribute in the infield when needed, and she's a reliable hitter who consistently puts the ball in play.",
-    "achievements": ["4x Section V Ski Sectional Champion", "5th Overall — 2026 Section V Ski Championships", "Multi-Sport Varsity Athlete"],
-    "heightInches": 66,
+    "bio": "Cara is a power-hitting multi-sport athlete who brings elite speed, agility, and competitive fire to the diamond. At Sutherland High School she has led the team in home runs two straight years and finished second in the region last year — the kind of raw power that translates to the next level. A varsity ski racer and 4x sectional champion who placed 5th overall at the 2026 Section V Championships, she brings the same explosiveness and fearlessness to the outfield with exceptional range and the versatility to contribute in the infield.",
+    "achievements": ["HS HR Leader — 2 Consecutive Years (Sutherland)", "2nd in Region in HRs (2025)", "74 mph Exit Velocity", "4x Section V Ski Sectional Champion", "5th Overall — 2026 Section V Ski Championships", "Multi-Sport Varsity Athlete"],
+    "heightInches": 69,
     "weightLbs": null,
     "gpa": null,
     "satScore": null,
@@ -378,7 +386,7 @@
     "committedTo": null,
     "measurables": {
       "sixtyYard": null,
-      "exitVelo": null,
+      "exitVelo": 74,
       "popTime": null,
       "infieldVelo": null,
       "outfieldVelo": null,
@@ -389,6 +397,8 @@
       "skillsUrl": null,
       "gameFootageUrl": null,
       "muxVideos": [
+        {"playbackId": "N9ioX77Re23hU1YEpvpbMjDF02EXZ1Q0001Vlcqqc8tMHs", "title": "74 mph Exit Velocity", "description": "Cara Orlando showing the bat speed and raw power that make her one of the most dangerous hitters on the roster."},
+        {"playbackId": "2wmP3FU6E3X02up2Qu900UM4OOi6oVeMinUUCTg4oMrek", "title": "Home Run", "description": "Cara launching one out of the park — the power that has made her the HR leader at Sutherland two years running."},
         {"playbackId": "WpLPe5wEvTWKqL8Iy3PDNZKs35CrY6kHF00wFvv7Z1xM", "title": "Ski Sectionals 2026 — 5th Overall"}
       ]
     },
@@ -415,8 +425,8 @@
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
-    "highSchool": null,
-    "highSchoolState": null,
+    "highSchool": "Pueblo Central",
+    "highSchoolState": "CO",
     "ncaaId": "2501487047",
     "recruitingStatus": "uncommitted",
     "committedTo": null,
@@ -595,7 +605,7 @@
     "actScore": null,
     "intendedMajor": "Business (Finance)",
     "highSchool": "Liberty University Online Academy",
-    "highSchoolState": "VA",
+    "highSchoolState": "GA",
     "ncaaId": "2509718485",
     "recruitingStatus": "uncommitted",
     "committedTo": null,
@@ -665,7 +675,12 @@
     "videos": {
       "highlightUrl": null,
       "skillsUrl": null,
-      "gameFootageUrl": null
+      "gameFootageUrl": null,
+      "muxVideos": [
+        {"playbackId": "LSYcDPmGL4BjT1oPceE2GPI02ZoeRMOniO2uE3mC3LZ4", "title": "Pitching Clip 1", "description": "Kierra Wunderlich on the mound — showcasing her arm strength and command."},
+        {"playbackId": "vLmAviG00EgE7M029eaLwtVHYigQrN00eqSlVN7K4Mbyq8", "title": "Pitching Clip 2", "description": "More looks at Kierra's pitching mechanics and velocity."},
+        {"playbackId": "6Rt6IJauDCLF5eIN5N9858uhjw6cbmz3wX013QXB6RA4", "title": "Pitching Clip 3", "description": "Kierra delivering from the circle with power and confidence."}
+      ]
     },
     "contactEmail": "kierrawunderlich@gmail.com",
     "socialScore": null,

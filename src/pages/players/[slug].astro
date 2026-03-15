@@ -313,6 +313,12 @@ const ogImage = `/players/og/${slug}.png`;
                 <div class="text-gray-500 text-sm">Exit Velo</div>
               </div>
             )}
+            {player.measurables.batSpeed && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.batSpeed} mph</div>
+                <div class="text-gray-500 text-sm">Bat Speed</div>
+              </div>
+            )}
             {player.measurables.popTime && (
               <div class="bg-gray-50 rounded-xl p-4 text-center">
                 <div class="text-2xl font-bold text-stars-navy">{player.measurables.popTime}</div>

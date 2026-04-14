@@ -52,9 +52,17 @@ const generateIcsUrl = (event: any) => {
                           SHOWCASE
                         </span>
                       )}
+                      {event.note && (
+                        <span class="inline-flex items-center px-2 py-0.5 bg-stars-blue text-white text-xs font-bold rounded">
+                          POWER POOL
+                        </span>
+                      )}
                     </div>
                     {event.org && (
                       <p class="text-xs text-gray-500 mt-1">{event.org}</p>
+                    )}
+                    {event.note && (
+                      <p class="text-xs text-stars-blue font-semibold mt-1">{event.note}</p>
                     )}
                   </td>
                   <td class="px-6 py-4 text-gray-600">{event.dates}</td>
@@ -110,12 +118,22 @@ const generateIcsUrl = (event: any) => {
                     <p class="text-xs text-gray-500">{event.org}</p>
                   )}
                 </div>
-                {event.isShowcase && (
-                  <span class="inline-flex items-center px-2 py-0.5 bg-stars-gold text-stars-navy text-xs font-bold rounded">
-                    SHOWCASE
-                  </span>
-                )}
+                <div class="flex flex-col items-end gap-1">
+                  {event.isShowcase && (
+                    <span class="inline-flex items-center px-2 py-0.5 bg-stars-gold text-stars-navy text-xs font-bold rounded">
+                      SHOWCASE
+                    </span>
+                  )}
+                  {event.note && (
+                    <span class="inline-flex items-center px-2 py-0.5 bg-stars-blue text-white text-xs font-bold rounded">
+                      POWER POOL
+                    </span>
+                  )}
+                </div>
               </div>
+              {event.note && (
+                <p class="text-xs text-stars-blue font-semibold mb-3">{event.note}</p>
+              )}
               <div class="space-y-2 text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <svg class="w-4 h-4 text-stars-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">

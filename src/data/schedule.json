@@ -12,12 +12,12 @@
       "isShowcase": false
     },
     {
-      "name": "Top Gun Invitational",
-      "org": "Top Gun Events",
-      "dates": "Jun 11-14, 2026",
-      "location": "Shawnee, KS",
-      "venue": "Shawnee Mission Park",
-      "address": "7900 Renner Rd, Shawnee, KS 66219",
+      "name": "PGF Super Grand",
+      "org": "PGF",
+      "dates": "Jun 12-14, 2026",
+      "location": "Dalton, GA",
+      "venue": null,
+      "address": null,
       "type": "tournament",
       "isShowcase": false
     },
@@ -39,7 +39,8 @@
       "venue": "Aurora Sports Park",
       "address": "19300 E Colfax Ave, Aurora, CO 80011",
       "type": "tournament",
-      "isShowcase": true
+      "isShowcase": true,
+      "note": "Selected for the Supplemental Power Pool — direct connection to the National Power Pool brackets"
     },
     {
       "name": "Stars Org Camp",
@@ -54,7 +55,7 @@
     {
       "name": "Atlanta Legacy Invitational",
       "org": "Legacy Sports",
-      "dates": "Jul 10-12, 2026",
+      "dates": "Jul 9-12, 2026",
       "location": "Atlanta, GA",
       "venue": "LakePoint Sports",
       "address": "261 Stars Way, Emerson, GA 30137",

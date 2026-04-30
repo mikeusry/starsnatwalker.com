@@ -15,7 +15,14 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.local
 .env.production
+
+# scraper artifacts
+scripts/eis-scraper/output/
+scripts/eis-scraper/screenshots/
+scripts/eis-scraper/debug/
+scripts/eis-scraper/state.json
 
 # macOS-specific files
 .DS_Store

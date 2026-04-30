@@ -15,5 +15,9 @@
     "astro": "^5.16.11",
     "satori": "^0.19.1",
     "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "playwright": "^1.59.1"
   }
 }

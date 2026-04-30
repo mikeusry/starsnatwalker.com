@@ -1,0 +1,495 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import data from '../../data/eis-pitchers.json';
+
+const { meta, teams, pitchers } = data as {
+  meta: { years: Record<string, { url: string; total: number }>; scrapedAt: string };
+  teams: { team: string; count: number; years: string[] }[];
+  pitchers: any[];
+};
+
+const totalCount = pitchers.length;
+const teamCount = teams.length;
+const scrapedDate = meta.scrapedAt.slice(0, 10);
+---
+
+<Layout title="Pitcher Hunt | Admin" noindex={true}>
+  <div id="auth-check" class="min-h-screen bg-gray-100">
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-gray-500">Loading...</div>
+    </div>
+
+    <div id="dashboard" class="hidden">
+      <header class="bg-stars-navy text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+            <div>
+              <h1 class="text-xl font-bold">Pitcher Hunt</h1>
+              <p class="text-sm text-white/70">EIS Rankings · {totalCount.toLocaleString()} pitchers · scraped {scrapedDate}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <a href="/admin/dashboard" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+              ← Dashboard
+            </a>
+            <button id="logout-btn" class="px-4 py-2 bg-stars-red hover:bg-red-700 rounded-lg text-sm transition-colors">
+              Logout
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        {/* Newberry context banner */}
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+          <div class="font-bold text-amber-900">🚨 Show Me The Money — Newberry, FL — Jun 5–8, 2026</div>
+          <div class="text-sm text-amber-800 mt-1">
+            Need a fill-in pitcher: Kendall LaManche (injury) + Kierra Wunderlich (HS playoffs likely conflict). Avery is the only healthy arm.
+          </div>
+        </div>
+
+        {/* Filters */}
+        <div class="bg-white rounded-xl shadow p-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+            <div class="md:col-span-4">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Search (name / hometown / coach)</label>
+              <input id="f-search" type="text" placeholder="e.g. Bryant, Texas, Bowman" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy" />
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Class</label>
+              <select id="f-year" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-medium text-gray-500 mb-1">List</label>
+              <select id="f-list" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All</option>
+                <option value="elite-100">Elite 100</option>
+                <option value="select-200">Select 101–200</option>
+                <option value="prospect-300">Prospect 201–300</option>
+                <option value="regional">Regional</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Region</label>
+              <select id="f-region" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All</option>
+                <option value="National">National</option>
+                <option value="Northeast">Northeast</option>
+                <option value="Southeast">Southeast</option>
+                <option value="Midwest">Midwest</option>
+                <option value="Southwest">Southwest</option>
+                <option value="Mountain">Mountain</option>
+                <option value="West">West</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Has X handle</label>
+              <select id="f-social" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <label class="block text-xs font-medium text-gray-500 mb-1">Org tier <span class="font-normal text-gray-400">(canonical org · 8+ pitchers = peer · 2-7 = strong regional · 1 = outlier / hidden gem)</span></label>
+            <div class="flex flex-wrap gap-2">
+              <button data-tier="" class="tier-btn px-3 py-1.5 text-xs rounded-full border border-gray-300 bg-white hover:bg-gray-50">All (920)</button>
+              <button data-tier="non-peer" class="tier-btn px-3 py-1.5 text-xs rounded-full border border-gray-300 bg-stars-navy text-white">Non-peer · default (455)</button>
+              <button data-tier="strong-regional" class="tier-btn px-3 py-1.5 text-xs rounded-full border border-gray-300 bg-white hover:bg-gray-50">Strong Regional (241)</button>
+              <button data-tier="outlier" class="tier-btn px-3 py-1.5 text-xs rounded-full border border-gray-300 bg-white hover:bg-gray-50">Outliers / hidden gems (214)</button>
+              <button data-tier="peer" class="tier-btn px-3 py-1.5 text-xs rounded-full border border-gray-300 bg-white hover:bg-gray-50 text-gray-500">Peer orgs (skip · 465)</button>
+            </div>
+          </div>
+
+          <div class="mt-3 grid grid-cols-1 md:grid-cols-12 gap-3">
+            <div class="md:col-span-6">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Team</label>
+              <select id="f-team" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All teams ({teamCount})</option>
+                {teams.map((t) => (
+                  <option value={t.team}>{t.team} ({t.count})</option>
+                ))}
+              </select>
+            </div>
+            <div class="md:col-span-3 flex items-end">
+              <button id="f-clear" class="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium">Clear filters</button>
+            </div>
+            <div class="md:col-span-3 flex items-end">
+              <button id="f-export" class="w-full px-4 py-2 bg-stars-navy hover:bg-blue-900 text-white rounded-lg text-sm font-medium">Export CSV</button>
+            </div>
+          </div>
+
+          <div class="text-xs text-gray-500 mt-3">
+            Showing <span id="result-count" class="font-bold">{totalCount.toLocaleString()}</span> of {totalCount.toLocaleString()} pitchers
+          </div>
+        </div>
+
+        {/* Top teams quick-pick */}
+        <div class="bg-white rounded-xl shadow p-4 mb-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-bold text-gray-900">Top teams by ranked pitcher count</h2>
+            <span class="text-xs text-gray-500">click to filter</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {teams.slice(0, 30).map((t) => (
+              <button
+                class="team-chip text-xs px-3 py-1 bg-gray-100 hover:bg-stars-navy hover:text-white rounded-full transition-colors"
+                data-team={t.team}
+              >
+                {t.team} <span class="opacity-60">{t.count}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Results table */}
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600 cursor-pointer select-none" data-sort="year">
+                    <span class="flex items-center gap-1">Class <span class="sort-arrow text-gray-300" data-arrow="year">↕</span></span>
+                  </th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600 cursor-pointer select-none" data-sort="last">
+                    <span class="flex items-center gap-1">Name <span class="sort-arrow text-gray-300" data-arrow="last">↕</span></span>
+                  </th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600 cursor-pointer select-none" data-sort="hometown">
+                    <span class="flex items-center gap-1">Hometown <span class="sort-arrow text-gray-300" data-arrow="hometown">↕</span></span>
+                  </th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600 cursor-pointer select-none" data-sort="team">
+                    <span class="flex items-center gap-1">Team <span class="sort-arrow text-gray-300" data-arrow="team">↕</span></span>
+                  </th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600 cursor-pointer select-none" data-sort="coach">
+                    <span class="flex items-center gap-1">Coach <span class="sort-arrow text-gray-300" data-arrow="coach">↕</span></span>
+                  </th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600 cursor-pointer select-none" data-sort="topRank">
+                    <span class="flex items-center gap-1">Rankings <span class="sort-arrow text-gray-300" data-arrow="topRank">↕</span></span>
+                  </th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600">X</th>
+                </tr>
+                <tr class="bg-gray-50 border-b border-gray-100">
+                  <th class="px-3 pb-2"><input data-col="year" class="col-filter w-full px-2 py-1 text-xs border border-gray-200 rounded" placeholder="2027…" /></th>
+                  <th class="px-3 pb-2"><input data-col="fullName" class="col-filter w-full px-2 py-1 text-xs border border-gray-200 rounded" placeholder="Bryant…" /></th>
+                  <th class="px-3 pb-2"><input data-col="hometown" class="col-filter w-full px-2 py-1 text-xs border border-gray-200 rounded" placeholder="TX, FL…" /></th>
+                  <th class="px-3 pb-2"><input data-col="team" class="col-filter w-full px-2 py-1 text-xs border border-gray-200 rounded" placeholder="Glory…" /></th>
+                  <th class="px-3 pb-2"><input data-col="coach" class="col-filter w-full px-2 py-1 text-xs border border-gray-200 rounded" placeholder="Bowman…" /></th>
+                  <th class="px-3 pb-2"></th>
+                  <th class="px-3 pb-2"></th>
+                </tr>
+              </thead>
+              <tbody id="pitcher-tbody" class="divide-y divide-gray-100"></tbody>
+            </table>
+          </div>
+          <div id="pagination" class="p-4 border-t border-gray-200 flex items-center justify-between text-sm"></div>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-4">
+          Source: Extra Inning Softball ({Object.keys(meta.years).map((y) => (
+            <a href={meta.years[y].url} target="_blank" class="underline mx-1">{y}</a>
+          ))}). 2029 includes X handles in the SOCIAL column. 2027/2028 do not have public socials in the EIS table — coach + team is the contact path.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ pitchers }}>
+    const AUTH_KEY = 'snw_admin_auth';
+    if (sessionStorage.getItem(AUTH_KEY) !== 'true') {
+      window.location.href = '/admin/';
+    }
+
+    const fSearch = document.getElementById('f-search');
+    const fYear = document.getElementById('f-year');
+    const fList = document.getElementById('f-list');
+    const fRegion = document.getElementById('f-region');
+    const fSocial = document.getElementById('f-social');
+    const fTeam = document.getElementById('f-team');
+    const fClear = document.getElementById('f-clear');
+    const fExport = document.getElementById('f-export');
+    const tbody = document.getElementById('pitcher-tbody');
+    const resultCount = document.getElementById('result-count');
+    const pagination = document.getElementById('pagination');
+
+    let currentPage = 1;
+    const PAGE_SIZE = 50;
+    let filtered = pitchers;
+    let activeTier = 'non-peer';
+    let sortKey = '';
+    let sortDir = 0; // 0 none, 1 asc, -1 desc
+    const colFilters = {};
+
+    function applyFilters() {
+      const q = fSearch.value.trim().toLowerCase();
+      const y = fYear.value;
+      const lt = fList.value;
+      const r = fRegion.value;
+      const s = fSocial.value;
+      const t = fTeam.value;
+      filtered = pitchers.filter((p) => {
+        if (y && p.year !== y) return false;
+        if (t && p.team !== t) return false;
+        if (s === 'yes' && !p.socialHref) return false;
+        if (s === 'no' && p.socialHref) return false;
+        if (lt && !p.rankings.some((rk) => rk.listType === lt)) return false;
+        if (r && !p.rankings.some((rk) => rk.region === r)) return false;
+        if (activeTier === 'non-peer' && p.teamTier === 'peer') return false;
+        else if (activeTier && activeTier !== 'non-peer' && p.teamTier !== activeTier) return false;
+        if (q) {
+          const hay = (p.fullName + ' ' + p.hometown + ' ' + p.coach + ' ' + p.team).toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        // Per-column substring filters
+        for (const k of Object.keys(colFilters)) {
+          const v = colFilters[k];
+          if (!v) continue;
+          const cell = String(p[k] ?? '').toLowerCase();
+          if (!cell.includes(v)) return false;
+        }
+        return true;
+      });
+      applySort();
+      currentPage = 1;
+      render();
+    }
+
+    function applySort() {
+      if (!sortKey || sortDir === 0) return;
+      filtered = filtered.slice().sort((a, b) => {
+        const av = a[sortKey];
+        const bv = b[sortKey];
+        // Numeric vs string handling
+        if (typeof av === 'number' || typeof bv === 'number') {
+          const an = av == null ? Infinity : av;
+          const bn = bv == null ? Infinity : bv;
+          return (an - bn) * sortDir;
+        }
+        const as = String(av ?? '').toLowerCase();
+        const bs = String(bv ?? '').toLowerCase();
+        if (as < bs) return -1 * sortDir;
+        if (as > bs) return 1 * sortDir;
+        return 0;
+      });
+    }
+
+    [fSearch, fYear, fList, fRegion, fSocial, fTeam].forEach((el) => {
+      el.addEventListener('input', applyFilters);
+      el.addEventListener('change', applyFilters);
+    });
+
+    document.querySelectorAll('.col-filter').forEach((el) => {
+      el.addEventListener('input', () => {
+        colFilters[el.dataset.col] = el.value.trim().toLowerCase();
+        applyFilters();
+      });
+    });
+
+    document.querySelectorAll('th[data-sort]').forEach((th) => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sort;
+        if (sortKey === key) {
+          sortDir = sortDir === 1 ? -1 : sortDir === -1 ? 0 : 1;
+          if (sortDir === 0) sortKey = '';
+        } else {
+          sortKey = key;
+          sortDir = 1;
+        }
+        document.querySelectorAll('.sort-arrow').forEach((a) => {
+          if (a.dataset.arrow === sortKey && sortDir !== 0) {
+            a.textContent = sortDir === 1 ? '↑' : '↓';
+            a.classList.remove('text-gray-300');
+            a.classList.add('text-stars-navy');
+          } else {
+            a.textContent = '↕';
+            a.classList.add('text-gray-300');
+            a.classList.remove('text-stars-navy');
+          }
+        });
+        applyFilters();
+      });
+    });
+
+    document.querySelectorAll('.tier-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeTier = btn.dataset.tier;
+        document.querySelectorAll('.tier-btn').forEach((b) => {
+          if (b === btn) {
+            b.classList.add('bg-stars-navy', 'text-white');
+            b.classList.remove('bg-white', 'hover:bg-gray-50', 'text-gray-500');
+          } else {
+            b.classList.remove('bg-stars-navy', 'text-white');
+            b.classList.add('bg-white', 'hover:bg-gray-50');
+            if (b.dataset.tier === 'peer') b.classList.add('text-gray-500');
+          }
+        });
+        applyFilters();
+      });
+    });
+
+    fClear.addEventListener('click', () => {
+      [fSearch, fYear, fList, fRegion, fSocial, fTeam].forEach((el) => (el.value = ''));
+      document.querySelectorAll('.col-filter').forEach((el) => (el.value = ''));
+      Object.keys(colFilters).forEach((k) => delete colFilters[k]);
+      activeTier = '';
+      sortKey = '';
+      sortDir = 0;
+      document.querySelectorAll('.tier-btn').forEach((b) => {
+        if (b.dataset.tier === '') {
+          b.classList.add('bg-stars-navy', 'text-white');
+        } else {
+          b.classList.remove('bg-stars-navy', 'text-white');
+          b.classList.add('bg-white');
+        }
+      });
+      document.querySelectorAll('.sort-arrow').forEach((a) => {
+        a.textContent = '↕';
+        a.classList.add('text-gray-300');
+        a.classList.remove('text-stars-navy');
+      });
+      applyFilters();
+    });
+
+    document.querySelectorAll('.team-chip').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        fTeam.value = btn.dataset.team;
+        applyFilters();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    function listLabel(lt) {
+      if (lt === 'elite-100') return 'Elite 100';
+      if (lt === 'select-200') return 'Select 101–200';
+      if (lt === 'prospect-300') return 'Prospect 201–300';
+      if (lt === 'regional') return 'Regional';
+      return lt;
+    }
+
+    function tierBadge(tier, count, org) {
+      if (tier === 'peer') return ` <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-red-100 text-red-700" title="${org} has ${count} ranked pitchers — peer org, hard to poach">PEER ${count}</span>`;
+      if (tier === 'strong-regional') return ` <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700" title="${org} has ${count} ranked pitchers — strong regional">${count}</span>`;
+      return ` <span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800" title="${org} — only player ranked from this org">GEM</span>`;
+    }
+
+    function rankingBadges(rankings) {
+      return rankings
+        .map((rk) => {
+          const cls = listBadge(rk.listType);
+          let label = listLabel(rk.listType);
+          if (rk.listType === 'regional' && rk.region) label = rk.region;
+          const rankStr = rk.rankRaw || (rk.rank != null ? rk.rank : '');
+          return `<span class="inline-block text-xs px-2 py-0.5 rounded-full ${cls} mr-1 mb-1 whitespace-nowrap">${label}${rankStr ? ' #' + rankStr : ''}</span>`;
+        })
+        .join('');
+    }
+
+    function render() {
+      resultCount.textContent = filtered.length.toLocaleString();
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const slice = filtered.slice(start, start + PAGE_SIZE);
+      tbody.innerHTML = slice
+        .map(
+          (p) => `
+        <tr class="hover:bg-gray-50 align-top ${p.teamTier === 'peer' ? 'opacity-60' : ''}">
+          <td class="px-4 py-2 font-medium text-stars-navy">${p.year}</td>
+          <td class="px-4 py-2 font-medium text-gray-900">${p.fullName}</td>
+          <td class="px-4 py-2 text-gray-700">${p.hometown || ''}</td>
+          <td class="px-4 py-2">
+            <button class="team-link text-stars-navy hover:underline" data-team="${esc(p.team)}">${esc(p.team || '')}</button>
+            ${p.org && p.org.toLowerCase() !== (p.team || '').toLowerCase() ? `<div class="text-[10px] text-gray-400">org: ${esc(p.org)}</div>` : ''}
+            ${tierBadge(p.teamTier, p.orgRankedCount, p.org)}
+          </td>
+          <td class="px-4 py-2 text-gray-700">${p.coach || ''}</td>
+          <td class="px-4 py-2">${rankingBadges(p.rankings)}</td>
+          <td class="px-4 py-2">${p.socialHref ? `<a href="${p.socialHref}" target="_blank" class="text-blue-600 hover:underline">@${p.socialHref.split('/').pop()}</a>` : '<span class="text-gray-300">—</span>'}</td>
+        </tr>
+      `,
+        )
+        .join('');
+      tbody.querySelectorAll('.team-link').forEach((b) => {
+        b.addEventListener('click', () => {
+          fTeam.value = b.dataset.team;
+          applyFilters();
+        });
+      });
+      renderPagination();
+    }
+
+    function listBadge(lt) {
+      if (lt === 'elite-100') return 'bg-amber-100 text-amber-800';
+      if (lt === 'select-200') return 'bg-blue-100 text-blue-800';
+      if (lt === 'prospect-300') return 'bg-purple-100 text-purple-800';
+      if (lt === 'regional') return 'bg-gray-100 text-gray-700';
+      return 'bg-gray-100 text-gray-700';
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/"/g, '&quot;');
+    }
+
+    function renderPagination() {
+      const total = filtered.length;
+      const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      const start = total === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
+      const end = Math.min(currentPage * PAGE_SIZE, total);
+      pagination.innerHTML = `
+        <span class="text-gray-500">${start}–${end} of ${total.toLocaleString()}</span>
+        <div class="flex items-center gap-2">
+          <button id="prev-page" class="px-3 py-1 border border-gray-200 rounded ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-50'}">Prev</button>
+          <span class="text-gray-500">Page ${currentPage} of ${pages}</span>
+          <button id="next-page" class="px-3 py-1 border border-gray-200 rounded ${currentPage === pages ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-50'}">Next</button>
+        </div>
+      `;
+      document.getElementById('prev-page').addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          render();
+        }
+      });
+      document.getElementById('next-page').addEventListener('click', () => {
+        if (currentPage < pages) {
+          currentPage++;
+          render();
+        }
+      });
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      sessionStorage.removeItem(AUTH_KEY);
+      window.location.href = '/admin/';
+    });
+
+    fExport.addEventListener('click', () => {
+      const headers = ['year', 'first', 'last', 'hometown', 'coach', 'team', 'rankings', 'social'];
+      const rows = filtered.map((p) => {
+        const rks = p.rankings
+          .map((rk) => {
+            const lbl = rk.listType === 'regional' ? `${rk.region} #${rk.rankRaw}` : `${listLabel(rk.listType)} #${rk.rankRaw}`;
+            return lbl;
+          })
+          .join('; ');
+        return [p.year, p.first, p.last, p.hometown, p.coach, p.team, rks, p.socialHref || ''];
+      });
+      const csv = [headers, ...rows].map((r) => r.map((c) => `"${String(c || '').replace(/"/g, '""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `eis-pitchers-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    applyFilters();
+  </script>
+</Layout>

@@ -22,6 +22,9 @@ import Layout from '../../layouts/Layout.astro';
             </div>
           </div>
           <div class="flex items-center gap-4">
+            <a href="/admin/pitchers" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 rounded-lg text-sm font-medium transition-colors">
+              🚨 Pitcher Hunt
+            </a>
             <button id="refresh-btn" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
               ↻ Refresh
             </button>
@@ -134,7 +137,7 @@ import Layout from '../../layouts/Layout.astro';
     // Domains/referrers to exclude from all metrics
     const EXCLUDED_REFERRERS = ['localhost', 'localhost:4321', 'localhost:4322', '127.0.0.1'];
     // Your known cities to filter out (add more as needed)
-    const EXCLUDED_CITIES = ['Sharpsburg'];
+    const EXCLUDED_CITIES = ['Athens'];
 
     function filterOwnTraffic(rows) {
       return rows.filter(r => {

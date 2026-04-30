@@ -30,6 +30,9 @@ const scrapedDate = meta.scrapedAt.slice(0, 10);
             </div>
           </div>
           <div class="flex items-center gap-4">
+            <a href="/admin/teams" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+              Teams
+            </a>
             <a href="/admin/dashboard" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
               ← Dashboard
             </a>
@@ -94,6 +97,15 @@ const scrapedDate = meta.scrapedAt.slice(0, 10);
                 <option value="">All</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Newberry availability</label>
+              <select id="f-newberry" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All</option>
+                <option value="available">Available (org NOT going)</option>
+                <option value="going">Going — skip</option>
+                <option value="unknown">Unknown</option>
               </select>
             </div>
           </div>
@@ -212,6 +224,7 @@ const scrapedDate = meta.scrapedAt.slice(0, 10);
     const fList = document.getElementById('f-list');
     const fRegion = document.getElementById('f-region');
     const fSocial = document.getElementById('f-social');
+    const fNewberry = document.getElementById('f-newberry');
     const fTeam = document.getElementById('f-team');
     const fClear = document.getElementById('f-clear');
     const fExport = document.getElementById('f-export');
@@ -234,11 +247,15 @@ const scrapedDate = meta.scrapedAt.slice(0, 10);
       const r = fRegion.value;
       const s = fSocial.value;
       const t = fTeam.value;
+      const nb = fNewberry.value;
       filtered = pitchers.filter((p) => {
         if (y && p.year !== y) return false;
         if (t && p.team !== t) return false;
         if (s === 'yes' && !p.socialHref) return false;
         if (s === 'no' && p.socialHref) return false;
+        if (nb === 'available' && p.atNewberry !== false) return false;
+        if (nb === 'going' && p.atNewberry !== true) return false;
+        if (nb === 'unknown' && p.atNewberry !== null) return false;
         if (lt && !p.rankings.some((rk) => rk.listType === lt)) return false;
         if (r && !p.rankings.some((rk) => rk.region === r)) return false;
         if (activeTier === 'non-peer' && p.teamTier === 'peer') return false;
@@ -280,7 +297,7 @@ const scrapedDate = meta.scrapedAt.slice(0, 10);
       });
     }
 
-    [fSearch, fYear, fList, fRegion, fSocial, fTeam].forEach((el) => {
+    [fSearch, fYear, fList, fRegion, fSocial, fNewberry, fTeam].forEach((el) => {
       el.addEventListener('input', applyFilters);
       el.addEventListener('change', applyFilters);
     });
@@ -335,7 +352,7 @@ const scrapedDate = meta.scrapedAt.slice(0, 10);
     });
 
     fClear.addEventListener('click', () => {
-      [fSearch, fYear, fList, fRegion, fSocial, fTeam].forEach((el) => (el.value = ''));
+      [fSearch, fYear, fList, fRegion, fSocial, fNewberry, fTeam].forEach((el) => (el.value = ''));
       document.querySelectorAll('.col-filter').forEach((el) => (el.value = ''));
       Object.keys(colFilters).forEach((k) => delete colFilters[k]);
       activeTier = '';

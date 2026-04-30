@@ -1,0 +1,288 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import data from '../../data/eis-pitchers.json';
+
+const { meta, orgs, pitchers } = data as any;
+const totalOrgs = orgs.length;
+
+// Build a map of pitchers per org for the row drilldown
+const pitchersByOrg: Record<string, any[]> = {};
+for (const p of pitchers) {
+  if (!p.org) continue;
+  if (!pitchersByOrg[p.org]) pitchersByOrg[p.org] = [];
+  pitchersByOrg[p.org].push(p);
+}
+
+const scrapedDate = meta.scrapedAt.slice(0, 10);
+---
+
+<Layout title="Teams | Admin" noindex={true}>
+  <div id="auth-check" class="min-h-screen bg-gray-100">
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-gray-500">Loading...</div>
+    </div>
+
+    <div id="dashboard" class="hidden">
+      <header class="bg-stars-navy text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+            <div>
+              <h1 class="text-xl font-bold">Teams</h1>
+              <p class="text-sm text-white/70">{totalOrgs} canonical orgs · scraped {scrapedDate}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <a href="/admin/pitchers" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 rounded-lg text-sm font-medium transition-colors">🚨 Pitcher Hunt</a>
+            <a href="/admin/dashboard" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">← Dashboard</a>
+            <button id="logout-btn" class="px-4 py-2 bg-stars-red hover:bg-red-700 rounded-lg text-sm transition-colors">Logout</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+          <div class="font-bold text-amber-900">📋 How to use this page</div>
+          <div class="text-sm text-amber-800 mt-1">
+            One row per canonical org. Click "Find on X" to search Twitter, then add their handle to <code class="text-xs bg-amber-100 px-1 rounded">scripts/eis-scraper/org-handles.json</code> and re-run the build. Mark orgs as "going to Newberry" once you confirm — pitchers from those orgs will be hidden from the Pitcher Hunt page.
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+            <div class="md:col-span-5">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Search org / variant</label>
+              <input id="f-search" type="text" placeholder="e.g. Bombers, Texas Glory" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy" />
+            </div>
+            <div class="md:col-span-3">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Tier</label>
+              <select id="f-tier" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All</option>
+                <option value="peer">Peer (8+)</option>
+                <option value="strong-regional">Strong Regional (2-7)</option>
+                <option value="outlier">Outlier / hidden gem (1)</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-medium text-gray-500 mb-1">X handle</label>
+              <select id="f-x" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All</option>
+                <option value="yes">Has X</option>
+                <option value="no">Missing X</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-medium text-gray-500 mb-1">Newberry</label>
+              <select id="f-newberry" class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">All</option>
+                <option value="yes">Going</option>
+                <option value="no">Not going</option>
+                <option value="unknown">Unknown</option>
+              </select>
+            </div>
+          </div>
+          <div class="text-xs text-gray-500 mt-3">
+            Showing <span id="result-count" class="font-bold">{totalOrgs}</span> of {totalOrgs} orgs
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600 cursor-pointer select-none" data-sort="org"><span class="flex items-center gap-1">Org <span class="sort-arrow text-gray-300" data-arrow="org">↕</span></span></th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600 cursor-pointer select-none" data-sort="count"><span class="flex items-center gap-1"># <span class="sort-arrow text-gray-300" data-arrow="count">↕</span></span></th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600">Tier</th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600">X handle</th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600">Website</th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600">Newberry?</th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600">Pitchers</th>
+                  <th class="text-left px-4 py-2 font-semibold text-gray-600">Notes</th>
+                </tr>
+              </thead>
+              <tbody id="org-tbody" class="divide-y divide-gray-100"></tbody>
+            </table>
+          </div>
+          <div id="pagination" class="p-4 border-t border-gray-200 flex items-center justify-between text-sm"></div>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-4">
+          Edit org metadata in <code class="bg-gray-100 px-1 rounded">scripts/eis-scraper/org-handles.json</code>, then run <code class="bg-gray-100 px-1 rounded">node scripts/eis-scraper/write-json.mjs && npm run build</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ orgs, pitchersByOrg }}>
+    const AUTH_KEY = 'snw_admin_auth';
+    if (sessionStorage.getItem(AUTH_KEY) !== 'true') {
+      window.location.href = '/admin/';
+    }
+
+    const fSearch = document.getElementById('f-search');
+    const fTier = document.getElementById('f-tier');
+    const fX = document.getElementById('f-x');
+    const fNewberry = document.getElementById('f-newberry');
+    const tbody = document.getElementById('org-tbody');
+    const resultCount = document.getElementById('result-count');
+    const pagination = document.getElementById('pagination');
+
+    let currentPage = 1;
+    const PAGE_SIZE = 50;
+    let filtered = orgs;
+    let sortKey = '';
+    let sortDir = 0;
+
+    function applyFilters() {
+      const q = fSearch.value.trim().toLowerCase();
+      const tier = fTier.value;
+      const x = fX.value;
+      const nb = fNewberry.value;
+      filtered = orgs.filter((o) => {
+        if (tier && o.tier !== tier) return false;
+        if (x === 'yes' && !o.x) return false;
+        if (x === 'no' && o.x) return false;
+        if (nb === 'yes' && o.atNewberry !== true) return false;
+        if (nb === 'no' && o.atNewberry !== false) return false;
+        if (nb === 'unknown' && o.atNewberry !== null) return false;
+        if (q) {
+          const hay = (o.org + ' ' + (o.teamVariants || []).join(' ')).toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+      applySort();
+      currentPage = 1;
+      render();
+    }
+
+    function applySort() {
+      if (!sortKey || sortDir === 0) return;
+      filtered = filtered.slice().sort((a, b) => {
+        const av = a[sortKey];
+        const bv = b[sortKey];
+        if (typeof av === 'number' || typeof bv === 'number') {
+          return ((av ?? 0) - (bv ?? 0)) * sortDir;
+        }
+        const as = String(av ?? '').toLowerCase();
+        const bs = String(bv ?? '').toLowerCase();
+        return as < bs ? -1 * sortDir : as > bs ? 1 * sortDir : 0;
+      });
+    }
+
+    [fSearch, fTier, fX, fNewberry].forEach((el) => {
+      el.addEventListener('input', applyFilters);
+      el.addEventListener('change', applyFilters);
+    });
+
+    document.querySelectorAll('th[data-sort]').forEach((th) => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sort;
+        if (sortKey === key) {
+          sortDir = sortDir === 1 ? -1 : sortDir === -1 ? 0 : 1;
+          if (sortDir === 0) sortKey = '';
+        } else {
+          sortKey = key;
+          sortDir = 1;
+        }
+        document.querySelectorAll('.sort-arrow').forEach((a) => {
+          if (a.dataset.arrow === sortKey && sortDir !== 0) {
+            a.textContent = sortDir === 1 ? '↑' : '↓';
+            a.classList.remove('text-gray-300');
+            a.classList.add('text-stars-navy');
+          } else {
+            a.textContent = '↕';
+            a.classList.add('text-gray-300');
+            a.classList.remove('text-stars-navy');
+          }
+        });
+        applyFilters();
+      });
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      sessionStorage.removeItem(AUTH_KEY);
+      window.location.href = '/admin/';
+    });
+
+    function tierBadge(tier, count) {
+      if (tier === 'peer') return `<span class="text-[10px] px-1.5 py-0.5 rounded bg-red-100 text-red-700">PEER ${count}</span>`;
+      if (tier === 'strong-regional') return `<span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700">${count}</span>`;
+      return `<span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">GEM</span>`;
+    }
+
+    function newberryBadge(at) {
+      if (at === true) return `<span class="text-[10px] px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-medium">GOING — skip</span>`;
+      if (at === false) return `<span class="text-[10px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">NOT GOING — target</span>`;
+      return `<span class="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">unknown</span>`;
+    }
+
+    function pitcherList(orgName) {
+      const pp = pitchersByOrg[orgName] || [];
+      if (!pp.length) return '<span class="text-gray-300">—</span>';
+      const items = pp.slice(0, 4).map((p) => {
+        const handle = p.socialHref ? ` <a href="${p.socialHref}" target="_blank" class="text-blue-600 hover:underline">@</a>` : '';
+        return `<div class="text-xs"><span class="font-medium">${p.year}</span> ${p.fullName}${handle}</div>`;
+      }).join('');
+      const more = pp.length > 4 ? `<div class="text-[10px] text-gray-400 mt-0.5">+${pp.length - 4} more</div>` : '';
+      return items + more;
+    }
+
+    function xCell(o) {
+      if (o.x) {
+        const handle = o.x.replace(/^@/, '');
+        return `<a href="https://x.com/${handle}" target="_blank" class="text-blue-600 hover:underline">@${handle}</a>`;
+      }
+      const q = encodeURIComponent(`${o.org} softball`);
+      return `<a href="https://x.com/search?q=${q}&src=typed_query&f=user" target="_blank" class="text-xs text-gray-400 hover:text-stars-navy underline">Find on X →</a>`;
+    }
+
+    function escHtml(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function render() {
+      resultCount.textContent = filtered.length.toLocaleString();
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const slice = filtered.slice(start, start + PAGE_SIZE);
+      tbody.innerHTML = slice.map((o) => `
+        <tr class="hover:bg-gray-50 align-top">
+          <td class="px-4 py-2">
+            <div class="font-medium text-gray-900">${escHtml(o.org)}</div>
+            <div class="text-[10px] text-gray-400">${(o.teamVariants || []).slice(0, 3).map(escHtml).join(' · ')}${o.teamVariants && o.teamVariants.length > 3 ? ` +${o.teamVariants.length - 3}` : ''}</div>
+          </td>
+          <td class="px-4 py-2 font-medium text-gray-900">${o.count}</td>
+          <td class="px-4 py-2">${tierBadge(o.tier, o.count)}</td>
+          <td class="px-4 py-2">${xCell(o)}</td>
+          <td class="px-4 py-2">${o.website ? `<a href="${o.website}" target="_blank" class="text-blue-600 hover:underline">site →</a>` : '<span class="text-gray-300">—</span>'}</td>
+          <td class="px-4 py-2">${newberryBadge(o.atNewberry)}</td>
+          <td class="px-4 py-2">${pitcherList(o.org)}</td>
+          <td class="px-4 py-2 text-gray-700 text-xs">${escHtml(o.notes || '')}</td>
+        </tr>
+      `).join('');
+      renderPagination();
+    }
+
+    function renderPagination() {
+      const total = filtered.length;
+      const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      const start = total === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
+      const end = Math.min(currentPage * PAGE_SIZE, total);
+      pagination.innerHTML = `
+        <span class="text-gray-500">${start}–${end} of ${total.toLocaleString()}</span>
+        <div class="flex items-center gap-2">
+          <button id="prev-page" class="px-3 py-1 border border-gray-200 rounded ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-50'}">Prev</button>
+          <span class="text-gray-500">Page ${currentPage} of ${pages}</span>
+          <button id="next-page" class="px-3 py-1 border border-gray-200 rounded ${currentPage === pages ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-50'}">Next</button>
+        </div>
+      `;
+      document.getElementById('prev-page').addEventListener('click', () => { if (currentPage > 1) { currentPage--; render(); } });
+      document.getElementById('next-page').addEventListener('click', () => { if (currentPage < pages) { currentPage++; render(); } });
+    }
+
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    applyFilters();
+  </script>
+</Layout>

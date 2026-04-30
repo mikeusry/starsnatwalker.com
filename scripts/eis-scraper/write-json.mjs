@@ -7,11 +7,13 @@ const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, '../..');
 const RAW = resolve(__dirname, 'output/pitchers-raw.json');
 const ALIASES = resolve(__dirname, 'org-aliases.json');
+const HANDLES = resolve(__dirname, 'org-handles.json');
 const OUT = resolve(ROOT, 'src/data/eis-pitchers.json');
 mkdirSync(dirname(OUT), { recursive: true });
 
 const data = JSON.parse(readFileSync(RAW, 'utf8'));
 const aliases = JSON.parse(readFileSync(ALIASES, 'utf8'));
+const handles = JSON.parse(readFileSync(HANDLES, 'utf8'));
 
 // Auto-normalize a team string into a canonical org key.
 // Strategy: strip coach/age/division suffixes, collapse whitespace, lowercase.
@@ -279,13 +281,20 @@ function tierFor(count) {
 }
 
 const orgList = Object.values(orgs)
-  .map((o) => ({
-    org: o.org,
-    count: o.count,
-    years: [...o.years].sort(),
-    teamVariants: [...o.teamVariants].sort(),
-    tier: tierFor(o.count),
-  }))
+  .map((o) => {
+    const meta = handles[o.org] || {};
+    return {
+      org: o.org,
+      count: o.count,
+      years: [...o.years].sort(),
+      teamVariants: [...o.teamVariants].sort(),
+      tier: tierFor(o.count),
+      x: meta.x || '',
+      website: meta.website || '',
+      atNewberry: meta.atNewberry == null ? null : !!meta.atNewberry,
+      notes: meta.notes || '',
+    };
+  })
   .sort((a, b) => b.count - a.count);
 
 // Also build a per-(raw-team) list for the team filter dropdown — but show the org behind it
@@ -300,11 +309,15 @@ const teamList = Object.values(teams)
   .map((t) => ({ team: t.team, org: t.org, count: t.count, years: [...t.years].sort() }))
   .sort((a, b) => b.count - a.count);
 
-// Stamp tier + org-count onto each player for filtering / display
+// Stamp tier + org-count + Newberry attendance onto each player
+const orgMetaMap = {};
+for (const o of orgList) orgMetaMap[o.org] = o;
 for (const p of players) {
   p.teamTier = orgs[p.org] ? tierFor(orgs[p.org].count) : 'outlier';
   p.orgRankedCount = orgs[p.org]?.count || 0;
   p.teamRankedCount = teams[p.teamKey]?.count || 0;
+  p.atNewberry = orgMetaMap[p.org]?.atNewberry ?? null;
+  p.orgX = orgMetaMap[p.org]?.x || '';
 }
 
 writeFileSync(

@@ -154,9 +154,32 @@ const organizationStructuredData = {
           return m ? { slug: m[1], name: (document.querySelector('h1') || {}).textContent || null } : null;
         }
 
+        function getCoachAttribution() {
+          var stored = sessionStorage.getItem('pd_attr');
+          if (stored) { try { return JSON.parse(stored); } catch(e) {} }
+          var qs = new URLSearchParams(location.search);
+          var attr = {
+            coach: qs.get('coach') || qs.get('c') || null,
+            school: qs.get('school') || qs.get('s') || null,
+            utm_source: qs.get('utm_source') || null,
+            utm_medium: qs.get('utm_medium') || null,
+            utm_campaign: qs.get('utm_campaign') || null
+          };
+          if (attr.coach || attr.school || attr.utm_source) {
+            sessionStorage.setItem('pd_attr', JSON.stringify(attr));
+            return attr;
+          }
+          return null;
+        }
+
         function track(eventType, eventData) {
           if (isBot()) return;
           var p = getPlayerInfo();
+          var attr = getCoachAttribution();
+          var mergedEventData = eventData || {};
+          if (attr) {
+            mergedEventData = Object.assign({}, mergedEventData, { attribution: attr });
+          }
           var basePayload = {
             site: SITE_ID,
             player_slug: p ? p.slug : location.pathname,
@@ -167,7 +190,7 @@ const organizationStructuredData = {
             session_id: getSessionId(),
             is_bot: false,
             event_type: eventType,
-            event_data: eventData || null
+            event_data: Object.keys(mergedEventData).length ? mergedEventData : null
           };
 
           fetchGeoData(function(geo) {

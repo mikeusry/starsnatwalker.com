@@ -1,0 +1,314 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import familyContent from '../../data/family-content.json';
+import players from '../../data/players.json';
+import { generatePlayerSlug } from '../../lib/slug';
+
+const { preCampVideo, campCard, homeworkAskedBy, nextTournament } = familyContent;
+
+const playerOptions = [...players]
+  .sort((a, b) => a.lastName.localeCompare(b.lastName))
+  .map((p) => ({
+    slug: generatePlayerSlug(p.firstName, p.lastName),
+    name: `${p.firstName} ${p.lastName}`,
+    gradYear: p.gradYear,
+  }));
+---
+
+<Layout title="Family Portal | Stars National Walker" noindex={true}>
+  <div class="min-h-screen bg-gray-100">
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-gray-500">Loading...</div>
+    </div>
+
+    <div id="dashboard" class="hidden">
+      <header class="bg-stars-navy text-white shadow-lg">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+            <div class="min-w-0">
+              <h1 class="text-xl font-bold">Stars Family Portal</h1>
+              <p class="text-sm text-white/70">Camp prep + recruiting reset</p>
+            </div>
+          </div>
+          <button id="logout-btn" class="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm">Sign out</button>
+        </div>
+      </header>
+
+      <main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Doctrine link -->
+        <a href="/family/recruiting" class="block bg-linear-to-r from-stars-navy to-stars-blue text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow group">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <span class="inline-block px-2 py-1 bg-stars-gold text-stars-navy text-xs font-bold uppercase rounded mb-2">Read this first</span>
+              <h2 class="text-xl font-bold">Stars Recruiting Philosophy</h2>
+              <p class="text-white/80 text-sm mt-1">What we believe about recruiting — and what we expect from each other.</p>
+            </div>
+            <div class="text-stars-gold text-2xl group-hover:translate-x-1 transition-transform">→</div>
+          </div>
+        </a>
+
+        <!-- Recruiting Hub bridge -->
+        <section class="bg-white rounded-xl shadow-lg p-6 border-2 border-stars-gold">
+          <div class="flex items-start justify-between flex-wrap gap-4 mb-4">
+            <div>
+              <span class="inline-block px-2 py-1 bg-stars-navy text-white text-xs font-bold uppercase rounded mb-2">Your recruiting hub</span>
+              <h2 class="text-2xl font-bold text-gray-900">Open Your Recruiting Dashboard</h2>
+              <p class="text-gray-600 text-sm mt-1">Target schools, coach activity, who's looking at your profile, what's hot. Pick a player and click through.</p>
+            </div>
+          </div>
+
+          <form id="bridge-form" class="flex flex-col md:flex-row gap-3">
+            <select id="bridge-player" required class="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-stars-navy">
+              <option value="">Select your daughter</option>
+              {playerOptions.map((p) => (
+                <option value={p.slug}>{p.name} '{String(p.gradYear).slice(-2)}</option>
+              ))}
+            </select>
+            <button type="submit" id="bridge-btn" class="bg-stars-navy hover:bg-stars-blue text-white font-bold py-3 px-6 rounded-lg transition-colors whitespace-nowrap">
+              Open Recruiting Hub →
+            </button>
+          </form>
+          <p id="bridge-error" class="hidden mt-3 text-sm text-red-600"></p>
+        </section>
+
+        <!-- Pre-camp video -->
+        <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-100">
+            <span class="inline-block px-2 py-1 bg-stars-gold/20 text-stars-navy text-xs font-bold uppercase rounded mb-2">Watch first</span>
+            <h2 class="text-2xl font-bold text-gray-900">{preCampVideo.title}</h2>
+            <p class="text-gray-600 mt-1 text-sm">{preCampVideo.subtitle}</p>
+          </div>
+          <div class="aspect-video bg-black">
+            {preCampVideo.muxPlaybackId ? (
+              <mux-player
+                playback-id={preCampVideo.muxPlaybackId}
+                metadata-video-title={preCampVideo.title}
+                poster={preCampVideo.thumbnailUrl}
+                stream-type="on-demand"
+                style="width:100%;height:100%;--media-object-fit:contain;"
+              ></mux-player>
+            ) : preCampVideo.fallbackEmbedUrl ? (
+              <iframe
+                src={preCampVideo.fallbackEmbedUrl}
+                class="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            ) : (
+              <div class="w-full h-full flex items-center justify-center text-white/60 text-center p-6">
+                <div>
+                  <p class="text-lg font-medium mb-2">Video coming soon</p>
+                  <p class="text-sm text-white/40">The coaches are recording this — check back shortly.</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <!-- Camp card -->
+        <section class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex items-start justify-between flex-wrap gap-4 mb-4">
+            <div>
+              <span class="inline-block px-2 py-1 bg-stars-blue/10 text-stars-blue text-xs font-bold uppercase rounded mb-2">Upcoming</span>
+              <h2 class="text-2xl font-bold text-gray-900">{campCard.name}</h2>
+              <p class="text-gray-600">{campCard.date}</p>
+              {campCard.location && (
+                <p class="text-gray-500 text-sm mt-1">📍 {campCard.location}</p>
+              )}
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="font-bold mb-2 text-sm uppercase tracking-wide text-gray-500">Schedule</h3>
+              <ul class="space-y-2">
+                {campCard.schedule.map((s) => (
+                  <li class="flex gap-3 text-sm">
+                    <span class="font-mono text-stars-navy whitespace-nowrap">{s.time}</span>
+                    <span class="text-gray-700">{s.what}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2 text-sm uppercase tracking-wide text-gray-500">Bring</h3>
+              <ul class="space-y-1 text-sm text-gray-700">
+                {campCard.bring.map((b) => (
+                  <li class="flex gap-2"><span class="text-stars-gold">✓</span> {b}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Homework form -->
+        <section class="bg-stars-navy text-white rounded-xl shadow-lg p-6">
+          <span class="inline-block px-2 py-1 bg-stars-gold text-stars-navy text-xs font-bold uppercase rounded mb-2">Reply by {homeworkAskedBy}</span>
+          <h2 class="text-2xl font-bold mb-2">Pre-Camp Homework</h2>
+          <p class="text-white/80 text-sm mb-6">
+            This is for you, the player. Take a few minutes and fill it out yourself —
+            your answers will shape our 1:1 conversations at camp.
+            Don't have an answer for something? Type "n/a" — we'll fill it in together.
+          </p>
+
+          <form id="homework-form" class="space-y-5">
+            <div>
+              <label class="block text-sm font-medium text-white/90 mb-2">
+                Your name *
+              </label>
+              <select name="player_slug" required class="w-full px-4 py-3 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-stars-gold">
+                <option value="">Select your name</option>
+                {playerOptions.map((p) => (
+                  <option value={p.slug} data-name={p.name}>{p.name} '{String(p.gradYear).slice(-2)}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-white/90 mb-2">
+                Your email <span class="text-white/60 font-normal">(so the coaches can reply)</span>
+              </label>
+              <input name="from_email" type="email" required class="w-full px-4 py-3 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-stars-gold" placeholder="you@example.com" />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-white/90 mb-2">
+                1. Your top 10 schools, ranked. <span class="text-white/60 font-normal">Real reasons — not "nice facilities" or "saw on TV." Program style, coach, location, major, level.</span>
+              </label>
+              <textarea name="schools" rows="6" class="w-full px-4 py-3 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-stars-gold" placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-white/90 mb-2">
+                2. Coaches you've emailed in the last 30 days <span class="text-white/60 font-normal">(who, what school, did they reply)</span>
+              </label>
+              <textarea name="coach_outreach" rows="4" class="w-full px-4 py-3 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-stars-gold" placeholder="e.g. Coach Smith, Furman, no reply yet"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-white/90 mb-2">
+                3. One honest sentence about how your spring is going <span class="text-white/60 font-normal">(academics, field, recruiting — anything)</span>
+              </label>
+              <textarea name="honest_sentence" rows="3" class="w-full px-4 py-3 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-stars-gold" placeholder="One sentence. The coaches read every reply."></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-white/90 mb-2">
+                4. What do your teammates rely on you for? <span class="text-white/60 font-normal">(Be specific. Not "I work hard." What's the thing they actually count on you to do?)</span>
+              </label>
+              <textarea name="teammate_role" rows="3" class="w-full px-4 py-3 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-stars-gold" placeholder="One or two sentences."></textarea>
+            </div>
+
+            <button type="submit" id="hw-submit" class="bg-stars-gold text-stars-navy hover:bg-yellow-400 font-bold py-3 px-6 rounded-lg transition-colors">
+              Submit homework
+            </button>
+
+            <div id="hw-success" class="hidden p-4 bg-green-500/20 border border-green-400 text-green-100 rounded-lg text-sm">
+              Got it. See you Saturday in Charlotte.
+            </div>
+            <div id="hw-error" class="hidden p-4 bg-red-500/20 border border-red-400 text-red-100 rounded-lg text-sm"></div>
+          </form>
+        </section>
+
+        <!-- Next tournament -->
+        <section class="bg-white rounded-xl shadow p-6">
+          <span class="inline-block px-2 py-1 bg-gray-100 text-gray-700 text-xs font-bold uppercase rounded mb-2">After camp</span>
+          <h2 class="text-lg font-bold text-gray-900">Next tournament: {nextTournament.name}</h2>
+          <p class="text-gray-600 text-sm">{nextTournament.dates} · {nextTournament.location}</p>
+          <p class="text-gray-500 text-sm mt-2">We'll check in with you at week 2 and week 4 between camp and Newberry.</p>
+        </section>
+
+        <!-- Help -->
+        <section class="text-center text-sm text-gray-500">
+          Questions? Email <a href="mailto:mike@southlandorganics.com" class="text-stars-navy hover:underline">mike@southlandorganics.com</a>.
+        </section>
+      </main>
+    </div>
+  </div>
+
+  {preCampVideo.muxPlaybackId && (
+    <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
+  )}
+
+  <script is:inline>
+    const AUTH_KEY = 'snw_family_auth';
+
+    if (sessionStorage.getItem(AUTH_KEY) !== 'true') {
+      window.location.replace('/family/login');
+    } else {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      sessionStorage.removeItem(AUTH_KEY);
+      window.location.replace('/family/login');
+    });
+
+    document.getElementById('bridge-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const slug = document.getElementById('bridge-player').value;
+      const errEl = document.getElementById('bridge-error');
+      const btn = document.getElementById('bridge-btn');
+      if (!slug) {
+        errEl.textContent = 'Pick a player first.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      errEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Opening…';
+      // Full-page navigation so the 302 redirect works.
+      window.location.href = '/api/family-bridge?player_slug=' + encodeURIComponent(slug);
+    });
+
+    document.getElementById('homework-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const submitBtn = document.getElementById('hw-submit');
+      const hwSuccess = document.getElementById('hw-success');
+      const hwError = document.getElementById('hw-error');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      hwError.classList.add('hidden');
+
+      const playerSlug = fd.get('player_slug');
+      const playerOpt = e.target.querySelector(`option[value="${playerSlug}"]`);
+      const playerName = playerOpt ? playerOpt.dataset.name : '';
+
+      try {
+        const res = await fetch('/api/family-homework', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            player_slug: playerSlug,
+            player_name: playerName,
+            from_name: playerName,
+            from_email: fd.get('from_email'),
+            schools: fd.get('schools'),
+            coach_outreach: fd.get('coach_outreach'),
+            honest_sentence: fd.get('honest_sentence'),
+            teammate_role: fd.get('teammate_role'),
+          }),
+        });
+        if (res.ok) {
+          hwSuccess.classList.remove('hidden');
+          submitBtn.style.display = 'none';
+        } else {
+          const data = await res.json().catch(() => ({}));
+          hwError.textContent = data.error || 'Something went wrong. Try again.';
+          hwError.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit homework';
+        }
+      } catch (err) {
+        hwError.textContent = 'Network error. Try again.';
+        hwError.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit homework';
+      }
+    });
+  </script>
+</Layout>

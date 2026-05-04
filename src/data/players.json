@@ -56,6 +56,51 @@
     "lastUpdated": "2026-03-15T12:00:00.000000+00:00"
   },
   {
+    "id": "f7e1b3a0-2029-4b1a-9c00-baygiese000001",
+    "firstName": "Baylee",
+    "lastName": "Giese Edney",
+    "gradYear": 2029,
+    "position": "Utility",
+    "secondaryPositions": ["1B", "3B"],
+    "bats": null,
+    "throws": null,
+    "twitter": "BayGieseedney",
+    "featured": false,
+    "photoUrl": "https://pbs.twimg.com/profile_images/2030982867530944513/3AFIKv6N_400x400.jpg",
+    "bio": null,
+    "achievements": [],
+    "heightInches": null,
+    "weightLbs": null,
+    "gpa": 4.3,
+    "satScore": null,
+    "actScore": null,
+    "intendedMajor": null,
+    "highSchool": "Enka High School",
+    "highSchoolState": "NC",
+    "ncaaId": "2511773424",
+    "recruitingStatus": "uncommitted",
+    "committedTo": null,
+    "measurables": {
+      "sixtyYard": null,
+      "exitVelo": null,
+      "batSpeed": null,
+      "popTime": null,
+      "infieldVelo": null,
+      "outfieldVelo": null,
+      "pitchSpeed": null
+    },
+    "videos": {
+      "highlightUrl": null,
+      "skillsUrl": null,
+      "gameFootageUrl": null,
+      "muxVideos": []
+    },
+    "photos": [],
+    "contactEmail": null,
+    "socialScore": null,
+    "lastUpdated": "2026-05-03T14:10:00.000000+00:00"
+  },
+  {
     "id": "f283f6e0-53bd-4f94-b2f8-a333f16c556a",
     "firstName": "Maddie",
     "lastName": "Diaz",
@@ -490,7 +535,10 @@
     "videos": {
       "highlightUrl": null,
       "skillsUrl": null,
-      "gameFootageUrl": null
+      "gameFootageUrl": null,
+      "muxVideos": [
+        {"playbackId": "tiPa7ALKwk9NpEkhWIJWVEjIgUs00SveY474L1HsqtsY", "title": "Highlights"}
+      ]
     },
     "achievements": ["SC Junior Scholar"],
     "campsAttended": ["Saint Leo", "Flagler", "Nova Southeastern", "Gardner Webb", "Wofford"],

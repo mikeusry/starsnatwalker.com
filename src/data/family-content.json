@@ -1,0 +1,29 @@
+{
+  "preCampVideo": {
+    "muxPlaybackId": "lLXS4UxkjI7qkbDor88UtBql00Nxsep4QGJTmluKJjhg",
+    "title": "Camp May 9 — Watch this before camp",
+    "subtitle": "Recruiting reset from the coaches. Watch with your daughter.",
+    "thumbnailUrl": "https://image.mux.com/lLXS4UxkjI7qkbDor88UtBql00Nxsep4QGJTmluKJjhg/thumbnail.png?time=138",
+    "fallbackEmbedUrl": null
+  },
+  "campCard": {
+    "name": "May Team Camp — Charlotte",
+    "date": "Saturday May 9 + Sunday May 10, 2026",
+    "location": "Ardrey Kell High School, 10220 Ardrey Kell Road, Charlotte, NC 28277",
+    "schedule": [
+      { "time": "Sat 2:00pm – 5:00pm", "what": "Field session" },
+      { "time": "Sat 5:00pm+", "what": "Recruiting talk (5pm at the field, or later at Joe's — TBD). Players/parents free to coordinate dinner + evening." },
+      { "time": "Sun 9:00am – 11:00am", "what": "Field session" }
+    ],
+    "bring": [
+      "Cleats, glove, bat, helmet",
+      "Water + snacks"
+    ]
+  },
+  "homeworkAskedBy": "Wednesday, May 7, 2026",
+  "nextTournament": {
+    "name": "Show Me The Money",
+    "dates": "June 5–8, 2026",
+    "location": "Newberry, FL"
+  }
+}

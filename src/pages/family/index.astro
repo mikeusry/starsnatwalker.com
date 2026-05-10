@@ -4,7 +4,7 @@ import familyContent from '../../data/family-content.json';
 import players from '../../data/players.json';
 import { generatePlayerSlug } from '../../lib/slug';
 
-const { preCampVideo, campCard, homeworkAskedBy, nextTournament } = familyContent;
+const { campCard, homeworkAskedBy, nextTournament } = familyContent;
 
 const playerOptions = [...players]
   .sort((a, b) => a.lastName.localeCompare(b.lastName))
@@ -71,40 +71,6 @@ const playerOptions = [...players]
             </button>
           </form>
           <p id="bridge-error" class="hidden mt-3 text-sm text-red-600"></p>
-        </section>
-
-        <!-- Pre-camp video -->
-        <section class="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div class="px-6 py-5 border-b border-gray-100">
-            <span class="inline-block px-2 py-1 bg-stars-gold/20 text-stars-navy text-xs font-bold uppercase rounded mb-2">Watch first</span>
-            <h2 class="text-2xl font-bold text-gray-900">{preCampVideo.title}</h2>
-            <p class="text-gray-600 mt-1 text-sm">{preCampVideo.subtitle}</p>
-          </div>
-          <div class="aspect-video bg-black">
-            {preCampVideo.muxPlaybackId ? (
-              <mux-player
-                playback-id={preCampVideo.muxPlaybackId}
-                metadata-video-title={preCampVideo.title}
-                poster={preCampVideo.thumbnailUrl}
-                stream-type="on-demand"
-                style="width:100%;height:100%;--media-object-fit:contain;"
-              ></mux-player>
-            ) : preCampVideo.fallbackEmbedUrl ? (
-              <iframe
-                src={preCampVideo.fallbackEmbedUrl}
-                class="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            ) : (
-              <div class="w-full h-full flex items-center justify-center text-white/60 text-center p-6">
-                <div>
-                  <p class="text-lg font-medium mb-2">Video coming soon</p>
-                  <p class="text-sm text-white/40">The coaches are recording this — check back shortly.</p>
-                </div>
-              </div>
-            )}
-          </div>
         </section>
 
         <!-- Camp card -->
@@ -227,10 +193,6 @@ const playerOptions = [...players]
       </main>
     </div>
   </div>
-
-  {preCampVideo.muxPlaybackId && (
-    <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
-  )}
 
   <script is:inline>
     const AUTH_KEY = 'snw_family_auth';

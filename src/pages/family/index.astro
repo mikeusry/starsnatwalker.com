@@ -49,29 +49,17 @@ const playerOptions = [...players]
           </div>
         </a>
 
-        <!-- Recruiting Hub bridge -->
-        <section class="bg-white rounded-xl shadow-lg p-6 border-2 border-stars-gold">
-          <div class="flex items-start justify-between flex-wrap gap-4 mb-4">
+        <!-- Page Views dashboard -->
+        <a href="/family/views" class="block bg-white rounded-xl shadow-lg p-6 border-2 border-stars-gold hover:shadow-xl transition-shadow group">
+          <div class="flex items-center justify-between gap-4">
             <div>
-              <span class="inline-block px-2 py-1 bg-stars-navy text-white text-xs font-bold uppercase rounded mb-2">Your recruiting hub</span>
-              <h2 class="text-2xl font-bold text-gray-900">Open Your Recruiting Dashboard</h2>
-              <p class="text-gray-600 text-sm mt-1">Target schools, coach activity, who's looking at your profile, what's hot. Pick a player and click through.</p>
+              <span class="inline-block px-2 py-1 bg-stars-navy text-white text-xs font-bold uppercase rounded mb-2">Page Views</span>
+              <h2 class="text-2xl font-bold text-gray-900">See Who's Looking</h2>
+              <p class="text-gray-600 text-sm mt-1">Profile views by player, top referrers, .edu hits, and viewer cities — last 7 and 30 days.</p>
             </div>
+            <div class="text-stars-navy text-2xl group-hover:translate-x-1 transition-transform">→</div>
           </div>
-
-          <form id="bridge-form" class="flex flex-col md:flex-row gap-3">
-            <select id="bridge-player" required class="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-stars-navy">
-              <option value="">Select your daughter</option>
-              {playerOptions.map((p) => (
-                <option value={p.slug}>{p.name} '{String(p.gradYear).slice(-2)}</option>
-              ))}
-            </select>
-            <button type="submit" id="bridge-btn" class="bg-stars-navy hover:bg-stars-blue text-white font-bold py-3 px-6 rounded-lg transition-colors whitespace-nowrap">
-              Open Recruiting Hub →
-            </button>
-          </form>
-          <p id="bridge-error" class="hidden mt-3 text-sm text-red-600"></p>
-        </section>
+        </a>
 
         <!-- Camp card -->
         <section class="bg-white rounded-xl shadow-lg p-6">
@@ -207,23 +195,6 @@ const playerOptions = [...players]
     document.getElementById('logout-btn').addEventListener('click', () => {
       sessionStorage.removeItem(AUTH_KEY);
       window.location.replace('/family/login');
-    });
-
-    document.getElementById('bridge-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const slug = document.getElementById('bridge-player').value;
-      const errEl = document.getElementById('bridge-error');
-      const btn = document.getElementById('bridge-btn');
-      if (!slug) {
-        errEl.textContent = 'Pick a player first.';
-        errEl.classList.remove('hidden');
-        return;
-      }
-      errEl.classList.add('hidden');
-      btn.disabled = true;
-      btn.textContent = 'Opening…';
-      // Full-page navigation so the 302 redirect works.
-      window.location.href = '/api/family-bridge?player_slug=' + encodeURIComponent(slug);
     });
 
     document.getElementById('homework-form').addEventListener('submit', async (e) => {

@@ -1,0 +1,236 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import playersData from '../../data/players.json';
+
+const players = (playersData as any[])
+  .filter((p) => p.slug && p.name)
+  .map((p) => ({ slug: p.slug, name: p.name, gradYear: p.gradYear }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<Layout title="Page Views | Stars National Walker" noindex={true}>
+  <div id="auth-check" class="min-h-screen bg-gray-100">
+    <!-- Loading state -->
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-gray-500">Loading...</div>
+    </div>
+
+    <!-- Dashboard (hidden until family auth verified) -->
+    <div id="dashboard" class="hidden">
+      <header class="bg-stars-navy text-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+            <div>
+              <h1 class="text-xl font-bold">Page Views</h1>
+              <p class="text-sm text-white/70">Who's looking at our players</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="/family/" class="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">← Family</a>
+            <button id="refresh-btn" class="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">↻ Refresh</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="max-w-6xl mx-auto px-4 py-6">
+        <!-- Explainer -->
+        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-6 text-sm text-blue-900">
+          <p class="font-semibold mb-1">How to read this</p>
+          <p>Every time a coach lands on a player page, we record it. Numbers below are <strong>last 7 days</strong> and <strong>last 30 days</strong>. Visits from our own laptops + Mike's city are filtered out, so what you're seeing is real outside traffic. <span class="text-green-700 font-semibold">.edu referrers</span> mean a college site linked to us.</p>
+        </div>
+
+        <!-- Summary stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-xs text-gray-500 uppercase tracking-wide">Total Views (7d)</div>
+            <div id="stat-views-7d" class="text-3xl font-bold text-stars-navy mt-1">-</div>
+          </div>
+          <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-xs text-gray-500 uppercase tracking-wide">Total Views (30d)</div>
+            <div id="stat-views-30d" class="text-3xl font-bold text-stars-navy mt-1">-</div>
+          </div>
+          <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-xs text-gray-500 uppercase tracking-wide">.edu Visits (30d)</div>
+            <div id="stat-edu" class="text-3xl font-bold text-green-600 mt-1">-</div>
+          </div>
+          <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-xs text-gray-500 uppercase tracking-wide">Cities (30d)</div>
+            <div id="stat-cities" class="text-3xl font-bold text-stars-navy mt-1">-</div>
+          </div>
+        </div>
+
+        <!-- Per-player table -->
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+          <div class="p-4 border-b border-gray-100 flex items-center justify-between flex-wrap gap-2">
+            <h2 class="font-bold text-gray-900">By Player</h2>
+            <div class="text-xs text-gray-500">Click a name to open her page</div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
+                <tr>
+                  <th class="px-4 py-3">Player</th>
+                  <th class="px-4 py-3 text-right">7d</th>
+                  <th class="px-4 py-3 text-right">30d</th>
+                  <th class="px-4 py-3">Top referrers</th>
+                  <th class="px-4 py-3">Cities (sample)</th>
+                </tr>
+              </thead>
+              <tbody id="player-rows" class="divide-y divide-gray-100">
+                {players.map((p) => (
+                  <tr data-slug={p.slug} class="hover:bg-gray-50">
+                    <td class="px-4 py-3">
+                      <a href={`/players/${p.slug}`} target="_blank" class="font-medium text-stars-navy hover:underline">{p.name}</a>
+                      {p.gradYear && <span class="text-xs text-gray-400 ml-1">'{String(p.gradYear).slice(-2)}</span>}
+                    </td>
+                    <td class="px-4 py-3 text-right font-bold text-stars-navy" data-cell="views7d">-</td>
+                    <td class="px-4 py-3 text-right font-bold text-gray-700" data-cell="views30d">-</td>
+                    <td class="px-4 py-3" data-cell="referrers">-</td>
+                    <td class="px-4 py-3 text-gray-600" data-cell="cities">-</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Footnote -->
+        <p class="text-xs text-gray-400 mt-4 text-center">
+          Auto-refreshes when you click ↻. Want a deeper view of a specific player? Email Mike.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    const AUTH_KEY = 'snw_family_auth';
+    const SUPABASE_URL = 'https://dludfgxxjstzpbrrysqp.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_z-ud8xw7O743S00vGnN3fg_xtTbM7ot';
+
+    // Same exclusions as /admin/dashboard so families see the same "real" traffic Mike does.
+    const EXCLUDED_REFERRERS = ['localhost', 'localhost:4321', 'localhost:4322', '127.0.0.1'];
+    const EXCLUDED_CITIES = ['Athens'];
+
+    if (sessionStorage.getItem(AUTH_KEY) !== 'true') {
+      window.location.replace('/family/login');
+    } else {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      loadDashboard();
+    }
+
+    document.getElementById('refresh-btn').addEventListener('click', loadDashboard);
+
+    function filterOwnTraffic(rows) {
+      return rows.filter((r) => {
+        if (r.referrer_domain && EXCLUDED_REFERRERS.some((ex) => r.referrer_domain.includes(ex))) return false;
+        if (r.city && EXCLUDED_CITIES.some((c) => r.city === c)) return false;
+        return true;
+      });
+    }
+
+    async function fetchViews(sinceIso) {
+      const url = `${SUPABASE_URL}/rest/v1/profile_views?site=eq.starsnatwalker&event_type=eq.page_view&created_at=gte.${sinceIso}&select=player_slug,player_name,referrer_domain,city,region&limit=5000`;
+      const res = await fetch(url, {
+        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
+      });
+      const data = await res.json();
+      if (!Array.isArray(data)) {
+        console.error('Supabase error:', data);
+        return [];
+      }
+      return filterOwnTraffic(data);
+    }
+
+    function topN(map, n) {
+      return Object.entries(map)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, n);
+    }
+
+    async function loadDashboard() {
+      const now = Date.now();
+      const since7 = new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const since30 = new Date(now - 30 * 24 * 60 * 60 * 1000).toISOString();
+
+      const [views7, views30] = await Promise.all([fetchViews(since7), fetchViews(since30)]);
+
+      // Summary stats
+      const eduCount = views30.filter((v) => v.referrer_domain && v.referrer_domain.includes('.edu')).length;
+      const citySet = new Set(views30.filter((v) => v.city).map((v) => `${v.city}, ${v.region || ''}`));
+      document.getElementById('stat-views-7d').textContent = views7.length.toLocaleString();
+      document.getElementById('stat-views-30d').textContent = views30.length.toLocaleString();
+      document.getElementById('stat-edu').textContent = eduCount.toLocaleString();
+      document.getElementById('stat-cities').textContent = citySet.size.toLocaleString();
+
+      // Per-player rollup (use 30d window for richness; show 7d count too)
+      const byPlayer7 = {};
+      views7.forEach((v) => {
+        if (!v.player_slug) return;
+        byPlayer7[v.player_slug] = (byPlayer7[v.player_slug] || 0) + 1;
+      });
+
+      const byPlayer30 = {};
+      views30.forEach((v) => {
+        if (!v.player_slug) return;
+        if (!byPlayer30[v.player_slug]) {
+          byPlayer30[v.player_slug] = { total: 0, refs: {}, cities: {} };
+        }
+        const bucket = byPlayer30[v.player_slug];
+        bucket.total++;
+        if (v.referrer_domain && v.referrer_domain !== 'starsnatwalker.com') {
+          bucket.refs[v.referrer_domain] = (bucket.refs[v.referrer_domain] || 0) + 1;
+        }
+        if (v.city) {
+          const key = v.region ? `${v.city}, ${v.region}` : v.city;
+          bucket.cities[key] = (bucket.cities[key] || 0) + 1;
+        }
+      });
+
+      // Render rows
+      const rows = document.querySelectorAll('#player-rows tr[data-slug]');
+      const enriched = [];
+      rows.forEach((tr) => {
+        const slug = tr.getAttribute('data-slug');
+        const v7 = byPlayer7[slug] || 0;
+        const data = byPlayer30[slug] || { total: 0, refs: {}, cities: {} };
+        enriched.push({ tr, slug, v7, v30: data.total, refs: data.refs, cities: data.cities });
+      });
+
+      // Sort by 30d views desc, but keep zero-rows after non-zero rows
+      enriched.sort((a, b) => b.v30 - a.v30 || b.v7 - a.v7);
+      const tbody = document.getElementById('player-rows');
+      enriched.forEach((row) => tbody.appendChild(row.tr));
+
+      enriched.forEach(({ tr, v7, v30, refs, cities }) => {
+        tr.querySelector('[data-cell="views7d"]').textContent = v7;
+        tr.querySelector('[data-cell="views30d"]').textContent = v30;
+
+        const topRefs = topN(refs, 3);
+        const refsCell = tr.querySelector('[data-cell="referrers"]');
+        if (topRefs.length === 0) {
+          refsCell.innerHTML = '<span class="text-gray-400">—</span>';
+        } else {
+          refsCell.innerHTML = topRefs
+            .map(([domain, count]) => {
+              const isEdu = domain.includes('.edu');
+              const cls = isEdu ? 'text-green-700 font-medium' : 'text-gray-700';
+              return `<div class="${cls} text-xs">${domain} <span class="text-gray-400">×${count}</span></div>`;
+            })
+            .join('');
+        }
+
+        const topCities = topN(cities, 3);
+        const citiesCell = tr.querySelector('[data-cell="cities"]');
+        if (topCities.length === 0) {
+          citiesCell.innerHTML = '<span class="text-gray-400">—</span>';
+        } else {
+          citiesCell.innerHTML = topCities
+            .map(([city, count]) => `<div class="text-xs">${city} <span class="text-gray-400">×${count}</span></div>`)
+            .join('');
+        }
+      });
+    }
+  </script>
+</Layout>

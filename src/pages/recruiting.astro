@@ -397,17 +397,13 @@ const upcomingEvents = schedule.events?.slice(0, 3) || [];
     <!-- Quick Contact -->
     <section class="bg-stars-navy py-12">
       <div class="container-narrow text-center">
-        <p class="text-white/80 mb-4">Questions? Reach out directly:</p>
-        <div class="flex flex-wrap justify-center gap-6">
-          <a href={`mailto:${team.recruitingCoordinator.email}`} class="text-white font-medium hover:text-stars-gold transition-colors">
-            {team.recruitingCoordinator.email}
-          </a>
-          {team.contactPhone && (
-            <a href={`tel:${team.contactPhone.replace(/[^0-9+]/g, '')}`} class="text-white font-medium hover:text-stars-gold transition-colors">
-              {team.contactPhone}
-            </a>
-          )}
-        </div>
+        <p class="text-white/80 mb-4">Questions? Send us a message:</p>
+        <a href="#inquiry" class="inline-flex items-center gap-2 px-6 py-3 bg-stars-gold text-stars-navy font-semibold rounded-lg hover:bg-stars-gold/90 transition-colors">
+          Open Coach Inquiry Form
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
     </section>
   </main>

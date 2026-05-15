@@ -1,0 +1,34 @@
+[
+  {
+    "slug": "lyla-wofford",
+    "title": "Lyla Seibert · A quick hello to Wofford softball",
+    "playerSlug": "lyla-seibert",
+    "playerName": "Lyla Seibert",
+    "playerFirstName": "Lyla",
+    "gradYear": 2028,
+    "position": "Middle Infield / Utility",
+    "muxPlaybackId": "rRFPqCVvmZA9k8WwU3cwZlC9knnCq8n6iGcR01SuNrGo",
+    "muxAssetId": "Dn3VrCdVS4Y802jEI400fVAfhAbaiWg00cvwG1qUIkR36g",
+    "aspectRatio": "9:16",
+    "durationSec": 40,
+    "targetProgram": "Wofford College",
+    "targetProgramShort": "Wofford",
+    "targetCoachesGreeting": "Coach Butler, Coach Liguori, Coach Shutt, and Coach Line",
+    "campContext": "Camp · August 22, 2026",
+    "keyStats": [
+      { "label": "GPA (weighted)", "value": "5.13" },
+      { "label": "GPA (unweighted)", "value": "4.0" },
+      { "label": "SAT", "value": "1240 · retaking fall 2026" },
+      { "label": "Academic track", "value": "Valedictorian / Salutatorian" },
+      { "label": "Position", "value": "Middle Infield / Utility" },
+      { "label": "Grad year", "value": "2028" }
+    ],
+    "ctaLinks": [
+      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert" },
+      { "label": "2026 summer schedule", "href": "/schedule" }
+    ],
+    "publishedAt": "2026-05-15",
+    "expiresAt": null,
+    "internalNotes": "First personalized recruit video. Use as template for the next ones."
+  }
+]

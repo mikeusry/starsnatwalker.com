@@ -1,0 +1,129 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import recruitVideos from '../../data/recruit-videos.json';
+
+export async function getStaticPaths() {
+  return recruitVideos.map((rv) => ({
+    params: { slug: rv.slug },
+    props: { rv },
+  }));
+}
+
+const { rv } = Astro.props;
+
+// Determine vertical vs horizontal styling — phone-shot 9:16 videos look weird if forced into 16:9 frames
+const isVertical = rv.aspectRatio === '9:16';
+
+// Page title is intentionally generic to avoid revealing the school name in browser tab if shared
+const pageTitle = `${rv.playerName} · Stars National Walker`;
+---
+
+<Layout title={pageTitle} description={rv.title} noindex={true}>
+  <main class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <!-- Minimal branded header -->
+    <header class="border-b border-gray-200 bg-white">
+      <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3">
+          <img src="/logo.webp" alt="Stars National Walker" class="h-10 w-auto" />
+          <div class="hidden sm:block">
+            <div class="text-sm font-semibold text-gray-900">Stars National Walker</div>
+            <div class="text-xs text-gray-500">16U · National</div>
+          </div>
+        </a>
+        <div class="text-xs uppercase tracking-wider text-gray-500">For {rv.targetProgramShort}</div>
+      </div>
+    </header>
+
+    <article class="max-w-4xl mx-auto px-4 py-10 sm:py-14">
+      <!-- Lede -->
+      <div class="text-center mb-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-red-700 mb-2">
+          For {rv.targetCoachesGreeting}
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 tracking-tight">
+          A quick hello from {rv.playerFirstName}
+        </h1>
+        {rv.campContext && (
+          <p class="text-sm text-gray-600">{rv.campContext}</p>
+        )}
+      </div>
+
+      <!-- Video -->
+      <div class="mb-10">
+        {isVertical ? (
+          <div class="mx-auto" style="max-width: 360px;">
+            <div class="rounded-2xl overflow-hidden shadow-2xl bg-black" style="aspect-ratio: 9/16;">
+              <mux-player
+                stream-type="on-demand"
+                playback-id={rv.muxPlaybackId}
+                metadata-video-title={rv.title}
+                metadata-viewer-user-id={rv.targetProgramShort}
+                accent-color="#c41e3a"
+                style="width: 100%; height: 100%;"
+              ></mux-player>
+            </div>
+          </div>
+        ) : (
+          <div class="rounded-2xl overflow-hidden shadow-2xl bg-black aspect-video">
+            <mux-player
+              stream-type="on-demand"
+              playback-id={rv.muxPlaybackId}
+              metadata-video-title={rv.title}
+              metadata-viewer-user-id={rv.targetProgramShort}
+              accent-color="#c41e3a"
+              style="width: 100%; height: 100%;"
+            ></mux-player>
+          </div>
+        )}
+        <p class="text-center text-xs text-gray-500 mt-3">
+          {Math.round(rv.durationSec)} seconds
+        </p>
+      </div>
+
+      <!-- Key stats -->
+      <section class="mb-10">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4 text-center">
+          At a glance
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
+          {rv.keyStats.map((stat) => (
+            <div class="bg-white border border-gray-200 rounded-xl p-4 flex items-baseline justify-between">
+              <span class="text-xs uppercase tracking-wide text-gray-500">{stat.label}</span>
+              <span class="text-sm font-semibold text-gray-900 text-right">{stat.value}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA Links -->
+      <section class="mb-12">
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          {rv.ctaLinks.map((link) => (
+            <a
+              href={link.href}
+              class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-semibold text-sm transition-colors shadow"
+            >
+              {link.label}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- Quiet footer -->
+      <footer class="border-t border-gray-200 pt-6 text-center">
+        <p class="text-xs text-gray-500">
+          Made for {rv.targetProgram} · This page is unlisted
+        </p>
+        <p class="text-xs text-gray-400 mt-1">
+          Questions: <a href="mailto:mike@starsnatwalker.com" class="text-red-700 hover:underline">mike@starsnatwalker.com</a>
+        </p>
+      </footer>
+    </article>
+
+    <!-- Mux player web component -->
+    <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
+  </main>
+</Layout>

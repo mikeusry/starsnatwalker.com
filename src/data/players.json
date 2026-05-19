@@ -637,7 +637,7 @@
     "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "firstName": "Ayn Parker",
     "lastName": "Usry",
-    "gradYear": 2028,
+    "gradYear": 2029,
     "position": "Outfield",
     "secondaryPositions": [],
     "bats": "R",
@@ -683,7 +683,7 @@
     "photos": [
       {"url": "https://res.cloudinary.com/southland-organics/image/upload/w_800,c_fill,g_auto,q_auto,f_auto/StarsNationalWalker/APU-Track_lwfssp", "caption": "Outdoor Track — Triple Jump, Sprints & Relays"}
     ],
-    "contactEmail": "aynparkerusry2028@gmail.com",
+    "contactEmail": "aynparkerusry@gmail.com",
     "socialScore": null,
     "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
   },

@@ -30,5 +30,37 @@
     "publishedAt": "2026-05-15",
     "expiresAt": null,
     "internalNotes": "First personalized recruit video. Use as template for the next ones."
+  },
+  {
+    "slug": "lyla-saint-leo",
+    "title": "Lyla Seibert · A quick hello to Saint Leo softball",
+    "playerSlug": "lyla-seibert",
+    "playerName": "Lyla Seibert",
+    "playerFirstName": "Lyla",
+    "gradYear": 2028,
+    "position": "Middle Infield / Utility",
+    "muxPlaybackId": "qx00cwnH3Ef4HE8IYMWeaS2ymvAw501Av4GME01bRpnhJ8",
+    "muxAssetId": "c89Do2bFXy02ISMFEYXnypHueMmhI00TXLUfTUW19mCWw",
+    "aspectRatio": "9:16",
+    "durationSec": 40,
+    "targetProgram": "Saint Leo University",
+    "targetProgramShort": "Saint Leo",
+    "targetCoachesGreeting": "Coach Kinberger and the Saint Leo staff",
+    "campContext": "Camp · September 19, 2026",
+    "keyStats": [
+      { "label": "GPA (weighted)", "value": "5.13" },
+      { "label": "GPA (unweighted)", "value": "4.0" },
+      { "label": "SAT", "value": "1240 · retaking fall 2026" },
+      { "label": "Academic track", "value": "Valedictorian / Salutatorian" },
+      { "label": "Position", "value": "Middle Infield / Utility" },
+      { "label": "Grad year", "value": "2028" }
+    ],
+    "ctaLinks": [
+      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert" },
+      { "label": "2026 summer schedule", "href": "/schedule" }
+    ],
+    "publishedAt": "2026-05-15",
+    "expiresAt": null,
+    "internalNotes": "Saint Leo D2 — Lyla has rapport with Zack & Alexis Carver, attended camp before, Alexis follows on Twitter."
   }
 ]

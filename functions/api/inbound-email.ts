@@ -168,7 +168,7 @@ async function handleCcLog(env: Env, msg: {
   // 1. Identify the player by the envelope From address.
   let actualFromEmail = msg.fromEmail;
   let actualFromName = msg.fromName;
-  let playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(msg.fromEmail)}&select=id,first_name,last_name&limit=1`);
+  let playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(msg.fromEmail)}&select=id,slug,first_name,last_name&limit=1`);
   let players = await playerRes.json();
   let player = Array.isArray(players) && players[0] ? players[0] : null;
 
@@ -178,7 +178,7 @@ async function handleCcLog(env: Env, msg: {
   if (!player && fwd.fromEmail) {
     actualFromEmail = fwd.fromEmail;
     actualFromName = fwd.fromName;
-    playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(fwd.fromEmail)}&select=id,first_name,last_name&limit=1`);
+    playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(fwd.fromEmail)}&select=id,slug,first_name,last_name&limit=1`);
     players = await playerRes.json();
     player = Array.isArray(players) && players[0] ? players[0] : null;
   }
@@ -232,6 +232,7 @@ async function handleCcLog(env: Env, msg: {
       headers: { Prefer: 'return=representation' },
       body: JSON.stringify({
         player_id: player.id,
+        player_slug: player.slug,
         program_id: programId,
         primary_coach_id: coach ? coach.id : null,
         reply_token: generateReplyToken(),
@@ -244,6 +245,45 @@ async function handleCcLog(env: Env, msg: {
     });
     const created = await createRes.json();
     thread = Array.isArray(created) ? created[0] : created;
+  }
+
+  // 3b. Auto-add this school to the player's target list. The model is
+  // "build her list from who she emails" — so emailing a coach surfaces the
+  // school on her Target Schools list (tier=target, status=contacted). Upsert:
+  // skip if a non-removed row already exists for this (player, program).
+  if (programId) {
+    const existingTs = await sb(env, `player_target_schools?player_id=eq.${player.id}&program_id=eq.${programId}&status=neq.removed&select=id,status,first_contact_date,contact_count&limit=1`);
+    const tsRows = await existingTs.json();
+    if (Array.isArray(tsRows) && tsRows[0]) {
+      // Already on the list — bump contact info.
+      const row = tsRows[0];
+      await sb(env, `player_target_schools?id=eq.${row.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          status: row.status === 'identified' ? 'contacted' : row.status,
+          first_contact_date: row.first_contact_date || now.slice(0, 10),
+          last_contact_date: now.slice(0, 10),
+          contact_count: (row.contact_count || 0) + 1,
+        }),
+      });
+    } else {
+      // Not on the list — add it, already marked contacted.
+      await sb(env, 'player_target_schools', {
+        method: 'POST',
+        body: JSON.stringify({
+          player_id: player.id,
+          program_id: programId,
+          tier: 'target',
+          status: 'contacted',
+          heat_level: 'cold',
+          source: 'player_email',
+          first_contact_date: now.slice(0, 10),
+          last_contact_date: now.slice(0, 10),
+          contact_count: 1,
+          primary_coach_id: coach ? coach.id : null,
+        }),
+      });
+    }
   }
 
   // 4. Log the player's email as an outbound message on the thread.

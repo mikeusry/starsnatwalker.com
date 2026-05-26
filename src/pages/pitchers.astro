@@ -6,8 +6,8 @@ import PositionPlayerCard from '../components/PositionPlayerCard.astro';
 import players from '../data/players.json';
 import { generatePlayerSlug } from '../lib/slug';
 
-// Pitchers in display order: Kendall > Avery > Kierra
-const pitcherOrder = ['LaManche', 'Jones', 'Wunderlich'];
+// Pitchers in display order: Kendall > Avery > Kierra > Natalie
+const pitcherOrder = ['LaManche', 'Jones', 'Wunderlich', 'Ireland Hall'];
 const pitchers = pitcherOrder
   .map(name => players.find(p => p.lastName === name))
   .filter(Boolean) as typeof players;

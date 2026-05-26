@@ -125,7 +125,7 @@ ${data.message ? `Message: ${data.message}` : ''}
         personalizations: [
           {
             to: [
-              { email: 'mike@southlandorganics.com', name: 'Mike Usry' },
+              { email: 'mike@starsnatwalker.com', name: 'Mike Usry' },
               { email: 'mikeusry@gmail.com', name: 'Mike Usry' },
             ],
             subject: `Coach Inquiry: ${data.school} - ${data.coachName}`,

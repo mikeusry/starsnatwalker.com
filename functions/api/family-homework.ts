@@ -17,7 +17,7 @@ const headers = {
 
 const FROM_EMAIL = 'mike@southlandorganics.com';
 const FROM_NAME = 'Stars National Walker';
-const TO_EMAIL = 'mike@southlandorganics.com';
+const TO_EMAIL = 'mike@starsnatwalker.com';
 
 async function sb(env: Env, path: string, init: RequestInit = {}) {
   return fetch(`${env.SUPABASE_URL}/rest/v1/${path}`, {

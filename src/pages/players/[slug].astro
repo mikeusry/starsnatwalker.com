@@ -226,7 +226,9 @@ const ogImage = `/players/og/${slug}.png`;
             {/* Bio on the right (or full width if no photos) */}
             <div class={photos.length > 0 ? 'md:col-span-2' : ''}>
               <div class="prose prose-lg max-w-none text-gray-600">
-                <p>{player.bio}</p>
+                {player.bio.split(/\n{2,}/).map((para) => (
+                  <p>{para.trim()}</p>
+                ))}
               </div>
 
               <!-- Achievements -->

@@ -5,14 +5,23 @@
     "lastName": "Findlay",
     "gradYear": 2027,
     "position": "3B",
-    "secondaryPositions": ["SS", "Utility"],
+    "secondaryPositions": [
+      "SS",
+      "Utility"
+    ],
     "bats": "R",
     "throws": "R",
     "twitter": "FindlayBel2027",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/2011533652065198080/B_Xp02R2_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807443/StarsNationalWalker/isabel-findlay-profile.jpg",
     "bio": "Isabel is a college-ready power hitter with D1-caliber bat speed and the athleticism to play anywhere on the left side of the infield. At 5'10\" with an 83.8 mph bat speed, 4.90 kW power output, and a .14-second time to contact, she generates the kind of exit velocities and launch metrics that project to the next level right now. A natural third baseman with shortstop-type range, soft hands, and a cannon arm, she covers ground and makes throws that most corner infielders can't. Isabel brings a rare combination of size, speed, and power — the kind of player who changes lineups and defensive alignments the moment she steps on the field.",
-    "achievements": ["83.8 mph Bat Speed (Blast Motion)", "4.90 kW Power Output", ".14s Time to Contact", "76 mph Exit Velocity", "4.0 GPA"],
+    "achievements": [
+      "83.8 mph Bat Speed (Blast Motion)",
+      "4.90 kW Power Output",
+      ".14s Time to Contact",
+      "76 mph Exit Velocity",
+      "4.0 GPA"
+    ],
     "heightInches": 70,
     "weightLbs": null,
     "gpa": 4.0,
@@ -61,12 +70,15 @@
     "lastName": "Giese Edney",
     "gradYear": 2029,
     "position": "Utility",
-    "secondaryPositions": ["1B", "3B"],
+    "secondaryPositions": [
+      "1B",
+      "3B"
+    ],
     "bats": null,
     "throws": null,
     "twitter": "BayGieseedney",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/2030982867530944513/3AFIKv6N_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807444/StarsNationalWalker/baylee-giese-edney-profile.jpg",
     "bio": null,
     "achievements": [],
     "heightInches": null,
@@ -111,7 +123,7 @@
     "throws": "L",
     "twitter": "MaddieDiaz2028",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/2010849593504784384/6ih2GHwE_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807445/StarsNationalWalker/maddie-diaz-profile.jpg",
     "bio": "Maddie is an athletic outfielder with excellent range and a reliable bat. Her speed and instincts in the outfield allow her to track down fly balls that others can't reach.",
     "heightInches": 64,
     "weightLbs": null,
@@ -138,9 +150,37 @@
       "gameFootageUrl": null
     },
     "targetSchools": {
-      "dream": ["FGCU"],
-      "target": ["Elon", "USC Aiken", "UNCW", "Coastal Carolina", "Western Carolina", "Charleston Southern", "Gardner Webb", "UNC Greensboro", "UNC Charlotte", "Campbell", "USF", "Radford University", "Samford University"],
-      "likely": ["Georgia Southern", "Wofford", "Belmont Abbey", "Carson Newman", "College of Charleston", "ETSU", "Queens University", "Francis Marion University", "Winthrop", "Wingate", "Lenoir Rhyne University"]
+      "dream": [
+        "FGCU"
+      ],
+      "target": [
+        "Elon",
+        "USC Aiken",
+        "UNCW",
+        "Coastal Carolina",
+        "Western Carolina",
+        "Charleston Southern",
+        "Gardner Webb",
+        "UNC Greensboro",
+        "UNC Charlotte",
+        "Campbell",
+        "USF",
+        "Radford University",
+        "Samford University"
+      ],
+      "likely": [
+        "Georgia Southern",
+        "Wofford",
+        "Belmont Abbey",
+        "Carson Newman",
+        "College of Charleston",
+        "ETSU",
+        "Queens University",
+        "Francis Marion University",
+        "Winthrop",
+        "Wingate",
+        "Lenoir Rhyne University"
+      ]
     },
     "contactEmail": "MadelynEDiaz67@gmail.com",
     "socialScore": null,
@@ -157,11 +197,16 @@
     "throws": "R",
     "twitter": "KelseyFliss",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1964480873668968448/aNo79f5z_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807447/StarsNationalWalker/kelsey-fliss-profile.jpg",
     "bio": "Ranked No. 15 in the Southeast region by Extra Inning Softball, Kelsey impacts the game with her range, closing speed, and confident reads off the bat. Standing at 5'11\", she covers tremendous ground in center field. Offensively, her athleticism, aggressiveness on the bases, and ability to pressure defenses fit perfectly with the high-tempo style of play that defines the Stars National Walker program.",
-    "achievements": ["#15 — Southeast Region (Extra Inning Softball)"],
+    "achievements": [
+      "#15 — Southeast Region (Extra Inning Softball)"
+    ],
     "photos": [
-      {"url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Fliss_h3rbjm", "caption": "#15 Southeast Region — Extra Inning Softball"}
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Fliss_h3rbjm",
+        "caption": "#15 Southeast Region — Extra Inning Softball"
+      }
     ],
     "heightInches": 71,
     "weightLbs": null,
@@ -197,12 +242,14 @@
     "lastName": "Frazier",
     "gradYear": 2028,
     "position": "Middle Infield",
-    "secondaryPositions": ["Utility"],
+    "secondaryPositions": [
+      "Utility"
+    ],
     "bats": "S",
     "throws": "R",
     "twitter": "Keirafrazier33",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1985790212140621824/QeUqURVg_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807448/StarsNationalWalker/keira-frazier-profile.jpg",
     "bio": "Keira is a dynamic two-way player who excels at shortstop and on the mound. A switch hitter with excellent bat control, she brings game-changing speed and athleticism to every game. A 2026 VISAA Indoor Track State Champion, she anchored the 4x200 relay to a 1st place finish in 1:43 — breaking both the school record and the state meet record. She also placed 3rd in long jump (16'10.5\" PR) and 4th in triple jump (31'9.5\"). That elite speed and explosiveness translates directly to the diamond. She represented the US Virgin Islands on the 18U national team.",
     "heightInches": 66,
     "weightLbs": null,
@@ -257,18 +304,70 @@
           "playbackId": "3QDrlDa9ecSDehBPlIGdp02wf7nucXeiCu3t8lqU8lfk",
           "title": "200m Relay (Track)"
         },
-        {"playbackId": "yyZUzTJKFzMhdemloZizIXhBjbs5SYhMB2zKhR00BA1M", "title": "4x400 Anchor — Heart & Will on Full Display"},
-        {"playbackId": "47N7cl7xxK9h00EssSLEVOgZvu15LmweN01veb8u7OJio", "title": "Record-Breaking 4x200 Anchor — Blazing Speed"},
-        {"playbackId": "suMtG2Tcd6L25Ttk9M72wXHe72DGUaV1xf927SOvbCM", "title": "Triple Jump — Explosiveness & Athleticism"}
+        {
+          "playbackId": "yyZUzTJKFzMhdemloZizIXhBjbs5SYhMB2zKhR00BA1M",
+          "title": "4x400 Anchor — Heart & Will on Full Display"
+        },
+        {
+          "playbackId": "47N7cl7xxK9h00EssSLEVOgZvu15LmweN01veb8u7OJio",
+          "title": "Record-Breaking 4x200 Anchor — Blazing Speed"
+        },
+        {
+          "playbackId": "suMtG2Tcd6L25Ttk9M72wXHe72DGUaV1xf927SOvbCM",
+          "title": "Triple Jump — Explosiveness & Athleticism"
+        }
       ]
     },
-    "achievements": ["2026 VISAA Indoor Track State Champion", "4x200 Relay — School Record & State Meet Record (1:43)", "Long Jump 3rd Place (16'10.5\" PR)", "Triple Jump 4th Place (31'9.5\")", "2025 Second Team All-State (VISAA)", "USA HPP 2024", "USA HPP 2025", "US Virgin Islands 18U National Team"],
+    "achievements": [
+      "2026 VISAA Indoor Track State Champion",
+      "4x200 Relay — School Record & State Meet Record (1:43)",
+      "Long Jump 3rd Place (16'10.5\" PR)",
+      "Triple Jump 4th Place (31'9.5\")",
+      "2025 Second Team All-State (VISAA)",
+      "USA HPP 2024",
+      "USA HPP 2025",
+      "US Virgin Islands 18U National Team"
+    ],
     "milesplitUrl": "https://va.milesplit.com/athletes/17298536-keira-frazier",
-    "campsAttended": ["ASU", "Purdue", "Utah", "USF", "JMU", "UNC", "UVA", "GCU", "Kentucky", "Liberty", "CNU"],
+    "campsAttended": [
+      "ASU",
+      "Purdue",
+      "Utah",
+      "USF",
+      "JMU",
+      "UNC",
+      "UVA",
+      "GCU",
+      "Kentucky",
+      "Liberty",
+      "CNU"
+    ],
     "targetSchools": {
-      "dream": ["ASU", "Arizona", "SDSU", "Utah", "Texas"],
-      "target": ["Purdue", "UNC", "NC State", "Syracuse", "Kentucky", "UVA", "JMU"],
-      "likely": ["Coastal Carolina", "FAU", "USF", "GCU", "Liberty", "Barton", "CNU"]
+      "dream": [
+        "ASU",
+        "Arizona",
+        "SDSU",
+        "Utah",
+        "Texas"
+      ],
+      "target": [
+        "Purdue",
+        "UNC",
+        "NC State",
+        "Syracuse",
+        "Kentucky",
+        "UVA",
+        "JMU"
+      ],
+      "likely": [
+        "Coastal Carolina",
+        "FAU",
+        "USF",
+        "GCU",
+        "Liberty",
+        "Barton",
+        "CNU"
+      ]
     },
     "recruitingNotes": "Wants to go out West. Favorites: ASU (campus), Purdue (academics).",
     "measurablesVerified": "HPP & Alliance Camps",
@@ -287,7 +386,7 @@
     "throws": "R",
     "twitter": "avery_jones28",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1974600744721330176/6aYvGN1h_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807450/StarsNationalWalker/avery-jones-profile.jpg",
     "bio": "Avery is a power pitcher and first baseman standing at 6'0\". Her size and athleticism create a dominant presence on the mound, while her bat provides middle-of-the-order production. An honor roll student who excels in the classroom.",
     "heightInches": 72,
     "weightLbs": null,
@@ -313,7 +412,9 @@
       "skillsUrl": null,
       "gameFootageUrl": null
     },
-    "achievements": ["Honor Roll"],
+    "achievements": [
+      "Honor Roll"
+    ],
     "contactEmail": "avery.jones2028@outlook.com",
     "socialScore": null,
     "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
@@ -324,16 +425,23 @@
     "lastName": "LaManche",
     "gradYear": 2029,
     "position": "Pitcher",
-    "secondaryPositions": ["Utility"],
+    "secondaryPositions": [
+      "Utility"
+    ],
     "bats": "R",
     "throws": "R",
     "twitter": "KLamanche2011",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1986966921556733952/OaeRkWV6_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807451/StarsNationalWalker/kendall-lamanche-profile.jpg",
     "bio": "Ranked the No. 1 pitcher in the Northeast region by Extra Inning Softball, Kendall combines advanced command with high-level spin and movement to keep hitters off balance. Her calm presence in the circle, ability to compete in big moments, and feel for multiple pitches make her a go-to starter and a tone-setter for the Stars National Walker staff.",
-    "achievements": ["#1 Pitcher — Northeast Region (Extra Inning Softball)"],
+    "achievements": [
+      "#1 Pitcher — Northeast Region (Extra Inning Softball)"
+    ],
     "photos": [
-      {"url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Kendall_xphw5z", "caption": "#1 Pitcher, Northeast Region — Extra Inning Softball"}
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Kendall_xphw5z",
+        "caption": "#1 Pitcher, Northeast Region — Extra Inning Softball"
+      }
     ],
     "heightInches": 67,
     "weightLbs": null,
@@ -374,7 +482,7 @@
     "throws": "R",
     "twitter": "C_Llaneza02",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1881487403623358464/8Crkpkiv_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807452/StarsNationalWalker/charlotte-llaneza-profile.jpg",
     "bio": "Charlotte is a versatile player who excels behind the plate and at the hot corner. Her strong arm and quick release make her a threat to opposing base runners, while her bat provides consistent offensive production.",
     "heightInches": 65,
     "weightLbs": null,
@@ -410,14 +518,23 @@
     "lastName": "Orlando",
     "gradYear": 2028,
     "position": "Outfield",
-    "secondaryPositions": ["IF"],
+    "secondaryPositions": [
+      "IF"
+    ],
     "bats": "R",
     "throws": "R",
     "twitter": "Caraorlando2028",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1980340848064692224/W1Dn_GjU_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807454/StarsNationalWalker/cara-orlando-profile.jpg",
     "bio": "Cara is a power-hitting multi-sport athlete who brings elite speed, agility, and competitive fire to the diamond. At Sutherland High School she has led the team in home runs two straight years and finished second in the region last year — the kind of raw power that translates to the next level. A varsity ski racer and 4x sectional champion who placed 5th overall at the 2026 Section V Championships, she brings the same explosiveness and fearlessness to the outfield with exceptional range and the versatility to contribute in the infield.",
-    "achievements": ["HS HR Leader — 2 Consecutive Years (Sutherland)", "2nd in Region in HRs (2025)", "74 mph Exit Velocity", "4x Section V Ski Sectional Champion", "5th Overall — 2026 Section V Ski Championships", "Multi-Sport Varsity Athlete"],
+    "achievements": [
+      "HS HR Leader — 2 Consecutive Years (Sutherland)",
+      "2nd in Region in HRs (2025)",
+      "74 mph Exit Velocity",
+      "4x Section V Ski Sectional Champion",
+      "5th Overall — 2026 Section V Ski Championships",
+      "Multi-Sport Varsity Athlete"
+    ],
     "heightInches": 69,
     "weightLbs": null,
     "gpa": null,
@@ -442,9 +559,20 @@
       "skillsUrl": null,
       "gameFootageUrl": null,
       "muxVideos": [
-        {"playbackId": "N9ioX77Re23hU1YEpvpbMjDF02EXZ1Q0001Vlcqqc8tMHs", "title": "74 mph Exit Velocity", "description": "Cara Orlando showing the bat speed and raw power that make her one of the most dangerous hitters on the roster."},
-        {"playbackId": "2wmP3FU6E3X02up2Qu900UM4OOi6oVeMinUUCTg4oMrek", "title": "Home Run", "description": "Cara launching one out of the park — the power that has made her the HR leader at Sutherland two years running."},
-        {"playbackId": "WpLPe5wEvTWKqL8Iy3PDNZKs35CrY6kHF00wFvv7Z1xM", "title": "Ski Sectionals 2026 — 5th Overall"}
+        {
+          "playbackId": "N9ioX77Re23hU1YEpvpbMjDF02EXZ1Q0001Vlcqqc8tMHs",
+          "title": "74 mph Exit Velocity",
+          "description": "Cara Orlando showing the bat speed and raw power that make her one of the most dangerous hitters on the roster."
+        },
+        {
+          "playbackId": "2wmP3FU6E3X02up2Qu900UM4OOi6oVeMinUUCTg4oMrek",
+          "title": "Home Run",
+          "description": "Cara launching one out of the park — the power that has made her the HR leader at Sutherland two years running."
+        },
+        {
+          "playbackId": "WpLPe5wEvTWKqL8Iy3PDNZKs35CrY6kHF00wFvv7Z1xM",
+          "title": "Ski Sectionals 2026 — 5th Overall"
+        }
       ]
     },
     "contactEmail": "caraorlando2028@gmail.com",
@@ -457,12 +585,14 @@
     "lastName": "Perez",
     "gradYear": 2028,
     "position": "Middle Infield",
-    "secondaryPositions": ["Utility"],
+    "secondaryPositions": [
+      "Utility"
+    ],
     "bats": "L",
     "throws": "R",
     "twitter": "SophiaPerez_28",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1985477058504638464/0OtDa9Hw_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807455/StarsNationalWalker/sophia-perez-profile.jpg",
     "bio": "Sophia is a slick-fielding middle infielder with outstanding hands and footwork. A left-handed hitter with excellent bat control, she excels at getting on base and making things happen. Her 4.17 GPA demonstrates her commitment to excellence in all areas.",
     "heightInches": 64,
     "weightLbs": null,
@@ -488,12 +618,31 @@
       "skillsUrl": null,
       "gameFootageUrl": null
     },
-    "achievements": ["EIS Ambassador"],
-    "campsAttended": ["Purdue", "USF", "Colorado State"],
+    "achievements": [
+      "EIS Ambassador"
+    ],
+    "campsAttended": [
+      "Purdue",
+      "USF",
+      "Colorado State"
+    ],
     "targetSchools": {
-      "dream": ["Creighton", "Purdue"],
-      "target": ["USF", "Colorado State", "Penn State", "Baylor", "Penn"],
-      "likely": ["Nebraska Omaha", "Northern Colorado", "St Mary's"]
+      "dream": [
+        "Creighton",
+        "Purdue"
+      ],
+      "target": [
+        "USF",
+        "Colorado State",
+        "Penn State",
+        "Baylor",
+        "Penn"
+      ],
+      "likely": [
+        "Nebraska Omaha",
+        "Northern Colorado",
+        "St Mary's"
+      ]
     },
     "recruitingNotes": "Creighton is #1 school. Loved Purdue coaching staff. USF came to game. Penn State and Penn watched her play.",
     "contactEmail": "sophiaroseperez2028@gmail.com",
@@ -506,12 +655,14 @@
     "lastName": "Seibert",
     "gradYear": 2028,
     "position": "Middle Infield",
-    "secondaryPositions": ["Utility"],
+    "secondaryPositions": [
+      "Utility"
+    ],
     "bats": "R",
     "throws": "R",
     "twitter": "LylaSeibert17",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1953602456551583744/nBRD97bN_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807456/StarsNationalWalker/lyla-seibert-profile.jpg",
     "bio": "Lyla is an exceptional middle infielder with outstanding range and a quick release. Her 5.132 GPA earned her recognition as a SC Junior Scholar, demonstrating her commitment to academic excellence. A natural leader who brings energy to every practice and game.",
     "heightInches": 64,
     "weightLbs": null,
@@ -537,11 +688,22 @@
       "skillsUrl": null,
       "gameFootageUrl": null,
       "muxVideos": [
-        {"playbackId": "tiPa7ALKwk9NpEkhWIJWVEjIgUs00SveY474L1HsqtsY", "title": "Highlights"}
+        {
+          "playbackId": "tiPa7ALKwk9NpEkhWIJWVEjIgUs00SveY474L1HsqtsY",
+          "title": "Highlights"
+        }
       ]
     },
-    "achievements": ["SC Junior Scholar"],
-    "campsAttended": ["Saint Leo", "Flagler", "Nova Southeastern", "Gardner Webb", "Wofford"],
+    "achievements": [
+      "SC Junior Scholar"
+    ],
+    "campsAttended": [
+      "Saint Leo",
+      "Flagler",
+      "Nova Southeastern",
+      "Gardner Webb",
+      "Wofford"
+    ],
     "contactEmail": "lylaseibert2028@gmail.com",
     "socialScore": null,
     "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
@@ -552,12 +714,14 @@
     "lastName": "Utrera",
     "gradYear": 2028,
     "position": "Middle Infield",
-    "secondaryPositions": ["Utility"],
+    "secondaryPositions": [
+      "Utility"
+    ],
     "bats": "R",
     "throws": "R",
     "twitter": "Sara_Utrera2028",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1898483998378094593/A0chxYoY_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807457/StarsNationalWalker/sara-utrera-profile.jpg",
     "bio": "Sara is a championship-caliber infielder who helped lead Doral Academy to the 2025 FHSAA 6A State Championship. A 2025 All-County 1st Team selection, she combines exceptional defensive skills with clutch hitting in big moments.",
     "heightInches": 65,
     "weightLbs": null,
@@ -583,7 +747,10 @@
       "skillsUrl": null,
       "gameFootageUrl": null
     },
-    "achievements": ["2025 FHSAA 6A State Champion", "2025 All-County 1st Team 6A"],
+    "achievements": [
+      "2025 FHSAA 6A State Champion",
+      "2025 All-County 1st Team 6A"
+    ],
     "contactEmail": "sarautrera_2028@icloud.com",
     "socialScore": null,
     "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
@@ -599,10 +766,13 @@
     "throws": "R",
     "twitter": "RileyWalker2029",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/1953854015151755270/K-o5lnmA_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807458/StarsNationalWalker/riley-walker-profile.jpg",
     "bio": "Ranked No. 14 in the Southeast region by Extra Inning Softball, Riley brings a strong defensive skill set with soft hands, quiet receiving, and the arm strength to control the running game. Standing at 6'1\", she also provides leadership behind the plate — managing the pitching staff, communicating with the defense, and bringing a competitive energy that elevates the entire lineup.",
     "photos": [
-      {"url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Riley_Walker_v725ny", "caption": "#14 Southeast Region — Extra Inning Softball"}
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Riley_Walker_v725ny",
+        "caption": "#14 Southeast Region — Extra Inning Softball"
+      }
     ],
     "heightInches": 73,
     "weightLbs": null,
@@ -628,7 +798,11 @@
       "skillsUrl": null,
       "gameFootageUrl": null
     },
-    "achievements": ["#14 — Southeast Region (Extra Inning Softball)", "Select 30 National", "USA HPP National Identifier Invitee"],
+    "achievements": [
+      "#14 — Southeast Region (Extra Inning Softball)",
+      "Select 30 National",
+      "USA HPP National Identifier Invitee"
+    ],
     "contactEmail": null,
     "socialScore": null,
     "lastUpdated": "2026-02-15T09:00:00.000000+00:00"
@@ -644,7 +818,7 @@
     "throws": "R",
     "twitter": "AynParkerUsry",
     "featured": false,
-    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/w_400,h_500,c_fill,g_face,q_auto,f_auto/AynParkerUsry/ayn_parker_usry_profile",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807460/StarsNationalWalker/ayn-parker-usry-profile.jpg",
     "bio": "Contact-first outfielder with plus speed and a plus arm. A multi-sport athlete who competes in outdoor track — triple jump, sprints, and relays — the same explosiveness and top-end speed that make her dangerous on the bases and in the gaps. At the 5A Georgia Meet on Feb. 11, she ran an 8.86 laser-timed 60m, finishing 18th out of 71 competitors. She's also a key leg on her school's 4x100m relay, typically closing the gap as a strong curve runner. Made the jump to top-tier PGF National team for Fall 2025 and maintained strong production against elite competition.\n\nAthletic family: Both parents were student-athletes at the University of Georgia. Dad (Mike) played football; Mom (Karin) was an All-American gymnast.",
     "heightInches": 67,
     "weightLbs": 135,
@@ -670,18 +844,49 @@
       "skillsUrl": null,
       "gameFootageUrl": null,
       "muxVideos": [
-        {"playbackId": "xOwDiGQ4DdDZ3rLe7Wc6DX8d4DWBGWOjAZLwIxcmXfc", "title": "Highlights"},
-        {"playbackId": "XfXtbTQVnKk3zGe8jP3i78DrutYWcVtcW1oLQGenYY00", "title": "Spring 2025"},
-        {"playbackId": "UJGCosxVGQjCMjs00UQ01kVE9PuCggU01hQUYJyD0102IhJU", "title": "Home Run"},
-        {"playbackId": "SI00Rhk7E7HLTUB79tnQu018i61a9ceDHlxBv1oxNUTHg", "title": "Summer Workouts"},
-        {"playbackId": "d4ZRgrj2hIbiXi501uavZOHrA01znhGLXHWvuJRSfgsMc", "title": "330lb Pin Squats"},
-        {"playbackId": "KoeMxuJFLRJuFcPDc1p2zGJipHg3JWulyxIAbwHmh34", "title": "60m Dash — 8.86 Laser (5A Georgia Meet)"},
-        {"playbackId": "qPTB01kALnJiKmy3XaD5O3hNRM2lvTV7WyR5XGejvv7w", "title": "4x100m Relay — Closing the Gap"}
+        {
+          "playbackId": "xOwDiGQ4DdDZ3rLe7Wc6DX8d4DWBGWOjAZLwIxcmXfc",
+          "title": "Highlights"
+        },
+        {
+          "playbackId": "XfXtbTQVnKk3zGe8jP3i78DrutYWcVtcW1oLQGenYY00",
+          "title": "Spring 2025"
+        },
+        {
+          "playbackId": "UJGCosxVGQjCMjs00UQ01kVE9PuCggU01hQUYJyD0102IhJU",
+          "title": "Home Run"
+        },
+        {
+          "playbackId": "SI00Rhk7E7HLTUB79tnQu018i61a9ceDHlxBv1oxNUTHg",
+          "title": "Summer Workouts"
+        },
+        {
+          "playbackId": "d4ZRgrj2hIbiXi501uavZOHrA01znhGLXHWvuJRSfgsMc",
+          "title": "330lb Pin Squats"
+        },
+        {
+          "playbackId": "KoeMxuJFLRJuFcPDc1p2zGJipHg3JWulyxIAbwHmh34",
+          "title": "60m Dash — 8.86 Laser (5A Georgia Meet)"
+        },
+        {
+          "playbackId": "qPTB01kALnJiKmy3XaD5O3hNRM2lvTV7WyR5XGejvv7w",
+          "title": "4x100m Relay — Closing the Gap"
+        }
       ]
     },
-    "achievements": ["60m — 8.86 Laser (18th/71, 5A Georgia Meet)", "4x100m Relay — Strong Curve Runner", "Alliance Atlantic Region Champions 2025", "BETA Club Inductee 2025-2026", "State Track Finalist - Triple Jump", "Multi-Sport Varsity Athlete"],
+    "achievements": [
+      "60m — 8.86 Laser (18th/71, 5A Georgia Meet)",
+      "4x100m Relay — Strong Curve Runner",
+      "Alliance Atlantic Region Champions 2025",
+      "BETA Club Inductee 2025-2026",
+      "State Track Finalist - Triple Jump",
+      "Multi-Sport Varsity Athlete"
+    ],
     "photos": [
-      {"url": "https://res.cloudinary.com/southland-organics/image/upload/w_800,c_fill,g_auto,q_auto,f_auto/StarsNationalWalker/APU-Track_lwfssp", "caption": "Outdoor Track — Triple Jump, Sprints & Relays"}
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_800,c_fill,g_auto,q_auto,f_auto/StarsNationalWalker/APU-Track_lwfssp",
+        "caption": "Outdoor Track — Triple Jump, Sprints & Relays"
+      }
     ],
     "contactEmail": "aynparkerusry@gmail.com",
     "socialScore": null,
@@ -693,14 +898,18 @@
     "lastName": "Wunderlich",
     "gradYear": 2028,
     "position": "RHP",
-    "secondaryPositions": ["Utility"],
+    "secondaryPositions": [
+      "Utility"
+    ],
     "bats": "R",
     "throws": "R",
     "twitter": "kierrawunder",
     "featured": false,
-    "photoUrl": "https://pbs.twimg.com/profile_images/2012533379476967424/OrKFKc6d_400x400.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807461/StarsNationalWalker/kierra-wunderlich-profile.jpg",
     "bio": "Kierra is a fierce competitor on the mound and a versatile utility player who can impact the game from anywhere on the field. A 2x USSSA All-American, she brings power, intensity, and a winning mindset to every outing.",
-    "achievements": ["2x USSSA All-American"],
+    "achievements": [
+      "2x USSSA All-American"
+    ],
     "heightInches": null,
     "weightLbs": null,
     "gpa": null,
@@ -725,13 +934,83 @@
       "skillsUrl": null,
       "gameFootageUrl": null,
       "muxVideos": [
-        {"playbackId": "LSYcDPmGL4BjT1oPceE2GPI02ZoeRMOniO2uE3mC3LZ4", "title": "Pitching Clip 1", "description": "Kierra Wunderlich on the mound — showcasing her arm strength and command."},
-        {"playbackId": "vLmAviG00EgE7M029eaLwtVHYigQrN00eqSlVN7K4Mbyq8", "title": "Pitching Clip 2", "description": "More looks at Kierra's pitching mechanics and velocity."},
-        {"playbackId": "6Rt6IJauDCLF5eIN5N9858uhjw6cbmz3wX013QXB6RA4", "title": "Pitching Clip 3", "description": "Kierra delivering from the circle with power and confidence."}
+        {
+          "playbackId": "LSYcDPmGL4BjT1oPceE2GPI02ZoeRMOniO2uE3mC3LZ4",
+          "title": "Pitching Clip 1",
+          "description": "Kierra Wunderlich on the mound — showcasing her arm strength and command."
+        },
+        {
+          "playbackId": "vLmAviG00EgE7M029eaLwtVHYigQrN00eqSlVN7K4Mbyq8",
+          "title": "Pitching Clip 2",
+          "description": "More looks at Kierra's pitching mechanics and velocity."
+        },
+        {
+          "playbackId": "6Rt6IJauDCLF5eIN5N9858uhjw6cbmz3wX013QXB6RA4",
+          "title": "Pitching Clip 3",
+          "description": "Kierra delivering from the circle with power and confidence."
+        }
       ]
     },
     "contactEmail": "kierrawunderlich@gmail.com",
     "socialScore": null,
     "lastUpdated": "2026-02-15T09:00:00.000000+00:00"
+  },
+  {
+    "id": "dbf8e362-82c0-4788-b0e4-e5cc47122e0b",
+    "firstName": "Natalie",
+    "lastName": "Ireland Hall",
+    "gradYear": 2029,
+    "position": "LHP",
+    "secondaryPositions": [
+      "1B"
+    ],
+    "bats": "L",
+    "throws": "L",
+    "twitter": "nataliehall2029",
+    "featured": false,
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807462/StarsNationalWalker/natalie-ireland-hall-profile.jpg",
+    "bio": "Natalie is a left-handed pitcher and first baseman with elite command and a dominant strikeout rate. A 2026 USA Softball All-American and Line Drive Media Top 100 player in the Class of 2029, she pairs overpowering stuff in the circle with the kind of competitive edge that translates to the next level. In her 2026 high school season she threw 16 innings with 35 strikeouts, zero walks, and a 0.00 ERA, allowing just two hits — a snapshot of the control and dominance that define her game. A 4.1 GPA Honor Roll student and captain of her high school volleyball team, Natalie is a complete student-athlete and a proven leader.",
+    "achievements": [
+      "2026 USA Softball All-American",
+      "Line Drive Media Top 100 — Class of 2029",
+      "2026 HS Pitching: 16 IP, 35 K, 0 BB, 0.00 ERA, 2 H allowed",
+      "2025 Fall Travel: 35 IP, 67 K, 9 BB, 1.10 ERA",
+      "4.1 GPA, Honor Roll",
+      "Captain — High School Volleyball Team"
+    ],
+    "heightInches": 66,
+    "weightLbs": null,
+    "gpa": 4.1,
+    "satScore": null,
+    "actScore": null,
+    "intendedMajor": null,
+    "highSchool": "Huntingtown High School",
+    "highSchoolState": "MD",
+    "ncaaId": null,
+    "recruitingStatus": "uncommitted",
+    "committedTo": null,
+    "recruitingNotes": "TEMP TRYOUT (SMTM) — added 2026-05-26. NCSA recruiting profile: https://recruit-match.ncsasports.org/clientrms/athletes/14766134 . Remove if she does not join the roster.",
+    "measurables": {
+      "sixtyYard": null,
+      "exitVelo": null,
+      "popTime": null,
+      "infieldVelo": null,
+      "outfieldVelo": null,
+      "pitchSpeed": null
+    },
+    "stats": {
+      "season": "2026 H.S. Pitching",
+      "era": "0.00",
+      "strikeouts": 35
+    },
+    "videos": {
+      "highlightUrl": "https://www.youtube.com/watch?v=5dtqNultefE",
+      "skillsUrl": null,
+      "gameFootageUrl": null,
+      "muxVideos": []
+    },
+    "contactEmail": "natalieihall8@outlook.com",
+    "socialScore": null,
+    "lastUpdated": "2026-05-26T13:00:00.000000+00:00"
   }
 ]

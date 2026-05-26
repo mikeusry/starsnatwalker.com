@@ -1,0 +1,3 @@
+# Cloudflare Pages redirects
+# /coordinator was a dead URL — route it to Mike's real staff page
+/coordinator  /staff/mike-usry  301

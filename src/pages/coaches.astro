@@ -171,7 +171,11 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
                       )}
                     </td>
                     <td class="px-4 py-4 text-gray-600">
-                      Uncommitted
+                      {player.committedTo
+                        ? player.committedTo
+                        : player.recruitingStatus === 'committed'
+                          ? 'Committed'
+                          : 'Uncommitted'}
                     </td>
                     <td class="px-4 py-4 text-center">
                       <a

@@ -62,13 +62,13 @@ const pageTitle = `${staff.name} - ${staff.title} | Stars National Walker`;
               {staff.name}
             </h1>
             <a
-              href={`mailto:${staff.email}`}
+              href="/recruiting#inquiry"
               class="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              {staff.email}
+              Contact {staff.name.split(' ')[0]}
             </a>
           </div>
         </div>
@@ -92,7 +92,7 @@ const pageTitle = `${staff.name} - ${staff.title} | Stars National Walker`;
             Have questions about our program? Reach out to {staff.name.split(' ')[0]} directly.
           </p>
           <a
-            href={`mailto:${staff.email}`}
+            href="/recruiting#inquiry"
             class="inline-flex items-center gap-2 font-bold px-6 py-3 rounded-lg transition-all hover:opacity-90"
             style="background-color: #FFD700; color: #062a4b;"
           >

@@ -124,9 +124,40 @@ function escapeHtml(s: string) {
   return (s || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c]);
 }
 
-// CC-logging handler: a player CC'd log@ on an email to a college coach.
-// Match player (by from), coach+program (by recipient), create/append an
-// outbound thread, log the message. Always returns 200 (we own failures).
+// When Mike FORWARDS a player's recruiting email to log@ (instead of the player
+// CC'ing log@ at send time), the envelope From is Mike, not the player, and the
+// real To/Cc are gone from the envelope. But the forwarded body carries the
+// original headers ("From: Riley Walker <...>", "To: coach@...", "Cc: ..."). This
+// scans the body to recover them so forwarded emails attribute correctly.
+function parseForwardedHeaders(body: string): {
+  fromEmail: string | null;
+  fromName: string | null;
+  recipients: string[];
+} {
+  const out = { fromEmail: null as string | null, fromName: null as string | null, recipients: [] as string[] };
+  if (!body) return out;
+  // Only look at the top chunk where forwarded headers live.
+  const head = body.slice(0, 4000);
+
+  const fromLine = head.match(/^\s*From:\s*(.+)$/im);
+  if (fromLine) {
+    const parsed = parseFromAddress(fromLine[1].trim());
+    out.fromEmail = parsed.email || null;
+    out.fromName = parsed.name;
+  }
+  const toLine = head.match(/^\s*To:\s*(.+)$/im);
+  const ccLine = head.match(/^\s*Cc:\s*(.+)$/im);
+  out.recipients = [
+    ...(toLine ? extractEmails(toLine[1]) : []),
+    ...(ccLine ? extractEmails(ccLine[1]) : []),
+  ];
+  return out;
+}
+
+// CC-logging handler: a player CC'd log@ on an email to a college coach (or Mike
+// forwarded it to log@). Match player (by from, or forwarded-from), coach+program
+// (by recipient, or forwarded-recipients), create/append an outbound thread, log
+// the message. Always returns 200 (we own failures).
 async function handleCcLog(env: Env, msg: {
   to: string; cc: string;
   fromName: string | null; fromEmail: string;
@@ -134,22 +165,40 @@ async function handleCcLog(env: Env, msg: {
 }): Promise<Response> {
   const now = new Date().toISOString();
 
-  // 1. Identify the player by her From address.
-  const playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(msg.fromEmail)}&select=id,first_name,last_name&limit=1`);
-  const players = await playerRes.json();
-  const player = Array.isArray(players) && players[0] ? players[0] : null;
+  // 1. Identify the player by the envelope From address.
+  let actualFromEmail = msg.fromEmail;
+  let actualFromName = msg.fromName;
+  let playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(msg.fromEmail)}&select=id,first_name,last_name&limit=1`);
+  let players = await playerRes.json();
+  let player = Array.isArray(players) && players[0] ? players[0] : null;
+
+  // 1b. Fallback: this looks like a FORWARD. Parse the original sender out of the
+  // body and retry. This makes Mike-forwards-to-log@ work the same as a direct CC.
+  const fwd = parseForwardedHeaders(msg.text || msg.html);
+  if (!player && fwd.fromEmail) {
+    actualFromEmail = fwd.fromEmail;
+    actualFromName = fwd.fromName;
+    playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(fwd.fromEmail)}&select=id,first_name,last_name&limit=1`);
+    players = await playerRes.json();
+    player = Array.isArray(players) && players[0] ? players[0] : null;
+  }
 
   if (!player) {
-    // Unknown sender — can't attribute. Forward to Mike to handle manually.
+    // Unknown sender even after forward-parsing — can't attribute.
     await forwardToMike(env, {
       fromName: msg.fromName, fromEmail: msg.fromEmail, subject: msg.subject, text: msg.text, html: msg.html,
-      threadInfo: `CC-log from unrecognized sender (${msg.fromEmail}). Not matched to a player — log manually if needed.`,
+      threadInfo: `CC-log from unrecognized sender (${msg.fromEmail}${fwd.fromEmail ? `, forwarded-from ${fwd.fromEmail}` : ''}). Not matched to a player — log manually if needed.`,
     });
     return new Response('cc-log: unknown player, forwarded', { status: 200 });
   }
 
-  // 2. Find the coach among the recipients (To + Cc, minus our own addresses).
-  const recipients = [...extractEmails(msg.to), ...extractEmails(msg.cc)].filter((e) => !isOurAddress(e));
+  // 2. Find the coach among recipients. Use envelope To/Cc first, and if those
+  // only contain our own addresses (true for forwards), fall back to the
+  // forwarded recipients parsed from the body.
+  let recipients = [...extractEmails(msg.to), ...extractEmails(msg.cc)].filter((e) => !isOurAddress(e));
+  if (recipients.length === 0 && fwd.recipients.length > 0) {
+    recipients = fwd.recipients.filter((e) => !isOurAddress(e));
+  }
   let coach: any = null;
   let programId: string | null = null;
   for (const addr of recipients) {
@@ -198,15 +247,16 @@ async function handleCcLog(env: Env, msg: {
   }
 
   // 4. Log the player's email as an outbound message on the thread.
+  const loggedToEmails = recipients.length ? recipients : extractEmails(msg.to);
   await sb(env, 'outreach_messages', {
     method: 'POST',
     body: JSON.stringify({
       thread_id: thread.id,
       direction: 'outbound',
       sent_at: now,
-      from_email: msg.fromEmail,
-      from_name: msg.fromName || playerName,
-      to_emails: extractEmails(msg.to),
+      from_email: actualFromEmail,
+      from_name: actualFromName || playerName,
+      to_emails: loggedToEmails,
       cc_emails: extractEmails(msg.cc),
       subject: msg.subject,
       body_text: msg.text,
@@ -232,7 +282,7 @@ async function handleCcLog(env: Env, msg: {
     ? `Logged ${playerName} → coach ${coachEmail} (matched to a program).`
     : `Logged ${playerName} → coach ${coachEmail} — but the program/coach is NOT in the CRM yet. Thread created unmatched; assign it in /admin/outreach.`;
   await forwardToMike(env, {
-    fromName: msg.fromName, fromEmail: msg.fromEmail, subject: msg.subject, text: msg.text, html: msg.html,
+    fromName: actualFromName, fromEmail: actualFromEmail, subject: msg.subject, text: msg.text, html: msg.html,
     threadInfo: matchNote,
   });
 

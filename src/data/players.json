@@ -805,7 +805,7 @@
     ],
     "heightInches": 73,
     "weightLbs": null,
-    "gpa": 4,
+    "gpa": 4.375,
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
@@ -828,13 +828,15 @@
       "gameFootageUrl": null
     },
     "achievements": [
+      "2026 First-Team All-Conference",
+      "2026 Team Rookie of the Year",
       "#14 — Southeast Region (Extra Inning Softball)",
       "Select 30 National",
       "USA HPP National Identifier Invitee"
     ],
     "contactEmail": null,
     "socialScore": null,
-    "lastUpdated": "2026-02-15T09:00:00.000000+00:00"
+    "lastUpdated": "2026-05-31T00:00:00.000000+00:00"
   },
   {
     "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",

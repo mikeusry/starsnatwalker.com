@@ -44,8 +44,12 @@ const muxVideos = player.videos?.muxVideos || [];
 // Check if player has any measurables
 const hasMeasurables = player.measurables && Object.values(player.measurables).some(v => v !== null);
 
-// Check if player has stats
-const hasStats = player.stats && Object.keys(player.stats).length > 0;
+// Check if player has stats. Prefer a multi-season array (statsSeasons);
+// fall back to the legacy single-season `stats` object.
+const statsSeasons = (player.statsSeasons && player.statsSeasons.length > 0)
+  ? player.statsSeasons
+  : (player.stats && Object.keys(player.stats).length > 0 ? [player.stats] : []);
+const hasStats = statsSeasons.length > 0;
 
 // Check for additional photos
 const photos = (player as any).photos || [];
@@ -258,40 +262,56 @@ const ogImage = `/players/og/${slug}.png`;
       <section class="section-padding bg-gray-50">
         <div class="container-narrow max-w-4xl">
           <h2 class="text-3xl font-bold text-gray-900 mb-6">Season Stats</h2>
-          <div class="bg-white rounded-xl shadow-lg p-6">
-            <p class="text-sm text-gray-500 mb-4">{player.stats.season}</p>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-              {player.stats.avg && (
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-stars-navy">{player.stats.avg}</div>
-                  <div class="text-gray-500 text-sm">AVG</div>
+          <div class="space-y-6">
+            {statsSeasons.map((s: any) => (
+              <div class="bg-white rounded-xl shadow-lg p-6">
+                <p class="text-sm text-gray-500 mb-4">{s.season}</p>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                  {s.avg && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.avg}</div>
+                      <div class="text-gray-500 text-sm">AVG</div>
+                    </div>
+                  )}
+                  {s.obp && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.obp}</div>
+                      <div class="text-gray-500 text-sm">OBP</div>
+                    </div>
+                  )}
+                  {s.ops && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.ops}</div>
+                      <div class="text-gray-500 text-sm">OPS</div>
+                    </div>
+                  )}
+                  {s.pa && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.pa}</div>
+                      <div class="text-gray-500 text-sm">PA</div>
+                    </div>
+                  )}
+                  {s.hits && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.hits}</div>
+                      <div class="text-gray-500 text-sm">Hits</div>
+                    </div>
+                  )}
+                  {s.games && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.games}</div>
+                      <div class="text-gray-500 text-sm">Games</div>
+                    </div>
+                  )}
+                  {s.stolenBases && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.stolenBases}</div>
+                      <div class="text-gray-500 text-sm">SB</div>
+                    </div>
+                  )}
                 </div>
-              )}
-              {player.stats.obp && (
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-stars-navy">{player.stats.obp}</div>
-                  <div class="text-gray-500 text-sm">OBP</div>
-                </div>
-              )}
-              {player.stats.ops && (
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-stars-navy">{player.stats.ops}</div>
-                  <div class="text-gray-500 text-sm">OPS</div>
-                </div>
-              )}
-              {player.stats.games && (
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-stars-navy">{player.stats.games}</div>
-                  <div class="text-gray-500 text-sm">Games</div>
-                </div>
-              )}
-              {player.stats.stolenBases && (
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-stars-navy">{player.stats.stolenBases}</div>
-                  <div class="text-gray-500 text-sm">SB</div>
-                </div>
-              )}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

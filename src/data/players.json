@@ -14,7 +14,7 @@
     "twitter": "FindlayBel2027",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807443/StarsNationalWalker/isabel-findlay-profile.jpg",
-    "bio": "Isabel is a college-ready power hitter with D1-caliber bat speed and the athleticism to play anywhere on the left side of the infield. At 5'10\" with an 83.8 mph bat speed, 4.90 kW power output, and a .14-second time to contact, she generates the kind of exit velocities and launch metrics that project to the next level right now. A natural third baseman with shortstop-type range, soft hands, and a cannon arm, she covers ground and makes throws that most corner infielders can't. Isabel brings a rare combination of size, speed, and power \u2014 the kind of player who changes lineups and defensive alignments the moment she steps on the field.",
+    "bio": "Isabel is a college-ready power hitter with D1-caliber bat speed and the athleticism to play anywhere on the left side of the infield. At 5'10\" with an 83.8 mph bat speed, 4.90 kW power output, and a .14-second time to contact, she generates the kind of exit velocities and launch metrics that project to the next level right now. A natural third baseman with shortstop-type range, soft hands, and a cannon arm, she covers ground and makes throws that most corner infielders can't. Isabel brings a rare combination of size, speed, and power — the kind of player who changes lineups and defensive alignments the moment she steps on the field.",
     "achievements": [
       "83.8 mph Bat Speed (Blast Motion)",
       "4.90 kW Power Output",
@@ -24,7 +24,7 @@
     ],
     "heightInches": 70,
     "weightLbs": null,
-    "gpa": 4.0,
+    "gpa": 4,
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
@@ -57,7 +57,7 @@
     "photos": [
       {
         "url": "https://res.cloudinary.com/southland-organics/image/upload/v1/StarsNationalWalker/isabel-findlay-blast-motion",
-        "caption": "Isabel Findlay \u2014 83.8 mph Bat Speed, 4.90 kW Power, .14s Time to Contact (Blast Motion)"
+        "caption": "Isabel Findlay — 83.8 mph Bat Speed, 4.90 kW Power, .14s Time to Contact (Blast Motion)"
       }
     ],
     "contactEmail": "belbelfindlay@gmail.com",
@@ -125,9 +125,9 @@
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807445/StarsNationalWalker/maddie-diaz-profile.jpg",
     "bio": "Maddie is an athletic outfielder with excellent range and a reliable bat. Her speed and instincts in the outfield allow her to track down fly balls that others can't reach.",
-    "heightInches": 64,
+    "heightInches": 65,
     "weightLbs": null,
-    "gpa": null,
+    "gpa": 3.8,
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
@@ -184,7 +184,36 @@
     },
     "contactEmail": "MadelynEDiaz67@gmail.com",
     "socialScore": null,
-    "lastUpdated": "2026-02-02T18:00:00.000000+00:00"
+    "lastUpdated": "2026-05-30T00:00:00.000000+00:00",
+    "achievements": [
+      "2026 NCHSAA 7A State Champions",
+      "2026 1st Team All-County",
+      "2026 TCIC Team Cuba 18U Selection",
+      "2025 Connect Sports Summer Top Performers List"
+    ],
+    "statsSeasons": [
+      {
+        "season": "2025 Summer",
+        "avg": ".455",
+        "obp": ".473",
+        "pa": 134,
+        "hits": 56
+      },
+      {
+        "season": "2025 Fall",
+        "avg": ".423",
+        "obp": ".460",
+        "pa": 87,
+        "hits": 33
+      }
+    ],
+    "stats": {
+      "season": "2025 Summer",
+      "avg": ".455",
+      "obp": ".473",
+      "pa": 134,
+      "hits": 56
+    }
   },
   {
     "id": "7ea706e2-37be-44bd-8155-fd9b58ab21f7",
@@ -200,12 +229,12 @@
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807447/StarsNationalWalker/kelsey-fliss-profile.jpg",
     "bio": "Ranked No. 15 in the Southeast region by Extra Inning Softball, Kelsey impacts the game with her range, closing speed, and confident reads off the bat. Standing at 5'11\", she covers tremendous ground in center field. Offensively, her athleticism, aggressiveness on the bases, and ability to pressure defenses fit perfectly with the high-tempo style of play that defines the Stars National Walker program.",
     "achievements": [
-      "#15 \u2014 Southeast Region (Extra Inning Softball)"
+      "#15 — Southeast Region (Extra Inning Softball)"
     ],
     "photos": [
       {
         "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Fliss_h3rbjm",
-        "caption": "#15 Southeast Region \u2014 Extra Inning Softball"
+        "caption": "#15 Southeast Region — Extra Inning Softball"
       }
     ],
     "heightInches": 71,
@@ -250,7 +279,7 @@
     "twitter": "Keirafrazier33",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807448/StarsNationalWalker/keira-frazier-profile.jpg",
-    "bio": "Keira is a dynamic two-way player who excels at shortstop and on the mound. A switch hitter with excellent bat control, she brings game-changing speed and athleticism to every game. A 2026 VISAA Indoor Track State Champion, she anchored the 4x200 relay to a 1st place finish in 1:43 \u2014 breaking both the school record and the state meet record. She also placed 3rd in long jump (16'10.5\" PR) and 4th in triple jump (31'9.5\"). That elite speed and explosiveness translates directly to the diamond. She represented the US Virgin Islands on the 18U national team.",
+    "bio": "Keira is a dynamic two-way player who excels at shortstop and on the mound. A switch hitter with excellent bat control, she brings game-changing speed and athleticism to every game. A 2026 VISAA Indoor Track State Champion, she anchored the 4x200 relay to a 1st place finish in 1:43 — breaking both the school record and the state meet record. She also placed 3rd in long jump (16'10.5\" PR) and 4th in triple jump (31'9.5\"). That elite speed and explosiveness translates directly to the diamond. She represented the US Virgin Islands on the 18U national team.",
     "heightInches": 66,
     "weightLbs": null,
     "gpa": null,
@@ -306,21 +335,21 @@
         },
         {
           "playbackId": "yyZUzTJKFzMhdemloZizIXhBjbs5SYhMB2zKhR00BA1M",
-          "title": "4x400 Anchor \u2014 Heart & Will on Full Display"
+          "title": "4x400 Anchor — Heart & Will on Full Display"
         },
         {
           "playbackId": "47N7cl7xxK9h00EssSLEVOgZvu15LmweN01veb8u7OJio",
-          "title": "Record-Breaking 4x200 Anchor \u2014 Blazing Speed"
+          "title": "Record-Breaking 4x200 Anchor — Blazing Speed"
         },
         {
           "playbackId": "suMtG2Tcd6L25Ttk9M72wXHe72DGUaV1xf927SOvbCM",
-          "title": "Triple Jump \u2014 Explosiveness & Athleticism"
+          "title": "Triple Jump — Explosiveness & Athleticism"
         }
       ]
     },
     "achievements": [
       "2026 VISAA Indoor Track State Champion",
-      "4x200 Relay \u2014 School Record & State Meet Record (1:43)",
+      "4x200 Relay — School Record & State Meet Record (1:43)",
       "Long Jump 3rd Place (16'10.5\" PR)",
       "Triple Jump 4th Place (31'9.5\")",
       "2025 Second Team All-State (VISAA)",
@@ -435,12 +464,12 @@
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807451/StarsNationalWalker/kendall-lamanche-profile.jpg",
     "bio": "Ranked the No. 1 pitcher in the Northeast region by Extra Inning Softball, Kendall combines advanced command with high-level spin and movement to keep hitters off balance. Her calm presence in the circle, ability to compete in big moments, and feel for multiple pitches make her a go-to starter and a tone-setter for the Stars National Walker staff.",
     "achievements": [
-      "#1 Pitcher \u2014 Northeast Region (Extra Inning Softball)"
+      "#1 Pitcher — Northeast Region (Extra Inning Softball)"
     ],
     "photos": [
       {
         "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Kendall_xphw5z",
-        "caption": "#1 Pitcher, Northeast Region \u2014 Extra Inning Softball"
+        "caption": "#1 Pitcher, Northeast Region — Extra Inning Softball"
       }
     ],
     "heightInches": 67,
@@ -526,13 +555,13 @@
     "twitter": "Caraorlando2028",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807454/StarsNationalWalker/cara-orlando-profile.jpg",
-    "bio": "Cara is a power-hitting multi-sport athlete who brings elite speed, agility, and competitive fire to the diamond. At Sutherland High School she has led the team in home runs two straight years and finished second in the region last year \u2014 the kind of raw power that translates to the next level. A varsity ski racer and 4x sectional champion who placed 5th overall at the 2026 Section V Championships, she brings the same explosiveness and fearlessness to the outfield with exceptional range and the versatility to contribute in the infield.",
+    "bio": "Cara is a power-hitting multi-sport athlete who brings elite speed, agility, and competitive fire to the diamond. At Sutherland High School she has led the team in home runs two straight years and finished second in the region last year — the kind of raw power that translates to the next level. A varsity ski racer and 4x sectional champion who placed 5th overall at the 2026 Section V Championships, she brings the same explosiveness and fearlessness to the outfield with exceptional range and the versatility to contribute in the infield.",
     "achievements": [
-      "HS HR Leader \u2014 2 Consecutive Years (Sutherland)",
+      "HS HR Leader — 2 Consecutive Years (Sutherland)",
       "2nd in Region in HRs (2025)",
       "74 mph Exit Velocity",
       "4x Section V Ski Sectional Champion",
-      "5th Overall \u2014 2026 Section V Ski Championships",
+      "5th Overall — 2026 Section V Ski Championships",
       "Multi-Sport Varsity Athlete"
     ],
     "heightInches": 69,
@@ -567,11 +596,11 @@
         {
           "playbackId": "2wmP3FU6E3X02up2Qu900UM4OOi6oVeMinUUCTg4oMrek",
           "title": "Home Run",
-          "description": "Cara launching one out of the park \u2014 the power that has made her the HR leader at Sutherland two years running."
+          "description": "Cara launching one out of the park — the power that has made her the HR leader at Sutherland two years running."
         },
         {
           "playbackId": "WpLPe5wEvTWKqL8Iy3PDNZKs35CrY6kHF00wFvv7Z1xM",
-          "title": "Ski Sectionals 2026 \u2014 5th Overall"
+          "title": "Ski Sectionals 2026 — 5th Overall"
         }
       ]
     },
@@ -767,16 +796,16 @@
     "twitter": "RileyWalker2029",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807458/StarsNationalWalker/riley-walker-profile.jpg",
-    "bio": "Ranked No. 14 in the Southeast region by Extra Inning Softball, Riley brings a strong defensive skill set with soft hands, quiet receiving, and the arm strength to control the running game. Standing at 6'1\", she also provides leadership behind the plate \u2014 managing the pitching staff, communicating with the defense, and bringing a competitive energy that elevates the entire lineup.",
+    "bio": "Ranked No. 14 in the Southeast region by Extra Inning Softball, Riley brings a strong defensive skill set with soft hands, quiet receiving, and the arm strength to control the running game. Standing at 6'1\", she also provides leadership behind the plate — managing the pitching staff, communicating with the defense, and bringing a competitive energy that elevates the entire lineup.",
     "photos": [
       {
         "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Riley_Walker_v725ny",
-        "caption": "#14 Southeast Region \u2014 Extra Inning Softball"
+        "caption": "#14 Southeast Region — Extra Inning Softball"
       }
     ],
     "heightInches": 73,
     "weightLbs": null,
-    "gpa": 4.0,
+    "gpa": 4,
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
@@ -799,7 +828,7 @@
       "gameFootageUrl": null
     },
     "achievements": [
-      "#14 \u2014 Southeast Region (Extra Inning Softball)",
+      "#14 — Southeast Region (Extra Inning Softball)",
       "Select 30 National",
       "USA HPP National Identifier Invitee"
     ],
@@ -819,7 +848,7 @@
     "twitter": "AynParkerUsry",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807460/StarsNationalWalker/ayn-parker-usry-profile.jpg",
-    "bio": "Contact-first outfielder with plus speed and a plus arm. A multi-sport athlete who competes in outdoor track \u2014 triple jump, sprints, and relays \u2014 the same explosiveness and top-end speed that make her dangerous on the bases and in the gaps. At the 5A Georgia Meet on Feb. 11, she ran an 8.86 laser-timed 60m, finishing 18th out of 71 competitors. She's also a key leg on her school's 4x100m relay, typically closing the gap as a strong curve runner.\n\nPlayed the full 2025 summer on an 18U team, traveling the Northeast for major tournaments including TNT and New England's Finest, where she started in center field and hit leadoff all summer. She joined Stars National Walker at PGF Nationals, starting in the outfield and batting .400 for the tournament with multiple stolen bases.\n\nAthletic family: Both parents were student-athletes at the University of Georgia. Dad (Mike) played football; Mom (Karin) was an All-American gymnast.",
+    "bio": "Contact-first outfielder with plus speed and a plus arm. A multi-sport athlete who competes in outdoor track — triple jump, sprints, and relays — the same explosiveness and top-end speed that make her dangerous on the bases and in the gaps. At the 5A Georgia Meet on Feb. 11, she ran an 8.86 laser-timed 60m, finishing 18th out of 71 competitors. She's also a key leg on her school's 4x100m relay, typically closing the gap as a strong curve runner.\n\nPlayed the full 2025 summer on an 18U team, traveling the Northeast for major tournaments including TNT and New England's Finest, where she started in center field and hit leadoff all summer. She joined Stars National Walker at PGF Nationals, starting in the outfield and batting .400 for the tournament with multiple stolen bases.\n\nAthletic family: Both parents were student-athletes at the University of Georgia. Dad (Mike) played football; Mom (Karin) was an All-American gymnast.",
     "heightInches": 67,
     "weightLbs": 135,
     "gpa": 3.74,
@@ -866,23 +895,23 @@
         },
         {
           "playbackId": "KoeMxuJFLRJuFcPDc1p2zGJipHg3JWulyxIAbwHmh34",
-          "title": "60m Dash \u2014 8.86 Laser (5A Georgia Meet)"
+          "title": "60m Dash — 8.86 Laser (5A Georgia Meet)"
         },
         {
           "playbackId": "qPTB01kALnJiKmy3XaD5O3hNRM2lvTV7WyR5XGejvv7w",
-          "title": "4x100m Relay \u2014 Closing the Gap"
+          "title": "4x100m Relay — Closing the Gap"
         },
         {
           "playbackId": "eM2V7x8gsCyxkp81EX202q6skCdx3iXuOc3Ljw7oHyk8",
-          "title": "Hurdles \u2014 Region Track Meet"
+          "title": "Hurdles — Region Track Meet"
         }
       ]
     },
     "achievements": [
       "Exit Velo 73 mph (Stars Camp); 71 & 68 (USA Softball HPP)",
-      "Varsity Flag Football \u2014 Starting WR/QB",
-      "60m \u2014 8.86 Laser (18th/71, 5A Georgia Meet)",
-      "4x100m Relay \u2014 Strong Curve Runner",
+      "Varsity Flag Football — Starting WR/QB",
+      "60m — 8.86 Laser (18th/71, 5A Georgia Meet)",
+      "4x100m Relay — Strong Curve Runner",
       "Alliance Atlantic Region Champions 2025",
       "BETA Club Inductee 2025-2026",
       "State Track Finalist - Triple Jump",
@@ -891,7 +920,7 @@
     "photos": [
       {
         "url": "https://res.cloudinary.com/southland-organics/image/upload/w_800,c_fill,g_auto,q_auto,f_auto/StarsNationalWalker/APU-Track_lwfssp",
-        "caption": "Outdoor Track \u2014 Triple Jump, Sprints & Relays"
+        "caption": "Outdoor Track — Triple Jump, Sprints & Relays"
       }
     ],
     "contactEmail": "aynparkerusry@gmail.com",
@@ -943,7 +972,7 @@
         {
           "playbackId": "LSYcDPmGL4BjT1oPceE2GPI02ZoeRMOniO2uE3mC3LZ4",
           "title": "Pitching Clip 1",
-          "description": "Kierra Wunderlich on the mound \u2014 showcasing her arm strength and command."
+          "description": "Kierra Wunderlich on the mound — showcasing her arm strength and command."
         },
         {
           "playbackId": "vLmAviG00EgE7M029eaLwtVHYigQrN00eqSlVN7K4Mbyq8",
@@ -975,14 +1004,14 @@
     "twitter": "nataliehall2029",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807462/StarsNationalWalker/natalie-ireland-hall-profile.jpg",
-    "bio": "Natalie is a left-handed pitcher and first baseman with elite command and a dominant strikeout rate. A 2026 USA Softball All-American and Line Drive Media Top 100 player in the Class of 2029, she pairs overpowering stuff in the circle with the kind of competitive edge that translates to the next level. In her 2026 high school season she threw 16 innings with 35 strikeouts, zero walks, and a 0.00 ERA, allowing just two hits \u2014 a snapshot of the control and dominance that define her game. A 4.1 GPA Honor Roll student and captain of her high school volleyball team, Natalie is a complete student-athlete and a proven leader.",
+    "bio": "Natalie is a left-handed pitcher and first baseman with elite command and a dominant strikeout rate. A 2026 USA Softball All-American and Line Drive Media Top 100 player in the Class of 2029, she pairs overpowering stuff in the circle with the kind of competitive edge that translates to the next level. In her 2026 high school season she threw 16 innings with 35 strikeouts, zero walks, and a 0.00 ERA, allowing just two hits — a snapshot of the control and dominance that define her game. A 4.1 GPA Honor Roll student and captain of her high school volleyball team, Natalie is a complete student-athlete and a proven leader.",
     "achievements": [
       "2026 USA Softball All-American",
-      "Line Drive Media Top 100 \u2014 Class of 2029",
+      "Line Drive Media Top 100 — Class of 2029",
       "2026 HS Pitching: 16 IP, 35 K, 0 BB, 0.00 ERA, 2 H allowed",
       "2025 Fall Travel: 35 IP, 67 K, 9 BB, 1.10 ERA",
       "4.1 GPA, Honor Roll",
-      "Captain \u2014 High School Volleyball Team"
+      "Captain — High School Volleyball Team"
     ],
     "heightInches": 66,
     "weightLbs": null,
@@ -995,7 +1024,7 @@
     "ncaaId": null,
     "recruitingStatus": "uncommitted",
     "committedTo": null,
-    "recruitingNotes": "TEMP TRYOUT (SMTM) \u2014 added 2026-05-26. NCSA recruiting profile: https://recruit-match.ncsasports.org/clientrms/athletes/14766134 . Remove if she does not join the roster.",
+    "recruitingNotes": "TEMP TRYOUT (SMTM) — added 2026-05-26. NCSA recruiting profile: https://recruit-match.ncsasports.org/clientrms/athletes/14766134 . Remove if she does not join the roster.",
     "measurables": {
       "sixtyYard": null,
       "exitVelo": null,

@@ -25,11 +25,12 @@
       "name": "Connect Sports Summer Scenic City",
       "org": "Connect Sports",
       "dates": "Jun 18-21, 2026",
-      "location": "Dalton, GA",
-      "venue": "Heritage Point Park",
-      "address": "1034 Brookwood Ave, Dalton, GA 30720",
+      "location": "East Ridge, TN",
+      "venue": "Camp Jordan Park",
+      "address": "323 Camp Jordan Pkwy, East Ridge, TN 37412",
       "type": "tournament",
-      "isShowcase": false
+      "isShowcase": false,
+      "note": "Camp Jordan Park, East Ridge TN"
     },
     {
       "name": "Colorado 4th of July Sparkler",

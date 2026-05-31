@@ -142,8 +142,10 @@ import Layout from '../../layouts/Layout.astro';
 
     // Domains/referrers to exclude from all metrics
     const EXCLUDED_REFERRERS = ['localhost', 'localhost:4321', 'localhost:4322', '127.0.0.1'];
-    // Your known cities to filter out (add more as needed)
-    const EXCLUDED_CITIES = ['Athens'];
+    // Your known cities to filter out (add more as needed).
+    // Owner (Mike) locations: Athens metro (Bogart adjacent), Lavonia (current),
+    // Sharpsburg (former). These geolocate near Athens, GA and are NOT coaches.
+    const EXCLUDED_CITIES = ['Athens', 'Bogart', 'Lavonia', 'Sharpsburg', 'Jefferson'];
 
     function filterOwnTraffic(rows) {
       return rows.filter(r => {
@@ -251,12 +253,13 @@ import Layout from '../../layouts/Layout.astro';
 
       document.getElementById('top-referrers').innerHTML = refsHtml;
 
-      // Load top locations
+      // Load top locations (exclude owner cities so Mike's own traffic
+      // doesn't masquerade as a visitor — esp. as a false "College Town").
       const locationViews = await supabaseQuery('profile_views', `?site=eq.starsnatwalker&city=not.is.null&created_at=gte.${sevenDaysAgo}&select=city,region`);
 
       const locCounts = {};
       locationViews.forEach(v => {
-        if (v.city && v.region) {
+        if (v.city && v.region && !EXCLUDED_CITIES.includes(v.city)) {
           const key = `${v.city}, ${v.region}`;
           locCounts[key] = (locCounts[key] || 0) + 1;
         }
@@ -267,7 +270,11 @@ import Layout from '../../layouts/Layout.astro';
         .slice(0, 10);
 
       // Known college towns (can expand this list)
-      const collegeTowns = ['Chapel Hill', 'Durham', 'Raleigh', 'Clemson', 'Tuscaloosa', 'Athens', 'Knoxville', 'Gainesville', 'Tallahassee', 'Auburn', 'Starkville', 'Oxford', 'Baton Rouge', 'Columbia', 'Blacksburg', 'Charlottesville', 'College Station', 'Norman', 'Stillwater', 'Fayetteville', 'Lexington', 'Louisville', 'Tempe', 'Tucson', 'Eugene', 'Corvallis', 'Pullman', 'Seattle', 'Los Angeles', 'Stanford', 'Berkeley', 'Palo Alto'];
+      // NOTE: 'Athens' deliberately omitted — it's the owner's metro (Bogart/
+      // Lavonia geolocate here), so Athens geo = Mike, not a UGA coach. Real UGA
+      // interest surfaces via .edu referrer instead. Re-add only if self-traffic
+      // is otherwise excluded.
+      const collegeTowns = ['Chapel Hill', 'Durham', 'Raleigh', 'Clemson', 'Tuscaloosa', 'Knoxville', 'Gainesville', 'Tallahassee', 'Auburn', 'Starkville', 'Oxford', 'Baton Rouge', 'Columbia', 'Blacksburg', 'Charlottesville', 'College Station', 'Norman', 'Stillwater', 'Fayetteville', 'Lexington', 'Louisville', 'Tempe', 'Tucson', 'Eugene', 'Corvallis', 'Pullman', 'Seattle', 'Stanford', 'Berkeley', 'Palo Alto'];
 
       const locsHtml = topLocs.length > 0
         ? topLocs.map(([loc, count], i) => {

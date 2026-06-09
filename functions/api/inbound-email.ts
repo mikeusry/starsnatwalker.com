@@ -68,6 +68,23 @@ function extractEmails(field: string): string[] {
   return matches.map((e) => e.replace(/[>,;]+$/, '').toLowerCase());
 }
 
+// SendGrid Inbound Parse sends an `envelope` JSON field with the ACTUAL SMTP
+// recipients: {"to":["a@x.com","log@..."],"from":"sender@y.com"}. This is the
+// ONLY place a BCC'd address shows up — the visible `to`/`cc` header fields do
+// NOT include BCC. Players naturally BCC log@ (so coaches don't see the tracking
+// address), so we MUST look here or every BCC'd email falls through unlogged.
+function parseEnvelopeRecipients(envelopeField: string): string[] {
+  if (!envelopeField) return [];
+  try {
+    const env = JSON.parse(envelopeField);
+    const tos = Array.isArray(env?.to) ? env.to : env?.to ? [env.to] : [];
+    return tos.map((e: string) => String(e).trim().toLowerCase()).filter(Boolean);
+  } catch {
+    // Fallback: scrape any addresses out of the raw string.
+    return extractEmails(envelopeField);
+  }
+}
+
 // 12-char hex reply token, matching program-match's format so coach replies
 // to a player-logged thread route back through this same webhook.
 function generateReplyToken(): string {
@@ -162,6 +179,7 @@ async function handleCcLog(env: Env, msg: {
   to: string; cc: string;
   fromName: string | null; fromEmail: string;
   subject: string; text: string; html: string; messageId: string | null;
+  envelopeRecipients?: string[];
 }): Promise<Response> {
   const now = new Date().toISOString();
 
@@ -192,10 +210,17 @@ async function handleCcLog(env: Env, msg: {
     return new Response('cc-log: unknown player, forwarded', { status: 200 });
   }
 
-  // 2. Find the coach among recipients. Use envelope To/Cc first, and if those
-  // only contain our own addresses (true for forwards), fall back to the
-  // forwarded recipients parsed from the body.
-  let recipients = [...extractEmails(msg.to), ...extractEmails(msg.cc)].filter((e) => !isOurAddress(e));
+  // 2. Find the coach among recipients. Combine visible To/Cc with the SMTP
+  // envelope recipients (which include addresses when log@ was BCC'd — the coach
+  // is in the envelope too). Strip our own addresses (log@, Mike, Joe, domains).
+  // If nothing's left (true for forwards), fall back to recipients parsed from
+  // the forwarded body.
+  let recipients = [
+    ...extractEmails(msg.to),
+    ...extractEmails(msg.cc),
+    ...(msg.envelopeRecipients || []),
+  ].filter((e) => !isOurAddress(e));
+  recipients = Array.from(new Set(recipients)); // dedupe (coach may be in both)
   if (recipients.length === 0 && fwd.recipients.length > 0) {
     recipients = fwd.recipients.filter((e) => !isOurAddress(e));
   }
@@ -354,15 +379,21 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const text = (formData.get('text') as string) || '';
   const html = (formData.get('html') as string) || '';
   const messageId = (formData.get('message_id') as string) || null;
+  const envelope = (formData.get('envelope') as string) || '';
 
   const replyToken = extractReplyToken(to);
   const { name: fromName, email: fromEmail } = parseFromAddress(from);
 
+  // The real SMTP recipients (incl. BCC). log@ is almost always BCC'd, so it
+  // lands here and NOT in the visible to/cc fields.
+  const envelopeRecipients = parseEnvelopeRecipients(envelope);
+  const logInEnvelope = envelopeRecipients.some((e) => LOG_ADDRESS_RE.test(e));
+
   // ── CC-LOGGING PATH ──────────────────────────────────────────────────────
-  // If log@ appears anywhere in To/Cc and this is NOT a reply (no t- token),
-  // treat it as a player logging her own outreach to a coach.
-  if (!replyToken && (LOG_ADDRESS_RE.test(to) || LOG_ADDRESS_RE.test(cc))) {
-    return handleCcLog(env, { to, cc, fromName, fromEmail, subject, text, html, messageId });
+  // If log@ appears in To/Cc OR in the SMTP envelope (BCC), and this is NOT a
+  // reply (no t- token), treat it as a player logging her own outreach.
+  if (!replyToken && (LOG_ADDRESS_RE.test(to) || LOG_ADDRESS_RE.test(cc) || logInEnvelope)) {
+    return handleCcLog(env, { to, cc, fromName, fromEmail, subject, text, html, messageId, envelopeRecipients });
   }
 
   // No matching token? Log + forward to Mike with a warning, return 200.

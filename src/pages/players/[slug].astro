@@ -622,6 +622,36 @@ const ogImage = `/players/og/${slug}.png`;
             if ((window as any).pdTrack) {
               (window as any).pdTrack('video_play', { video_title: title, playback_id: playbackId });
             }
+
+            // Track watch DEPTH — progress milestones + completion. A coach
+            // watching 75%+ of a highlight is far stronger intent than a click.
+            // mux-player emits standard HTML5 media events (timeupdate/ended).
+            // Milestones fire once per open; reset per new video.
+            (function attachProgress() {
+              const player = lightboxPlayer as HTMLMediaElement;
+              const hit: Record<number, boolean> = {};
+              const onTime = () => {
+                if (!player.duration || isNaN(player.duration)) return;
+                const pct = Math.round((player.currentTime / player.duration) * 100);
+                [25, 50, 75].forEach((m) => {
+                  if (pct >= m && !hit[m]) {
+                    hit[m] = true;
+                    (window as any).pdTrack?.('video_progress', { video_title: title, playback_id: playbackId, percent: m });
+                  }
+                });
+              };
+              const onEnd = () => {
+                (window as any).pdTrack?.('video_complete', { video_title: title, playback_id: playbackId });
+                cleanup();
+              };
+              const cleanup = () => {
+                player.removeEventListener('timeupdate', onTime);
+                player.removeEventListener('ended', onEnd);
+              };
+              // Replace any prior listeners (new video opened) then attach.
+              player.addEventListener('timeupdate', onTime);
+              player.addEventListener('ended', onEnd);
+            })();
           }
         });
       });

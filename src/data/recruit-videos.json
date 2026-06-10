@@ -62,5 +62,37 @@
     "publishedAt": "2026-05-15",
     "expiresAt": null,
     "internalNotes": "Saint Leo D2 — Lyla has rapport with Zack & Alexis Carver, attended camp before, Alexis follows on Twitter."
+  },
+  {
+    "slug": "lyla-palm-beach",
+    "title": "Lyla Seibert · A quick hello to Palm Beach Atlantic softball",
+    "playerSlug": "lyla-seibert",
+    "playerName": "Lyla Seibert",
+    "playerFirstName": "Lyla",
+    "gradYear": 2028,
+    "position": "Middle Infield / Utility",
+    "muxPlaybackId": "c0202pu01fhHLzm6bj4VAIeDhdtU5G008YTfZnnX0002x017yA",
+    "muxAssetId": "HwaLg9nc66M7uMCXBmHczYyc9rWt01I00E49exQqdUrSA",
+    "aspectRatio": "9:16",
+    "durationSec": 40,
+    "targetProgram": "Palm Beach Atlantic University",
+    "targetProgramShort": "Palm Beach Atlantic",
+    "targetCoachesGreeting": "Coach Cox and the Palm Beach Atlantic staff",
+    "campContext": "Camp · July 8, 2026",
+    "keyStats": [
+      { "label": "GPA (weighted)", "value": "5.13" },
+      { "label": "GPA (unweighted)", "value": "4.0" },
+      { "label": "SAT", "value": "1240 · retaking fall 2026" },
+      { "label": "Academic track", "value": "Valedictorian / Salutatorian" },
+      { "label": "Position", "value": "Middle Infield / Utility" },
+      { "label": "Grad year", "value": "2028" }
+    ],
+    "ctaLinks": [
+      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert" },
+      { "label": "2026 summer schedule", "href": "/schedule" }
+    ],
+    "publishedAt": "2026-06-10",
+    "expiresAt": null,
+    "internalNotes": "PBA NCAA D2. HC Kasey Cox (named June 2025) emailed Lyla re: Show Me The Money schedule; she corresponds with Cox. Asst: Isabella Hernandez, Gabby Sacco. First camp July 8, 2026."
   }
 ]

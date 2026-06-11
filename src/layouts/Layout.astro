@@ -215,11 +215,50 @@ const organizationStructuredData = {
 
         window.pdTrack = track;
 
+        // ── Engagement depth: scroll milestones + engaged-time heartbeats ──
+        // Both fire ONCE per threshold per page-load, only on player pages, and
+        // only while the tab is visible (so a tab left open isn't "engagement").
+        function initEngagement() {
+          if (location.pathname.indexOf('/players/') !== 0) return;
+          if (isBot()) return;
+
+          // Scroll milestones — 25/50/75/90%, each fired once.
+          var scrollHit = {};
+          function onScroll() {
+            var doc = document.documentElement;
+            var max = (doc.scrollHeight - doc.clientHeight);
+            if (max <= 0) return;
+            var pct = Math.min(100, Math.round((doc.scrollTop || window.pageYOffset) / max * 100));
+            [25, 50, 75, 90].forEach(function(m) {
+              if (pct >= m && !scrollHit[m]) {
+                scrollHit[m] = true;
+                track('scroll_milestone', { percent: m });
+              }
+            });
+          }
+          window.addEventListener('scroll', onScroll, { passive: true });
+
+          // Engaged time — count seconds only while visible; emit at 15/30/60/120s.
+          var engaged = 0, sent = {};
+          var tick = setInterval(function() {
+            if (document.visibilityState !== 'visible') return;
+            engaged += 5;
+            [15, 30, 60, 120].forEach(function(t) {
+              if (engaged >= t && !sent[t]) {
+                sent[t] = true;
+                track('engaged_time', { seconds: t });
+              }
+            });
+            if (engaged >= 120) clearInterval(tick); // stop after the top bucket
+          }, 5000);
+        }
+
         if (location.pathname.indexOf('/players/') === 0) {
           if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() { track('page_view'); });
+            document.addEventListener('DOMContentLoaded', function() { track('page_view'); initEngagement(); });
           } else {
             track('page_view');
+            initEngagement();
           }
         }
       })();

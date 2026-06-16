@@ -224,25 +224,65 @@ async function handleCcLog(env: Env, msg: {
   if (recipients.length === 0 && fwd.recipients.length > 0) {
     recipients = fwd.recipients.filter((e) => !isOurAddress(e));
   }
+  // Match the coach by EXACT email across all recipients. A player emails a list,
+  // so prefer a recipient that's a known coach; remember which address we matched.
   let coach: any = null;
   let programId: string | null = null;
+  let matchedCoachEmail: string | null = null;
   for (const addr of recipients) {
     const cRes = await sb(env, `coaches?email=ilike.${encodeURIComponent(addr)}&select=id,first_name,last_name,program_id&limit=1`);
     const cs = await cRes.json();
-    if (Array.isArray(cs) && cs[0]) { coach = cs[0]; programId = cs[0].program_id; break; }
+    if (Array.isArray(cs) && cs[0]) { coach = cs[0]; programId = cs[0].program_id; matchedCoachEmail = addr; break; }
   }
-  // No known coach? Fall back to domain → program via any coach on that domain.
+
+  // No exact coach match. Try domain → program (any coach on that domain shares
+  // the school), and — crucially — AUTO-CREATE the coach from the recipient
+  // address so attribution is real and the next email matches cleanly. Without
+  // this, every coach not yet in the CRM logged as "matched to a program" with a
+  // NULL coach, which read as a phantom match. We now create the row instead.
+  let coachCreated = false;
   if (!coach && recipients.length > 0) {
-    const domain = recipients[0].split('@')[1];
+    // Use the first NON-our recipient as the coach we're attributing to.
+    const coachAddr = recipients[0];
+    const domain = coachAddr.split('@')[1];
     if (domain) {
       const dRes = await sb(env, `coaches?email=ilike.*@${encodeURIComponent(domain)}&select=program_id&limit=1`);
       const ds = await dRes.json();
       if (Array.isArray(ds) && ds[0]) programId = ds[0].program_id;
     }
+    // If we resolved a program from the domain, create the coach on it so the
+    // thread attributes to a real person (name parsed from the local-part).
+    if (programId) {
+      const local = coachAddr.split('@')[0];
+      const guessName = local.replace(/[._\d]+/g, ' ').trim();
+      const parts = guessName ? guessName.split(' ').filter(Boolean) : [];
+      // coaches.first_name/last_name are NOT NULL. Many addresses (rzf0046@,
+      // cpatterson1025@) yield no real name — fall back so the insert never
+      // violates the constraint. last_name defaults to "(unverified)" so it's
+      // obviously a stub to clean up; first_name to the local-part.
+      const first = parts[0] || local;
+      const last = parts.length > 1 ? parts.slice(1).join(' ') : '(unverified)';
+      const createCoach = await sb(env, 'coaches', {
+        method: 'POST',
+        headers: { Prefer: 'return=representation' },
+        body: JSON.stringify({
+          program_id: programId,
+          email: coachAddr,
+          first_name: first,
+          last_name: last,
+          position: 'Coach',
+          is_active: true,
+          source: 'player_email_autocreate',
+        }),
+      });
+      const createdCoach = await createCoach.json();
+      coach = Array.isArray(createdCoach) ? createdCoach[0] : createdCoach;
+      if (coach?.id) { matchedCoachEmail = coachAddr; coachCreated = true; }
+    }
   }
 
   const playerName = `${player.first_name} ${player.last_name}`;
-  const coachEmail = recipients[0] || '(unknown)';
+  const coachEmail = matchedCoachEmail || recipients[0] || '(unknown)';
 
   // 3. Find an existing outbound thread for this (player, program), else create one.
   let thread: any = null;
@@ -342,10 +382,16 @@ async function handleCcLog(env: Env, msg: {
     }),
   });
 
-  // 6. Confirm to Mike so he knows it captured.
-  const matchNote = programId
-    ? `Logged ${playerName} → coach ${coachEmail} (matched to a program).`
-    : `Logged ${playerName} → coach ${coachEmail} — but the program/coach is NOT in the CRM yet. Thread created unmatched; assign it in /admin/outreach.`;
+  // 6. Confirm to Mike so he knows it captured — and be HONEST about the match
+  // quality (a domain-guess is not the same as a known coach).
+  let matchNote: string;
+  if (coach && !coachCreated) {
+    matchNote = `Logged ${playerName} → coach ${coachEmail} (matched to a coach already in the CRM).`;
+  } else if (coachCreated) {
+    matchNote = `Logged ${playerName} → ${coachEmail} — coach was NOT in the CRM, so I created the coach on the matched program (name guessed from the address; fix it in /admin if needed).`;
+  } else {
+    matchNote = `Logged ${playerName} → ${coachEmail} — the program/coach is NOT in the CRM and I couldn't resolve the school from the domain. Thread created unmatched; assign it in /admin/outreach.`;
+  }
   await forwardToMike(env, {
     fromName: actualFromName, fromEmail: actualFromEmail, subject: msg.subject, text: msg.text, html: msg.html,
     threadInfo: matchNote,

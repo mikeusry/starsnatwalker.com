@@ -145,8 +145,22 @@ const organizationStructuredData = {
             .catch(function() { callback({ city: null, region: null, country: null }); });
         }
 
+        // Bot signatures in the UA string — explicit crawlers + headless/automation.
+        var BOT_UA = /bot|crawl|spider|slurp|bingpreview|facebook|mediapartners|headless|phantom|puppeteer|playwright|selenium|python-requests|axios|curl|wget|http-client|scrapy|node-fetch/i;
+
+        // A page_view that refer-chained off one of OUR OWN hub pages is the
+        // crawler that loops /recruiting → each featured player. Real coaches
+        // arrive from email (?c=&s=), search, or direct — never by walking our
+        // internal hub. Treat own-hub referrals to player pages as bots so they
+        // don't drown the dashboard.
+        var OWN_HUB_REFERRER = /starsnatwalker\.com\/(recruiting|pitchers|catchers|roster)\b/i;
+
         function isBot() {
-          return /bot|crawl|spider|slurp|bingpreview|facebook|mediapartners/i.test(navigator.userAgent);
+          var ua = navigator.userAgent || '';
+          if (BOT_UA.test(ua)) return true;
+          if (navigator.webdriver === true) return true; // automated browser
+          if (OWN_HUB_REFERRER.test(document.referrer || '')) return true;
+          return false;
         }
 
         function getPlayerInfo() {
@@ -173,7 +187,7 @@ const organizationStructuredData = {
         }
 
         function track(eventType, eventData) {
-          if (isBot()) return;
+          var bot = isBot();
           var p = getPlayerInfo();
           var attr = getCoachAttribution();
           var mergedEventData = eventData || {};
@@ -188,17 +202,14 @@ const organizationStructuredData = {
             referrer: document.referrer || 'direct',
             user_agent: navigator.userAgent,
             session_id: getSessionId(),
-            is_bot: false,
+            // Record the flag instead of dropping — the dashboards filter on
+            // is_bot, so flagged traffic is hidden but still auditable.
+            is_bot: bot,
             event_type: eventType,
             event_data: Object.keys(mergedEventData).length ? mergedEventData : null
           };
 
-          fetchGeoData(function(geo) {
-            var payload = Object.assign({}, basePayload, {
-              city: geo.city,
-              region: geo.region,
-              country: geo.country
-            });
+          function insert(payload) {
             fetch(SUPABASE_URL + '/rest/v1/profile_views', {
               method: 'POST',
               headers: {
@@ -210,6 +221,18 @@ const organizationStructuredData = {
               body: JSON.stringify(payload),
               keepalive: true
             }).catch(function(){});
+          }
+
+          // Don't spend the shared ipapi.co geo quota on bot traffic — record
+          // the flagged row immediately with no city. Only real visitors geo.
+          if (bot) { insert(basePayload); return; }
+
+          fetchGeoData(function(geo) {
+            insert(Object.assign({}, basePayload, {
+              city: geo.city,
+              region: geo.region,
+              country: geo.country
+            }));
           });
         }
 

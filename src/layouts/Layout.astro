@@ -210,14 +210,15 @@ const organizationStructuredData = {
           };
 
           function insert(payload) {
-            fetch(SUPABASE_URL + '/rest/v1/profile_views', {
+            // POST to our own server-side ingest. /api/track re-scores is_bot
+            // authoritatively (CF bot score, real IP/ASN, fabricated-Chrome, plus
+            // the SAME UA + own-hub-loop rules enforced here) and writes with the
+            // service key — so a crawler that skips this script and POSTs directly
+            // can't assert is_bot:false or write to Supabase. The client-side
+            // isBot() above stays as a cheap first filter.
+            fetch('/api/track', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                'Prefer': 'return=minimal'
-              },
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
               keepalive: true
             }).catch(function(){});

@@ -193,20 +193,20 @@ const organizationStructuredData = {
             event_data: Object.keys(mergedEventData).length ? mergedEventData : null
           };
 
+          // POST to our own server-side ingest (/api/track). The Cloudflare
+          // Function decides is_bot authoritatively (CF bot score, real IP/ASN,
+          // UA heuristics) and derives geo from the edge — the browser can no
+          // longer assert is_bot:false or write straight to Supabase. Client geo
+          // is sent only as a fallback for when CF edge geo is missing.
           fetchGeoData(function(geo) {
             var payload = Object.assign({}, basePayload, {
               city: geo.city,
               region: geo.region,
               country: geo.country
             });
-            fetch(SUPABASE_URL + '/rest/v1/profile_views', {
+            fetch('/api/track', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                'Prefer': 'return=minimal'
-              },
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
               keepalive: true
             }).catch(function(){});

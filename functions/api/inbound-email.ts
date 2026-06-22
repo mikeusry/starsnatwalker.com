@@ -201,13 +201,20 @@ async function handleCcLog(env: Env, msg: {
     player = Array.isArray(players) && players[0] ? players[0] : null;
   }
 
-  if (!player) {
-    // Unknown sender even after forward-parsing — can't attribute.
+  // 1c. Not a player — but the COORDINATOR (Mike/Joe) also BCCs log@ when he
+  // emails a coach directly from Gmail. Those are coordinator→coach touches with
+  // NO player, and they used to fall through to "unrecognized sender, log
+  // manually." Detect a coordinator sender and fall into the same coach-matching
+  // path below with player=null, so the touch lands on the coach record instead
+  // of bouncing back. (The DB allows null player_id / empty player_slug threads.)
+  const isCoordinatorSender = isOurAddress(actualFromEmail);
+  if (!player && !isCoordinatorSender) {
+    // Unknown sender, not a player and not a coordinator — can't attribute.
     await forwardToMike(env, {
       fromName: msg.fromName, fromEmail: msg.fromEmail, subject: msg.subject, text: msg.text, html: msg.html,
-      threadInfo: `CC-log from unrecognized sender (${msg.fromEmail}${fwd.fromEmail ? `, forwarded-from ${fwd.fromEmail}` : ''}). Not matched to a player — log manually if needed.`,
+      threadInfo: `CC-log from unrecognized sender (${msg.fromEmail}${fwd.fromEmail ? `, forwarded-from ${fwd.fromEmail}` : ''}). Not matched to a player or coordinator — log manually if needed.`,
     });
-    return new Response('cc-log: unknown player, forwarded', { status: 200 });
+    return new Response('cc-log: unknown sender, forwarded', { status: 200 });
   }
 
   // 2. Find the coach among recipients. Combine visible To/Cc with the SMTP
@@ -281,13 +288,19 @@ async function handleCcLog(env: Env, msg: {
     }
   }
 
-  const playerName = `${player.first_name} ${player.last_name}`;
+  const playerName = player ? `${player.first_name} ${player.last_name}` : 'Coordinator';
   const coachEmail = matchedCoachEmail || recipients[0] || '(unknown)';
 
-  // 3. Find an existing outbound thread for this (player, program), else create one.
+  // 3. Find an existing outbound thread, else create one. A player CC-log keys on
+  // (player, program); a COORDINATOR touch has no player, so it keys on the
+  // coach-only threads for this program (player_id IS NULL) to avoid colliding
+  // with a player's own thread for the same school.
   let thread: any = null;
   if (programId) {
-    const tRes = await sb(env, `outreach_threads?player_id=eq.${player.id}&program_id=eq.${programId}&select=id,send_count,reply_token,status&limit=1`);
+    const threadKey = player
+      ? `player_id=eq.${player.id}&program_id=eq.${programId}`
+      : `player_id=is.null&program_id=eq.${programId}`;
+    const tRes = await sb(env, `outreach_threads?${threadKey}&select=id,send_count,reply_token,status&limit=1`);
     const ts = await tRes.json();
     if (Array.isArray(ts) && ts[0]) thread = ts[0];
   }
@@ -296,8 +309,9 @@ async function handleCcLog(env: Env, msg: {
       method: 'POST',
       headers: { Prefer: 'return=representation' },
       body: JSON.stringify({
-        player_id: player.id,
-        player_slug: player.slug,
+        player_id: player ? player.id : null,
+        // player_slug is NOT NULL; coach-only/coordinator threads use ''.
+        player_slug: player ? player.slug : '',
         program_id: programId,
         primary_coach_id: coach ? coach.id : null,
         reply_token: generateReplyToken(),
@@ -316,7 +330,8 @@ async function handleCcLog(env: Env, msg: {
   // "build her list from who she emails" — so emailing a coach surfaces the
   // school on her Target Schools list (tier=target, status=contacted). Upsert:
   // skip if a non-removed row already exists for this (player, program).
-  if (programId) {
+  // Coordinator touches have no player, so there's no target list to update.
+  if (player && programId) {
     const existingTs = await sb(env, `player_target_schools?player_id=eq.${player.id}&program_id=eq.${programId}&status=neq.removed&select=id,status,first_contact_date,contact_count&limit=1`);
     const tsRows = await existingTs.json();
     if (Array.isArray(tsRows) && tsRows[0]) {
@@ -384,13 +399,16 @@ async function handleCcLog(env: Env, msg: {
 
   // 6. Confirm to Mike so he knows it captured — and be HONEST about the match
   // quality (a domain-guess is not the same as a known coach).
+  // A coordinator touch (no player) reads as "your direct coach email" rather
+  // than "Coordinator → coach", which is confusing.
+  const who = player ? playerName : 'your direct email';
   let matchNote: string;
   if (coach && !coachCreated) {
-    matchNote = `Logged ${playerName} → coach ${coachEmail} (matched to a coach already in the CRM).`;
+    matchNote = `Logged ${who} → coach ${coachEmail} (matched to a coach already in the CRM).`;
   } else if (coachCreated) {
-    matchNote = `Logged ${playerName} → ${coachEmail} — coach was NOT in the CRM, so I created the coach on the matched program (name guessed from the address; fix it in /admin if needed).`;
+    matchNote = `Logged ${who} → ${coachEmail} — coach was NOT in the CRM, so I created the coach on the matched program (name guessed from the address; fix it in /admin if needed).`;
   } else {
-    matchNote = `Logged ${playerName} → ${coachEmail} — the program/coach is NOT in the CRM and I couldn't resolve the school from the domain. Thread created unmatched; assign it in /admin/outreach.`;
+    matchNote = `Logged ${who} → ${coachEmail} — the program/coach is NOT in the CRM and I couldn't resolve the school from the domain. Thread created unmatched; assign it in /admin/outreach.`;
   }
   await forwardToMike(env, {
     fromName: actualFromName, fromEmail: actualFromEmail, subject: msg.subject, text: msg.text, html: msg.html,

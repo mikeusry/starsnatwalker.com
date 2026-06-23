@@ -39,6 +39,47 @@ async function sb(env: Env, path: string, init: RequestInit = {}) {
   });
 }
 
+// Persist the raw inbound email BEFORE any matching. Returns the row id (or null
+// if capture failed — never throws, capture must not block processing).
+async function captureRawInbound(env: Env, m: {
+  fromEmail: string; fromName: string | null; to: string; cc: string;
+  envelope: string; subject: string; text: string; html: string; messageId: string | null;
+}): Promise<string | null> {
+  try {
+    const res = await sb(env, 'raw_inbound_emails', {
+      method: 'POST',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify({
+        from_email: m.fromEmail, from_name: m.fromName,
+        to_field: m.to, cc_field: m.cc, envelope_json: m.envelope,
+        subject: m.subject, body_text: m.text, body_html: m.html,
+        sendgrid_message_id: m.messageId,
+      }),
+    });
+    const rows = await res.json();
+    const row = Array.isArray(rows) ? rows[0] : rows;
+    return row?.id || null;
+  } catch (err) {
+    console.error('captureRawInbound failed (continuing):', err);
+    return null;
+  }
+}
+
+// Stamp the capture row with how we routed/matched it. Best-effort; never throws.
+async function stampRawInbound(env: Env, rawId: string | null, fields: {
+  route?: string; matched?: boolean; thread_id?: string | null; note?: string;
+}): Promise<void> {
+  if (!rawId) return;
+  try {
+    await sb(env, `raw_inbound_emails?id=eq.${rawId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(fields),
+    });
+  } catch (err) {
+    console.error('stampRawInbound failed (continuing):', err);
+  }
+}
+
 // SendGrid's "to" field can include angle-bracket form, comma-separated multiples,
 // and display-name prefix: "Stars <t-abc123@recruiting.starsnatwalker.com>, other@x.com"
 // We pull the first address whose local-part starts with "t-".
@@ -180,7 +221,9 @@ async function handleCcLog(env: Env, msg: {
   fromName: string | null; fromEmail: string;
   subject: string; text: string; html: string; messageId: string | null;
   envelopeRecipients?: string[];
+  rawId?: string | null;
 }): Promise<Response> {
+  const rawId = msg.rawId ?? null;
   const now = new Date().toISOString();
 
   // 1. Identify the player by the envelope From address.
@@ -209,12 +252,16 @@ async function handleCcLog(env: Env, msg: {
   // of bouncing back. (The DB allows null player_id / empty player_slug threads.)
   const isCoordinatorSender = isOurAddress(actualFromEmail);
   if (!player && !isCoordinatorSender) {
-    // Unknown sender, not a player and not a coordinator — can't attribute.
+    // Unknown sender, not a player and not a coordinator — can't attribute. The
+    // email is SAFE in raw_inbound_emails; flag it unmatched so it shows up in
+    // the backfill queue rather than being lost to a Gmail forward.
+    const note = `CC-log from unrecognized sender (${msg.fromEmail}${fwd.fromEmail ? `, forwarded-from ${fwd.fromEmail}` : ''}). Not matched to a player or coordinator — captured for backfill.`;
+    await stampRawInbound(env, rawId, { route: 'cc_log', matched: false, note });
     await forwardToMike(env, {
       fromName: msg.fromName, fromEmail: msg.fromEmail, subject: msg.subject, text: msg.text, html: msg.html,
-      threadInfo: `CC-log from unrecognized sender (${msg.fromEmail}${fwd.fromEmail ? `, forwarded-from ${fwd.fromEmail}` : ''}). Not matched to a player or coordinator — log manually if needed.`,
+      threadInfo: note,
     });
-    return new Response('cc-log: unknown sender, forwarded', { status: 200 });
+    return new Response('cc-log: unknown sender, captured', { status: 200 });
   }
 
   // 2. Find the coach among recipients. Combine visible To/Cc with the SMTP
@@ -410,6 +457,7 @@ async function handleCcLog(env: Env, msg: {
   } else {
     matchNote = `Logged ${who} → ${coachEmail} — the program/coach is NOT in the CRM and I couldn't resolve the school from the domain. Thread created unmatched; assign it in /admin/outreach.`;
   }
+  await stampRawInbound(env, rawId, { route: 'cc_log', matched: true, thread_id: thread.id, note: matchNote });
   await forwardToMike(env, {
     fromName: actualFromName, fromEmail: actualFromEmail, subject: msg.subject, text: msg.text, html: msg.html,
     threadInfo: matchNote,
@@ -453,17 +501,28 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const envelopeRecipients = parseEnvelopeRecipients(envelope);
   const logInEnvelope = envelopeRecipients.some((e) => LOG_ADDRESS_RE.test(e));
 
+  // ── CAPTURE FIRST, ALWAYS ─────────────────────────────────────────────────
+  // KEEP EVERYTHING that hits the webhook. We write the raw email to
+  // raw_inbound_emails BEFORE any matching, so an email is NEVER lost just
+  // because we couldn't match it to a player/coach/thread. Failed matches are
+  // backfilled FROM THIS TABLE, not from Mike's Gmail. Best-effort: a capture
+  // failure must not block processing the email.
+  const rawId = await captureRawInbound(env, {
+    fromEmail, fromName, to, cc, envelope, subject, text, html, messageId,
+  });
+
   // ── CC-LOGGING PATH ──────────────────────────────────────────────────────
   // If log@ appears in To/Cc OR in the SMTP envelope (BCC), and this is NOT a
   // reply (no t- token), treat it as a player logging her own outreach.
   if (!replyToken && (LOG_ADDRESS_RE.test(to) || LOG_ADDRESS_RE.test(cc) || logInEnvelope)) {
-    return handleCcLog(env, { to, cc, fromName, fromEmail, subject, text, html, messageId, envelopeRecipients });
+    return handleCcLog(env, { to, cc, fromName, fromEmail, subject, text, html, messageId, envelopeRecipients, rawId });
   }
 
-  // No matching token? Log + forward to Mike with a warning, return 200.
-  // (Always return 200 to SendGrid so it doesn't retry — we own the failure mode.)
+  // No matching token? It's captured in raw_inbound_emails regardless; forward to
+  // Mike with a warning and return 200. (Always 200 so SendGrid doesn't retry.)
   if (!replyToken) {
     console.warn('Inbound email with no reply token:', { to, from, subject });
+    await stampRawInbound(env, rawId, { route: 'no_token', matched: false, note: `No matching thread token in To: ${to}` });
     await forwardToMike(env, {
       fromName, fromEmail, subject, text, html,
       threadInfo: `No matching thread token in To: ${to}`,
@@ -476,11 +535,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const threads = await threadRes.json();
   if (!Array.isArray(threads) || threads.length === 0) {
     console.warn('Inbound reply with unknown reply_token:', replyToken);
+    await stampRawInbound(env, rawId, { route: 'reply_token', matched: false, note: `Reply token ${replyToken} did not match any thread.` });
     await forwardToMike(env, {
       fromName, fromEmail, subject, text, html,
       threadInfo: `Reply token ${replyToken} did not match any thread.`,
     });
-    return new Response('unknown token, forwarded', { status: 200 });
+    return new Response('unknown token, captured', { status: 200 });
   }
 
   const thread = threads[0] as any;
@@ -524,6 +584,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       playerLabel = `${players[0].first_name} ${players[0].last_name}`;
     }
   }
+
+  await stampRawInbound(env, rawId, { route: 'reply_token', matched: true, thread_id: thread.id, note: `Reply from ${fromEmail} logged for ${playerLabel}.` });
 
   // Forward a copy to Mike (so he reads it in Gmail like normal)
   await forwardToMike(env, {

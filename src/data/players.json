@@ -496,11 +496,18 @@
     "videos": {
       "highlightUrl": null,
       "skillsUrl": null,
-      "gameFootageUrl": null
+      "gameFootageUrl": null,
+      "muxVideos": [
+        {
+          "playbackId": "Obow1nNR1OBSyu6hzYj78E38004XJifLtx6tXIkbE00Eo",
+          "title": "Kendall LaManche · Recruiting Video",
+          "description": "Kendall LaManche recruiting video."
+        }
+      ]
     },
     "contactEmail": "kendalllamanche@gmail.com",
     "socialScore": null,
-    "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
+    "lastUpdated": "2026-06-24T00:00:00.000000+00:00"
   },
   {
     "id": "a7c04e0c-db7c-4097-bdfe-9165511d081c",

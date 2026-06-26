@@ -350,7 +350,13 @@ const ogImage = `/players/og/${slug}.png`;
             {player.measurables.infieldVelo && (
               <div class="bg-gray-50 rounded-xl p-4 text-center">
                 <div class="text-2xl font-bold text-stars-navy">{player.measurables.infieldVelo} mph</div>
-                <div class="text-gray-500 text-sm">IF Velo</div>
+                <div class="text-gray-500 text-sm">IF / C Velo</div>
+              </div>
+            )}
+            {player.measurables.pullDownVelo && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.pullDownVelo} mph</div>
+                <div class="text-gray-500 text-sm">Pull-Down Velo</div>
               </div>
             )}
             {player.measurables.outfieldVelo && (

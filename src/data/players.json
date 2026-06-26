@@ -72,21 +72,27 @@
     "position": "Utility",
     "secondaryPositions": [
       "1B",
-      "3B"
+      "3B",
+      "OF"
     ],
-    "bats": null,
-    "throws": null,
+    "bats": "R",
+    "throws": "R",
     "twitter": "BayGieseedney",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807444/StarsNationalWalker/baylee-giese-edney-profile.jpg",
     "bio": null,
-    "achievements": [],
+    "achievements": [
+      "2026 5A NC State Champion — Softball (EHS), HR & RBI leader",
+      "Starting Varsity Freshman (EHS)",
+      "A Honor Roll (grades 3-9), All Honors course load",
+      "Key Club (community outreach) · Special Olympics volunteer · Student Leadership Program"
+    ],
     "heightInches": null,
     "weightLbs": null,
     "gpa": 4.3,
     "satScore": null,
     "actScore": null,
-    "intendedMajor": null,
+    "intendedMajor": "Business (pre-law → family law attorney)",
     "highSchool": "Enka High School",
     "highSchoolState": "NC",
     "ncaaId": "2511773424",
@@ -110,7 +116,7 @@
     "photos": [],
     "contactEmail": null,
     "socialScore": null,
-    "lastUpdated": "2026-05-03T14:10:00.000000+00:00"
+    "lastUpdated": "2026-06-26T00:00:00.000000+00:00"
   },
   {
     "id": "f283f6e0-53bd-4f94-b2f8-a333f16c556a",

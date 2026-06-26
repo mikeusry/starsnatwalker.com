@@ -1088,21 +1088,29 @@
     "committedTo": null,
     "measurables": {
       "sixtyYard": null,
-      "exitVelo": null,
-      "popTime": null,
-      "infieldVelo": null,
+      "exitVelo": 79,
+      "popTime": 1.76,
+      "infieldVelo": 60,
       "outfieldVelo": null,
-      "pitchSpeed": null
+      "pitchSpeed": null,
+      "pullDownVelo": 69.8
     },
     "videos": {
       "highlightUrl": null,
       "skillsUrl": null,
-      "gameFootageUrl": null
+      "gameFootageUrl": null,
+      "muxVideos": [
+        {
+          "playbackId": "IMwWFGGN5d3aSCuCzuRx00MZ01We02e7xuahRLSR1tf0102A",
+          "title": "Catcher / Hitting Skills",
+          "description": "Austyn Kinch — catching and hitting skills (Stars National Walker 16U, C/Utility, 2028)."
+        }
+      ]
     },
     "photos": [],
     "contactEmail": null,
     "socialScore": null,
-    "lastUpdated": "2026-06-24T00:00:00.000000+00:00",
+    "lastUpdated": "2026-06-26T00:00:00.000000+00:00",
     "achievements": [
       "EI Top 25 Slugger",
       "#100 National C",

@@ -308,7 +308,7 @@ const gradYears = ['2027', '2028', '2029', '2030', '2031'];
             </p>
           </div>
 
-          <form class="bg-white rounded-2xl shadow-xl p-8 md:p-10 space-y-8">
+          <form id="tryoutForm" class="bg-white rounded-2xl shadow-xl p-8 md:p-10 space-y-8">
             <!-- Player Information -->
             <div>
               <h3 class="text-xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-200">Player Information</h3>
@@ -533,11 +533,19 @@ const gradYears = ['2027', '2028', '2029', '2030', '2031'];
             </div>
 
             <button
+              id="tryoutSubmitBtn"
               type="submit"
               class="w-full btn-primary bg-stars-navy hover:bg-stars-blue text-lg py-4"
             >
               Submit Application
             </button>
+
+            <div id="tryoutSuccess" class="hidden text-center bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">
+              ✅ Application submitted! Our coaching staff will be in touch.
+            </div>
+            <div id="tryoutError" class="hidden text-center bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
+              Something went wrong. Please email <a href="mailto:mike@starsnatwalker.com" class="underline">mike@starsnatwalker.com</a> directly.
+            </div>
 
             <p class="text-center text-sm text-gray-500">
               By submitting this application, you agree to be contacted by Stars National Walker coaching staff.
@@ -555,4 +563,60 @@ const gradYears = ['2027', '2028', '2029', '2030', '2031'];
     />
   </main>
   <Footer />
+
+  <!-- Tryout Application Submission -->
+  <script is:inline>
+    document.getElementById('tryoutForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('tryoutSubmitBtn');
+      const ok = document.getElementById('tryoutSuccess');
+      const err = document.getElementById('tryoutError');
+      const fd = new FormData(form);
+
+      const data = {
+        firstName: fd.get('firstName'),
+        lastName: fd.get('lastName'),
+        gradYear: fd.get('gradYear'),
+        position: fd.get('position'),
+        secondaryPosition: fd.get('secondaryPosition'),
+        highSchool: fd.get('highSchool'),
+        currentTeam: fd.get('currentTeam'),
+        gpa: fd.get('gpa'),
+        parentName: fd.get('parentName'),
+        relationship: fd.get('relationship'),
+        email: fd.get('email'),
+        phone: fd.get('phone'),
+        twitter: fd.get('twitter'),
+        videoLink: fd.get('videoLink'),
+        achievements: fd.get('achievements'),
+        whyStars: fd.get('whyStars'),
+        timestamp: new Date().toISOString(),
+        source: 'tryout_form',
+      };
+
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+      ok.classList.add('hidden');
+      err.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/tryout-application', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Failed to submit');
+        ok.classList.remove('hidden');
+        form.reset();
+        ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (e2) {
+        console.error('Tryout submission error:', e2);
+        err.classList.remove('hidden');
+      } finally {
+        btn.textContent = 'Submit Application';
+        btn.disabled = false;
+      }
+    });
+  </script>
 </Layout>

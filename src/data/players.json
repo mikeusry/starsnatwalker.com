@@ -1087,7 +1087,7 @@
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
-    "highSchool": null,
+    "highSchool": "Mineral Point",
     "highSchoolState": "WI",
     "ncaaId": null,
     "recruitingStatus": "uncommitted",
@@ -1116,11 +1116,16 @@
     "photos": [],
     "contactEmail": null,
     "socialScore": null,
-    "lastUpdated": "2026-06-26T00:00:00.000000+00:00",
+    "lastUpdated": "2026-06-25T00:00:00.000000+00:00",
     "achievements": [
-      "EI Top 25 Slugger",
-      "#100 National C",
-      "2x 1st Team All-State"
+      "2026 State Champions (WIAA)",
+      "2025 State Appearance",
+      "Led the state in hits (58) — HS season",
+      "2x First Team All-State (WIAA)",
+      "2x First Team All-Conference",
+      "2x First Team All-District",
+      "#100 National Catcher (Extra Inning Softball)",
+      "EI Top 25 Slugger"
     ]
   }
 ]

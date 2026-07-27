@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import players from '../../data/players.json';
 import schedule from '../../data/schedule.json';
 import { generatePlayerSlug } from '../../lib/slug';
+import { buildCloudinaryUrl } from '../../lib/cloudinary';
 
 // Generate event slug from name
 function generateEventSlug(name: string): string {
@@ -54,11 +55,48 @@ const hasVideo = (player: any) => {
 
 // Players with video count
 const playersWithVideo = players.filter(p => hasVideo(p)).length;
+
+// A finished event carries a result — the page then leads with the outcome
+// instead of previewing an event that has already been played.
+const hasResult = Boolean(event.result);
+const bracketRun = event.bracketRun ?? [];
+
+// Photos live on the matching pastEvents entry so the homepage and this page
+// share one source for the gallery.
+const pastEntry = (schedule.pastEvents ?? []).find(
+  (past: any) => past.name === event.name && past.dates === event.dates
+);
+const rawResultPhotos = (pastEntry as any)?.photos ?? [];
+
+// Matches the homepage gallery: the hero spans full width, and the final photo
+// widens when the remaining photos would leave a short last row.
+const isWideTile = (index: number, total: number) =>
+  index === 0 || (index === total - 1 && (total - 1) % 3 === 2);
+
+const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
+  const wide = isWideTile(index, rawResultPhotos.length);
+  return {
+    ...photo,
+    src: buildCloudinaryUrl({
+      publicId: photo.publicId,
+      width: wide ? 1200 : 700,
+      height: wide ? 675 : 700,
+      crop: 'fill',
+      gravity: 'auto',
+      quality: 'auto',
+      format: 'auto',
+    }),
+  };
+});
 ---
 
 <Layout
-  title={`${event.name} | Stars National Walker Roster`}
-  description={`See the Stars National Walker roster for ${event.name} (${event.dates}). ${players.length} elite 16U softball players competing in ${event.location}.`}
+  title={hasResult
+    ? `${event.result} — ${event.name} | Stars National Walker`
+    : `${event.name} | Stars National Walker Roster`}
+  description={hasResult
+    ? `Stars National Walker finished ${event.result} at the ${event.name} (${event.dates}, ${event.location}). See the roster of ${players.length} elite 16U softball players.`
+    : `See the Stars National Walker roster for ${event.name} (${event.dates}). ${players.length} elite 16U softball players competing in ${event.location}.`}
 >
   <Header />
   <main class="pt-20">
@@ -66,7 +104,14 @@ const playersWithVideo = players.filter(p => hasVideo(p)).length;
     <section class="bg-gradient-to-br from-stars-navy to-stars-navy-light py-12 md:py-16">
       <div class="container-narrow">
         <div class="text-center mb-8">
-          {event.isShowcase && (
+          {hasResult ? (
+            <span class="inline-flex items-center gap-2 bg-stars-gold text-stars-navy px-4 py-2 rounded-full text-sm font-bold mb-4">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              FINAL RESULT
+            </span>
+          ) : event.isShowcase && (
             <span class="inline-flex items-center gap-2 bg-stars-gold text-stars-navy px-4 py-2 rounded-full text-sm font-bold mb-4">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -74,11 +119,29 @@ const playersWithVideo = players.filter(p => hasVideo(p)).length;
               SHOWCASE EVENT
             </span>
           )}
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Stars National Walker
-          </h1>
-          <p class="text-2xl text-stars-gold font-semibold mb-2">{event.name}</p>
-          <p class="text-xl text-white/80">{event.dates}</p>
+
+          {hasResult ? (
+            <>
+              <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
+                {event.result}
+              </h1>
+              <p class="text-xl md:text-2xl text-stars-gold font-semibold mb-2">
+                Stars National Walker &middot; {event.name}
+              </p>
+              <p class="text-lg text-white/80">{event.dates} &middot; {event.location}</p>
+              {event.resultDetail && (
+                <p class="text-white/70 max-w-2xl mx-auto mt-4">{event.resultDetail}</p>
+              )}
+            </>
+          ) : (
+            <>
+              <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                Stars National Walker
+              </h1>
+              <p class="text-2xl text-stars-gold font-semibold mb-2">{event.name}</p>
+              <p class="text-xl text-white/80">{event.dates}</p>
+            </>
+          )}
         </div>
 
         <!-- Event Details Card -->
@@ -99,7 +162,7 @@ const playersWithVideo = players.filter(p => hasVideo(p)).length;
               </div>
             )}
           </div>
-          {event.address && (
+          {event.address && !hasResult && (
             <div class="mt-4 pt-4 border-t border-white/20">
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address)}`}
@@ -117,6 +180,56 @@ const playersWithVideo = players.filter(p => hasVideo(p)).length;
         </div>
       </div>
     </section>
+
+    <!-- Road to the Championship -->
+    {bracketRun.length > 0 && (
+      <section class="bg-white py-10 border-b">
+        <div class="container-narrow">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Road to the Championship</h2>
+          <ol class="grid gap-3 md:grid-cols-4 list-none p-0 m-0">
+            {bracketRun.map((game: any) => {
+              const won = game.outcome === 'W';
+              return (
+                <li class={`rounded-xl p-4 border-l-4 ${won ? 'bg-green-50 border-green-500' : 'bg-stars-gold/15 border-stars-gold'}`}>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">{game.game}</p>
+                  <p class="font-bold text-gray-900 mt-1">{game.opponent}</p>
+                  <span class={`inline-block mt-2 px-2 py-0.5 rounded text-xs font-bold ${won ? 'bg-green-600 text-white' : 'bg-stars-navy text-white'}`}>
+                    {won ? 'WIN' : game.outcome}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </section>
+    )}
+
+    <!-- Result Photos -->
+    {resultPhotos.length > 0 && (
+      <section class="bg-gray-50 py-10 border-b">
+        <div class="container-narrow">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+            {resultPhotos.map((photo: any, index: number) => (
+              <figure class={`m-0 ${
+                index === 0
+                  ? 'col-span-2 md:col-span-3 aspect-4/3 md:aspect-video'
+                  : isWideTile(index, resultPhotos.length)
+                    ? 'col-span-2 aspect-video'
+                    : 'aspect-square'
+              }`}>
+                <img
+                  src={photo.src}
+                  alt={photo.caption}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-full h-full object-cover rounded-lg"
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- Quick Stats -->
     <section class="bg-white py-6 border-b">
@@ -142,7 +255,7 @@ const playersWithVideo = players.filter(p => hasVideo(p)).length;
     <section class="section-padding bg-gray-50">
       <div class="container-narrow">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold text-gray-900">Event Roster</h2>
+          <h2 class="text-2xl font-bold text-gray-900">{hasResult ? 'The Roster' : 'Event Roster'}</h2>
           <a href="/recruiting#inquiry" class="text-stars-navy font-medium hover:text-stars-blue">
             Request Info →
           </a>

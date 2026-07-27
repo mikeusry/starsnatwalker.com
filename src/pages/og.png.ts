@@ -17,6 +17,10 @@ export const GET: APIRoute = async () => {
   const logoPngBuffer = await sharp(logoPath).png().toBuffer();
   const logoDataUrl = `data:image/png;base64,${logoPngBuffer.toString('base64')}`;
 
+  // The top achievement doubles as the share-card headline. Keeping it derived
+  // from team.json means the card follows the roster's best current credential.
+  const headlineAchievement = team.achievements?.[0] ?? null;
+
   const svg = await satori(
     {
       type: 'div',
@@ -36,10 +40,10 @@ export const GET: APIRoute = async () => {
             type: 'img',
             props: {
               src: logoDataUrl,
-              width: 400,
-              height: 138,
+              width: 340,
+              height: 117,
               style: {
-                marginBottom: '40px',
+                marginBottom: '28px',
                 objectFit: 'contain',
               },
             },
@@ -61,14 +65,35 @@ export const GET: APIRoute = async () => {
             type: 'div',
             props: {
               style: {
-                fontSize: 36,
+                fontSize: 32,
                 fontWeight: 700,
                 color: '#c0c0c0',
                 textAlign: 'center',
+                marginBottom: headlineAchievement ? '28px' : '0px',
               },
               children: `${team.division} • ${team.location}`,
             },
           },
+          ...(headlineAchievement
+            ? [
+                {
+                  type: 'div',
+                  props: {
+                    style: {
+                      display: 'flex',
+                      backgroundColor: '#f5c518',
+                      color: '#062a4b',
+                      fontSize: 30,
+                      fontWeight: 700,
+                      textAlign: 'center',
+                      padding: '14px 32px',
+                      borderRadius: '999px',
+                    },
+                    children: headlineAchievement,
+                  },
+                },
+              ]
+            : []),
         ],
       },
     },

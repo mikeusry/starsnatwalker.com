@@ -73,7 +73,13 @@
       "type": "tournament",
       "isShowcase": false,
       "result": "16U Tier III National Runner-Up",
-      "resultDetail": "Reached the Tier III national championship series against EC Bullets Gold Ellis/Keeling."
+      "resultDetail": "Won Bracket A over Power Surge National, EC Bullets and LS Bombers to reach the Tier III national championship series.",
+      "bracketRun": [
+        { "game": "Game 2", "opponent": "Power Surge National", "outcome": "W" },
+        { "game": "Game 3", "opponent": "EC Bullets", "outcome": "W" },
+        { "game": "Game 6", "opponent": "LS Bombers", "outcome": "W" },
+        { "game": "Championship Series", "opponent": "EC Bullets Gold Ellis/Keeling", "outcome": "Runner-Up" }
+      ]
     }
   ],
   "pastEvents": [
@@ -83,8 +89,14 @@
       "dates": "Jul 19-26, 2026",
       "location": "Westfield, IN",
       "result": "16U Tier III National Runner-Up",
-      "resultDetail": "Ran through Bracket A and reached the Tier III national championship series against EC Bullets Gold Ellis/Keeling at Grand Park.",
+      "resultDetail": "Won Bracket A at Grand Park — beating Power Surge National, EC Bullets and LS Bombers — to reach the Tier III national championship series against EC Bullets Gold Ellis/Keeling.",
       "featured": true,
+      "bracketRun": [
+        { "game": "Game 2", "opponent": "Power Surge National", "outcome": "W" },
+        { "game": "Game 3", "opponent": "EC Bullets", "outcome": "W" },
+        { "game": "Game 6", "opponent": "LS Bombers", "outcome": "W" },
+        { "game": "Championship Series", "opponent": "EC Bullets Gold Ellis/Keeling", "outcome": "Runner-Up" }
+      ],
       "photos": [
         {
           "publicId": "StarsNationalWalker/afcs-2026-runner-up-team",

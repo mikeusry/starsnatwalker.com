@@ -79,7 +79,34 @@ Per-player OG images (1200x630) generated at build time via satori:
 - [ ] Test coach inquiry form (submit test, verify Supabase + SendGrid)
 - [ ] Add tracking pixel to player pages so dashboard has data
 - [ ] Get email addresses for all players and set up forwarding
-- [ ] Upload all player photos to Cloudinary (stop depending on Twitter CDN)
+- [x] ~~Upload all player photos to Cloudinary~~ — done; all 17 verified 200 (Jul 27 2026)
+
+**When adding a player: migrate her photo to Cloudinary in the same commit.**
+A raw `pbs.twimg.com` URL works the day you add it and 404s weeks later when
+she changes her avatar. The build does not fail (OG falls back to text), so
+nothing alerts you. Check with `command grep -rn "twimg\.com" src/` — plain
+`grep -r` is aliased to ugrep here and skips gitignored files.
+
+## Recent Work (Jul 27 2026)
+
+### AFCS 2026 — 16U Tier III National Runner-Up
+
+Alliance Fastpitch Championship Series, Jul 19-26, Grand Park (Westfield IN).
+Beat Power Surge National, EC Bullets, and LS Bombers in Bracket A; lost the
+championship series to EC Bullets Gold Ellis/Keeling.
+
+Surfaced on: Hero badge, `team.json` achievements, Schedule featured card
+(6-photo gallery), all 17 player pages, and the `/events/...` page.
+
+**Two conventions this set:**
+
+- **An event with a `result` renders as a result, not a preview.** Setting
+  `result` on a `schedule.json` event flips `/events/[slug]` to a result hero
+  with a "Road to the Championship" block, and drops it from "Upcoming
+  Events". Keep the event in BOTH `events` and `pastEvents` — `/events/[slug]`
+  generates its page from `events`, so removing it 404s the page.
+- **`team.achievements[0]` drives the OG share card** (`src/pages/og.png.ts`
+  renders it as a gold banner). Best current credential goes first.
 
 ## Recent Work (Feb 15 2026)
 

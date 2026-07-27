@@ -67,14 +67,57 @@
       "name": "Alliance Fastpitch Championship Series",
       "org": "Alliance Fastpitch",
       "dates": "Jul 19-26, 2026",
-      "location": "Kokomo, IN",
-      "venue": "Champion Fields at Grand Park",
+      "location": "Westfield, IN",
+      "venue": "Grand Park",
       "address": "19000 Grand Park Blvd, Westfield, IN 46074",
       "type": "tournament",
-      "isShowcase": false
+      "isShowcase": false,
+      "result": "16U Tier III National Runner-Up",
+      "resultDetail": "Reached the Tier III national championship series against EC Bullets Gold Ellis/Keeling."
     }
   ],
   "pastEvents": [
+    {
+      "name": "Alliance Fastpitch Championship Series",
+      "org": "Alliance Fastpitch",
+      "dates": "Jul 19-26, 2026",
+      "location": "Westfield, IN",
+      "result": "16U Tier III National Runner-Up",
+      "resultDetail": "Ran through Bracket A and reached the Tier III national championship series against EC Bullets Gold Ellis/Keeling at Grand Park.",
+      "featured": true,
+      "photos": [
+        {
+          "publicId": "StarsNationalWalker/afcs-2026-runner-up-team",
+          "caption": "16U Tier III National Runner-Up — Alliance Fastpitch Championship Series, Grand Park, Westfield, IN",
+          "orientation": "landscape"
+        },
+        {
+          "publicId": "StarsNationalWalker/afcs-2026-team-huddle",
+          "caption": "Team huddle at the Tier III bracket board",
+          "orientation": "landscape"
+        },
+        {
+          "publicId": "StarsNationalWalker/afcs-2026-dugout",
+          "caption": "Celebrating the semifinal win that sent Stars National Walker to the championship series",
+          "orientation": "portrait"
+        },
+        {
+          "publicId": "StarsNationalWalker/afcs-2026-all-tournament",
+          "caption": "All-Tournament team honors",
+          "orientation": "portrait"
+        },
+        {
+          "publicId": "StarsNationalWalker/afcs-2026-bracket",
+          "caption": "The bracket: past EC Bullets and Power Surge National into the championship",
+          "orientation": "portrait"
+        },
+        {
+          "publicId": "StarsNationalWalker/afcs-2026-bracket-huddle",
+          "caption": "Tracking the run through Bracket A",
+          "orientation": "portrait"
+        }
+      ]
+    },
     {
       "name": "Alliance Atlantic Region Championship",
       "org": "Alliance Fastpitch",

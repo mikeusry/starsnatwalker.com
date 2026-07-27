@@ -30,3 +30,6 @@ scripts/eis-scraper/state.json
 # jetbrains setting folder
 .idea/
 .claude/
+
+# Wrangler local state
+.wrangler/

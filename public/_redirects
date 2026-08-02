@@ -1,3 +1,17 @@
 # Cloudflare Pages redirects
 # /coordinator was a dead URL — route it to Mike's real staff page
 /coordinator  /staff/mike-usry  301
+
+# Cloudflare Pages does NOT delete assets that leave the build — a removed
+# page keeps serving 200 from earlier deployments. These two were verified
+# still live after the file was removed from the build, so they need explicit
+# redirects, not just deletion.
+#
+# /README was src/pages/README.md building to a public, indexable page of
+# internal dev docs. Moved to docs/pages.md.
+/README      /              301
+/README/     /              301
+
+# /schedule has no route in the source; the live 200 is a stale artifact.
+/schedule    /coaches/#schedule  301
+/schedule/   /coaches/#schedule  301

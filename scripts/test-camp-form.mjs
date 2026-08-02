@@ -46,7 +46,6 @@ const run = async () => {
   await page.fill('#campName', 'ZZ Playwright Test Camp');
   await page.fill('#campDate', '2026-09-27');
   await page.selectOption('#status', 'registered');
-  await page.fill('#submittedBy', 'Claude E2E');
   await page.fill('#notes', 'automated test row');
   await page.click('#submitBtn');
 

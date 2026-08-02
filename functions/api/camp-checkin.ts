@@ -57,7 +57,6 @@ interface CampCheckin {
   campDate?: string;
   status?: string;
   notes?: string;
-  submittedBy?: string;
 }
 
 const json = (body: unknown, status: number) =>
@@ -106,13 +105,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const campDate = data.campDate;
 
     // logged_by is a UUID FK to app_users — it cannot carry a "family" label.
-    // Attribution goes in the notes instead, which is also what Mike actually
-    // reads. Family-vs-staff origin is marked with the [family] tag.
-    const notes = [
-      '[family submission]',
-      (data.notes || '').trim(),
-      data.submittedBy ? `— submitted by ${data.submittedBy.trim()}` : '',
-    ]
+    // Origin is marked in the notes instead, which is what Mike actually reads.
+    const notes = ['[family submission]', (data.notes || '').trim()]
       .filter(Boolean)
       .join('\n');
 

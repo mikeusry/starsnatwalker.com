@@ -33,3 +33,6 @@ scripts/eis-scraper/state.json
 
 # Wrangler local state
 .wrangler/
+
+# Local Cloudflare Pages Functions secrets — NEVER commit (holds service-role key)
+.dev.vars

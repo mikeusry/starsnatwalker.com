@@ -1,0 +1,215 @@
+---
+// Coach view of the camp tracker. Two lenses on the same data:
+//   By date   — what's coming up, so outreach can be timed
+//   By player — the roster WITH blanks, so "who has told us nothing" is visible
+// The blanks are the point of this page.
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Camps | Stars National Walker" noindex={true}>
+  <div class="min-h-screen bg-gray-50 py-10 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <div>
+          <h1 class="text-3xl font-bold text-stars-navy">Camp Tracker</h1>
+          <p class="text-gray-600 text-sm mt-1">Where our players are going.</p>
+        </div>
+        <div class="flex gap-2">
+          <button
+            id="tab-date"
+            class="px-4 py-2 rounded-lg font-semibold text-sm bg-stars-red text-white"
+          >
+            By date
+          </button>
+          <button
+            id="tab-player"
+            class="px-4 py-2 rounded-lg font-semibold text-sm bg-white text-stars-navy border border-gray-300"
+          >
+            By player
+          </button>
+        </div>
+      </div>
+
+      <div id="summary" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"></div>
+
+      <div id="loading" class="text-center text-gray-500 py-16">Loading…</div>
+      <div id="error" class="hidden text-center text-red-600 py-16"></div>
+
+      <div id="view-date" class="hidden space-y-3"></div>
+      <div id="view-player" class="hidden space-y-3"></div>
+
+      <p class="text-center mt-8">
+        <a href="/admin/dashboard" class="text-gray-500 hover:text-stars-navy text-sm">
+          &larr; Admin dashboard
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      // Same gate as the rest of /admin/*.
+      if (sessionStorage.getItem('snw_admin_auth') !== 'true') {
+        window.location.href = '/admin/';
+        return;
+      }
+
+      var esc = function (s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+      };
+
+      var fmtDate = function (d) {
+        if (!d) return 'Date TBD';
+        // Pin to UTC — a date-only value must not shift across local midnight.
+        var dt = new Date(d + 'T00:00:00Z');
+        return dt.toLocaleDateString('en-US', {
+          timeZone: 'UTC',
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+      };
+
+      var STATUS_STYLE = {
+        registered: 'bg-blue-100 text-blue-800',
+        attending: 'bg-green-100 text-green-800',
+        attended: 'bg-gray-200 text-gray-700',
+        considering: 'bg-yellow-100 text-yellow-800',
+      };
+
+      var badge = function (s) {
+        var cls = STATUS_STYLE[s] || 'bg-gray-100 text-gray-700';
+        return '<span class="text-xs px-2 py-1 rounded-full ' + cls + '">' + esc(s) + '</span>';
+      };
+
+      fetch('/api/camp-list')
+        .then(function (r) {
+          if (!r.ok) throw new Error('Could not load camps.');
+          return r.json();
+        })
+        .then(function (data) {
+          document.getElementById('loading').classList.add('hidden');
+          render(data.camps || [], data.roster || []);
+        })
+        .catch(function (e) {
+          document.getElementById('loading').classList.add('hidden');
+          var el = document.getElementById('error');
+          el.textContent = e.message || 'Could not load camps.';
+          el.classList.remove('hidden');
+        });
+
+      function render(camps, roster) {
+        var today = new Date().toISOString().slice(0, 10);
+        var upcoming = camps.filter(function (c) {
+          return c.campDate && c.campDate >= today;
+        });
+        var reported = {};
+        camps.forEach(function (c) {
+          reported[c.playerId] = true;
+        });
+        var silent = roster.filter(function (p) {
+          return !reported[p.id];
+        });
+
+        // Summary tiles
+        var tile = function (n, label, tone) {
+          return (
+            '<div class="bg-white rounded-xl border border-gray-200 p-4 text-center">' +
+            '<div class="text-2xl font-bold ' + tone + '">' + n + '</div>' +
+            '<div class="text-xs text-gray-500 mt-1">' + label + '</div></div>'
+          );
+        };
+        document.getElementById('summary').innerHTML =
+          tile(camps.length, 'camps logged', 'text-stars-navy') +
+          tile(upcoming.length, 'still upcoming', 'text-stars-navy') +
+          tile(roster.length - silent.length, 'players reporting', 'text-green-700') +
+          tile(silent.length, 'told us nothing', silent.length ? 'text-red-600' : 'text-gray-400');
+
+        // ---- By date ----
+        var dateEl = document.getElementById('view-date');
+        if (!camps.length) {
+          dateEl.innerHTML =
+            '<div class="bg-white rounded-xl border border-gray-200 p-10 text-center text-gray-500">' +
+            'No camps logged yet.</div>';
+        } else {
+          dateEl.innerHTML = camps
+            .map(function (c) {
+              var past = c.campDate && c.campDate < today;
+              return (
+                '<div class="bg-white rounded-xl border border-gray-200 p-4 flex items-start justify-between gap-4' +
+                (past ? ' opacity-60' : '') +
+                '">' +
+                '<div><div class="font-semibold text-stars-navy">' + esc(c.campName) + '</div>' +
+                '<div class="text-sm text-gray-600 mt-1">' + esc(c.playerName) + '</div>' +
+                (c.notes ? '<div class="text-xs text-gray-500 mt-2 whitespace-pre-line">' + esc(c.notes) + '</div>' : '') +
+                '</div>' +
+                '<div class="text-right shrink-0"><div class="text-sm text-gray-700">' + fmtDate(c.campDate) + '</div>' +
+                '<div class="mt-2">' + badge(c.status) + '</div>' +
+                (c.loggedBy === 'family' ? '<div class="text-xs text-gray-400 mt-1">from family</div>' : '') +
+                '</div></div>'
+              );
+            })
+            .join('');
+        }
+
+        // ---- By player (blanks included) ----
+        var byPlayer = {};
+        camps.forEach(function (c) {
+          (byPlayer[c.playerId] = byPlayer[c.playerId] || []).push(c);
+        });
+        document.getElementById('view-player').innerHTML = roster
+          .map(function (p) {
+            var list = byPlayer[p.id] || [];
+            var body = list.length
+              ? '<ul class="mt-2 space-y-1">' +
+                list
+                  .map(function (c) {
+                    return (
+                      '<li class="text-sm text-gray-700 flex justify-between gap-3">' +
+                      '<span>' + esc(c.campName) + '</span>' +
+                      '<span class="text-gray-500 shrink-0">' + fmtDate(c.campDate) + '</span></li>'
+                    );
+                  })
+                  .join('') +
+                '</ul>'
+              : '<p class="text-sm text-red-600 mt-2">Nothing reported yet.</p>';
+            return (
+              '<div class="bg-white rounded-xl border ' +
+              (list.length ? 'border-gray-200' : 'border-red-200 bg-red-50/40') +
+              ' p-4">' +
+              '<div class="flex items-center justify-between">' +
+              '<span class="font-semibold text-stars-navy">' + esc(p.name) + '</span>' +
+              '<span class="text-xs text-gray-500">' + list.length + ' camp' + (list.length === 1 ? '' : 's') + '</span>' +
+              '</div>' + body + '</div>'
+            );
+          })
+          .join('');
+
+        show('date');
+      }
+
+      function show(which) {
+        var d = which === 'date';
+        document.getElementById('view-date').classList.toggle('hidden', !d);
+        document.getElementById('view-player').classList.toggle('hidden', d);
+        document.getElementById('tab-date').className =
+          'px-4 py-2 rounded-lg font-semibold text-sm ' +
+          (d ? 'bg-stars-red text-white' : 'bg-white text-stars-navy border border-gray-300');
+        document.getElementById('tab-player').className =
+          'px-4 py-2 rounded-lg font-semibold text-sm ' +
+          (!d ? 'bg-stars-red text-white' : 'bg-white text-stars-navy border border-gray-300');
+      }
+
+      document.getElementById('tab-date').addEventListener('click', function () {
+        show('date');
+      });
+      document.getElementById('tab-player').addEventListener('click', function () {
+        show('player');
+      });
+    })();
+  </script>
+</Layout>

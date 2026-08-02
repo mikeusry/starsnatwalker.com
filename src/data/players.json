@@ -1,71 +1,5 @@
 [
   {
-    "id": "55842a8e-274b-40b6-8c9b-c028c0bedf31",
-    "firstName": "Isabel",
-    "lastName": "Findlay",
-    "gradYear": 2027,
-    "position": "3B",
-    "secondaryPositions": [
-      "SS",
-      "Utility"
-    ],
-    "bats": "R",
-    "throws": "R",
-    "twitter": "FindlayBel2027",
-    "featured": false,
-    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807443/StarsNationalWalker/isabel-findlay-profile.jpg",
-    "bio": "Isabel is a college-ready power hitter with D1-caliber bat speed and the athleticism to play anywhere on the left side of the infield. At 5'10\" with an 83.8 mph bat speed, 4.90 kW power output, and a .14-second time to contact, she generates the kind of exit velocities and launch metrics that project to the next level right now. A natural third baseman with shortstop-type range, soft hands, and a cannon arm, she covers ground and makes throws that most corner infielders can't. Isabel brings a rare combination of size, speed, and power — the kind of player who changes lineups and defensive alignments the moment she steps on the field.",
-    "achievements": [
-      "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
-      "83.8 mph Bat Speed (Blast Motion)",
-      "4.90 kW Power Output",
-      ".14s Time to Contact",
-      "76 mph Exit Velocity",
-      "4.0 GPA"
-    ],
-    "heightInches": 70,
-    "weightLbs": null,
-    "gpa": 4,
-    "satScore": null,
-    "actScore": null,
-    "intendedMajor": null,
-    "highSchool": "Maranatha Christian School",
-    "highSchoolState": "ON",
-    "ncaaId": "2306940938",
-    "recruitingStatus": "uncommitted",
-    "committedTo": null,
-    "measurables": {
-      "sixtyYard": null,
-      "exitVelo": 76,
-      "batSpeed": 83.8,
-      "popTime": null,
-      "infieldVelo": null,
-      "outfieldVelo": null,
-      "pitchSpeed": null
-    },
-    "videos": {
-      "highlightUrl": "https://www.youtube.com/watch?v=2x7WRkltaMs",
-      "skillsUrl": null,
-      "gameFootageUrl": null,
-      "muxVideos": [
-        {
-          "playbackId": "vvmnTn8MuGg02OEkJbj6FiN6pz00uSEpWlEPopfoSUM01A",
-          "title": "Training Camp Hitting - Charlotte",
-          "description": "Isabel Findlay hitting during a recent training camp in Charlotte, showcasing her bat speed and power from the right side."
-        }
-      ]
-    },
-    "photos": [
-      {
-        "url": "https://res.cloudinary.com/southland-organics/image/upload/v1/StarsNationalWalker/isabel-findlay-blast-motion",
-        "caption": "Isabel Findlay — 83.8 mph Bat Speed, 4.90 kW Power, .14s Time to Contact (Blast Motion)"
-      }
-    ],
-    "contactEmail": "belbelfindlay@gmail.com",
-    "socialScore": null,
-    "lastUpdated": "2026-03-15T12:00:00.000000+00:00"
-  },
-  {
     "id": "f7e1b3a0-2029-4b1a-9c00-baygiese000001",
     "firstName": "Baylee",
     "lastName": "Giese Edney",
@@ -762,54 +696,6 @@
       "Wofford"
     ],
     "contactEmail": "lylaseibert2028@gmail.com",
-    "socialScore": null,
-    "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
-  },
-  {
-    "id": "33d464c0-6130-4819-80d3-e0c47d5e8fb6",
-    "firstName": "Sara",
-    "lastName": "Utrera",
-    "gradYear": 2028,
-    "position": "Middle Infield",
-    "secondaryPositions": [
-      "Utility"
-    ],
-    "bats": "R",
-    "throws": "R",
-    "twitter": "Sara_Utrera2028",
-    "featured": false,
-    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807457/StarsNationalWalker/sara-utrera-profile.jpg",
-    "bio": "Sara is a championship-caliber infielder who helped lead Doral Academy to the 2025 FHSAA 6A State Championship. A 2025 All-County 1st Team selection, she combines exceptional defensive skills with clutch hitting in big moments.",
-    "heightInches": 65,
-    "weightLbs": null,
-    "gpa": null,
-    "satScore": null,
-    "actScore": null,
-    "intendedMajor": null,
-    "highSchool": "Doral Academy",
-    "highSchoolState": "FL",
-    "ncaaId": "2512787307",
-    "recruitingStatus": "uncommitted",
-    "committedTo": null,
-    "measurables": {
-      "sixtyYard": null,
-      "exitVelo": null,
-      "popTime": null,
-      "infieldVelo": null,
-      "outfieldVelo": null,
-      "pitchSpeed": null
-    },
-    "videos": {
-      "highlightUrl": null,
-      "skillsUrl": null,
-      "gameFootageUrl": null
-    },
-    "achievements": [
-      "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
-      "2025 FHSAA 6A State Champion",
-      "2025 All-County 1st Team 6A"
-    ],
-    "contactEmail": "sarautrera_2028@icloud.com",
     "socialScore": null,
     "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
   },

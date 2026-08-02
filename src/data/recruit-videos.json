@@ -24,8 +24,8 @@
       { "label": "Grad year", "value": "2028" }
     ],
     "ctaLinks": [
-      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert" },
-      { "label": "2026 summer schedule", "href": "/schedule" }
+      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert/" },
+      { "label": "2026 summer schedule", "href": "/coaches/#schedule" }
     ],
     "publishedAt": "2026-05-15",
     "expiresAt": null,
@@ -56,8 +56,8 @@
       { "label": "Grad year", "value": "2028" }
     ],
     "ctaLinks": [
-      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert" },
-      { "label": "2026 summer schedule", "href": "/schedule" }
+      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert/" },
+      { "label": "2026 summer schedule", "href": "/coaches/#schedule" }
     ],
     "publishedAt": "2026-05-15",
     "expiresAt": null,
@@ -88,8 +88,8 @@
       { "label": "Grad year", "value": "2028" }
     ],
     "ctaLinks": [
-      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert" },
-      { "label": "2026 summer schedule", "href": "/schedule" }
+      { "label": "Full profile, video, measurables", "href": "/players/lyla-seibert/" },
+      { "label": "2026 summer schedule", "href": "/coaches/#schedule" }
     ],
     "publishedAt": "2026-06-10",
     "expiresAt": null,

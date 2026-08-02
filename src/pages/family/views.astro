@@ -81,7 +81,7 @@ const players = (playersData as any[])
                 {players.map((p) => (
                   <tr data-slug={p.slug} class="hover:bg-gray-50">
                     <td class="px-4 py-3">
-                      <a href={`/players/${p.slug}`} target="_blank" class="font-medium text-stars-navy hover:underline">{p.name}</a>
+                      <a href={`/players/${p.slug}/`} target="_blank" class="font-medium text-stars-navy hover:underline">{p.name}</a>
                       {p.gradYear && <span class="text-xs text-gray-400 ml-1">'{String(p.gradYear).slice(-2)}</span>}
                     </td>
                     <td class="px-4 py-3 text-right font-bold text-stars-navy" data-cell="views7d">-</td>

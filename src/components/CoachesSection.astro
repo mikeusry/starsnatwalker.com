@@ -26,7 +26,7 @@ const allStaff = [
 
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
       {allStaff.map((coach) => (
-        <a href={`/staff/${generateSlug(coach.name)}`} class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all group block">
+        <a href={`/staff/${generateSlug(coach.name)}/`} class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all group block">
           {coach.photo ? (
             <img
               src={coach.photo}

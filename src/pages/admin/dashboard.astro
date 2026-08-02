@@ -22,13 +22,13 @@ import Layout from '../../layouts/Layout.astro';
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <a href="/admin/camps" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            <a href="/admin/camps/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
               Camps
             </a>
-            <a href="/admin/teams" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            <a href="/admin/teams/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
               Teams
             </a>
-            <a href="/admin/help" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            <a href="/admin/help/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
               Help
             </a>
             <button id="refresh-btn" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
@@ -215,7 +215,7 @@ import Layout from '../../layouts/Layout.astro';
             <div class="flex items-center justify-between py-2 ${i > 0 ? 'border-t border-gray-100' : ''}">
               <div class="flex items-center gap-3">
                 <span class="w-6 h-6 rounded-full bg-stars-navy text-white text-xs flex items-center justify-center">${i + 1}</span>
-                <a href="/players/${slug}" target="_blank" class="text-stars-navy hover:underline">${data.name}</a>
+                <a href="/players/${slug}/" target="_blank" class="text-stars-navy hover:underline">${data.name}</a>
               </div>
               <span class="text-gray-500">${data.count} views</span>
             </div>
@@ -343,7 +343,7 @@ import Layout from '../../layouts/Layout.astro';
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-2 flex-wrap">
                     <span class="text-gray-500">Someone ${action}</span>
-                    <a href="/players/${a.player_slug}" target="_blank" class="font-medium text-stars-navy hover:underline truncate">${a.player_name || a.player_slug}</a>
+                    <a href="/players/${a.player_slug}/" target="_blank" class="font-medium text-stars-navy hover:underline truncate">${a.player_name || a.player_slug}</a>
                     ${refBadge}
                     ${locBadge}
                   </div>

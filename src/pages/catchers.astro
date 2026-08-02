@@ -33,7 +33,7 @@ const structuredData = {
       "@type": "Person",
       "name": `${p.firstName} ${p.lastName}`,
       "jobTitle": "Softball Catcher",
-      "url": `https://starsnatwalker.com/players/${generatePlayerSlug(p.firstName, p.lastName)}`
+      "url": `https://starsnatwalker.com/players/${generatePlayerSlug(p.firstName, p.lastName)}/`
     }
   }))
 };
@@ -75,7 +75,7 @@ const structuredData = {
               <option value="">All Years</option>
               {gradYears.map(year => (<option value={year}>Class of {year}</option>))}
             </select>
-            <a href="/recruiting" class="px-4 py-2 bg-stars-navy text-white rounded-lg text-sm font-medium hover:bg-stars-blue">Full Roster →</a>
+            <a href="/recruiting/" class="px-4 py-2 bg-stars-navy text-white rounded-lg text-sm font-medium hover:bg-stars-blue">Full Roster →</a>
           </div>
         </div>
       </div>
@@ -104,7 +104,7 @@ const structuredData = {
       <div class="container-narrow text-center">
         <h2 class="text-2xl font-bold text-white mb-4">Interested in Our Catchers?</h2>
         <p class="text-white/80 mb-6">Request detailed stats, video, and academic information</p>
-        <a href="/recruiting#inquiry" class="inline-block bg-stars-gold text-stars-navy font-bold py-3 px-8 rounded-lg hover:bg-yellow-400">Request Information</a>
+        <a href="/recruiting/#inquiry" class="inline-block bg-stars-gold text-stars-navy font-bold py-3 px-8 rounded-lg hover:bg-yellow-400">Request Information</a>
       </div>
     </section>
   </main>

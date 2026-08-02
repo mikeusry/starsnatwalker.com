@@ -141,7 +141,7 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
                           )}
                         </div>
                         <div>
-                          <a href={`/players/${generatePlayerSlug(player.firstName, player.lastName)}`} class="font-semibold text-gray-900 hover:text-stars-blue">
+                          <a href={`/players/${generatePlayerSlug(player.firstName, player.lastName)}/`} class="font-semibold text-gray-900 hover:text-stars-blue">
                             {player.firstName} {player.lastName}
                           </a>
                           {player.highSchool && (
@@ -179,7 +179,7 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
                     </td>
                     <td class="px-4 py-4 text-center">
                       <a
-                        href={`/players/${generatePlayerSlug(player.firstName, player.lastName)}`}
+                        href={`/players/${generatePlayerSlug(player.firstName, player.lastName)}/`}
                         class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-stars-navy text-white hover:bg-stars-blue transition-colors"
                       >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

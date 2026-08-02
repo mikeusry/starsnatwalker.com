@@ -154,7 +154,7 @@ const upcomingEvents = schedule.events?.slice(0, 3) || [];
                 data-position={positionCategory}
                 data-video={playerHasVideo ? 'yes' : 'no'}
               >
-                <a href={`/players/${slug}`} class="block">
+                <a href={`/players/${slug}/`} class="block">
                   <div class="flex items-start gap-4 p-6">
                     <div class="w-16 h-16 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
                       {player.photoUrl ? (
@@ -339,7 +339,7 @@ const upcomingEvents = schedule.events?.slice(0, 3) || [];
             <h2 class="text-3xl font-bold text-gray-900">Where to See Us</h2>
             <p class="text-gray-600">Upcoming tournaments and showcases</p>
           </div>
-          <a href="/coaches#schedule" class="text-stars-navy font-medium hover:text-stars-blue">
+          <a href="/coaches/#schedule" class="text-stars-navy font-medium hover:text-stars-blue">
             Full Schedule →
           </a>
         </div>

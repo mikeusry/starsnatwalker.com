@@ -65,7 +65,7 @@ function generateSlug(name: string): string {
             </svg>
           </div>
         )}
-        <a href={`/staff/${generateSlug(team.coaches[0].name)}`} class:list={[
+        <a href={`/staff/${generateSlug(team.coaches[0].name)}/`} class:list={[
           "text-lg font-bold mb-1 block hover:text-stars-blue transition-colors",
           isDark ? "text-white" : "text-gray-900"
         ]}>
@@ -73,7 +73,7 @@ function generateSlug(name: string): string {
         </a>
         <p class="font-medium text-sm mb-3" style="color: #3b82f6;">{team.coaches[0].title}</p>
         <a
-          href="/recruiting#inquiry"
+          href="/recruiting/#inquiry"
           class:list={[
             "inline-flex items-center gap-2 text-sm font-medium transition-colors",
             isDark ? "text-white/80 hover:text-white" : "text-stars-navy hover:text-stars-blue"
@@ -108,7 +108,7 @@ function generateSlug(name: string): string {
               </svg>
             </div>
           )}
-          <a href={`/staff/${generateSlug(coach.name)}`} class:list={[
+          <a href={`/staff/${generateSlug(coach.name)}/`} class:list={[
             "text-lg font-bold mb-1 block hover:text-stars-blue transition-colors",
             isDark ? "text-white" : "text-gray-900"
           ]}>
@@ -119,7 +119,7 @@ function generateSlug(name: string): string {
             isDark ? "text-stars-blue" : "text-stars-blue"
           ]}>{coach.title}</p>
           <a
-            href="/recruiting#inquiry"
+            href="/recruiting/#inquiry"
             class:list={[
               "inline-flex items-center gap-2 text-sm font-medium transition-colors",
               isDark ? "text-white/80 hover:text-white" : "text-stars-navy hover:text-stars-blue"
@@ -154,7 +154,7 @@ function generateSlug(name: string): string {
             </svg>
           </div>
         )}
-        <a href={`/staff/${generateSlug(team.recruitingCoordinator.name)}`} class:list={[
+        <a href={`/staff/${generateSlug(team.recruitingCoordinator.name)}/`} class:list={[
           "text-lg font-bold mb-1 block hover:text-stars-blue transition-colors",
           isDark ? "text-white" : "text-gray-900"
         ]}>
@@ -165,7 +165,7 @@ function generateSlug(name: string): string {
           isDark ? "text-stars-blue" : "text-stars-blue"
         ]}>{team.recruitingCoordinator.title}</p>
         <a
-          href="/recruiting#inquiry"
+          href="/recruiting/#inquiry"
           class:list={[
             "inline-flex items-center gap-2 text-sm font-medium transition-colors",
             isDark ? "text-white/80 hover:text-white" : "text-stars-navy hover:text-stars-blue"
@@ -192,7 +192,7 @@ function generateSlug(name: string): string {
       </p>
       <div class="flex flex-wrap justify-center gap-6">
         <a
-          href="/recruiting#inquiry"
+          href="/recruiting/#inquiry"
           class:list={[
             "inline-flex items-center gap-2 font-medium transition-colors",
             isDark ? "text-white hover:text-stars-gold" : "text-stars-navy hover:text-stars-blue"

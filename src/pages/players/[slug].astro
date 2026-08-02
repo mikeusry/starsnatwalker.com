@@ -5,7 +5,13 @@ import Footer from '../../components/Footer.astro';
 import CoachContact from '../../components/CoachContact.astro';
 import players from '../../data/players.json';
 
-import { generatePlayerSlug, generateAthleteStructuredData } from '../../lib/slug';
+import {
+  generatePlayerSlug,
+  generateAthleteStructuredData,
+  generateBreadcrumbData,
+  generatePlayerFaqs,
+  generateFaqStructuredData,
+} from '../../lib/slug';
 
 export async function getStaticPaths() {
   return players.map((player) => ({
@@ -18,6 +24,52 @@ const { player } = Astro.props;
 
 // Generate structured data for SEO
 const structuredData = generateAthleteStructuredData(player);
+
+// Answer-engine FAQs (visible below + FAQPage schema).
+const faqs = generatePlayerFaqs(player);
+const faqStructuredData = generateFaqStructuredData(faqs);
+
+// Breadcrumb: Home > <position hub> > Player. Routing each player up through
+// her position hub gives that hub a real cluster instead of a flat list.
+const positionHub = (() => {
+  const p = `${player.position} ${(player.secondaryPositions || []).join(' ')}`.toLowerCase();
+  if (p.includes('pitcher') || /\bp\b|rhp|lhp/.test(p)) return { name: 'Pitchers', path: '/pitchers/' };
+  if (p.includes('catcher') || /\bc\b/.test(p)) return { name: 'Catchers', path: '/catchers/' };
+  if (p.includes('outfield') || /\bof\b/.test(p)) return { name: 'Outfielders', path: '/outfielders/' };
+  if (p.includes('infield') || /\b[123]b\b|\bss\b/.test(p)) return { name: 'Infielders', path: '/infielders/' };
+  return { name: 'Roster', path: '/recruiting/' };
+})();
+
+// Same-position teammates first, then fill to 4 from the rest of the roster so
+// every profile links sideways even for a one-of-a-kind position.
+const hubOf = (pl: any) => {
+  const p = `${pl.position} ${(pl.secondaryPositions || []).join(' ')}`.toLowerCase();
+  if (p.includes('pitcher') || /\bp\b|rhp|lhp/.test(p)) return 'Pitchers';
+  if (p.includes('catcher') || /\bc\b/.test(p)) return 'Catchers';
+  if (p.includes('outfield') || /\bof\b/.test(p)) return 'Outfielders';
+  if (p.includes('infield') || /\b[123]b\b|\bss\b/.test(p)) return 'Infielders';
+  return 'Roster';
+};
+const currentSlug = generatePlayerSlug(player.firstName, player.lastName);
+const others = players.filter(
+  (p: any) => generatePlayerSlug(p.firstName, p.lastName) !== currentSlug
+);
+const samePosition = others.filter((p: any) => hubOf(p) === hubOf(player));
+const teammates = [...samePosition, ...others.filter((p: any) => !samePosition.includes(p))]
+  .slice(0, 4)
+  .map((p: any) => ({
+    slug: generatePlayerSlug(p.firstName, p.lastName),
+    name: `${p.firstName} ${p.lastName}`,
+    position: p.position,
+    gradYear: p.gradYear,
+    photoUrl: p.photoUrl,
+  }));
+
+const breadcrumbData = generateBreadcrumbData([
+  { name: 'Home', path: '/' },
+  { name: positionHub.name, path: positionHub.path },
+  { name: `${player.firstName} ${player.lastName}`, path: `/players/${generatePlayerSlug(player.firstName, player.lastName)}/` },
+]);
 
 const positions = [player.position, ...(player.secondaryPositions || [])].filter(Boolean).join(' / ');
 const handedness = player.bats && player.throws ? `${player.bats}/${player.throws}` : null;
@@ -66,6 +118,10 @@ const ogImage = `/players/og/${slug}.png`;
 >
   <!-- Structured Data for SEO -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />
+  {faqs.length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+  )}
 
   <Header />
   <main class="pt-20">
@@ -173,7 +229,7 @@ const ogImage = `/players/og/${slug}.png`;
               <!-- Contact About Player Button -->
               <a
                 id="contact-player-btn"
-                href={`/recruiting?player=${encodeURIComponent(player.firstName + ' ' + player.lastName)}#inquiry`}
+                href={`/recruiting/?player=${encodeURIComponent(player.firstName + ' ' + player.lastName)}#inquiry`}
                 class="btn-primary inline-flex items-center gap-2"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -578,6 +634,27 @@ const ogImage = `/players/og/${slug}.png`;
       </div>
     </section>
 
+    <!-- Recruiting FAQ — visible answers backing the FAQPage schema.
+         Schema without on-page content is a thin-content risk, and these are
+         the literal questions coaches search. -->
+    {faqs.length > 0 && (
+      <section class="section-padding bg-white">
+        <div class="container-narrow">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+            Recruiting FAQ: {player.firstName} {player.lastName}
+          </h2>
+          <div class="space-y-6">
+            {faqs.map((faq) => (
+              <div class="border-l-4 border-stars-gold pl-5">
+                <h3 class="font-semibold text-gray-900 mb-1">{faq.question}</h3>
+                <p class="text-gray-700 leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
     <!-- Contact CTA -->
     <CoachContact
       title={`Interested in ${player.firstName}?`}
@@ -585,15 +662,51 @@ const ogImage = `/players/og/${slug}.png`;
       variant="dark"
     />
 
-    <!-- Back to Roster -->
+    <!-- Teammates + position hub.
+         Player pages were dead ends: nothing linked sideways to another
+         player, so each profile sat alone with only inbound links. Linking
+         same-position teammates and up to the position hub turns the roster
+         into a real cluster and spreads authority to the deep pages. -->
     <section class="section-padding bg-gray-50">
-      <div class="container-narrow text-center">
-        <a href="/#roster" class="btn-primary inline-flex items-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Back to Roster
-        </a>
+      <div class="container-narrow">
+        {teammates.length > 0 && (
+          <>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">
+              More {positionHub.name === 'Roster' ? 'Players' : positionHub.name} on Stars National Walker
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+              {teammates.map((t) => (
+                <a
+                  href={`/players/${t.slug}/`}
+                  class="bg-white rounded-xl p-4 shadow hover:shadow-lg transition-all block text-center"
+                >
+                  {t.photoUrl && (
+                    <img
+                      src={t.photoUrl}
+                      alt={`${t.name} — ${t.position}, class of ${t.gradYear}`}
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                      class="w-20 h-20 rounded-full object-cover mx-auto mb-3"
+                    />
+                  )}
+                  <span class="block font-semibold text-gray-900 text-sm">{t.name}</span>
+                  <span class="block text-xs text-gray-600 mt-1">{t.position}</span>
+                  <span class="block text-xs text-gray-500">Class of {t.gradYear}</span>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+
+        <div class="flex flex-wrap gap-3 justify-center">
+          <a href={positionHub.path} class="btn-primary inline-flex items-center gap-2">
+            All {positionHub.name}
+          </a>
+          <a href="/recruiting/" class="btn-secondary inline-flex items-center gap-2">
+            Full Roster
+          </a>
+        </div>
       </div>
     </section>
   </main>

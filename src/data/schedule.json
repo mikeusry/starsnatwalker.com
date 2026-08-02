@@ -1,85 +1,55 @@
 {
-  "season": "Summer 2026",
+  "season": "Fall 2026",
   "events": [
     {
-      "name": "Show Me The Money",
-      "org": "PGF",
-      "dates": "Jun 5-8, 2026",
-      "location": "Newberry, FL",
-      "venue": "Easton Newberry Sports Complex",
-      "address": "25365 W Newberry Rd, Newberry, FL 32669",
-      "type": "tournament",
-      "isShowcase": false
-    },
-    {
-      "name": "PGF Super Grand",
-      "org": "PGF",
-      "dates": "Jun 12-14, 2026",
-      "location": "Dalton, GA",
+      "name": "East Coast Fall Showcase",
+      "org": "East Coast",
+      "dates": "Oct 23-25, 2026",
+      "location": "Pennsville, NJ",
       "venue": null,
       "address": null,
-      "type": "tournament",
-      "isShowcase": false
-    },
-    {
-      "name": "Connect Sports Summer Scenic City",
-      "org": "Connect Sports",
-      "dates": "Jun 18-21, 2026",
-      "location": "East Ridge, TN",
-      "venue": "Camp Jordan Park",
-      "address": "323 Camp Jordan Pkwy, East Ridge, TN 37412",
-      "type": "tournament",
-      "isShowcase": false,
-      "note": "Camp Jordan Park, East Ridge TN"
-    },
-    {
-      "name": "Colorado 4th of July Sparkler",
-      "org": "Triple Crown Sports",
-      "dates": "Jun 28 - Jul 5, 2026",
-      "location": "Denver, CO",
-      "venue": "Aurora Sports Park",
-      "address": "19300 E Colfax Ave, Aurora, CO 80011",
-      "type": "tournament",
-      "isShowcase": true,
-      "note": "Selected for the Supplemental Power Pool — direct connection to the National Power Pool brackets"
-    },
-    {
-      "name": "Stars Org Camp",
-      "org": "Stars National",
-      "dates": "Jun 29, 2026",
-      "location": "Atlanta, GA",
-      "venue": null,
-      "address": null,
-      "type": "camp",
-      "isShowcase": false
-    },
-    {
-      "name": "Atlanta Legacy Invitational",
-      "org": "Legacy Sports",
-      "dates": "Jul 9-12, 2026",
-      "location": "Atlanta, GA",
-      "venue": "LakePoint Sports",
-      "address": "261 Stars Way, Emerson, GA 30137",
       "type": "tournament",
       "isShowcase": true
     },
     {
-      "name": "Alliance Fastpitch Championship Series",
-      "org": "Alliance Fastpitch",
-      "dates": "Jul 19-26, 2026",
-      "location": "Westfield, IN",
-      "venue": "Grand Park",
-      "address": "19000 Grand Park Blvd, Westfield, IN 46074",
+      "name": "ACFL Fall Championship",
+      "org": "ACFL Fastpitch",
+      "dates": "Oct 31 - Nov 1, 2026",
+      "location": "Richmond, VA",
+      "venue": null,
+      "address": null,
       "type": "tournament",
-      "isShowcase": false,
-      "result": "16U Tier III National Runner-Up",
-      "resultDetail": "Won Bracket A over Power Surge National, EC Bullets and LS Bombers to reach the Tier III national championship series.",
-      "bracketRun": [
-        { "game": "Game 2", "opponent": "Power Surge National", "outcome": "W" },
-        { "game": "Game 3", "opponent": "EC Bullets", "outcome": "W" },
-        { "game": "Game 6", "opponent": "LS Bombers", "outcome": "W" },
-        { "game": "Championship Series", "opponent": "EC Bullets Gold Ellis/Keeling", "outcome": "Runner-Up" }
-      ]
+      "isShowcase": false
+    },
+    {
+      "name": "Connect Sports Fall Scenic City",
+      "org": "Connect Sports",
+      "dates": "Nov 6-8, 2026",
+      "location": "Chattanooga, TN",
+      "venue": null,
+      "address": null,
+      "type": "tournament",
+      "isShowcase": false
+    },
+    {
+      "name": "Top Gun Lone Star Fall Invitational",
+      "org": "Top Gun",
+      "dates": "Nov 13-15, 2026",
+      "location": "Grapevine, TX",
+      "venue": null,
+      "address": null,
+      "type": "tournament",
+      "isShowcase": true
+    },
+    {
+      "name": "East Coast Sunshine Showcase",
+      "org": "East Coast",
+      "dates": "Nov 20-22, 2026",
+      "location": "Clermont, FL",
+      "venue": null,
+      "address": null,
+      "type": "tournament",
+      "isShowcase": true
     }
   ],
   "pastEvents": [
@@ -92,10 +62,26 @@
       "resultDetail": "Won Bracket A at Grand Park — beating Power Surge National, EC Bullets and LS Bombers — to reach the Tier III national championship series against EC Bullets Gold Ellis/Keeling.",
       "featured": true,
       "bracketRun": [
-        { "game": "Game 2", "opponent": "Power Surge National", "outcome": "W" },
-        { "game": "Game 3", "opponent": "EC Bullets", "outcome": "W" },
-        { "game": "Game 6", "opponent": "LS Bombers", "outcome": "W" },
-        { "game": "Championship Series", "opponent": "EC Bullets Gold Ellis/Keeling", "outcome": "Runner-Up" }
+        {
+          "game": "Game 2",
+          "opponent": "Power Surge National",
+          "outcome": "W"
+        },
+        {
+          "game": "Game 3",
+          "opponent": "EC Bullets",
+          "outcome": "W"
+        },
+        {
+          "game": "Game 6",
+          "opponent": "LS Bombers",
+          "outcome": "W"
+        },
+        {
+          "game": "Championship Series",
+          "opponent": "EC Bullets Gold Ellis/Keeling",
+          "outcome": "Runner-Up"
+        }
       ],
       "photos": [
         {

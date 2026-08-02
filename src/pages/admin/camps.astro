@@ -7,27 +7,51 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Camps | Stars National Walker" noindex={true}>
-  <div class="min-h-screen bg-gray-50 py-10 px-4">
-    <div class="max-w-5xl mx-auto">
-      <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <div>
-          <h1 class="text-3xl font-bold text-stars-navy">Camp Tracker</h1>
-          <p class="text-gray-600 text-sm mt-1">Where our players are going.</p>
+  <div class="min-h-screen bg-gray-100">
+    <!-- Same admin header as /admin/dashboard so the nav is consistent. -->
+    <header class="bg-stars-navy text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-4">
+          <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+          <div>
+            <h1 class="text-xl font-bold">Camp Tracker</h1>
+            <p class="text-sm text-white/70">Where our players are going</p>
+          </div>
         </div>
-        <div class="flex gap-2">
-          <button
-            id="tab-date"
-            class="px-4 py-2 rounded-lg font-semibold text-sm bg-stars-red text-white"
-          >
-            By date
-          </button>
-          <button
-            id="tab-player"
-            class="px-4 py-2 rounded-lg font-semibold text-sm bg-white text-stars-navy border border-gray-300"
-          >
-            By player
+        <div class="flex items-center gap-2 flex-wrap">
+          <a href="/admin/camps" class="px-4 py-2 bg-white/20 rounded-lg text-sm font-medium">
+            Camps
+          </a>
+          <a href="/admin/dashboard" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Profile Views
+          </a>
+          <a href="/admin/teams" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Teams
+          </a>
+          <a href="/admin/help" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Help
+          </a>
+          <button id="logout-btn" class="px-4 py-2 bg-stars-red hover:bg-red-700 rounded-lg text-sm transition-colors">
+            Logout
           </button>
         </div>
+      </div>
+    </header>
+
+    <div class="max-w-5xl mx-auto px-4 py-8">
+      <div class="flex items-center justify-end mb-6 gap-2">
+        <button
+          id="tab-date"
+          class="px-4 py-2 rounded-lg font-semibold text-sm bg-stars-red text-white"
+        >
+          By date
+        </button>
+        <button
+          id="tab-player"
+          class="px-4 py-2 rounded-lg font-semibold text-sm bg-white text-stars-navy border border-gray-300"
+        >
+          By player
+        </button>
       </div>
 
       <div id="summary" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"></div>
@@ -35,14 +59,8 @@ import Layout from '../../layouts/Layout.astro';
       <div id="loading" class="text-center text-gray-500 py-16">Loading…</div>
       <div id="error" class="hidden text-center text-red-600 py-16"></div>
 
-      <div id="view-date" class="hidden space-y-3"></div>
+      <div id="view-date" class="hidden"></div>
       <div id="view-player" class="hidden space-y-3"></div>
-
-      <p class="text-center mt-8">
-        <a href="/admin/dashboard" class="text-gray-500 hover:text-stars-navy text-sm">
-          &larr; Admin dashboard
-        </a>
-      </p>
     </div>
   </div>
 
@@ -73,6 +91,20 @@ import Layout from '../../layouts/Layout.astro';
           year: 'numeric',
         });
       };
+
+      // Whole days from today to a date-only value, computed in UTC so the
+      // answer does not shift across local midnight.
+      var daysUntil = function (d) {
+        var target = Date.parse(d + 'T00:00:00Z');
+        var now = new Date();
+        var todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+        return Math.round((target - todayUTC) / 86400000);
+      };
+
+      document.getElementById('logout-btn').addEventListener('click', function () {
+        sessionStorage.removeItem('snw_admin_auth');
+        window.location.href = '/admin/';
+      });
 
       var STATUS_STYLE = {
         registered: 'bg-blue-100 text-blue-800',
@@ -107,12 +139,15 @@ import Layout from '../../layouts/Layout.astro';
         var upcoming = camps.filter(function (c) {
           return c.campDate && c.campDate >= today;
         });
-        var reported = {};
-        camps.forEach(function (c) {
-          reported[c.playerId] = true;
+        // "Told us nothing" has to mean nothing UPCOMING. A player whose only
+        // camps are last summer's has told us nothing about where she's going
+        // now, which is the whole question this page exists to answer.
+        var hasUpcoming = {};
+        upcoming.forEach(function (c) {
+          hasUpcoming[c.playerId] = true;
         });
         var silent = roster.filter(function (p) {
-          return !reported[p.id];
+          return !hasUpcoming[p.id];
         });
 
         // Summary tiles
@@ -123,67 +158,156 @@ import Layout from '../../layouts/Layout.astro';
             '<div class="text-xs text-gray-500 mt-1">' + label + '</div></div>'
           );
         };
+        var next14 = upcoming.filter(function (c) {
+          return daysUntil(c.campDate) <= 14;
+        });
         document.getElementById('summary').innerHTML =
-          tile(camps.length, 'camps logged', 'text-stars-navy') +
-          tile(upcoming.length, 'still upcoming', 'text-stars-navy') +
-          tile(roster.length - silent.length, 'players reporting', 'text-green-700') +
-          tile(silent.length, 'told us nothing', silent.length ? 'text-red-600' : 'text-gray-400');
+          tile(upcoming.length, 'camps coming up', 'text-stars-navy') +
+          tile(next14.length, 'in the next 2 weeks', next14.length ? 'text-stars-red' : 'text-gray-400') +
+          tile(roster.length - silent.length, 'players with plans', 'text-green-700') +
+          tile(silent.length, 'nothing upcoming', silent.length ? 'text-red-600' : 'text-gray-400');
 
         // ---- By date ----
+        // A coach reads this page to answer "what's coming and who do I need to
+        // call?" Past camps still matter — a college coach asks "has she seen
+        // us?" — but they must not compete with upcoming for attention. So:
+        // upcoming is loud and on top, past is kept but folded away.
         var dateEl = document.getElementById('view-date');
+
+        var card = function (c, dim) {
+          var days = c.campDate ? daysUntil(c.campDate) : null;
+          var soon = days !== null && days >= 0 && days <= 14;
+          return (
+            '<div class="bg-white rounded-xl border ' +
+            (soon ? 'border-stars-red/40 ring-1 ring-stars-red/20' : 'border-gray-200') +
+            ' p-4 flex items-start justify-between gap-4' +
+            (dim ? ' opacity-70' : '') +
+            '">' +
+            '<div><div class="font-semibold text-stars-navy">' + esc(c.campName) + '</div>' +
+            '<div class="text-sm text-gray-600 mt-1">' + esc(c.playerName) + '</div>' +
+            (c.notes ? '<div class="text-xs text-gray-500 mt-2 whitespace-pre-line">' + esc(c.notes) + '</div>' : '') +
+            '</div>' +
+            '<div class="text-right shrink-0">' +
+            '<div class="text-sm text-gray-700">' + fmtDate(c.campDate) + '</div>' +
+            (days !== null && days >= 0
+              ? '<div class="text-xs mt-1 ' + (soon ? 'text-stars-red font-semibold' : 'text-gray-500') + '">' +
+                (days === 0 ? 'today' : days === 1 ? 'tomorrow' : 'in ' + days + ' days') + '</div>'
+              : '') +
+            '<div class="mt-2">' + badge(c.status) + '</div>' +
+            (c.loggedBy === 'family' ? '<div class="text-xs text-gray-400 mt-1">from family</div>' : '') +
+            '</div></div>'
+          );
+        };
+
         if (!camps.length) {
           dateEl.innerHTML =
             '<div class="bg-white rounded-xl border border-gray-200 p-10 text-center text-gray-500">' +
             'No camps logged yet.</div>';
         } else {
-          dateEl.innerHTML = camps
-            .map(function (c) {
-              var past = c.campDate && c.campDate < today;
-              return (
-                '<div class="bg-white rounded-xl border border-gray-200 p-4 flex items-start justify-between gap-4' +
-                (past ? ' opacity-60' : '') +
-                '">' +
-                '<div><div class="font-semibold text-stars-navy">' + esc(c.campName) + '</div>' +
-                '<div class="text-sm text-gray-600 mt-1">' + esc(c.playerName) + '</div>' +
-                (c.notes ? '<div class="text-xs text-gray-500 mt-2 whitespace-pre-line">' + esc(c.notes) + '</div>' : '') +
-                '</div>' +
-                '<div class="text-right shrink-0"><div class="text-sm text-gray-700">' + fmtDate(c.campDate) + '</div>' +
-                '<div class="mt-2">' + badge(c.status) + '</div>' +
-                (c.loggedBy === 'family' ? '<div class="text-xs text-gray-400 mt-1">from family</div>' : '') +
-                '</div></div>'
-              );
+          var future = camps.filter(function (c) {
+            return !c.campDate || c.campDate >= today;
+          });
+          var past = camps
+            .filter(function (c) {
+              return c.campDate && c.campDate < today;
             })
-            .join('');
+            .reverse(); // most recent first — that's the one a coach is asked about
+
+          var html = '';
+
+          html +=
+            '<h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">' +
+            'Coming up' + (future.length ? ' (' + future.length + ')' : '') + '</h2>';
+          html += future.length
+            ? '<div class="space-y-3">' + future.map(function (c) { return card(c, false); }).join('') + '</div>'
+            : '<div class="bg-white rounded-xl border border-gray-200 p-8 text-center text-gray-500 text-sm">' +
+              'Nothing upcoming on the books yet.</div>';
+
+          if (past.length) {
+            html +=
+              '<details class="mt-8 group">' +
+              '<summary class="cursor-pointer text-sm font-semibold text-gray-500 uppercase tracking-wide ' +
+              'hover:text-stars-navy select-none">' +
+              'Already went (' + past.length + ')' +
+              '<span class="ml-2 font-normal normal-case text-gray-400 group-open:hidden">show</span>' +
+              '<span class="ml-2 font-normal normal-case text-gray-400 hidden group-open:inline">hide</span>' +
+              '</summary>' +
+              '<div class="space-y-3 mt-3">' +
+              past.map(function (c) { return card(c, true); }).join('') +
+              '</div></details>';
+          }
+
+          dateEl.innerHTML = html;
         }
 
-        // ---- By player (blanks included) ----
+        // ---- By player ----
+        // Sorted so the players who need chasing float to the top: nothing
+        // upcoming first, then everyone else. Past camps stay visible as
+        // history but are visually secondary.
         var byPlayer = {};
         camps.forEach(function (c) {
           (byPlayer[c.playerId] = byPlayer[c.playerId] || []).push(c);
         });
-        document.getElementById('view-player').innerHTML = roster
+
+        var line = function (c, dim) {
+          return (
+            '<li class="text-sm flex justify-between gap-3 ' +
+            (dim ? 'text-gray-400' : 'text-gray-700') + '">' +
+            '<span>' + esc(c.campName) + '</span>' +
+            '<span class="shrink-0 ' + (dim ? 'text-gray-400' : 'text-gray-500') + '">' +
+            fmtDate(c.campDate) + '</span></li>'
+          );
+        };
+
+        var ordered = roster.slice().sort(function (a, b) {
+          var aUp = hasUpcoming[a.id] ? 1 : 0;
+          var bUp = hasUpcoming[b.id] ? 1 : 0;
+          if (aUp !== bUp) return aUp - bUp; // needs chasing first
+          return a.name.localeCompare(b.name);
+        });
+
+        document.getElementById('view-player').innerHTML = ordered
           .map(function (p) {
             var list = byPlayer[p.id] || [];
-            var body = list.length
-              ? '<ul class="mt-2 space-y-1">' +
-                list
-                  .map(function (c) {
-                    return (
-                      '<li class="text-sm text-gray-700 flex justify-between gap-3">' +
-                      '<span>' + esc(c.campName) + '</span>' +
-                      '<span class="text-gray-500 shrink-0">' + fmtDate(c.campDate) + '</span></li>'
-                    );
-                  })
-                  .join('') +
-                '</ul>'
-              : '<p class="text-sm text-red-600 mt-2">Nothing reported yet.</p>';
+            var fut = list.filter(function (c) {
+              return !c.campDate || c.campDate >= today;
+            });
+            var pst = list
+              .filter(function (c) {
+                return c.campDate && c.campDate < today;
+              })
+              .reverse();
+
+            var body = '';
+            if (fut.length) {
+              body +=
+                '<ul class="mt-2 space-y-1">' +
+                fut.map(function (c) { return line(c, false); }).join('') +
+                '</ul>';
+            } else {
+              body +=
+                '<p class="text-sm text-red-600 mt-2">Nothing upcoming' +
+                (pst.length ? ' — last went ' + fmtDate(pst[0].campDate) : ' — has told us nothing') +
+                '.</p>';
+            }
+            if (pst.length) {
+              body +=
+                '<details class="mt-2"><summary class="cursor-pointer text-xs text-gray-400 ' +
+                'hover:text-gray-600 select-none">' + pst.length + ' past camp' +
+                (pst.length === 1 ? '' : 's') + '</summary>' +
+                '<ul class="mt-2 space-y-1">' +
+                pst.map(function (c) { return line(c, true); }).join('') +
+                '</ul></details>';
+            }
+
             return (
               '<div class="bg-white rounded-xl border ' +
-              (list.length ? 'border-gray-200' : 'border-red-200 bg-red-50/40') +
+              (fut.length ? 'border-gray-200' : 'border-red-200 bg-red-50/40') +
               ' p-4">' +
               '<div class="flex items-center justify-between">' +
               '<span class="font-semibold text-stars-navy">' + esc(p.name) + '</span>' +
-              '<span class="text-xs text-gray-500">' + list.length + ' camp' + (list.length === 1 ? '' : 's') + '</span>' +
+              '<span class="text-xs ' + (fut.length ? 'text-gray-500' : 'text-red-500') + '">' +
+              (fut.length ? fut.length + ' upcoming' : 'needs a plan') + '</span>' +
               '</div>' + body + '</div>'
             );
           })

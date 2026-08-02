@@ -67,7 +67,7 @@ import Layout from '../../layouts/Layout.astro';
 
     // Check if already authenticated
     if (sessionStorage.getItem(AUTH_KEY) === 'true') {
-      window.location.href = '/admin/dashboard';
+      window.location.href = '/admin/camps';
     }
 
     document.getElementById('login-form').addEventListener('submit', function(e) {
@@ -78,7 +78,7 @@ import Layout from '../../layouts/Layout.astro';
 
       if (username === VALID_USER && password === VALID_PASS) {
         sessionStorage.setItem(AUTH_KEY, 'true');
-        window.location.href = '/admin/dashboard';
+        window.location.href = '/admin/camps';
       } else {
         errorMsg.textContent = 'Invalid username or password';
         errorMsg.classList.remove('hidden');

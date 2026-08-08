@@ -46,7 +46,59 @@
     "videos": {
       "highlightUrl": null,
       "skillsUrl": null,
-      "gameFootageUrl": null
+      "gameFootageUrl": null,
+      "muxVideos": [
+        {
+          "playbackId": "Cwogx4fb00X6Xqu0025ag2h01FcI1JYeKrauxdrgNUi2pI",
+          "title": "AFCS Nationals — Day 3",
+          "description": "Elise pitching on Day 3 of the Alliance Fastpitch Championship Series, July 2026, where Stars National finished 16U Tier III National Runner-Up."
+        },
+        {
+          "playbackId": "l594mr7oHgGTFNEFe5RWZogy02gCk3tdB6003Lo4KPIRA",
+          "title": "AFCS Nationals — Day 2",
+          "description": "Day 2 of the Alliance Fastpitch Championship Series in Indiana, July 2026."
+        },
+        {
+          "playbackId": "1cu01vQqfU3K3y9HcgI89vHkgb9RRG02pSqDMRcxUIqMQ",
+          "title": "TNT Showcase — July 2026",
+          "description": "Elise in the circle at the TNT Showcase, July 2-3, 2026."
+        },
+        {
+          "playbackId": "bCPXSKVLS7w1Z1sm6hQDLdTAoIi302egdi8LO029QRtfM",
+          "title": "TN Softball Camp — June 2026",
+          "description": "Camp work in Tennessee, June 15-16, 2026."
+        },
+        {
+          "playbackId": "1Gw93ImLk3200VrhOKZTRN4ZcnXEtieMcCy00olJNjEPE",
+          "title": "Scenic City — June 2026",
+          "description": "Elise at the Scenic City showcase in Dalton, Georgia, June 2026."
+        },
+        {
+          "playbackId": "3afoCQZsutcLrgU02mpb2UUlgqhCEiDT2WLO7H4ucFb4",
+          "title": "OHE Guest Play — June 2026",
+          "description": "Guest-play outing with Orion Hunter Elite, June 13, 2026."
+        },
+        {
+          "playbackId": "mlAxSzMbHNZYx5LLDWFeUYuleVpI02IOMG8I2BxNq3kU",
+          "title": "Starz Gold Team Camp — June 2026",
+          "description": "Starz Gold Team Camp in Richmond, Virginia, June 2026."
+        },
+        {
+          "playbackId": "4WbAw791k500KiDOF1nfS6omh9lIdcvpQ6yeOa1GSX3g",
+          "title": "Starz Gold Summer Showcase — June 2026",
+          "description": "Starz Gold Summer Showcase in Richmond, Virginia, June 6-7, 2026."
+        },
+        {
+          "playbackId": "4nQFPFmJBDHXVB8EzGq008wJs1WEI02A00QGNuFj9vR9HM",
+          "title": "9th Grade Season — Week 9",
+          "description": "High school game action from Elise's freshman season at Nansemond-Suffolk Academy."
+        },
+        {
+          "playbackId": "sT5V00m8QQiJDuBn7IUpwRYpyBu27kqjRKaS3QCilkHM",
+          "title": "Pitching Highlights",
+          "description": "Elise Barbour in the circle — mechanics, velocity and command."
+        }
+      ]
     },
     "contactEmail": null,
     "socialScore": null,

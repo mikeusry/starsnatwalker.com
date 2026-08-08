@@ -4,17 +4,17 @@
 // program-match `player_camps` table so a submission lands where the CRM's
 // thank-you tracking and coach outreach already live — not in a side list.
 //
-// WHY name-based player resolution instead of the id in players.json:
-// only 11 of 15 ids in src/data/players.json are real Supabase UUIDs; the
-// other 4 are synthetic placeholders (e.g. "...-baygiese000001"). Trusting
-// them would write orphan rows that never surface in the coach view. The
-// roster is small and stable, so the mapping is pinned here explicitly and a
-// name that does not resolve fails LOUDLY (400) rather than writing an orphan.
+// WHY name-based player resolution instead of the id in players.json: ids
+// there were historically a mix of real Supabase UUIDs and synthetic
+// placeholders (e.g. "...-baygiese000001"), and trusting a synthetic one would
+// write orphan rows that never surface in the coach view. All 17 SNW ids are
+// real UUIDs as of 2026-08-08, but name resolution is kept because it fails
+// LOUDLY (400) on an unknown player rather than writing an orphan.
 //
 // Regenerate this map if a player is added/removed. Cross-check against
 // program-match `player_profiles` — SNW roster and player_profiles disagree
-// (SNW has 15, player_profiles has 17: Isabel Findlay and Sara Utrera are off
-// the SNW roster as of commit 4299d2c but still active in program-match).
+// (SNW has 17, player_profiles has 18 — Isabel Findlay is the only one off the
+// SNW roster but still active in program-match. Verified 2026-08-08).
 
 interface Env {
   SUPABASE_URL: string;
@@ -39,6 +39,8 @@ const PLAYER_IDS: Record<string, string> = {
   kierrawunderlich: '5b354126-07b6-467e-b253-ddfb545256e5',
   natalieirelandhall: '77dfb624-8ce2-4516-a4a1-b4ee7cef6786',
   austynkinch: 'cecb335b-08af-4b50-8a73-8a76976238fc',
+  sarautrera: '33d464c0-6130-4819-80d3-e0c47d5e8fb6',
+  elisebarbour: 'abe23bbc-fabb-4be6-b90c-12a30e7e34cf',
 };
 
 const VALID_STATUS = ['considering', 'registered', 'attending', 'attended'];

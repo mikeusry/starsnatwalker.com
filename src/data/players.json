@@ -4,29 +4,39 @@
     "firstName": "Elise",
     "lastName": "Barbour",
     "gradYear": 2029,
-    "position": "Pitcher",
+    "position": "RHP",
     "secondaryPositions": [
-      "Utility"
+      "OF",
+      "2B"
     ],
     "bats": "R",
     "throws": "R",
     "twitter": "EliseBarbour9",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1786227532/StarsNationalWalker/elise-barbour-profile.jpg",
-    "bio": "Elise is a nationally ranked left-side arm who finished the 2026 season as the No. 1 pitcher in Virginia by earned run average, posting a 1.30 ERA across 80.2 innings with 116 strikeouts — third-most in the state. Ranked No. 55 nationally in the Extra Elite 100 for the class of 2029 and the No. 4 pitcher in the Northeast Region by Extra Inning Softball, she was the arm Nansemond-Suffolk Academy handed the ball to in its biggest games as a freshman. She threw two no-hit innings with five strikeouts and no walks in the TCIS championship win over Cape Henry Collegiate, then went 3 2/3 scoreless innings with five more strikeouts in the VISAA Division II semifinal — a run that ended with NSA winning the Division II state title. On the national 16U circuit she was named a Line Drive Media T-21 standout and ranked among the top ten 16U Super Division athletes by KPI. She works fast, fills the zone, and misses bats without giving away free bases: 116 strikeouts against a state-leading ERA, with the walk column staying quiet in the games that mattered most.",
+    "bio": "Elise is a two-way threat — a right-handed pitcher who also plays outfield and second base — and one of the highest-ranked arms in the class of 2029. She owns the No. 1 ERA in Virginia for her class at 1.30, ranks No. 55 nationally and No. 4 in the Northeast Region in Extra Inning Softball's 2029 pitching rankings, and sits No. 21 nationally on Line Drive Media's Class of 2029 Hot 100. Her bat travels with her: she made the Northeast Top 100 Hitters Hotlist and the Top 100 National Elite Pitcher/Hitter Duo list in the same season.\n\nThe numbers hold up across a full year of national competition. In fall 2025 she threw 66.0 innings with 109 strikeouts — 1.65 per inning — against a 1.167 ERA, a .818 WHIP and a .132 opponent average. Over summer 2026 she logged 89.0 innings with 111 strikeouts, a 1.65 ERA, 1.12 WHIP and .186 BAA. She finished tied for 4th on the fall 2025 16U Super Division leaderboard for strikeouts per inning and 4th among Tier 1 pitchers at AFCS Nationals.\n\nAt Nansemond-Suffolk Academy she is a two-time VISAA Division II state champion and a first-team All-State, All-Conference and All-Tidewater selection. As a freshman she started the TCIS championship and threw two no-hit innings with five strikeouts and no walks, then went 3 2/3 scoreless with five more strikeouts in the VISAA semifinal. She carries a 4.06 GPA with Academic Distinction both semesters and is an Extra Elite Scholar.",
     "achievements": [
-      "No. 1 ERA in Virginia (1.30) — MaxPreps, 2026",
-      "3rd in Virginia in Strikeouts (116) — MaxPreps, 2026",
-      "Extra Elite 100 National Ranking No. 55 (Class of 2029)",
+      "2x VISAA Division II State Champion (Nansemond-Suffolk Academy)",
+      "1st Team All-State",
+      "1st Team All-Conference",
+      "1st Team All-Tidewater",
+      "No. 1 ERA in Virginia, Class of 2029 — MaxPreps (1.30)",
+      "No. 55 Nationally, Class of 2029 Pitching — Extra Inning Softball",
       "No. 4 Northeast Region Pitcher, Class of 2029 — Extra Inning Softball",
-      "2026 VISAA Division II State Champion (Nansemond-Suffolk Academy)",
+      "No. 21 Nationally — Line Drive Media Class of 2029 Hot 100",
+      "Northeast Top 100 Hitters Hotlist",
+      "Top 100 National Elite Pitcher/Hitter Duo",
+      "Extra Elite Scholar (4.0+ GPA)",
+      "Alliance Fastpitch October Scholar Athlete of the Month, Class of 2029",
+      "No. 4 in K/IP among Tier 1 pitchers — AFCS Nationals, Summer 2025 (1.38)",
+      "Tied 4th, Fall 2025 16U Super Division Top 10 K/IP Leaderboard (1.81)",
+      "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
       "2026 TCIS Champion — 2 no-hit IP, 5 K, 0 BB in the title game",
-      "Line Drive Media T-21 Standout — National 16U",
-      "Top 10 KPI Leader, 16U Super Division (1.81)"
+      "4.06 GPA — Academic Distinction, both semesters 2025-26"
     ],
     "heightInches": null,
     "weightLbs": null,
-    "gpa": null,
+    "gpa": 4.06,
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
@@ -100,7 +110,7 @@
         }
       ]
     },
-    "contactEmail": null,
+    "contactEmail": "elisebarbour9@gmail.com",
     "socialScore": null,
     "lastUpdated": "2026-08-08T00:00:00.000000+00:00"
   },

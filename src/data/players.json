@@ -1,5 +1,58 @@
 [
   {
+    "id": "7c1e9d24-8b53-4f61-9a2e-eliseb2029001",
+    "firstName": "Elise",
+    "lastName": "Barbour",
+    "gradYear": 2029,
+    "position": "Pitcher",
+    "secondaryPositions": [
+      "Utility"
+    ],
+    "bats": "R",
+    "throws": "R",
+    "twitter": "EliseBarbour9",
+    "featured": false,
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1786227532/StarsNationalWalker/elise-barbour-profile.jpg",
+    "bio": "Elise is a nationally ranked left-side arm who finished the 2026 season as the No. 1 pitcher in Virginia by earned run average, posting a 1.30 ERA across 80.2 innings with 116 strikeouts — third-most in the state. Ranked No. 55 nationally in the Extra Elite 100 for the class of 2029 and the No. 4 pitcher in the Northeast Region by Extra Inning Softball, she was the arm Nansemond-Suffolk Academy handed the ball to in its biggest games as a freshman. She threw two no-hit innings with five strikeouts and no walks in the TCIS championship win over Cape Henry Collegiate, then went 3 2/3 scoreless innings with five more strikeouts in the VISAA Division II semifinal — a run that ended with NSA winning the Division II state title. With Orion Hunter Elite National 16U she was named a Line Drive Media T-21 standout and ranked among the top ten 16U Super Division athletes by KPI. She works fast, fills the zone, and misses bats without giving away free bases: 116 strikeouts against a state-leading ERA, with the walk column staying quiet in the games that mattered most.",
+    "achievements": [
+      "No. 1 ERA in Virginia (1.30) — MaxPreps, 2026",
+      "3rd in Virginia in Strikeouts (116) — MaxPreps, 2026",
+      "Extra Elite 100 National Ranking No. 55 (Class of 2029)",
+      "No. 4 Northeast Region Pitcher, Class of 2029 — Extra Inning Softball",
+      "2026 VISAA Division II State Champion (Nansemond-Suffolk Academy)",
+      "2026 TCIS Champion — 2 no-hit IP, 5 K, 0 BB in the title game",
+      "Line Drive Media T-21 Standout — OHE National 16U",
+      "Top 10 KPI Leader, 16U Super Division (1.81)"
+    ],
+    "heightInches": null,
+    "weightLbs": null,
+    "gpa": null,
+    "satScore": null,
+    "actScore": null,
+    "intendedMajor": null,
+    "highSchool": "Nansemond-Suffolk Academy",
+    "highSchoolState": "VA",
+    "ncaaId": null,
+    "recruitingStatus": "uncommitted",
+    "committedTo": null,
+    "measurables": {
+      "sixtyYard": null,
+      "exitVelo": null,
+      "popTime": null,
+      "infieldVelo": null,
+      "outfieldVelo": null,
+      "pitchSpeed": null
+    },
+    "videos": {
+      "highlightUrl": null,
+      "skillsUrl": null,
+      "gameFootageUrl": null
+    },
+    "contactEmail": null,
+    "socialScore": null,
+    "lastUpdated": "2026-08-08T00:00:00.000000+00:00"
+  },
+  {
     "id": "f7e1b3a0-2029-4b1a-9c00-baygiese000001",
     "firstName": "Baylee",
     "lastName": "Giese Edney",

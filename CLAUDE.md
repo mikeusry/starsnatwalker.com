@@ -128,6 +128,22 @@ more than you'd expect. **Never invent a stat**, and when rewriting an existing 
 16 IP / 35 K / 0.00 ERA line, a 4x sectional ski title, and two national rankings on
 2026-08-02, all caught only by diffing.
 
+**When adding a PITCHER: edit `pitchers.astro` too.** `/pitchers` is the one
+position hub that maps a **hardcoded `pitcherOrder` array of last names** instead of
+filtering on `position` — the array also sets display order. A pitcher added only to
+`players.json` gets her page, OG card, sitemap entry and homepage link, but is
+**silently absent from the hub**. No build error. `catchers`/`infielders`/
+`outfielders` filter dynamically and need no second edit. Verify in the BUILT output:
+`tr '<' '\n<' < dist/pitchers/index.html | command grep -o 'players/[a-z-]*/' | sort -u`
+
+**Counting matches in built HTML: `grep -c` will lie to you.** Astro minifies each
+page to a few very long lines, so `grep -c` (which counts *lines*) returns 0 or 1 for
+content that is present ten times. This faked a "stale Cloudflare asset" twice on
+2026-08-08 — the pages were correct and live. Split first: `tr '<' '\n<' < page.html`,
+or `tr '>' '>\n' < sitemap.xml`. To tell a real stale cache from a bad grep, compare
+the fresh `https://<hash>.starsnatwalker.pages.dev` URL against the apex domain — same
+answer on both means the grep is wrong, not the deploy.
+
 **When adding a player: migrate her photo to Cloudinary in the same commit.**
 A raw `pbs.twimg.com` URL works the day you add it and 404s weeks later when
 she changes her avatar. The build does not fail (OG falls back to text), so

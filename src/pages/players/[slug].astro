@@ -288,7 +288,7 @@ const ogImage = `/players/og/${slug}.png`;
               {player.bio && (
                 <div class="prose prose-lg max-w-none text-gray-600">
                   {player.bio.split(/\n{2,}/).map((para) => (
-                    <p>{para.trim()}</p>
+                    <p class="mb-[1.15em] last:mb-0">{para.trim()}</p>
                   ))}
                 </div>
               )}

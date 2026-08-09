@@ -6,11 +6,25 @@ import PositionPlayerCard from '../components/PositionPlayerCard.astro';
 import players from '../data/players.json';
 import { generatePlayerSlug } from '../lib/slug';
 
-// Pitchers in display order: Elise > Kendall > Avery > Kierra > Natalie
-const pitcherOrder = ['Barbour', 'LaManche', 'Jones', 'Wunderlich', 'Ireland Hall'];
-const pitchers = pitcherOrder
-  .map(name => players.find(p => p.lastName === name))
-  .filter(Boolean) as typeof players;
+// Filter on position like the other three hubs do. This used to be a
+// hardcoded array of last names, which meant a pitcher added to players.json
+// was silently absent from this page with no build error — it swallowed
+// Natalie Ireland Hall (fixed in 7bac910) and nearly swallowed Elise Barbour.
+// PITCHER_ORDER only ranks who leads the page; anyone not listed still
+// appears, sorted after the ranked names. Adding a player to players.json is
+// the only edit required.
+const PITCHER_ORDER = ['Barbour', 'LaManche', 'Jones', 'Wunderlich', 'Ireland Hall'];
+const pitchers = players
+  .filter(p => {
+    const pos = p.position.toLowerCase();
+    return pos.includes('rhp') || pos.includes('lhp') || pos.includes('pitch');
+  })
+  .sort((a, b) => {
+    const ai = PITCHER_ORDER.indexOf(a.lastName);
+    const bi = PITCHER_ORDER.indexOf(b.lastName);
+    if (ai !== bi) return (ai < 0 ? Infinity : ai) - (bi < 0 ? Infinity : bi);
+    return a.gradYear - b.gradYear || a.lastName.localeCompare(b.lastName);
+  });
 
 // Calculate stats
 const gradYears = [...new Set(pitchers.map(p => p.gradYear))].sort();

@@ -7,29 +7,25 @@
 // Read-only. The service key never reaches the browser — this function is the
 // only thing that touches it.
 
+import playersData from '../../src/data/players.json';
+
 interface Env {
   SUPABASE_URL: string;
   SUPABASE_SERVICE_KEY: string;
 }
 
-// Mirrors PLAYER_IDS in camp-checkin.ts, inverted. Keep the two in sync.
-const ID_TO_NAME: Record<string, string> = {
-  '6a1cfd10-1f6a-4a6e-87dd-779fede79f36': 'Baylee Giese Edney',
-  'f283f6e0-53bd-4f94-b2f8-a333f16c556a': 'Maddie Diaz',
-  '7ea706e2-37be-44bd-8155-fd9b58ab21f7': 'Kelsey Fliss',
-  '06218f21-1a8c-4a57-9700-a8e6ff3cf775': 'Keira Frazier',
-  '0533eba8-cf63-40a8-8a9f-7d9191799522': 'Avery Jones',
-  '0bbe1bfb-bdfa-4496-9cad-d52fcd297601': 'Kendall LaManche',
-  'a7c04e0c-db7c-4097-bdfe-9165511d081c': 'Charlotte Llaneza',
-  'b98b5e83-80b7-4f5b-aa70-41c84335f61b': 'Cara Orlando',
-  '48fec156-a722-47d2-9cdb-b182de64836a': 'Sophia Perez',
-  '43331d7c-c06d-433f-ac37-e4262b3387c2': 'Lyla Seibert',
-  'b3fe1ac9-9a22-4738-ba37-2b36e4a432db': 'Riley Walker',
-  'd142c6b0-0c32-4557-bfc5-619095df585b': 'Ayn Parker Usry',
-  '5b354126-07b6-467e-b253-ddfb545256e5': 'Kierra Wunderlich',
-  '77dfb624-8ce2-4516-a4a1-b4ee7cef6786': 'Natalie Ireland Hall',
-  'cecb335b-08af-4b50-8a73-8a76976238fc': 'Austyn Kinch',
-};
+// Derived from players.json — the single roster source of truth. This used to
+// be a hand-maintained mirror of PLAYER_IDS in camp-checkin.ts, and it drifted:
+// Sara Utrera and Elise Barbour were added there but not here, so their rows
+// rendered as "Unknown player" in the coach view even though they had written
+// correctly. Every players.json id is a real program-match UUID as of 3fd816f,
+// so deriving is now safe. Do not reintroduce a literal map.
+const ID_TO_NAME: Record<string, string> = Object.fromEntries(
+  (playersData as any[]).map((p) => [
+    p.id,
+    `${p.firstName ?? ''} ${p.lastName ?? ''}`.trim(),
+  ])
+);
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const { env } = context;

@@ -16,32 +16,28 @@
 // (SNW has 17, player_profiles has 18 — Isabel Findlay is the only one off the
 // SNW roster but still active in program-match. Verified 2026-08-08).
 
+import playersData from '../../src/data/players.json';
+
 interface Env {
   SUPABASE_URL: string;
   SUPABASE_SERVICE_KEY: string;
   SENDGRID_API_KEY: string;
 }
 
-// name (normalized) -> program-match player_profiles.id
-const PLAYER_IDS: Record<string, string> = {
-  bayleegieseedney: '6a1cfd10-1f6a-4a6e-87dd-779fede79f36',
-  maddiediaz: 'f283f6e0-53bd-4f94-b2f8-a333f16c556a',
-  kelseyfliss: '7ea706e2-37be-44bd-8155-fd9b58ab21f7',
-  keirafrazier: '06218f21-1a8c-4a57-9700-a8e6ff3cf775',
-  averyjones: '0533eba8-cf63-40a8-8a9f-7d9191799522',
-  kendalllamanche: '0bbe1bfb-bdfa-4496-9cad-d52fcd297601',
-  charlottellaneza: 'a7c04e0c-db7c-4097-bdfe-9165511d081c',
-  caraorlando: 'b98b5e83-80b7-4f5b-aa70-41c84335f61b',
-  sophiaperez: '48fec156-a722-47d2-9cdb-b182de64836a',
-  lylaseibert: '43331d7c-c06d-433f-ac37-e4262b3387c2',
-  rileywalker: 'b3fe1ac9-9a22-4738-ba37-2b36e4a432db',
-  aynparkerusry: 'd142c6b0-0c32-4557-bfc5-619095df585b',
-  kierrawunderlich: '5b354126-07b6-467e-b253-ddfb545256e5',
-  natalieirelandhall: '77dfb624-8ce2-4516-a4a1-b4ee7cef6786',
-  austynkinch: 'cecb335b-08af-4b50-8a73-8a76976238fc',
-  sarautrera: '33d464c0-6130-4819-80d3-e0c47d5e8fb6',
-  elisebarbour: 'abe23bbc-fabb-4be6-b90c-12a30e7e34cf',
-};
+const norm = (s: string) => s.toLowerCase().replace(/[^a-z]/g, '');
+
+// name (normalized) -> program-match player_profiles.id, derived from
+// players.json so adding a player to the roster is the ONLY edit required.
+// This was a hand-maintained literal and it drifted twice in one day: a player
+// restored to players.json appeared in the dropdown but was rejected on submit,
+// and camp-list.ts's inverse map fell out of sync and showed "Unknown player".
+// Do not reintroduce a literal map.
+const PLAYER_IDS: Record<string, string> = Object.fromEntries(
+  (playersData as any[]).map((p) => [
+    norm(`${p.firstName ?? ''} ${p.lastName ?? ''}`),
+    p.id,
+  ])
+);
 
 const VALID_STATUS = ['considering', 'registered', 'attending', 'attended'];
 
@@ -50,8 +46,6 @@ const VALID_STATUS = ['considering', 'registered', 'attending', 'attended'];
 // placeholder program row and the real name is kept in camp_name. Mike
 // reassigns from the CRM. See ensure-unassigned-program.cjs.
 const UNASSIGNED_PROGRAM_ID = '00000000-0000-0000-0000-0000000000ff';
-
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z]/g, '');
 
 interface CampCheckin {
   playerName?: string;

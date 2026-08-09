@@ -15,3 +15,11 @@
 # /schedule has no route in the source; the live 200 is a stale artifact.
 /schedule    /coaches/#schedule  301
 /schedule/   /coaches/#schedule  301
+
+# zztest-probe was a throwaway player added to players.json for ~1 minute on
+# 2026-08-08 to prove that one roster edit reaches every surface. It does — and
+# it proved this gotcha too: the page kept serving 200 after being removed from
+# the build. Never in the sitemap, but live and indexable, so it gets a redirect.
+/players/zztest-probe       /pitchers/  301
+/players/zztest-probe/      /pitchers/  301
+/players/og/zztest-probe.png  /  301

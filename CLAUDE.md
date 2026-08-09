@@ -128,12 +128,21 @@ more than you'd expect. **Never invent a stat**, and when rewriting an existing 
 16 IP / 35 K / 0.00 ERA line, a 4x sectional ski title, and two national rankings on
 2026-08-02, all caught only by diffing.
 
-**When adding a PITCHER: edit `pitchers.astro` too.** `/pitchers` is the one
-position hub that maps a **hardcoded `pitcherOrder` array of last names** instead of
-filtering on `position` — the array also sets display order. A pitcher added only to
-`players.json` gets her page, OG card, sitemap entry and homepage link, but is
-**silently absent from the hub**. No build error. `catchers`/`infielders`/
-`outfielders` filter dynamically and need no second edit. Verify in the BUILT output:
+**`players.json` is the single source — one edit fuels the whole site.** Adding,
+removing or editing a player there is the ONLY edit required: player page, OG card,
+all four position hubs, sitemap, homepage, and the `/camps` form + coach view all
+derive from it. **Never add a second hardcoded list of players, names or ids.**
+
+Four parallel roster copies existed as of 2026-08-08 and every one had drifted —
+`pitcherOrder` in `pitchers.astro` silently dropped pitchers from the hub;
+`PLAYER_IDS` in `camp-checkin.ts` 400'd a restored player on submit; `ID_TO_NAME` in
+`camp-list.ts` showed her row as "Unknown player"; and 5 of 17 `id` fields were fake
+or hand-typed. All four now derive from `players.json` (`ce95e3f`, `2f4eea5`,
+`3fd816f`). `PITCHER_ORDER` survives as **display ranking only** — an unlisted
+pitcher still appears, sorted after the ranked names. The one hardcoded UUID that
+belongs is `UNASSIGNED_PROGRAM_ID`, a placeholder program row, not a player.
+
+Verify a roster change reached the hub in the BUILT output:
 `tr '<' '\n<' < dist/pitchers/index.html | command grep -o 'players/[a-z-]*/' | sort -u`
 
 **Counting matches in built HTML: `grep -c` will lie to you.** Astro minifies each

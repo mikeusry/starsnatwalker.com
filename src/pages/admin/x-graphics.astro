@@ -1,0 +1,456 @@
+---
+// Post graphics for the X profile series — one card per player, rendered in the
+// browser and downloaded as PNG.
+//
+// Built as a generator rather than 17 image files on purpose: the stat lines
+// come from POSTS below, so fixing a number is a text edit and a re-download,
+// not a redraw. Headshots come from Cloudinary with a face-gravity crop, so
+// every card frames the same way regardless of the source photo.
+//
+// 1200x675 (16:9) — X's single-image slot. Fills the card in-feed without
+// getting cropped, which a square would.
+import Layout from '../../layouts/Layout.astro';
+import players from '../../data/players.json';
+
+type Player = {
+  firstName: string; lastName: string; gradYear: number;
+  position?: string; twitter?: string; highSchool?: string;
+  highSchoolState?: string; photoUrl?: string;
+  videos?: { muxVideos?: unknown[] };
+};
+
+const roster = players as Player[];
+
+const slugOf = (p: Player) =>
+  (p.firstName + ' ' + p.lastName).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+// The headline + stat lines for each card. These mirror docs/x-series-posts.md.
+// Keep them SHORT — a card is read at thumb-scroll speed, not studied.
+// headline: the one arresting fact. stats: 3-4 lines max.
+const POSTS: Record<string, { date: string; headline: string; stats: string[] }> = {
+  'keira-frazier': {
+    date: 'Aug 11',
+    headline: 'Home to home in 10.98',
+    stats: ['70 MPH EXIT VELO', '68 MPH INFIELD VELO', 'VISAA STATE CHAMPION — 4x200 STATE RECORD', 'US VIRGIN ISLANDS 18U NATIONAL TEAM'],
+  },
+  'austyn-kinch': {
+    date: 'Aug 13',
+    headline: 'Hit .543. Led the state with 58 hits.',
+    stats: ['1.76 POP TIME', '79 MPH EXIT VELO · 1.523 OPS', '5 STRIKEOUTS ALL SEASON · 14-FOR-14 STEALING', '#100 NATIONAL CATCHER — EXTRA INNING SOFTBALL'],
+  },
+  'cara-orlando': {
+    date: 'Aug 18',
+    headline: 'Two outs, scoreless, sectional title. She won it.',
+    stats: ['74 MPH EXIT VELO', 'LED SUTHERLAND IN HR — 2 STRAIGHT YEARS', '2ND IN REGION IN HOME RUNS (2025)', 'SECTION V CLASS AA2 CHAMPIONS'],
+  },
+  'sophia-perez': {
+    date: 'Aug 20',
+    headline: 'Hit .560. Led Colorado in runs.',
+    stats: ['56 RUNS SCORED — STATE LEADER', '6 DOUBLES · 6 TRIPLES · 17 STOLEN BASES', '3 STRIKEOUTS IN 115 PLATE APPEARANCES', '2026 PUEBLO MVP · 4.17 GPA'],
+  },
+  'kierra-wunderlich': {
+    date: 'Aug 25',
+    headline: '2x USSSA All-American',
+    stats: ['RIGHT-HANDED PITCHER · UTILITY', 'IMPACTS THE GAME FROM ANYWHERE', '2026 ALLIANCE FASTPITCH 16U TIER III', 'NATIONAL RUNNER-UP'],
+  },
+  'maddie-diaz': {
+    date: 'Aug 27',
+    headline: 'All-state as a sophomore. Undefeated season.',
+    stats: ['2026 NCHSAA 7A STATE CHAMPIONS', 'LEFT-HANDED SLAPPER — PRESSURE ON EVERY PLAY', '1ST TEAM ALL-COUNTY', '3.8 GPA'],
+  },
+  'lyla-seibert': {
+    date: 'Sep 1',
+    headline: '5.13 GPA',
+    stats: ['SC JUNIOR SCHOLAR', 'MIDDLE INFIELD — RANGE + QUICK RELEASE', '2026 ALLIANCE FASTPITCH 16U TIER III', 'NATIONAL RUNNER-UP'],
+  },
+  'sara-utrera': {
+    date: 'Sep 3',
+    headline: '2025 FHSAA 6A State Champion',
+    stats: ['DORAL ACADEMY', '2025 ALL-COUNTY 1ST TEAM, 6A', 'CHAMPIONSHIP-CALIBER INFIELDER', 'CLUTCH IN BIG MOMENTS'],
+  },
+  'avery-jones': {
+    date: 'Sep 8',
+    headline: "6'0\" power pitcher",
+    stats: ['RHP / FIRST BASE', 'MIDDLE-OF-THE-ORDER BAT', 'HONOR ROLL', '2026 ALLIANCE FASTPITCH NATIONAL RUNNER-UP'],
+  },
+  'charlotte-llaneza': {
+    date: 'Sep 10',
+    headline: 'Two premium defensive spots',
+    stats: ['CATCHER + THIRD BASE', 'STRONG ARM · QUICK RELEASE OUT OF THE CROUCH', 'REAL LINEUP FLEXIBILITY', '2026 ALLIANCE FASTPITCH NATIONAL RUNNER-UP'],
+  },
+  'elise-barbour': {
+    date: 'Sep 15',
+    headline: 'No. 1 ERA in Virginia — 1.30',
+    stats: ['SUMMER 2026: 89.0 IP · 111 K · 1.65 ERA', 'NO. 21 NATIONALLY — LDM 2029 HOT 100', 'WON THE STATE TITLE GAME: 6 IP, 0 ER, 6 K', '4.06 GPA'],
+  },
+  'baylee-giese-edney': {
+    date: 'Sep 17',
+    headline: '3 home runs in a regional final. Two were grand slams.',
+    stats: ['STARTED VARSITY AS A FRESHMAN', 'LED ENKA IN HR AND RBI', '2026 NCHSAA 5A STATE CHAMPIONS', 'NC ALL-STATE AS A FRESHMAN · 4.3 GPA'],
+  },
+  'ayn-parker-usry': {
+    date: 'Sep 22',
+    headline: '8.86 laser-timed 60m',
+    stats: ['73 MPH EXIT VELO · 65 MPH OUTFIELD VELO', 'BATTED .400 AT PGF NATIONALS', 'STATE TRACK FINALIST — TRIPLE JUMP', '3.74 GPA'],
+  },
+  'kelsey-fliss': {
+    date: 'Sep 24',
+    headline: '#15 in the Southeast',
+    stats: ['5\'11" CENTER FIELD', 'RANGE · CLOSING SPEED · CONFIDENT READS', 'PRESSURES DEFENSES ON THE BASES', 'EXTRA INNING SOFTBALL REGIONAL RANKING'],
+  },
+  'kendall-lamanche': {
+    date: 'Sep 29',
+    headline: '#1 pitcher in the Northeast',
+    stats: ['#36 NATIONALLY — EXTRA ELITE 100', 'TOP 100 PITCHER/HITTER DUO HOTLIST', 'ADVANCED COMMAND · HIGH-LEVEL SPIN', 'CLASS OF 2029'],
+  },
+  'riley-walker': {
+    date: 'Oct 1',
+    headline: '6\'1" catcher, ranked #38 nationally',
+    stats: ['#14 SOUTHEAST REGION', 'SELECT 30 NATIONAL · USA HPP INVITEE', 'SOFT HANDS · QUIET RECEIVING · ARM STRENGTH', '4.375 GPA'],
+  },
+  'natalie-ireland-hall': {
+    date: 'Oct 6',
+    headline: 'Perfect game in her first varsity start. 14 K.',
+    stats: ['2026: 16 IP · 35 K · 0 BB · 0.00 ERA', '2025 FALL: 35 IP · 67 K · 1.10 ERA', '2026 USA SOFTBALL ALL-AMERICAN', 'LINE DRIVE MEDIA TOP 100 · 4.1 GPA'],
+  },
+};
+
+// Posting order — same as the calendar.
+const ORDER = [
+  'keira-frazier', 'austyn-kinch', 'cara-orlando', 'sophia-perez',
+  'kierra-wunderlich', 'maddie-diaz', 'lyla-seibert', 'sara-utrera',
+  'avery-jones', 'charlotte-llaneza', 'elise-barbour', 'baylee-giese-edney',
+  'ayn-parker-usry', 'kelsey-fliss', 'kendall-lamanche', 'riley-walker',
+  'natalie-ireland-hall',
+];
+
+// Cloudinary face-gravity crop, sized for the card's portrait slot at 2x.
+const headshot = (url: string) =>
+  url.replace('/upload/', '/upload/c_fill,g_face,w_760,h_900,q_auto,f_auto/');
+
+const cards = ORDER.map((slug) => {
+  const p = roster.find((x) => slugOf(x) === slug);
+  if (!p) return null;
+  const post = POSTS[slug];
+  return {
+    slug,
+    name: `${p.firstName} ${p.lastName}`,
+    gradYear: p.gradYear,
+    position: p.position ?? '',
+    state: p.highSchoolState ?? '',
+    school: p.highSchool ?? '',
+    twitter: p.twitter ?? '',
+    photo: p.photoUrl ? headshot(p.photoUrl) : '',
+    clips: p.videos?.muxVideos?.length ?? 0,
+    date: post?.date ?? '',
+    headline: post?.headline ?? '',
+    stats: post?.stats ?? [],
+  };
+}).filter(Boolean) as NonNullable<ReturnType<typeof Object>>[] as any[];
+---
+
+<Layout title="X Graphics | Stars National Walker" noindex={true}>
+  <div class="min-h-screen bg-gray-100">
+    <header class="bg-stars-navy text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-4">
+          <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+          <div>
+            <h1 class="text-xl font-bold">X Post Graphics</h1>
+            <p class="text-sm text-white/70">One card per player — download as PNG</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <a href="/admin/x-series/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            X Series
+          </a>
+          <a href="/admin/camps/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Camps
+          </a>
+          <a href="/admin/dashboard/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Profile Views
+          </a>
+          <button id="logout-btn" class="px-4 py-2 bg-stars-red hover:bg-red-700 rounded-lg text-sm transition-colors">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+
+      <div class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-lg font-bold text-gray-900 mb-2">How to use these</h2>
+        <ol class="text-gray-700 space-y-1.5 list-decimal list-inside text-sm">
+          <li>Find the player for the date you're posting.</li>
+          <li>Hit <strong>Download PNG</strong> — saves at 1200&times;675, X's single-image size.</li>
+          <li>Attach it to the post. Copy for each one is in <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">docs/x-series-posts.md</code>.</li>
+        </ol>
+        <p class="text-sm text-gray-600 mt-3">
+          Players with film should post the <strong>video</strong> instead — a clip travels
+          much further than a card. The card is the fallback where there's no video, and a
+          backup if a clip won't upload.
+        </p>
+        <button id="download-all" class="mt-4 px-4 py-2 bg-stars-navy hover:bg-stars-navy-light text-white rounded-lg text-sm font-semibold transition-colors">
+          Download all {cards.length}
+        </button>
+        <span id="all-status" class="ml-3 text-sm text-gray-500"></span>
+      </div>
+
+      {cards.map((c) => (
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div class="px-5 py-3 border-b border-gray-200 flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="text-xs font-bold uppercase tracking-wider text-stars-red">{c.date}</span>
+              <span class="font-semibold text-gray-900">{c.name}</span>
+              {c.clips > 0 ? (
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-gray-200 text-gray-600">
+                  Has {c.clips} clips — post video instead
+                </span>
+              ) : (
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-stars-red text-white">
+                  Card post
+                </span>
+              )}
+            </div>
+            <button
+              class="download-one px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-xs font-semibold transition-colors"
+              data-slug={c.slug}
+            >Download PNG</button>
+          </div>
+
+          <!-- The card itself. Rendered at 600x337 on screen, drawn to canvas at 2x. -->
+          <div class="p-5 bg-gray-50 overflow-x-auto">
+            <div
+              class="xcard relative flex-shrink-0"
+              id={`card-${c.slug}`}
+              data-slug={c.slug}
+              data-name={c.name}
+              data-grad={c.gradYear}
+              data-position={c.position}
+              data-state={c.state}
+              data-headline={c.headline}
+              data-stats={JSON.stringify(c.stats)}
+              data-twitter={c.twitter}
+              data-photo={c.photo}
+              style="width:600px;height:337px;"
+            >
+              <canvas class="card-canvas w-full h-full block rounded" width="1200" height="675"></canvas>
+            </div>
+          </div>
+        </div>
+      ))}
+
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      if (sessionStorage.getItem('snw_admin_auth') !== 'true') {
+        window.location.href = '/admin/';
+        return;
+      }
+      document.getElementById('logout-btn').addEventListener('click', function () {
+        sessionStorage.removeItem('snw_admin_auth');
+        window.location.href = '/admin/';
+      });
+
+      // Brand tokens, straight from global.css so the cards match the site.
+      var NAVY = '#062a4b';
+      var NAVY_LIGHT = '#0a3d6a';
+      var GOLD = '#FFD700';
+      var WHITE = '#ffffff';
+
+      // Load an image and resolve even on failure, so one bad URL cannot
+      // block the whole batch.
+      function loadImage(src) {
+        return new Promise(function (resolve) {
+          if (!src) return resolve(null);
+          var img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = function () { resolve(img); };
+          img.onerror = function () { resolve(null); };
+          img.src = src;
+        });
+      }
+
+      // Wrap text to a max width, returning the lines.
+      function wrapText(ctx, text, maxWidth) {
+        var words = String(text).split(' ');
+        var lines = [];
+        var line = '';
+        for (var i = 0; i < words.length; i++) {
+          var test = line ? line + ' ' + words[i] : words[i];
+          if (ctx.measureText(test).width > maxWidth && line) {
+            lines.push(line);
+            line = words[i];
+          } else {
+            line = test;
+          }
+        }
+        if (line) lines.push(line);
+        return lines;
+      }
+
+      async function drawCard(el) {
+        var canvas = el.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+        var W = 1200, H = 675;
+
+        var name = el.dataset.name;
+        var grad = el.dataset.grad;
+        var position = el.dataset.position;
+        var state = el.dataset.state;
+        var headline = el.dataset.headline;
+        var stats = JSON.parse(el.dataset.stats || '[]');
+        var twitter = el.dataset.twitter;
+
+        // Ground
+        ctx.fillStyle = NAVY;
+        ctx.fillRect(0, 0, W, H);
+
+        // Subtle diagonal wash on the right so the portrait has separation
+        // from the flat navy without needing a hard edge.
+        var grad2 = ctx.createLinearGradient(W * 0.45, 0, W, H);
+        grad2.addColorStop(0, NAVY);
+        grad2.addColorStop(1, NAVY_LIGHT);
+        ctx.fillStyle = grad2;
+        ctx.fillRect(W * 0.45, 0, W * 0.55, H);
+
+        // Portrait, right third, bottom-anchored and clipped to the card.
+        var photo = await loadImage(el.dataset.photo);
+        var PHOTO_W = 380;
+        var PHOTO_X = W - PHOTO_W - 40;
+        if (photo) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(PHOTO_X, 0, PHOTO_W, H);
+          ctx.clip();
+          // cover-fit into the slot
+          var scale = Math.max(PHOTO_W / photo.width, H / photo.height);
+          var dw = photo.width * scale;
+          var dh = photo.height * scale;
+          ctx.drawImage(photo, PHOTO_X + (PHOTO_W - dw) / 2, (H - dh) / 2, dw, dh);
+          // navy scrim at the left edge of the photo so type never fights it
+          var scrim = ctx.createLinearGradient(PHOTO_X, 0, PHOTO_X + 120, 0);
+          scrim.addColorStop(0, 'rgba(6,42,75,0.95)');
+          scrim.addColorStop(1, 'rgba(6,42,75,0)');
+          ctx.fillStyle = scrim;
+          ctx.fillRect(PHOTO_X, 0, 120, H);
+          ctx.restore();
+        }
+
+        // Gold rule down the left — the one accent, echoing the site.
+        ctx.fillStyle = GOLD;
+        ctx.fillRect(56, 74, 5, 92);
+
+        var X = 84;
+
+        // Eyebrow: class · position · state
+        ctx.fillStyle = GOLD;
+        ctx.font = '700 21px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        ctx.textBaseline = 'top';
+        var eyebrow = [grad, position, state].filter(Boolean).join('   ·   ').toUpperCase();
+        ctx.letterSpacing = '2px';
+        ctx.fillText(eyebrow, X, 78);
+        ctx.letterSpacing = '0px';
+
+        // Name
+        ctx.fillStyle = WHITE;
+        ctx.font = '800 62px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        var nameLines = wrapText(ctx, name, 660);
+        var y = 118;
+        for (var i = 0; i < nameLines.length; i++) {
+          ctx.fillText(nameLines[i], X, y);
+          y += 66;
+        }
+
+        // Headline — the one arresting fact.
+        y += 14;
+        ctx.fillStyle = WHITE;
+        ctx.font = '600 33px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        var hl = wrapText(ctx, headline, 640);
+        for (var j = 0; j < hl.length; j++) {
+          ctx.fillText(hl[j], X, y);
+          y += 42;
+        }
+
+        // Stat lines
+        y += 22;
+        ctx.font = '600 20px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        ctx.letterSpacing = '1px';
+        for (var k = 0; k < stats.length; k++) {
+          // gold tick
+          ctx.fillStyle = GOLD;
+          ctx.fillRect(X, y + 8, 14, 3);
+          ctx.fillStyle = 'rgba(255,255,255,0.86)';
+          ctx.fillText(String(stats[k]).toUpperCase(), X + 28, y);
+          y += 33;
+        }
+        ctx.letterSpacing = '0px';
+
+        // Footer: handle left, wordmark right
+        ctx.fillStyle = GOLD;
+        ctx.font = '700 24px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        ctx.fillText('@' + twitter, X, H - 62);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.font = '600 18px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        ctx.letterSpacing = '2px';
+        var wm = 'STARSNATWALKER.COM';
+        var wmW = ctx.measureText(wm).width;
+        ctx.fillText(wm, PHOTO_X - 30 - wmW, H - 58);
+        ctx.letterSpacing = '0px';
+      }
+
+      function downloadCard(el) {
+        var canvas = el.querySelector('canvas');
+        var slug = el.dataset.slug;
+        try {
+          var url = canvas.toDataURL('image/png');
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'x-' + slug + '.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          return true;
+        } catch (e) {
+          // Tainted canvas — the headshot host did not send CORS headers.
+          alert('Could not export ' + slug + ': ' + e.message);
+          return false;
+        }
+      }
+
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.xcard'));
+
+      // Draw them all on load.
+      (async function () {
+        for (var i = 0; i < cards.length; i++) {
+          await drawCard(cards[i]);
+        }
+      })();
+
+      document.querySelectorAll('.download-one').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var el = document.getElementById('card-' + btn.dataset.slug);
+          if (el) downloadCard(el);
+        });
+      });
+
+      document.getElementById('download-all').addEventListener('click', function () {
+        var status = document.getElementById('all-status');
+        var i = 0;
+        // Stagger — browsers drop rapid-fire programmatic downloads.
+        var tick = function () {
+          if (i >= cards.length) { status.textContent = 'Done — ' + cards.length + ' downloaded.'; return; }
+          status.textContent = 'Downloading ' + (i + 1) + ' of ' + cards.length + '…';
+          downloadCard(cards[i]);
+          i++;
+          setTimeout(tick, 600);
+        };
+        tick();
+      });
+    })();
+  </script>
+</Layout>

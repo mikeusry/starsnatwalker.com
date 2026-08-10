@@ -32,17 +32,25 @@ const find = (full: string) =>
 // where the roster allows it. Weeks 5 and 8-9 run card-heavy because the
 // players with clips are exhausted by then — that is the deadline that gets
 // the remaining families to send film.
-const ROTATION: { week: number; tue: string; thu: string }[] = [
-  { week: 1, tue: 'Keira Frazier',      thu: 'Austyn Kinch' },
-  { week: 2, tue: 'Cara Orlando',       thu: 'Sophia Perez' },
-  { week: 3, tue: 'Kierra Wunderlich',  thu: 'Maddie Diaz' },
-  { week: 4, tue: 'Lyla Seibert',       thu: 'Sara Utrera' },
-  { week: 5, tue: 'Avery Jones',        thu: 'Charlotte Llaneza' },
-  { week: 6, tue: 'Elise Barbour',      thu: 'Baylee Giese Edney' },
-  { week: 7, tue: 'Ayn Parker Usry',    thu: 'Kelsey Fliss' },
-  { week: 8, tue: 'Kendall LaManche',   thu: 'Riley Walker' },
-  { week: 9, tue: 'Natalie Ireland Hall', thu: null as unknown as string },
+// Series runs Tue Aug 11 → Tue Oct 6, 2026. Dates are literal ISO strings so
+// the calendar is fixed and reviewable, not computed off build time.
+const ROTATION: { week: number; tueDate: string; tue: string; thuDate: string | null; thu: string | null }[] = [
+  { week: 1, tueDate: '2026-08-11', tue: 'Keira Frazier',        thuDate: '2026-08-13', thu: 'Austyn Kinch' },
+  { week: 2, tueDate: '2026-08-18', tue: 'Cara Orlando',         thuDate: '2026-08-20', thu: 'Sophia Perez' },
+  { week: 3, tueDate: '2026-08-25', tue: 'Kierra Wunderlich',    thuDate: '2026-08-27', thu: 'Maddie Diaz' },
+  { week: 4, tueDate: '2026-09-01', tue: 'Lyla Seibert',         thuDate: '2026-09-03', thu: 'Sara Utrera' },
+  { week: 5, tueDate: '2026-09-08', tue: 'Avery Jones',          thuDate: '2026-09-10', thu: 'Charlotte Llaneza' },
+  { week: 6, tueDate: '2026-09-15', tue: 'Elise Barbour',        thuDate: '2026-09-17', thu: 'Baylee Giese Edney' },
+  { week: 7, tueDate: '2026-09-22', tue: 'Ayn Parker Usry',      thuDate: '2026-09-24', thu: 'Kelsey Fliss' },
+  { week: 8, tueDate: '2026-09-29', tue: 'Kendall LaManche',     thuDate: '2026-10-01', thu: 'Riley Walker' },
+  { week: 9, tueDate: '2026-10-06', tue: 'Natalie Ireland Hall', thuDate: null,         thu: null },
 ];
+
+// Date-only values formatted in UTC so the label never shifts across local midnight.
+const fmtDate = (iso: string) =>
+  new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', {
+    timeZone: 'UTC', month: 'short', day: 'numeric',
+  });
 
 const cellFor = (name: string | null) => {
   if (!name) return null;
@@ -62,6 +70,8 @@ const cellFor = (name: string | null) => {
 
 const schedule = ROTATION.map((r) => ({
   week: r.week,
+  tueDate: fmtDate(r.tueDate),
+  thuDate: r.thuDate ? fmtDate(r.thuDate) : null,
   tue: cellFor(r.tue),
   thu: cellFor(r.thu),
 }));
@@ -180,7 +190,8 @@ const utm = (slug: string, gradYear: number) =>
         <div class="p-6 pb-4">
           <h2 class="text-lg font-bold text-gray-900">Schedule — all {total} players</h2>
           <p class="text-sm text-gray-600 mt-1">
-            2028s first (their contact dates are live now), then the 2029s.
+            Aug 11 – Oct 6. 2028s first (their contact dates are live now), then the 2029s.
+            Copy for every post is in <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">docs/x-series-posts.md</code>.
           </p>
         </div>
         <div class="overflow-x-auto">
@@ -196,10 +207,11 @@ const utm = (slug: string, gradYear: number) =>
               {schedule.map((row) => (
                 <tr class="border-b border-gray-100 last:border-0">
                   <td class="px-4 py-3 text-center font-bold text-gray-400 tabular-nums align-top">{row.week}</td>
-                  {[row.tue, row.thu].map((cell) => (
+                  {[{ cell: row.tue, date: row.tueDate }, { cell: row.thu, date: row.thuDate }].map(({ cell, date }) => (
                     <td class="px-4 py-3 align-top">
                       {cell ? (
                         <div>
+                          <div class="text-[11px] font-bold uppercase tracking-wider text-stars-red mb-0.5">{date}</div>
                           <div class="font-semibold text-gray-900">{cell.name}</div>
                           <div class="text-xs text-gray-500 mt-0.5">
                             {cell.gradYear} · {cell.position}

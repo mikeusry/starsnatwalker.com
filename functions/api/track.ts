@@ -61,15 +61,21 @@ function scoreBot(request: Request, body: TrackPayload): { isBot: boolean; reaso
     return { isBot: true, reason: 'referrer:own-hub-loop' };
   }
 
-  // 3) Spoofed / implausible Chrome build numbers. Real Chrome majors track ~stable
-  //    releases; the flood used fabricated builds (e.g. 142.0.7444.175, 141.0.7390.0).
-  //    Flag Chrome majors far above the current real channel as fabricated.
+  // 3) Implausibly OLD Chrome builds. This used to be an UPPER bound (>= 141),
+  //    written when stable was ~13x to catch a flood of fabricated high builds.
+  //    Chrome then shipped past it and the rule started eating real visitors:
+  //    over the 30 days to 2026-08-09 it discarded 67 events — Chrome 149/150/151,
+  //    i.e. ordinary stable — against only 71 it let through. Mike's own video
+  //    play on Chrome 150 was logged bot=true, which is how it was found.
+  //    An upper bound on a version that ships every ~6 weeks cannot hold; it is
+  //    a time bomb with a fresh fuse each release. A LOWER bound is stable: no
+  //    real coach browses on Chrome < 90 (2021), while crawlers still forge them.
+  //    The fabricated-UA flood is covered by ua:token, cf:score, verifiedBot,
+  //    the own-hub referrer loop, and the datacenter ASN check below.
   const chrome = ua.match(/Chrome\/(\d+)\./);
   if (chrome) {
     const major = parseInt(chrome[1], 10);
-    // Current real Chrome stable as of this writing is ~13x. Anything >= 141 with a
-    // desktop UA and no CF score is almost certainly a fabricated crawler UA.
-    if (major >= 141) return { isBot: true, reason: `ua:chrome_major=${major}` };
+    if (major < 90) return { isBot: true, reason: `ua:chrome_major_stale=${major}` };
   }
 
   // 4) End-of-life desktop OS strongly correlates with crawler UAs (Win7 = NT 6.1).

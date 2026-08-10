@@ -305,101 +305,121 @@ const cards = ORDER.map((slug) => {
         var stats = JSON.parse(el.dataset.stats || '[]');
         var twitter = el.dataset.twitter;
 
-        // Ground
+        // Ground. Flat navy across the whole card — an earlier version put a
+        // gradient on the right half and it left a visible vertical seam where
+        // the two fills met.
         ctx.fillStyle = NAVY;
         ctx.fillRect(0, 0, W, H);
 
-        // Subtle diagonal wash on the right so the portrait has separation
-        // from the flat navy without needing a hard edge.
-        var grad2 = ctx.createLinearGradient(W * 0.45, 0, W, H);
-        grad2.addColorStop(0, NAVY);
-        grad2.addColorStop(1, NAVY_LIGHT);
-        ctx.fillStyle = grad2;
-        ctx.fillRect(W * 0.45, 0, W * 0.55, H);
-
-        // Portrait, right third, bottom-anchored and clipped to the card.
+        // Portrait bleeds off the right edge (no 40px gutter — the gutter made
+        // the photo read as a pasted-in rectangle rather than part of the card).
         var photo = await loadImage(el.dataset.photo);
-        var PHOTO_W = 380;
-        var PHOTO_X = W - PHOTO_W - 40;
+        var PHOTO_W = 470;
+        var PHOTO_X = W - PHOTO_W;
         if (photo) {
           ctx.save();
           ctx.beginPath();
           ctx.rect(PHOTO_X, 0, PHOTO_W, H);
           ctx.clip();
-          // cover-fit into the slot
+          // cover-fit, anchored toward the top so heads are never cropped
           var scale = Math.max(PHOTO_W / photo.width, H / photo.height);
           var dw = photo.width * scale;
           var dh = photo.height * scale;
-          ctx.drawImage(photo, PHOTO_X + (PHOTO_W - dw) / 2, (H - dh) / 2, dw, dh);
-          // navy scrim at the left edge of the photo so type never fights it
-          var scrim = ctx.createLinearGradient(PHOTO_X, 0, PHOTO_X + 120, 0);
-          scrim.addColorStop(0, 'rgba(6,42,75,0.95)');
+          ctx.drawImage(photo, PHOTO_X + (PHOTO_W - dw) / 2, Math.min(0, (H - dh) * 0.22), dw, dh);
+          // Wide navy feather into the photo so there is no hard edge and the
+          // stat column always has clean ground under it.
+          var scrim = ctx.createLinearGradient(PHOTO_X, 0, PHOTO_X + 260, 0);
+          scrim.addColorStop(0, 'rgba(6,42,75,1)');
+          scrim.addColorStop(0.55, 'rgba(6,42,75,0.45)');
           scrim.addColorStop(1, 'rgba(6,42,75,0)');
           ctx.fillStyle = scrim;
-          ctx.fillRect(PHOTO_X, 0, 120, H);
+          ctx.fillRect(PHOTO_X, 0, 260, H);
+          // Bottom vignette — settles the portrait and anchors the footer.
+          var vig = ctx.createLinearGradient(0, H - 190, 0, H);
+          vig.addColorStop(0, 'rgba(6,42,75,0)');
+          vig.addColorStop(1, 'rgba(6,42,75,0.92)');
+          ctx.fillStyle = vig;
+          ctx.fillRect(PHOTO_X, H - 190, PHOTO_W, 190);
           ctx.restore();
         }
 
-        // Gold rule down the left — the one accent, echoing the site.
-        ctx.fillStyle = GOLD;
-        ctx.fillRect(56, 74, 5, 92);
-
         var X = 84;
+        var TEXT_W = 620;   // keeps type clear of the portrait feather
+        ctx.textBaseline = 'top';
+
+        // ── Measure the whole text block first, then center it vertically.
+        // The first version drew top-down from a fixed y and left ~45% of the
+        // card empty underneath. Measuring first means a 1-line name and a
+        // 2-line name both sit balanced in the frame.
+        ctx.font = '800 60px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        var nameLines = wrapText(ctx, name, TEXT_W);
+        ctx.font = '600 32px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        var hlLines = wrapText(ctx, headline, TEXT_W);
+
+        var NAME_LH = 64, HL_LH = 41, STAT_LH = 38;
+        var blockH = 30                      // eyebrow
+          + nameLines.length * NAME_LH
+          + 16 + hlLines.length * HL_LH
+          + 26 + stats.length * STAT_LH;
+        var y = Math.max(74, (H - 92 - blockH) / 2);   // 92 reserves the footer
+
+        // Gold rule — spans the eyebrow + name, sized to what it marks.
+        var ruleH = 30 + nameLines.length * NAME_LH - 12;
+        ctx.fillStyle = GOLD;
+        ctx.fillRect(56, y + 4, 5, ruleH);
 
         // Eyebrow: class · position · state
         ctx.fillStyle = GOLD;
-        ctx.font = '700 21px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-        ctx.textBaseline = 'top';
-        var eyebrow = [grad, position, state].filter(Boolean).join('   ·   ').toUpperCase();
+        ctx.font = '700 20px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
         ctx.letterSpacing = '2px';
-        ctx.fillText(eyebrow, X, 78);
+        ctx.fillText([grad, position, state].filter(Boolean).join('   ·   ').toUpperCase(), X, y);
         ctx.letterSpacing = '0px';
+        y += 30;
 
         // Name
         ctx.fillStyle = WHITE;
-        ctx.font = '800 62px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-        var nameLines = wrapText(ctx, name, 660);
-        var y = 118;
+        ctx.font = '800 60px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
         for (var i = 0; i < nameLines.length; i++) {
           ctx.fillText(nameLines[i], X, y);
-          y += 66;
+          y += NAME_LH;
         }
 
         // Headline — the one arresting fact.
-        y += 14;
+        y += 16;
         ctx.fillStyle = WHITE;
-        ctx.font = '600 33px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-        var hl = wrapText(ctx, headline, 640);
-        for (var j = 0; j < hl.length; j++) {
-          ctx.fillText(hl[j], X, y);
-          y += 42;
+        ctx.font = '600 32px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        for (var j = 0; j < hlLines.length; j++) {
+          ctx.fillText(hlLines[j], X, y);
+          y += HL_LH;
         }
 
         // Stat lines
-        y += 22;
-        ctx.font = '600 20px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        y += 26;
+        ctx.font = '600 21px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
         ctx.letterSpacing = '1px';
         for (var k = 0; k < stats.length; k++) {
-          // gold tick
           ctx.fillStyle = GOLD;
-          ctx.fillRect(X, y + 8, 14, 3);
-          ctx.fillStyle = 'rgba(255,255,255,0.86)';
-          ctx.fillText(String(stats[k]).toUpperCase(), X + 28, y);
-          y += 33;
+          ctx.fillRect(X, y + 9, 14, 3);
+          ctx.fillStyle = 'rgba(255,255,255,0.88)';
+          ctx.fillText(String(stats[k]).toUpperCase(), X + 30, y);
+          y += STAT_LH;
         }
         ctx.letterSpacing = '0px';
+
+        // Gold baseline bar — gives the card a floor and echoes the left rule.
+        ctx.fillStyle = GOLD;
+        ctx.fillRect(0, H - 8, W, 8);
 
         // Footer: handle left, wordmark right
         ctx.fillStyle = GOLD;
         ctx.font = '700 24px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-        ctx.fillText('@' + twitter, X, H - 62);
+        ctx.fillText('@' + twitter, X, H - 66);
 
-        ctx.fillStyle = 'rgba(255,255,255,0.5)';
-        ctx.font = '600 18px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        ctx.fillStyle = 'rgba(255,255,255,0.55)';
+        ctx.font = '600 17px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
         ctx.letterSpacing = '2px';
         var wm = 'STARSNATWALKER.COM';
-        var wmW = ctx.measureText(wm).width;
-        ctx.fillText(wm, PHOTO_X - 30 - wmW, H - 58);
+        ctx.fillText(wm, X, H - 34);
         ctx.letterSpacing = '0px';
       }
 

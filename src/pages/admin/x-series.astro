@@ -1,0 +1,328 @@
+---
+// The X profile-series plan, as a page the staff can pull up beside the other
+// admin tools instead of a doc that goes stale.
+//
+// The schedule is DERIVED from players.json — the roster order lives in
+// ROTATION below, but names, positions and clip counts are read live. If a
+// family sends film, this page flips that player from Card to Video on the next
+// build. Nobody has to remember to update a table.
+import Layout from '../../layouts/Layout.astro';
+import players from '../../data/players.json';
+
+type Player = {
+  firstName: string;
+  lastName: string;
+  gradYear: number;
+  position?: string;
+  twitter?: string;
+  highSchoolState?: string;
+  videos?: { muxVideos?: unknown[] };
+};
+
+const roster = players as Player[];
+
+const slugOf = (p: Player) =>
+  (p.firstName + '-' + p.lastName).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+const find = (full: string) =>
+  roster.find((p) => (p.firstName + ' ' + p.lastName) === full);
+
+// Posting order. Principle: lead each class with the strongest film, and
+// alternate video/card so the feed never shows two static cards back to back
+// where the roster allows it. Weeks 5 and 8-9 run card-heavy because the
+// players with clips are exhausted by then — that is the deadline that gets
+// the remaining families to send film.
+const ROTATION: { week: number; tue: string; thu: string }[] = [
+  { week: 1, tue: 'Keira Frazier',      thu: 'Austyn Kinch' },
+  { week: 2, tue: 'Cara Orlando',       thu: 'Sophia Perez' },
+  { week: 3, tue: 'Kierra Wunderlich',  thu: 'Maddie Diaz' },
+  { week: 4, tue: 'Lyla Seibert',       thu: 'Sara Utrera' },
+  { week: 5, tue: 'Avery Jones',        thu: 'Charlotte Llaneza' },
+  { week: 6, tue: 'Elise Barbour',      thu: 'Baylee Giese Edney' },
+  { week: 7, tue: 'Ayn Parker Usry',    thu: 'Kelsey Fliss' },
+  { week: 8, tue: 'Kendall LaManche',   thu: 'Riley Walker' },
+  { week: 9, tue: 'Natalie Ireland Hall', thu: null as unknown as string },
+];
+
+const cellFor = (name: string | null) => {
+  if (!name) return null;
+  const p = find(name);
+  if (!p) return { name, missing: true, clips: 0, position: '', gradYear: 0, slug: '', twitter: '' };
+  const clips = p.videos?.muxVideos?.length ?? 0;
+  return {
+    name,
+    missing: false,
+    clips,
+    position: p.position ?? '',
+    gradYear: p.gradYear,
+    slug: slugOf(p),
+    twitter: p.twitter ?? '',
+  };
+};
+
+const schedule = ROTATION.map((r) => ({
+  week: r.week,
+  tue: cellFor(r.tue),
+  thu: cellFor(r.thu),
+}));
+
+// Counts for the summary strip — computed, not typed by hand.
+const total = roster.length;
+const withFilm = roster.filter((p) => (p.videos?.muxVideos?.length ?? 0) > 0).length;
+const noFilm = total - withFilm;
+const scheduled = ROTATION.reduce((n, r) => n + (r.tue ? 1 : 0) + (r.thu ? 1 : 0), 0);
+
+const utm = (slug: string, gradYear: number) =>
+  `https://starsnatwalker.com/players/${slug}/?utm_source=x&utm_medium=social&utm_campaign=profile-series-${gradYear}`;
+---
+
+<Layout title="X Profile Series | Stars National Walker" noindex={true}>
+  <div class="min-h-screen bg-gray-100">
+    <!-- Same admin header as the other /admin pages so the nav is consistent. -->
+    <header class="bg-stars-navy text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-4">
+          <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+          <div>
+            <h1 class="text-xl font-bold">X Profile Series</h1>
+            <p class="text-sm text-white/70">Two posts a week from @StarsNatWalker</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <a href="/admin/x-series/" class="px-4 py-2 bg-white/20 rounded-lg text-sm font-medium">
+            X Series
+          </a>
+          <a href="/admin/camps/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Camps
+          </a>
+          <a href="/admin/dashboard/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Profile Views
+          </a>
+          <a href="/admin/teams/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Teams
+          </a>
+          <a href="/admin/help/" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+            Help
+          </a>
+          <button id="logout-btn" class="px-4 py-2 bg-stars-red hover:bg-red-700 rounded-lg text-sm transition-colors">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+
+      <!-- The idea, short enough that a coach reads it on a phone. -->
+      <section class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-lg font-bold text-gray-900 mb-3">The idea</h2>
+        <p class="text-gray-700 mb-3">
+          Every Tuesday and Thursday the team account posts one player — her position, her
+          numbers, her best clip, and a tracked link to her page. We tag her own account so
+          she can share it to her network.
+        </p>
+        <p class="text-gray-700">
+          Right now a college coach only finds our girls if someone already pointed him
+          there. Nothing we do creates awareness with coaches who have never heard of this
+          program. This does.
+        </p>
+      </section>
+
+      <!-- Summary strip: the film gap is the number that drives everything else. -->
+      <section class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="bg-white rounded-xl shadow-sm p-4">
+          <div class="text-2xl font-bold text-gray-900 tabular-nums">{total}</div>
+          <div class="text-xs text-gray-500 uppercase tracking-wide mt-1">Players</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm p-4">
+          <div class="text-2xl font-bold text-gray-900 tabular-nums">{scheduled}</div>
+          <div class="text-xs text-gray-500 uppercase tracking-wide mt-1">Posts planned</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm p-4">
+          <div class="text-2xl font-bold text-stars-red tabular-nums">{withFilm}</div>
+          <div class="text-xs text-gray-500 uppercase tracking-wide mt-1">Have film</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm p-4">
+          <div class="text-2xl font-bold text-gray-400 tabular-nums">{noFilm}</div>
+          <div class="text-xs text-gray-500 uppercase tracking-wide mt-1">Need film</div>
+        </div>
+      </section>
+
+      <!-- Why it's worth doing -->
+      <section class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Why it's worth doing</h2>
+        <ul class="space-y-3 text-gray-700">
+          <li class="flex gap-3">
+            <span class="mt-2 w-1.5 h-1.5 rounded-full bg-stars-red flex-shrink-0"></span>
+            <span><strong class="font-semibold">Coaches see names before they meet them.</strong> Familiarity is what makes a camp introduction — or a text from Joe — actually land.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-2 w-1.5 h-1.5 rounded-full bg-stars-red flex-shrink-0"></span>
+            <span><strong class="font-semibold">Every girl gets a turn.</strong> Not just the ones with the most film.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-2 w-1.5 h-1.5 rounded-full bg-stars-red flex-shrink-0"></span>
+            <span><strong class="font-semibold">The program looks active.</strong> When a coach does look us up, there's something current to find.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-2 w-1.5 h-1.5 rounded-full bg-stars-red flex-shrink-0"></span>
+            <span><strong class="font-semibold">The players amplify it.</strong> Tagging puts each post in front of her school, her teammates and her local coaches.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-2 w-1.5 h-1.5 rounded-full bg-stars-red flex-shrink-0"></span>
+            <span><strong class="font-semibold">We can measure it.</strong> Every link is tracked, so we'll see which posts brought coaches to a player's page.</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- The schedule. Derived from players.json, so Card/Video is always current. -->
+      <section class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6 pb-4">
+          <h2 class="text-lg font-bold text-gray-900">Schedule — all {total} players</h2>
+          <p class="text-sm text-gray-600 mt-1">
+            2028s first (their contact dates are live now), then the 2029s.
+          </p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-gray-50 border-y border-gray-200">
+                <th class="px-4 py-2 text-center text-xs font-semibold uppercase tracking-wider text-gray-500 w-16">Wk</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Tuesday</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Thursday</th>
+              </tr>
+            </thead>
+            <tbody>
+              {schedule.map((row) => (
+                <tr class="border-b border-gray-100 last:border-0">
+                  <td class="px-4 py-3 text-center font-bold text-gray-400 tabular-nums align-top">{row.week}</td>
+                  {[row.tue, row.thu].map((cell) => (
+                    <td class="px-4 py-3 align-top">
+                      {cell ? (
+                        <div>
+                          <div class="font-semibold text-gray-900">{cell.name}</div>
+                          <div class="text-xs text-gray-500 mt-0.5">
+                            {cell.gradYear} · {cell.position}
+                          </div>
+                          <div class="mt-1.5 flex items-center gap-2 flex-wrap">
+                            {cell.clips > 0 ? (
+                              <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-stars-red text-white">
+                                Video · {cell.clips}
+                              </span>
+                            ) : (
+                              <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-gray-200 text-gray-600">
+                                Card
+                              </span>
+                            )}
+                            {cell.twitter && (
+                              <a
+                                href={`https://x.com/${cell.twitter}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-xs text-gray-500 hover:text-stars-red transition-colors"
+                              >@{cell.twitter}</a>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <span class="text-gray-300 text-xs">—</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <p class="text-sm text-gray-600">
+            <strong class="font-semibold text-gray-900">Video</strong> means we have film to post.
+            <strong class="font-semibold text-gray-900">Card</strong> means a photo and stat graphic instead.
+            {noFilm} of our {total} players have no film on file — if a family sends clips before
+            her week, this page flips her to Video automatically.
+          </p>
+        </div>
+      </section>
+
+      <!-- What we need. The third item is the one that changes the outcome. -->
+      <section class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">What we need from the staff</h2>
+        <ol class="space-y-2 text-gray-700 list-decimal list-inside">
+          <li>Sign off on the idea and the order above.</li>
+          <li>Tell us if any family should <em>not</em> have their daughter tagged.</li>
+          <li>Help us get film from the {noFilm} players who don't have any.</li>
+        </ol>
+      </section>
+
+      <!-- Reference: the tracked links, so whoever posts can copy them. -->
+      <section class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-lg font-bold text-gray-900 mb-2">Tracked links</h2>
+        <p class="text-sm text-gray-600 mb-4">
+          Every post uses the player's tracked link — that's how a click from X shows up in
+          Profile Views instead of vanishing into "direct". Copy the link for the player
+          you're posting.
+        </p>
+        <div class="space-y-2">
+          {roster.map((p) => (
+            <div class="flex items-center gap-3 flex-wrap py-1.5 border-b border-gray-100 last:border-0">
+              <span class="font-medium text-gray-900 text-sm w-44 flex-shrink-0">
+                {p.firstName} {p.lastName}
+              </span>
+              <code class="text-xs text-gray-500 truncate flex-1 min-w-0">
+                /players/{slugOf(p)}/?utm_source=x…
+              </code>
+              <button
+                type="button"
+                class="copy-link px-3 py-1 text-xs font-semibold rounded bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors flex-shrink-0"
+                data-url={utm(slugOf(p), p.gradYear)}
+              >Copy</button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      // Same gate as the rest of /admin/*.
+      if (sessionStorage.getItem('snw_admin_auth') !== 'true') {
+        window.location.href = '/admin/';
+        return;
+      }
+
+      document.getElementById('logout-btn').addEventListener('click', function () {
+        sessionStorage.removeItem('snw_admin_auth');
+        window.location.href = '/admin/';
+      });
+
+      // Copy the tracked link. Feedback on the button itself — a coach posting
+      // from a phone needs to see that it worked without hunting for a toast.
+      document.querySelectorAll('.copy-link').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var url = btn.getAttribute('data-url');
+          var done = function () {
+            var prev = btn.textContent;
+            btn.textContent = 'Copied';
+            btn.classList.add('bg-green-100', 'text-green-700');
+            setTimeout(function () {
+              btn.textContent = prev;
+              btn.classList.remove('bg-green-100', 'text-green-700');
+            }, 1400);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(done, function () {});
+          } else {
+            var ta = document.createElement('textarea');
+            ta.value = url;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (e) {}
+            document.body.removeChild(ta);
+          }
+        });
+      });
+    })();
+  </script>
+</Layout>

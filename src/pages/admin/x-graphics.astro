@@ -326,37 +326,48 @@ const cards = ORDER.map((slug) => {
           var dw = photo.width * scale;
           var dh = photo.height * scale;
           ctx.drawImage(photo, PHOTO_X + (PHOTO_W - dw) / 2, Math.min(0, (H - dh) * 0.22), dw, dh);
-          // Wide navy feather into the photo so there is no hard edge and the
-          // stat column always has clean ground under it.
-          var scrim = ctx.createLinearGradient(PHOTO_X, 0, PHOTO_X + 260, 0);
-          scrim.addColorStop(0, 'rgba(6,42,75,1)');
-          scrim.addColorStop(0.55, 'rgba(6,42,75,0.45)');
-          scrim.addColorStop(1, 'rgba(6,42,75,0)');
-          ctx.fillStyle = scrim;
-          ctx.fillRect(PHOTO_X, 0, 260, H);
-          // Bottom vignette — settles the portrait and anchors the footer.
-          var vig = ctx.createLinearGradient(0, H - 190, 0, H);
-          vig.addColorStop(0, 'rgba(6,42,75,0)');
-          vig.addColorStop(1, 'rgba(6,42,75,0.92)');
-          ctx.fillStyle = vig;
-          ctx.fillRect(PHOTO_X, H - 190, PHOTO_W, 190);
           ctx.restore();
+
+          // Hard vertical stop — no feather, no vignette. The photo is a clean
+          // panel with a gold seam marking the edge, matching the left rule.
+          ctx.fillStyle = GOLD;
+          ctx.fillRect(PHOTO_X - 4, 0, 4, H);
         }
 
         var X = 84;
-        var TEXT_W = 620;   // keeps type clear of the portrait feather
+        // Hard panel edge at PHOTO_X, so type must stop short of it outright —
+        // there is no feathered zone to bleed into.
+        var TEXT_W = PHOTO_X - X - 46;
         ctx.textBaseline = 'top';
 
         // ── Measure the whole text block first, then center it vertically.
         // The first version drew top-down from a fixed y and left ~45% of the
         // card empty underneath. Measuring first means a 1-line name and a
         // 2-line name both sit balanced in the frame.
-        ctx.font = '800 60px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-        var nameLines = wrapText(ctx, name, TEXT_W);
-        ctx.font = '600 32px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-        var hlLines = wrapText(ctx, headline, TEXT_W);
+        // Name: same treatment — shrink to keep it on one line where possible.
+        // "Natalie Ireland Hall" and "Baylee Giese Edney" are the long ones.
+        var nameSize = 60, nameLines;
+        for (;;) {
+          ctx.font = '800 ' + nameSize + 'px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+          nameLines = wrapText(ctx, name, TEXT_W);
+          if (nameLines.length === 1 || nameSize <= 42) break;
+          nameSize -= 2;
+        }
+        // Headline: step the size down until it fits in two lines, and never
+        // leave a one-word orphan on the last line. The narrower text column
+        // (hard panel edge) made "…first varsity start. 14 K." wrap to a lone
+        // "K." — fixed by shrinking rather than letting it dangle.
+        var hlSize = 32, hlLines;
+        for (;;) {
+          ctx.font = '600 ' + hlSize + 'px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+          hlLines = wrapText(ctx, headline, TEXT_W);
+          var lastWords = hlLines.length ? hlLines[hlLines.length - 1].split(' ').length : 0;
+          var orphan = hlLines.length > 1 && lastWords === 1;
+          if ((hlLines.length <= 2 && !orphan) || hlSize <= 23) break;
+          hlSize -= 1;
+        }
 
-        var NAME_LH = 64, HL_LH = 41, STAT_LH = 38;
+        var NAME_LH = nameSize + 4, HL_LH = hlSize + 9, STAT_LH = 38;
         var blockH = 30                      // eyebrow
           + nameLines.length * NAME_LH
           + 16 + hlLines.length * HL_LH
@@ -378,7 +389,7 @@ const cards = ORDER.map((slug) => {
 
         // Name
         ctx.fillStyle = WHITE;
-        ctx.font = '800 60px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        ctx.font = '800 ' + nameSize + 'px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
         for (var i = 0; i < nameLines.length; i++) {
           ctx.fillText(nameLines[i], X, y);
           y += NAME_LH;
@@ -387,7 +398,7 @@ const cards = ORDER.map((slug) => {
         // Headline — the one arresting fact.
         y += 16;
         ctx.fillStyle = WHITE;
-        ctx.font = '600 32px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+        ctx.font = '600 ' + hlSize + 'px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
         for (var j = 0; j < hlLines.length; j++) {
           ctx.fillText(hlLines[j], X, y);
           y += HL_LH;

@@ -1,0 +1,331 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import sponsorsData from '../data/sponsors.json';
+import { generateBreadcrumbData, generateFaqStructuredData } from '../lib/slug';
+
+type Sponsor = {
+  id: string;
+  name: string;
+  url: string;
+  logo: string;
+  featured?: boolean;
+  since?: string;
+  blurb: string;
+};
+
+const sponsors = (sponsorsData.sponsors || []) as Sponsor[];
+const featured = sponsors.filter((s) => s.featured);
+const rest = sponsors.filter((s) => !s.featured);
+
+const breadcrumbData = generateBreadcrumbData([
+  { name: 'Home', path: '/' },
+  { name: 'Sponsors', path: '/sponsors/' },
+]);
+
+const faqs = [
+  {
+    question: 'Who sponsors Stars National Walker?',
+    answer: 'Curitec is our first sponsor. Every company that backs this 16U national travel softball team is listed on this page as the list grows.',
+  },
+  {
+    question: 'How do I sponsor the team?',
+    answer: 'Use the form on this page. Tell us who you are and what you can do. We will follow up with how to get your name and logo on the site.',
+  },
+  {
+    question: 'What does a sponsorship pay for?',
+    answer: 'National tournament travel, the weekends college coaches actually attend, and the recruiting work that gets these players in front of Division I staffs. We do not publish a rate card — tell us what you can do.',
+  },
+];
+
+const faqStructuredData = generateFaqStructuredData(faqs);
+
+const sponsorListData = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Stars National Walker Sponsors',
+  numberOfItems: sponsors.length,
+  itemListElement: sponsors.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Organization',
+      name: s.name,
+      url: s.url,
+    },
+  })),
+};
+---
+
+<Layout
+  title="Sponsors | Stars National Walker 16U Softball"
+  description="Thank you to Curitec and the companies backing Stars National Walker — a 16U national travel softball team in Charlotte. Interested in sponsoring? Here's how."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(sponsorListData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+
+  <Header />
+  <main class="pt-20">
+    <section class="bg-gradient-to-br from-stars-navy to-stars-navy-light py-16 md:py-20">
+      <div class="container-narrow text-center">
+        <p class="inline-flex items-center gap-2 bg-stars-gold/20 text-stars-gold px-4 py-2 rounded-full text-sm font-semibold mb-6">
+          Thank you
+        </p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          Our Sponsors
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto mb-8">
+          This team plays a national schedule. That takes more than seventeen families writing checks. These companies made the next tournament possible.
+        </p>
+        <a href="#become" class="btn-primary bg-stars-gold text-stars-navy hover:bg-yellow-400">
+          Become a sponsor
+        </a>
+      </div>
+    </section>
+
+    <section class="section-padding bg-white">
+      <div class="container-narrow">
+        {featured.map((sponsor) => (
+          <article class="max-w-3xl mx-auto bg-gray-50 border border-gray-200 rounded-2xl p-8 md:p-10">
+            <a
+              href={sponsor.url}
+              target="_blank"
+              rel="sponsored noopener"
+              class="block bg-white rounded-xl border border-gray-200 px-8 py-6 mb-6 hover:border-stars-navy/30 transition-colors"
+            >
+              <img
+                src={sponsor.logo}
+                alt={`${sponsor.name} logo`}
+                class="h-16 md:h-20 w-auto max-w-full mx-auto object-contain"
+              />
+            </a>
+            <h2 class="text-2xl font-bold text-stars-navy mb-3">{sponsor.name}</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+              Curitec wrote the first check that made this page exist. They deliver wound-care supplies in all 50 states. They don't sell bats. They decided seventeen girls on a national 16U roster were worth backing anyway.
+            </p>
+            <p class="text-gray-600 leading-relaxed mb-6">{sponsor.blurb}</p>
+            <a
+              href={sponsor.url}
+              target="_blank"
+              rel="sponsored noopener"
+              class="inline-flex items-center gap-2 font-semibold text-stars-navy hover:text-stars-blue"
+            >
+              Visit {sponsor.name}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </article>
+        ))}
+
+        {rest.length > 0 && (
+          <div class="mt-12 grid md:grid-cols-2 gap-6">
+            {rest.map((sponsor) => (
+              <article class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                <a
+                  href={sponsor.url}
+                  target="_blank"
+                  rel="sponsored noopener"
+                  class="block bg-white rounded-lg border border-gray-200 px-6 py-4 mb-4"
+                >
+                  <img
+                    src={sponsor.logo}
+                    alt={`${sponsor.name} logo`}
+                    class="h-12 w-auto max-w-full mx-auto object-contain"
+                  />
+                </a>
+                <h3 class="text-lg font-bold text-stars-navy mb-2">{sponsor.name}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4">{sponsor.blurb}</p>
+                <a
+                  href={sponsor.url}
+                  target="_blank"
+                  rel="sponsored noopener"
+                  class="text-sm font-semibold text-stars-navy hover:text-stars-blue"
+                >
+                  Visit {sponsor.name} →
+                </a>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section class="section-padding bg-gray-50">
+      <div class="container-narrow">
+        <h2 class="text-3xl font-bold text-stars-navy text-center mb-10">What a sponsor makes possible</h2>
+        <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div>
+            <h3 class="font-bold text-gray-900 mb-2">National travel</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              PGF, Alliance, and the other weekends that are not in Charlotte. Flights, hotels, and the cost of showing up where the field is.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-900 mb-2">College eyes</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              The tournaments college coaches actually attend. A roster that has already had 50-plus D1 scouts in the stands in a single fall.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-900 mb-2">The recruiting work</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              Profiles, video, and outreach so these players are not hoping a coach stumbles onto them. That is the job of this site.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="become" class="section-padding bg-stars-navy">
+      <div class="container-narrow max-w-2xl">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Become a sponsor</h2>
+          <p class="text-white/80">
+            The next name on this page gets the same treatment: logo, link, and a thank-you from the account college coaches already see. If that is your company, say so.
+          </p>
+        </div>
+
+        <form id="sponsorInquiryForm" class="bg-white rounded-xl p-8 shadow-2xl">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Your name *</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                placeholder="Jane Smith"
+              />
+            </div>
+            <div>
+              <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Company *</label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                placeholder="Company name"
+              />
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                placeholder="you@company.com"
+              />
+            </div>
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+                placeholder="(555) 123-4567"
+              />
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">What do you have in mind?</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stars-navy focus:border-transparent"
+              placeholder="A gift, a season partnership, tournament weekend — whatever you can do."
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            id="sponsorSubmitBtn"
+            class="w-full bg-stars-navy text-white font-bold py-4 px-6 rounded-lg hover:bg-stars-blue transition-colors"
+          >
+            Talk to us
+          </button>
+
+          <div id="sponsorFormSuccess" class="hidden mt-4 p-4 bg-green-100 text-green-800 rounded-lg text-center">
+            Got it. We'll follow up.
+          </div>
+          <div id="sponsorFormError" class="hidden mt-4 p-4 bg-red-100 text-red-800 rounded-lg text-center">
+            That didn't go through. Please try again.
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section-padding bg-white">
+      <div class="container-narrow max-w-3xl">
+        <h2 class="text-3xl font-bold text-stars-navy mb-8">Questions</h2>
+        <dl class="space-y-8">
+          {faqs.map((faq) => (
+            <div>
+              <dt class="text-lg font-bold text-gray-900 mb-2">{faq.question}</dt>
+              <dd class="text-gray-600 leading-relaxed">{faq.answer}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const form = document.getElementById('sponsorInquiryForm') as HTMLFormElement | null;
+  const btn = document.getElementById('sponsorSubmitBtn') as HTMLButtonElement | null;
+  const ok = document.getElementById('sponsorFormSuccess');
+  const err = document.getElementById('sponsorFormError');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form || !btn) return;
+
+    const fd = new FormData(form);
+    const data = {
+      name: fd.get('name'),
+      company: fd.get('company'),
+      email: fd.get('email'),
+      phone: fd.get('phone'),
+      message: fd.get('message'),
+      timestamp: new Date().toISOString(),
+      source: 'sponsors_page',
+    };
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    ok?.classList.add('hidden');
+    err?.classList.add('hidden');
+
+    try {
+      const res = await fetch('/api/sponsor-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Failed to submit');
+      ok?.classList.remove('hidden');
+      form.reset();
+      ok?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (e2) {
+      console.error('Sponsor inquiry error:', e2);
+      err?.classList.remove('hidden');
+    } finally {
+      btn.textContent = 'Talk to us';
+      btn.disabled = false;
+    }
+  });
+</script>

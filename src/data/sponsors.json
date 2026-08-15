@@ -1,0 +1,13 @@
+{
+  "sponsors": [
+    {
+      "id": "curitec",
+      "name": "Curitec",
+      "url": "https://curitec.com/",
+      "logo": "/sponsors/curitec-logo.jpg",
+      "featured": true,
+      "since": "2026",
+      "blurb": "A Medicare-accredited Part B provider of advanced wound care and durable medical supplies, serving patients and facilities in all 50 states."
+    }
+  ]
+}

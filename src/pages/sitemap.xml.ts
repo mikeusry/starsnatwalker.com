@@ -33,6 +33,7 @@ export const GET: APIRoute = () => {
     { url: 'infielders/', changefreq: 'monthly', priority: '0.8' },
     { url: 'outfielders/', changefreq: 'monthly', priority: '0.8' },
     { url: 'contact/', changefreq: 'monthly', priority: '0.6' },
+    { url: 'sponsors/', changefreq: 'monthly', priority: '0.5' },
     { url: 'brand/', changefreq: 'yearly', priority: '0.3' },
   ];
 

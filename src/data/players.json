@@ -766,10 +766,10 @@
     "twitter": "LylaSeibert17",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807456/StarsNationalWalker/lyla-seibert-profile.jpg",
-    "bio": "Lyla is an exceptional middle infielder with outstanding range and a quick release. Her 5.132 GPA earned her recognition as a SC Junior Scholar, demonstrating her commitment to academic excellence. A natural leader who brings energy to every practice and game.",
+    "bio": "Lyla is an exceptional middle infielder with outstanding range and a quick release. Her 5.174 GPA earned her recognition as a SC Junior Scholar, demonstrating her commitment to academic excellence. A natural leader who brings energy to every practice and game.",
     "heightInches": 64,
     "weightLbs": null,
-    "gpa": 5.13,
+    "gpa": 5.174,
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
@@ -792,6 +792,10 @@
       "gameFootageUrl": null,
       "muxVideos": [
         {
+          "playbackId": "y97PjxBGtx5NUSXc009aBCQAuItbH8yhvDGUf33ycgTI",
+          "title": "Defensive Highlights"
+        },
+        {
           "playbackId": "tiPa7ALKwk9NpEkhWIJWVEjIgUs00SveY474L1HsqtsY",
           "title": "Highlights"
         }
@@ -810,7 +814,7 @@
     ],
     "contactEmail": "lylaseibert2028@gmail.com",
     "socialScore": null,
-    "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
+    "lastUpdated": "2026-08-15T00:00:00.000000+00:00"
   },
   {
     "id": "b3fe1ac9-9a22-4738-ba37-2b36e4a432db",
@@ -824,7 +828,7 @@
     "twitter": "RileyWalker2029",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807458/StarsNationalWalker/riley-walker-profile.jpg",
-    "bio": "Ranked No. 14 in the Southeast region by Extra Inning Softball, Riley brings a strong defensive skill set with soft hands, quiet receiving, and the arm strength to control the running game. Standing at 6'1\", she also provides leadership behind the plate — managing the pitching staff, communicating with the defense, and bringing a competitive energy that elevates the entire lineup.",
+    "bio": "A 6'1\" freshman catcher at Marvin Ridge, Riley hit .434 with 24 RBI and was named First Team All-Conference in the Southern Carolina 6A/7A, NCSCA Region 6 7A All-District, and NCSCA 7A All-State. Extra Inning Softball ranks her No. 14 in the Southeast and No. 38 among catchers nationally in the Class of 2029. She was also named to the 2025 PGF Premier Nationals All-Tournament Team.\n\nBehind the plate she brings soft hands, quiet receiving, and the arm to control the running game — plus the presence to run a pitching staff. She was Marvin Ridge's 2026 Team Rookie of the Year.",
     "photos": [
       {
         "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_fill,g_face,q_auto,f_auto/StarsNationalWalker/EIS_Riley_Walker_v725ny",
@@ -857,8 +861,11 @@
     },
     "achievements": [
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
+      "2026 NCSCA 7A All-State",
+      "2026 NCSCA Region 6 7A All-District",
+      "2026 First Team All-Conference — Southern Carolina 6A/7A",
+      "2025 PGF Premier Nationals All-Tournament Team",
       "#38 National — Extra Elite 100 Catcher, Class of 2029 (Extra Inning Softball)",
-      "2026 All-SC Conference (First Team) — Marvin Ridge",
       "2026 Team Rookie of the Year",
       "#14 — Southeast Region (Extra Inning Softball)",
       "Select 30 National",
@@ -866,7 +873,7 @@
     ],
     "contactEmail": null,
     "socialScore": null,
-    "lastUpdated": "2026-05-31T00:00:00.000000+00:00"
+    "lastUpdated": "2026-08-17T00:00:00.000000+00:00"
   },
   {
     "id": "d142c6b0-0c32-4557-bfc5-619095df585b",
@@ -878,6 +885,7 @@
     "bats": "R",
     "throws": "R",
     "twitter": "AynParkerUsry",
+    "youtube": "APU-2029",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807460/StarsNationalWalker/ayn-parker-usry-profile.jpg",
     "bio": "Contact-first outfielder with plus speed and a plus arm. A multi-sport athlete who competes in outdoor track — triple jump, sprints, and relays — the same explosiveness and top-end speed that make her dangerous on the bases and in the gaps. At the 5A Georgia Meet on Feb. 11, she ran an 8.86 laser-timed 60m, finishing 18th out of 71 competitors. She's also a key leg on her school's 4x100m relay, typically closing the gap as a strong curve runner.\n\nPlayed the full 2025 summer on an 18U team, traveling the Northeast for major tournaments including TNT and New England's Finest, where she started in center field and hit leadoff all summer. She joined Stars National Walker at PGF Nationals, starting in the outfield and batting .400 for the tournament with multiple stolen bases.\n\nAthletic family: Both parents were student-athletes at the University of Georgia. Dad (Mike) played football; Mom (Karin) was an All-American gymnast.",
@@ -905,6 +913,11 @@
       "skillsUrl": null,
       "gameFootageUrl": null,
       "muxVideos": [
+        {
+          "playbackId": "C6hULNDuEdQmuZJBuqGPDLlweOq00Es001NxX8ZeUJTas",
+          "title": "AFCS Nationals — Highlights",
+          "description": "Ayn Parker Usry at the Alliance Fastpitch Championship Series, July 2026, where Stars National finished 16U Tier III National Runner-Up."
+        },
         {
           "playbackId": "xOwDiGQ4DdDZ3rLe7Wc6DX8d4DWBGWOjAZLwIxcmXfc",
           "title": "Highlights"
@@ -958,7 +971,7 @@
     ],
     "contactEmail": "aynparkerusry@gmail.com",
     "socialScore": null,
-    "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
+    "lastUpdated": "2026-08-17T00:00:00.000000+00:00"
   },
   {
     "id": "33d464c0-6130-4819-80d3-e0c47d5e8fb6",
@@ -1075,7 +1088,7 @@
   {
     "id": "77dfb624-8ce2-4516-a4a1-b4ee7cef6786",
     "firstName": "Natalie",
-    "lastName": "Ireland Hall",
+    "lastName": "Hall",
     "gradYear": 2029,
     "position": "LHP",
     "secondaryPositions": [
@@ -1085,7 +1098,7 @@
     "throws": "L",
     "twitter": "nataliehall2029",
     "featured": false,
-    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807462/StarsNationalWalker/natalie-ireland-hall-profile.jpg",
+    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1787009927/StarsNationalWalker/natalie-hall-profile.jpg",
     "bio": "Natalie announced herself with a perfect game in her very first varsity start — striking out 14 of the 15 batters she faced in Huntingtown's 20-0 win over Westlake as a freshman. Across her 2026 high school season she threw 16 innings with 35 strikeouts, zero walks, and a 0.00 ERA, allowing just two hits.\n\nA left-handed pitcher and first baseman with elite command, she is a 2026 USA Softball All-American and a Line Drive Media Top 100 player in the Class of 2029, and helped drive Huntingtown's run back to the Maryland state finals. Off the field she carries a 4.1 GPA on the Honor Roll and captains her high school volleyball team.",
     "achievements": [
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
@@ -1102,6 +1115,7 @@
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
+    "hometown": "Huntingtown",
     "highSchool": "Huntingtown High School",
     "highSchoolState": "MD",
     "ncaaId": null,
@@ -1129,7 +1143,7 @@
     },
     "contactEmail": "natalieihall8@outlook.com",
     "socialScore": null,
-    "lastUpdated": "2026-05-26T13:00:00.000000+00:00"
+    "lastUpdated": "2026-08-17T00:00:00.000000+00:00"
   },
   {
     "id": "cecb335b-08af-4b50-8a73-8a76976238fc",
@@ -1145,7 +1159,7 @@
     "twitter": "AustynKinch2028",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1785150824/StarsNationalWalker/austyn-kinch-profile.jpg",
-    "bio": "A sophomore catcher and utility player at Mineral Point, Austyn batted .543 across 28 games in 2026 with a .588 on-base percentage and a 1.523 OPS, reaching the 50-hit mark — roughly 1.8 hits per game. Of those hits, seven were home runs and 13 were doubles; she drove in 36 runs, drew nine walks, and struck out only five times all season. On the bases she was a perfect 14-for-14 on steals.\n\nThat season earned her Line Drive Media National High School Player of the Week runner-up honors, plus 1st Team All-District and 1st Team All-State. She was also 1st Team All-State, All-District, and All-Conference as a freshman, helping Mineral Point reach the WIAA Division 4 state tournament for the second time in program history — she homered in the sectional final shutout of Waterloo that punched their ticket. Extra Inning Softball rates her a Top 25 Slugger and the No. 100 catcher nationally. She wears #44 for Stars National Walker.",
+    "bio": "A sophomore catcher and utility player at Mineral Point, Austyn hit .563 across 31 games in 2026 with a .605 on-base percentage. She finished with 58 hits — 15 doubles and eight home runs — drove in 40 runs, and was a perfect 21-for-21 on stolen bases.\n\nLine Drive Media named her a [2026 1st Team High School All-American catcher](https://linedrivemedia.com/news/high-school-honors-the-2026-live-drive-softball-1st-team-high-school-all-americans-catchers-july-7-2026/). She was also a Line Drive National High School Player of the Week runner-up, plus 1st Team All-District and 1st Team All-State. As a freshman she was 1st Team All-State, All-District, and All-Conference, helping Mineral Point reach the WIAA Division 4 state tournament for the second time in program history — she homered in the sectional final shutout of Waterloo that punched their ticket. Extra Inning Softball rates her a Top 25 Slugger and the No. 100 catcher nationally. She wears #44 for Stars National Walker.",
     "heightInches": null,
     "weightLbs": null,
     "gpa": null,
@@ -1181,12 +1195,14 @@
     "photos": [],
     "contactEmail": null,
     "socialScore": null,
-    "lastUpdated": "2026-06-25T00:00:00.000000+00:00",
+    "lastUpdated": "2026-08-17T00:00:00.000000+00:00",
     "achievements": [
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
+      "2026 Line Drive Media 1st Team All-American — Catcher",
       "2026 State Champions (WIAA)",
       "2025 State Appearance",
       "Led the state in hits (58) — HS season",
+      "21-for-21 stolen bases (2026 HS)",
       "2x First Team All-State (WIAA)",
       "2x First Team All-Conference",
       "2x First Team All-District",

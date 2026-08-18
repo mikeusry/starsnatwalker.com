@@ -29,7 +29,7 @@ the measurable proxy, not the goal.
 
 | | Players |
 |---|---|
-| **Has clips** | Elise Barbour (10), Ayn Parker Usry (8), Keira Frazier (6), Cara Orlando (3), Kierra Wunderlich (3), Kendall LaManche (1), Lyla Seibert (1), Austyn Kinch (1) |
+| **Has clips** | Elise Barbour (10), Ayn Parker Usry (8), Keira Frazier (6), Cara Orlando (3), Kierra Wunderlich (3), Kendall LaManche (1), Lyla Seibert (2), Austyn Kinch (1) |
 | **No clips** | Baylee Giese Edney, Maddie Diaz, Kelsey Fliss, Avery Jones, Charlotte Llaneza, Sophia Perez, Riley Walker, Sara Utrera, Natalie Ireland Hall |
 
 **Decision: everyone rotates (option B), and the schedule creates the pressure to fill the
@@ -139,7 +139,7 @@ feed never shows two static cards back to back.
 | 1 | **Keira Frazier** | 🎥 video (6) | 70 exit velo / 68 IF velo / 10.98 home-to-home; VISAA state champ, 4x200 school + state record | **Austyn Kinch** | 🎥 video (1) | .543 avg, .588 OBP, 1.523 OPS over 28 games; 1.76 pop time; WIAA state champs |
 | 2 | **Cara Orlando** | 🎥 video (3) | 74 mph exit velo; two-out 3-run HR won the sectional; HS HR leader 2 straight years | **Sophia Perez** | 🖼️ card | Hit .560 as a sophomore; Pueblo MVP; 4.17 GPA; EIS Ambassador |
 | 3 | **Kierra Wunderlich** | 🎥 video (3) | 2x USSSA All-American RHP | **Maddie Diaz** | 🖼️ card | NC all-state as a sophomore; undefeated 7A state champions; lefty slapper |
-| 4 | **Lyla Seibert** | 🎥 video (1) | 5.13 GPA, SC Junior Scholar; middle IF with range and a quick release | **Sara Utrera** | 🖼️ card | 2025 FHSAA 6A state champion; All-County 1st Team |
+| 4 | **Lyla Seibert** | 🎥 video (2) | 5.174 GPA, SC Junior Scholar; middle IF with range and a quick release | **Sara Utrera** | 🖼️ card | 2025 FHSAA 6A state champion; All-County 1st Team |
 | 5 | **Avery Jones** | 🖼️ card | 6'0" power RHP / 1B; honor roll | **Charlotte Llaneza** | 🖼️ card | Catcher/3B; strong arm, quick release out of the crouch |
 
 Week 5 is two cards back to back — unavoidable, since the video players are exhausted by

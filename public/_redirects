@@ -23,3 +23,8 @@
 /players/zztest-probe       /pitchers/  301
 /players/zztest-probe/      /pitchers/  301
 /players/og/zztest-probe.png  /  301
+
+# Natalie Ireland Hall → Natalie Hall (middle name dropped 2026-08-17)
+/players/natalie-ireland-hall        /players/natalie-hall/  301
+/players/natalie-ireland-hall/       /players/natalie-hall/  301
+/players/og/natalie-ireland-hall.png /players/og/natalie-hall.png  301

@@ -144,8 +144,8 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
                           <a href={`/players/${generatePlayerSlug(player.firstName, player.lastName)}/`} class="font-semibold text-gray-900 hover:text-stars-blue">
                             {player.firstName} {player.lastName}
                           </a>
-                          {player.highSchool && (
-                            <p class="text-xs text-gray-500">{player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}</p>
+                          {(player.hometown || player.highSchool) && (
+                            <p class="text-xs text-gray-500">{player.hometown || player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}</p>
                           )}
                         </div>
                       </div>

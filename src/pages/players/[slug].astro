@@ -13,6 +13,21 @@ import {
   generateFaqStructuredData,
 } from '../../lib/slug';
 
+/** Render `[label](https://...)` in player bios as a real link. */
+function renderBioParagraph(text: string) {
+  const parts: Array<string | { href: string; label: string }> = [];
+  const re = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+  let last = 0;
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(text)) !== null) {
+    if (match.index > last) parts.push(text.slice(last, match.index));
+    parts.push({ label: match[1], href: match[2] });
+    last = match.index + match[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+}
+
 export async function getStaticPaths() {
   return players.map((player) => ({
     params: { slug: generatePlayerSlug(player.firstName, player.lastName) },
@@ -113,7 +128,9 @@ const ogImage = `/players/og/${slug}.png`;
 
 <Layout
   title={`${player.firstName} ${player.lastName} - ${player.position} - Class of ${player.gradYear} | Stars National Walker`}
-  description={player.bio || `${player.firstName} ${player.lastName} is a ${player.position} for Stars National Walker 16U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
+  description={player.bio
+    ? player.bio.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1')
+    : `${player.firstName} ${player.lastName} is a ${player.position} for Stars National Walker 16U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
   image={ogImage}
 >
   <!-- Structured Data for SEO -->
@@ -288,7 +305,22 @@ const ogImage = `/players/og/${slug}.png`;
               {player.bio && (
                 <div class="prose prose-lg max-w-none text-gray-600">
                   {player.bio.split(/\n{2,}/).map((para) => (
-                    <p class="mb-[1.15em] last:mb-0">{para.trim()}</p>
+                    <p class="mb-[1.15em] last:mb-0">
+                      {renderBioParagraph(para.trim()).map((part) =>
+                        typeof part === 'string' ? (
+                          part
+                        ) : (
+                          <a
+                            href={part.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-stars-navy underline underline-offset-2"
+                          >
+                            {part.label}
+                          </a>
+                        )
+                      )}
+                    </p>
                   ))}
                 </div>
               )}
@@ -569,11 +601,19 @@ const ogImage = `/players/og/${slug}.png`;
                   <span class="font-semibold text-gray-900">{player.intendedMajor}</span>
                 </div>
               )}
+              {player.hometown && (
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Hometown</span>
+                  <span class="font-semibold text-gray-900">
+                    {player.hometown}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}
+                  </span>
+                </div>
+              )}
               {player.highSchool && (
                 <div class="flex justify-between">
                   <span class="text-gray-600">High School</span>
                   <span class="font-semibold text-gray-900">
-                    {player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}
+                    {player.highSchool}{player.highSchoolState && !player.hometown ? `, ${player.highSchoolState}` : ''}
                   </span>
                 </div>
               )}

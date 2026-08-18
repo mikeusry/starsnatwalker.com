@@ -1,0 +1,48 @@
+{
+  "name": "Stars National Walker",
+  "handle": "@starsnatwalker",
+  "tagline": "16U elite travel softball · Charlotte, NC",
+  "links": [
+    {
+      "label": "College Coaches",
+      "href": "/recruiting/",
+      "primary": true
+    },
+    {
+      "label": "Request Player Info",
+      "href": "/recruiting/#inquiry"
+    },
+    {
+      "label": "Roster",
+      "href": "/#roster"
+    },
+    {
+      "label": "Schedule",
+      "href": "/#schedule"
+    },
+    {
+      "label": "Tryouts",
+      "href": "/tryout/"
+    },
+    {
+      "label": "Camps",
+      "href": "/camps/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact/"
+    }
+  ],
+  "social": [
+    {
+      "platform": "instagram",
+      "label": "Instagram",
+      "href": "https://instagram.com/starsnatwalker"
+    },
+    {
+      "platform": "x",
+      "label": "X",
+      "href": "https://x.com/StarsNatWalker"
+    }
+  ]
+}

@@ -148,12 +148,12 @@ https://starsnatwalker.com/players/maddie-diaz/?utm_source=x&utm_medium=social&u
 
 ### 🎥 Tue Sep 1 — Lyla Seibert
 
-**Media:** "Highlights"
+**Media:** "Defensive Highlights"
 
 ```
 2028 · Middle Infield · South Carolina
 
-Lyla Seibert carries a 5.13 GPA — and the range and quick release to play anywhere on the infield.
+Lyla Seibert carries a 5.174 GPA — and the range and quick release to play anywhere on the infield.
 
 SC Junior Scholar
 2026 Alliance Fastpitch 16U Tier III National Runner-Up
@@ -162,7 +162,7 @@ SC Junior Scholar
 https://starsnatwalker.com/players/lyla-seibert/?utm_source=x&utm_medium=social&utm_campaign=profile-series-2028
 ```
 
-⚠️ **No measurables on file.** The 5.13 GPA is genuinely arresting — an academic-money school will stop on that alone — but this post needs a stat line. **Ask for velo and a season line before Sep 1.**
+⚠️ **No measurables on file.** The 5.174 GPA is genuinely arresting — an academic-money school will stop on that alone — but this post needs a stat line. **Ask for velo and a season line before Sep 1.**
 
 ---
 
@@ -366,21 +366,21 @@ https://starsnatwalker.com/players/riley-walker/?utm_source=x&utm_medium=social&
 
 ## Week 9
 
-### 🖼️ Tue Oct 6 — Natalie Ireland Hall
+### 🖼️ Tue Oct 6 — Natalie Hall
 
 **Card:** headshot + `PERFECT GAME, 14 K — FIRST VARSITY START · 0.00 ERA · USA ALL-AMERICAN`
 
 ```
 2029 · LHP · Maryland
 
-Natalie Ireland Hall threw a perfect game in her first varsity start. She struck out 14 of the 15 batters she faced.
+Natalie Hall threw a perfect game in her first varsity start. She struck out 14 of the 15 batters she faced.
 
 2026 HS season: 16 IP · 35 K · 0 BB · 0.00 ERA · 2 hits allowed
 2025 fall travel: 35 IP · 67 K · 1.10 ERA
 2026 USA Softball All-American · Line Drive Media Top 100 · 4.1 GPA
 
 @nataliehall2029
-https://starsnatwalker.com/players/natalie-ireland-hall/?utm_source=x&utm_medium=social&utm_campaign=profile-series-2029
+https://starsnatwalker.com/players/natalie-hall/?utm_source=x&utm_medium=social&utm_campaign=profile-series-2029
 ```
 
 *Why this hook:* a perfect game with 14 K in a varsity debut is the best story on the roster, and zero walks with a 0.00 ERA backs it up. **She has no film. This is the single highest-value film ask on the team** — a USA All-American lefty with these numbers should not be a card post.
@@ -393,7 +393,7 @@ Ordered by how much a post improves with the ask filled.
 
 | Player | Post date | What to get |
 |---|---|---|
-| **Natalie Ireland Hall** | Oct 6 | **Film.** USA All-American, perfect game, 0.00 ERA — best story on the roster, no video |
+| **Natalie Hall** | Oct 6 | **Film.** USA All-American, perfect game, 0.00 ERA — best story on the roster, no video |
 | **Baylee Giese Edney** | Sep 17 | **Film.** 3 HR / 2 grand slams in a regional final |
 | **Avery Jones** | Sep 8 | Pitching velo + any stat line + film — weakest post as written |
 | **Kelsey Fliss** | Sep 24 | 60 time + outfield velo |

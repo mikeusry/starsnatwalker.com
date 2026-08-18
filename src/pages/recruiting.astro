@@ -224,9 +224,9 @@ const upcomingEvents = schedule.events?.slice(0, 3) || [];
                   </div>
 
                   <!-- Location & School -->
-                  {player.highSchool && (
+                  {(player.hometown || player.highSchool) && (
                     <div class="px-6 pb-4 text-xs text-gray-500">
-                      {player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}
+                      {player.hometown || player.highSchool}{player.highSchoolState ? `, ${player.highSchoolState}` : ''}
                     </div>
                   )}
                 </a>

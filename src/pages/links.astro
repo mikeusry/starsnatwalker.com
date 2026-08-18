@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+import links from '../data/links.json';
+
+const UTM = 'utm_source=instagram&utm_medium=organic_social&utm_campaign=link_in_bio';
+
+function withBioUtm(href: string): string {
+  const [pathAndQuery, hash] = href.split('#');
+  const sep = pathAndQuery.includes('?') ? '&' : '?';
+  return `${pathAndQuery}${sep}${UTM}${hash ? `#${hash}` : ''}`;
+}
+---
+
+<Layout
+  title="Links | Stars National Walker"
+  description="Roster, schedule, recruiting, and tryouts for Stars National Walker 16U softball."
+  noindex={true}
+>
+  <main class="min-h-screen bg-stars-navy px-5 py-12">
+    <div class="mx-auto w-full max-w-md text-center">
+      <img
+        src="/logo.webp"
+        alt="Stars National Walker"
+        class="mx-auto mb-5 h-24 w-24 rounded-full border-2 border-stars-gold bg-white object-contain p-2"
+      />
+      <p class="text-sm font-semibold tracking-wide text-stars-gold">{links.handle}</p>
+      <h1 class="mt-1 text-2xl font-bold text-white">{links.name}</h1>
+      <p class="mt-2 text-sm text-white/70">{links.tagline}</p>
+
+      <nav class="mt-8 flex flex-col gap-3" aria-label="Profile links">
+        {links.links.map((link) => (
+          <a
+            href={withBioUtm(link.href)}
+            class:list={[
+              'block w-full rounded-xl px-5 py-3.5 text-base font-semibold transition-colors',
+              link.primary
+                ? 'bg-stars-gold text-stars-navy hover:bg-yellow-300'
+                : 'border-2 border-white/25 bg-white/5 text-white hover:border-stars-gold hover:bg-white/10',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="mt-8 flex items-center justify-center gap-5">
+        {links.social.map((item) => (
+          <a
+            href={item.href}
+            class="text-white/70 hover:text-stars-gold"
+            aria-label={item.label}
+          >
+            {item.platform === 'instagram' ? (
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3Z" />
+              </svg>
+            ) : (
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.725-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout>

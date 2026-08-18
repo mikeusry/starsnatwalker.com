@@ -16,7 +16,7 @@
     "targetCoachesGreeting": "Coach Butler, Coach Liguori, Coach Shutt, and Coach Line",
     "campContext": "Camp · August 22, 2026",
     "keyStats": [
-      { "label": "GPA (weighted)", "value": "5.13" },
+      { "label": "GPA (weighted)", "value": "5.174" },
       { "label": "GPA (unweighted)", "value": "4.0" },
       { "label": "SAT", "value": "1240 · retaking fall 2026" },
       { "label": "Academic track", "value": "Valedictorian / Salutatorian" },
@@ -48,7 +48,7 @@
     "targetCoachesGreeting": "Coach Kinberger and the Saint Leo staff",
     "campContext": "Camp · September 19, 2026",
     "keyStats": [
-      { "label": "GPA (weighted)", "value": "5.13" },
+      { "label": "GPA (weighted)", "value": "5.174" },
       { "label": "GPA (unweighted)", "value": "4.0" },
       { "label": "SAT", "value": "1240 · retaking fall 2026" },
       { "label": "Academic track", "value": "Valedictorian / Salutatorian" },
@@ -80,7 +80,7 @@
     "targetCoachesGreeting": "Coach Cox and the Palm Beach Atlantic staff",
     "campContext": "Camp · July 8, 2026",
     "keyStats": [
-      { "label": "GPA (weighted)", "value": "5.13" },
+      { "label": "GPA (weighted)", "value": "5.174" },
       { "label": "GPA (unweighted)", "value": "4.0" },
       { "label": "SAT", "value": "1240 · retaking fall 2026" },
       { "label": "Academic track", "value": "Valedictorian / Salutatorian" },

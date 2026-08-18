@@ -76,6 +76,22 @@ Public schedule display at `/#schedule`.
 
 ---
 
+### Instagram / TikTok link in bio
+
+Owned page at `/links/` — not Later, Buffer Start Page, or any rented `linkin.bio` URL.
+
+**Source:** `src/data/links.json` (buttons) + `src/pages/links.astro`. Do not hardcode a second list.
+
+**Rules:**
+- `noindex` — do not add to `sitemap.xml.ts`
+- Trailing slash: `https://starsnatwalker.com/links/`
+- Button UTMs: `utm_source=instagram&utm_medium=organic_social&utm_campaign=link_in_bio`
+- Curated destinations only. No Instagram post grid.
+
+**Ship:** commit those two files, then the usual Cloudflare Pages deploy. Put the owned URL in the Instagram bio only after the live title is `Links | Stars National Walker` (not the homepage). Other brands get their own `/links` in their own repo — notes in mothership `docs/meetings/daily/CARRY-FORWARD.md` (Marketing).
+
+---
+
 ## Coming Soon (In Development)
 
 ### 🔥 pd-pixel Coach Tracking
@@ -403,6 +419,7 @@ Coaches visiting the site should know:
 See implementation details in:
 - [Tracking Library](../src/lib/README.md) - pd-pixel integration
 - [Plan File](../.claude/plans/swirling-whistling-bengio.md) - Full implementation plan
+- [X / recruiting intel](x-recruiting.md) — twitterapi.io + Cursor X live in program-match, not this site
 
 ---
 

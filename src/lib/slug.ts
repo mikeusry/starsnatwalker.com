@@ -24,6 +24,10 @@ export function generatePlayerSlug(firstName: string, lastName: string): string 
 
 const SITE_URL = 'https://starsnatwalker.com';
 
+function stripBioLinks(bio: string): string {
+  return bio.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1');
+}
+
 /**
  * Generate structured data (JSON-LD) for athlete.
  *
@@ -113,7 +117,7 @@ export function generateAthleteStructuredData(player: any) {
       sport: 'Softball',
       url: SITE_URL,
     },
-    ...(player.bio && { description: player.bio }),
+    ...(player.bio && { description: stripBioLinks(player.bio) }),
     ...(player.photoUrl && { image: player.photoUrl }),
     ...(height && { height }),
     ...(player.weightLbs && {

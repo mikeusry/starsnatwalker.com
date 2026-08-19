@@ -117,8 +117,9 @@ and any video play after it. **This works today. No code required to start.**
 **Read the results with:** `/admin/pixel-log`, filtering `referrer_domain = t.co`. X
 wraps every link in `t.co`, so that domain *is* the X channel.
 
-⚠️ Do not shorten links through any other service. A second redirect can strip the query
-string and the click becomes invisible.
+Use Metricool’s post shortener so the tweet does not show raw `?utm_` in the caption.
+The destination URL stays the full tracked player link. Do not add a second shortener
+on top of Metricool (Bitly, etc.) — that hop can strip the query string.
 
 ---
 

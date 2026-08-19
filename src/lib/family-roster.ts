@@ -37,6 +37,11 @@ export function telHref(phone: string): string {
   return 'tel:' + phone.replace(/[^\d+]/g, '');
 }
 
+export function formatHometown(city?: string, state?: string): string {
+  if (!city) return '';
+  return state ? `${city}, ${state}` : city;
+}
+
 export function buildFamilyRoster(
   players: Array<{
     firstName: string;
@@ -45,6 +50,7 @@ export function buildFamilyRoster(
     twitter?: string;
     hometown?: string;
     highSchool?: string;
+    highSchoolState?: string;
     contactEmail?: string | null;
   }>,
   contacts: RosterContact[],
@@ -70,7 +76,7 @@ export function buildFamilyRoster(
         parents: contact?.parents || [],
         photoUrl: player.photoUrl,
         twitter: player.twitter || undefined,
-        hometown: player.hometown || player.highSchool || contact?.school || '',
+        hometown: formatHometown(player.hometown, player.highSchoolState),
         path: `/players/${generatePlayerSlug(player.firstName, player.lastName)}/`,
         hasContact,
       };

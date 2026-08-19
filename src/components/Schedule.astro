@@ -1,31 +1,9 @@
 ---
 import schedule from '../data/schedule.json';
 import { buildCloudinaryUrl } from '../lib/cloudinary';
+import { upcomingEvents as listUpcoming, googleTemplateUrl, type ScheduleEvent } from '../lib/calendar';
 
-// Parse the end date out of a "Jun 28 - Jul 5, 2026" / "Jul 9-12, 2026" style range
-// so finished tournaments stop rendering under "Upcoming Events".
-const parseEndDate = (dates: string): Date | null => {
-  const year = dates.match(/(\d{4})\s*$/)?.[1];
-  if (!year) return null;
-  // Everything after the final dash is the end of the range ("Jul 5, 2026" or "12, 2026").
-  const tail = dates.replace(/\s*\d{4}\s*$/, '').split(/\s*[-–]\s*/).pop()?.trim() ?? '';
-  const month = tail.match(/[A-Za-z]{3,}/)?.[0]
-    ?? dates.match(/[A-Za-z]{3,}/)?.[0];
-  const day = tail.match(/\d{1,2}/)?.[0];
-  if (!month || !day) return null;
-  const parsed = new Date(`${month} ${day}, ${year} 23:59:59`);
-  return isNaN(parsed.getTime()) ? null : parsed;
-};
-
-const now = new Date();
-// An event with a recorded result is finished regardless of its dates.
-// Otherwise fall back to the end date; unparseable dates stay visible
-// rather than silently vanishing from the site.
-const upcomingEvents = schedule.events.filter((event: any) => {
-  if (event.result) return false;
-  const end = parseEndDate(event.dates);
-  return end === null || end >= now;
-});
+const upcomingEvents = listUpcoming(schedule.events as ScheduleEvent[]);
 
 const featuredResult = schedule.pastEvents?.find((event: any) => event.featured);
 const rawFeaturedPhotos = featuredResult?.photos ?? [];
@@ -52,14 +30,9 @@ const featuredPhotos = rawFeaturedPhotos.map((photo: any, index: number) => {
   };
 });
 
-// Helper to generate ICS calendar data
-const generateIcsUrl = (event: any) => {
-  const startDate = event.dates.split('-')[0].trim().replace(/,?\s*\d{4}$/, '');
-  // For now, just return a Google Calendar link as ICS requires more complex handling
-  const title = encodeURIComponent(event.name);
-  const location = encodeURIComponent(`${event.venue || ''} ${event.location}`);
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&location=${location}&details=${encodeURIComponent('Stars National Walker tournament')}`;
-};
+const publicIcs = 'https://starsnatwalker.com/calendar.ics';
+const publicWebcal = publicIcs.replace('https://', 'webcal://');
+const publicGoogleSub = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(publicIcs)}`;
 ---
 
 <section id="schedule" class="section-padding bg-gray-50">
@@ -71,6 +44,11 @@ const generateIcsUrl = (event: any) => {
       <p class="text-lg text-gray-600">
         {schedule.season} Season
       </p>
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-sm">
+        <a href={publicWebcal} class="inline-flex items-center px-3 py-1.5 bg-stars-navy text-white rounded-lg font-medium hover:bg-stars-blue transition-colors">Subscribe — Apple</a>
+        <a href={publicGoogleSub} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 bg-white text-stars-navy border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors">Google</a>
+        <a href="/calendar.ics" class="inline-flex items-center px-3 py-1.5 bg-white text-stars-navy border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors">Outlook / Download</a>
+      </div>
     </div>
 
     <!-- Upcoming Events -->
@@ -140,7 +118,7 @@ const generateIcsUrl = (event: any) => {
                         </a>
                       )}
                       <a
-                        href={generateIcsUrl(event)}
+                        href={googleTemplateUrl(event)}
                         target="_blank"
                         rel="noopener noreferrer"
                         class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-stars-navy hover:text-white transition-colors"
@@ -220,7 +198,7 @@ const generateIcsUrl = (event: any) => {
                   </a>
                 )}
                 <a
-                  href={generateIcsUrl(event)}
+                  href={googleTemplateUrl(event)}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 bg-stars-navy text-white rounded-lg text-sm font-medium hover:bg-stars-blue transition-colors"

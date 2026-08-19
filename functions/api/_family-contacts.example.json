@@ -1,0 +1,12 @@
+[
+  {
+    "number": 0,
+    "name": "Player Name",
+    "playerEmail": "",
+    "playerPhone": "",
+    "school": "",
+    "parents": [
+      { "name": "Parent 1", "phone": "", "email": "" }
+    ]
+  }
+]

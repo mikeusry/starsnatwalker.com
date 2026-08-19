@@ -27,7 +27,7 @@ import Layout from '../../layouts/Layout.astro';
               placeholder="Enter password"
               autofocus
             />
-            <p class="text-xs text-gray-500 mt-2">Mike sent this to you. If you don't have it, email <a href="mailto:mikeusry@gmail.com" class="text-stars-navy hover:underline">mikeusry@gmail.com</a>.</p>
+            <p class="text-xs text-gray-500 mt-2">Mike sent this to you.</p>
           </div>
 
           <div id="error-msg" class="hidden text-red-600 text-sm text-center"></div>
@@ -63,7 +63,7 @@ import Layout from '../../layouts/Layout.astro';
         sessionStorage.setItem(AUTH_KEY, 'true');
         window.location.replace('/family/');
       } else {
-        errorMsg.textContent = 'Wrong password. Try again or email Mike.';
+        errorMsg.textContent = 'Wrong password. Try again.';
         errorMsg.classList.remove('hidden');
       }
     });

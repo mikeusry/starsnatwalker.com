@@ -36,3 +36,6 @@ scripts/eis-scraper/state.json
 
 # Local Cloudflare Pages Functions secrets — NEVER commit (holds service-role key)
 .dev.vars
+
+# Family roster contacts (phones/emails). This GitHub repo is public.
+functions/api/_family-contacts.json

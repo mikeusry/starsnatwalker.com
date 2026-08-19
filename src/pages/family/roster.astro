@@ -1,0 +1,178 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import FamilyChrome from '../../components/FamilyChrome.astro';
+import players from '../../data/players.json';
+import {
+  buildFamilyRoster,
+  telHref,
+  type RosterContact,
+} from '../../lib/family-roster';
+
+function loadContacts(): RosterContact[] {
+  const file = path.resolve(process.cwd(), 'functions/api/_family-contacts.json');
+  if (!fs.existsSync(file)) return [];
+  try {
+    const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+const localRoster = import.meta.env.DEV ? buildFamilyRoster(players, loadContacts()) : [];
+---
+
+<FamilyChrome title="Roster" current="roster">
+  <div>
+    <h1 class="text-2xl font-semibold text-stars-navy">Family Roster</h1>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Tap a player for phones and emails.</p>
+
+    <div id="roster-error" class="hidden mb-3 text-sm text-red-700"></div>
+    <div id="roster-list" class="bg-white rounded-xl shadow-md divide-y divide-gray-100 overflow-hidden" data-hydrated={localRoster.length > 0 ? 'local' : undefined}>
+      {localRoster.map((player) => (
+        <details class="group" name="family-roster">
+          <summary class="flex items-center gap-3 px-4 py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span class="w-8 shrink-0 text-stars-navy font-semibold tabular-nums">{player.number != null ? `#${player.number}` : "—"}</span>
+            {player.photoUrl ? (
+              <img src={player.photoUrl} alt="" class="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-stars-gold/50" />
+            ) : (
+              <span class="h-10 w-10 shrink-0 rounded-full bg-stars-navy/10 text-stars-navy text-xs font-semibold flex items-center justify-center">
+                {player.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
+              </span>
+            )}
+            <span class="min-w-0 flex-1 text-stars-navy font-medium truncate">{player.name}</span>
+            <span class="shrink-0 text-sm text-stars-navy/60 flex items-center gap-1">
+              {player.hometown}
+              <svg class="h-4 w-4 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+              </svg>
+            </span>
+          </summary>
+          <div class="px-4 pb-4 pl-[4.75rem] text-sm text-gray-600 space-y-2">
+            {player.twitter && (
+              <p>
+                <a href={`https://x.com/${player.twitter}`} target="_blank" rel="noopener noreferrer" class="text-stars-blue hover:underline">@{player.twitter}</a>
+              </p>
+            )}
+            {(player.playerPhone || player.playerEmail) && (
+              <p>
+                Player
+                {player.playerPhone && (
+                  <> · <a class="text-stars-blue hover:underline" href={telHref(player.playerPhone)}>{player.playerPhone}</a></>
+                )}
+                {player.playerEmail && (
+                  <> · <a class="text-stars-blue hover:underline" href={`mailto:${player.playerEmail}`}>{player.playerEmail}</a></>
+                )}
+              </p>
+            )}
+            {(player.parents || []).map((parent) => (
+              <p>
+                {parent.name}
+                {parent.phone && (
+                  <> · <a class="text-stars-blue hover:underline" href={telHref(parent.phone)}>{parent.phone}</a></>
+                )}
+                {parent.email && (
+                  <> · <a class="text-stars-blue hover:underline" href={`mailto:${parent.email}`}>{parent.email}</a></>
+                )}
+              </p>
+            ))}
+            {player.path && (
+              <p class="flex justify-end pt-1">
+                <a href={player.path} class="text-stars-blue hover:underline">Player’s full page</a>
+              </p>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</FamilyChrome>
+
+<script is:inline>
+  const FAMILY_PASS = 'starsfamily';
+
+  function telHref(phone) {
+    return 'tel:' + String(phone).replace(/[^\d+]/g, '');
+  }
+
+  function initials(name) {
+    return String(name || '').split(' ').map(function (p) { return p[0]; }).slice(0, 2).join('');
+  }
+
+  function card(player) {
+    const photo = player.photoUrl
+      ? '<img src="' + player.photoUrl + '" alt="" class="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-stars-gold/50" />'
+      : '<span class="h-10 w-10 shrink-0 rounded-full bg-stars-navy/10 text-stars-navy text-xs font-semibold flex items-center justify-center">' + initials(player.name) + '</span>';
+
+    const name = '<span class="min-w-0 flex-1 text-stars-navy font-medium truncate">' + player.name + '</span>';
+
+    const social = player.twitter
+      ? '<p><a href="https://x.com/' + player.twitter + '" target="_blank" rel="noopener noreferrer" class="text-stars-blue hover:underline">@' + player.twitter + '</a></p>'
+      : '';
+    const fullPage = player.path
+      ? '<p class="flex justify-end pt-1"><a href="' + player.path + '" class="text-stars-blue hover:underline">Player’s full page</a></p>'
+      : '';
+
+    const playerBits = [];
+    if (player.playerPhone) playerBits.push('<a class="text-stars-blue hover:underline" href="' + telHref(player.playerPhone) + '">' + player.playerPhone + '</a>');
+    if (player.playerEmail) playerBits.push('<a class="text-stars-blue hover:underline" href="mailto:' + player.playerEmail + '">' + player.playerEmail + '</a>');
+    const playerLine = playerBits.length ? '<p>Player · ' + playerBits.join(' · ') + '</p>' : '';
+
+    const parents = (player.parents || []).map(function (p) {
+      const bits = [];
+      if (p.phone) bits.push('<a class="text-stars-blue hover:underline" href="' + telHref(p.phone) + '">' + p.phone + '</a>');
+      if (p.email) bits.push('<a class="text-stars-blue hover:underline" href="mailto:' + p.email + '">' + p.email + '</a>');
+      return '<p>' + p.name + (bits.length ? ' · ' + bits.join(' · ') : '') + '</p>';
+    }).join('');
+
+    return (
+      '<details class="group" name="family-roster">' +
+        '<summary class="flex items-center gap-3 px-4 py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">' +
+          '<span class="w-8 shrink-0 text-stars-navy font-semibold tabular-nums">' + (player.number != null ? '#' + player.number : '—') + '</span>' +
+          photo +
+          name +
+          '<span class="shrink-0 text-sm text-stars-navy/60 flex items-center gap-1">' +
+            (player.hometown || player.school || '') +
+            '<svg class="h-4 w-4 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>' +
+          '</span>' +
+        '</summary>' +
+        '<div class="px-4 pb-4 pl-[4.75rem] text-sm text-gray-600 space-y-2">' +
+          social + playerLine + parents +
+          fullPage +
+        '</div>' +
+      '</details>'
+    );
+  }
+
+  function bindAccordion(list) {
+    list.addEventListener('toggle', function (event) {
+      const opened = event.target;
+      if (!opened || !opened.open || opened.tagName !== 'DETAILS') return;
+      list.querySelectorAll('details[name="family-roster"]').forEach(function (item) {
+        if (item !== opened) item.open = false;
+      });
+    }, true);
+  }
+
+  async function loadRoster() {
+    const list = document.getElementById('roster-list');
+    bindAccordion(list);
+    if (list.dataset.hydrated === 'local') return;
+    const error = document.getElementById('roster-error');
+    try {
+      const res = await fetch('/api/family-roster', {
+        headers: { 'x-family-pass': FAMILY_PASS },
+      });
+      if (!res.ok) throw new Error('Could not load the roster.');
+      const data = await res.json();
+      const roster = data.roster || [];
+      list.innerHTML = roster.map(card).join('');
+    } catch (err) {
+      error.textContent = 'Could not load the roster.';
+      error.classList.remove('hidden');
+    }
+  }
+
+  loadRoster();
+</script>

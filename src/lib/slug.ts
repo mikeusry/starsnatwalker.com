@@ -22,6 +22,18 @@ export function generatePlayerSlug(firstName: string, lastName: string): string 
   return `${slugify(firstName)}-${slugify(lastName)}`;
 }
 
+/**
+ * Event page slug — keep in lockstep with getStaticPaths in
+ * src/pages/events/[slug].astro and sitemap.xml.ts.
+ */
+export function generateEventSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
 const SITE_URL = 'https://starsnatwalker.com';
 
 function stripBioLinks(bio: string): string {

@@ -28,3 +28,28 @@
 /players/natalie-ireland-hall        /players/natalie-hall/  301
 /players/natalie-ireland-hall/       /players/natalie-hall/  301
 /players/og/natalie-ireland-hall.png /players/og/natalie-hall.png  301
+
+# Fall 2026 event titles aligned to Adrian’s pinned graphic
+/events/acfl-fall-championship                    /events/acfl-fall-championship-and-showcase/  301
+/events/acfl-fall-championship/                   /events/acfl-fall-championship-and-showcase/  301
+/events/connect-sports-fall-scenic-city           /events/fall-scenic-city/  301
+/events/connect-sports-fall-scenic-city/          /events/fall-scenic-city/  301
+/events/top-gun-lone-star-fall-invitational       /events/lone-star-fall-invitational/  301
+/events/top-gun-lone-star-fall-invitational/      /events/lone-star-fall-invitational/  301
+
+# Family Brief is now the dashboard home
+/family/brief   /family/  301
+/family/brief/  /family/  301
+
+# Avery Jones left the roster 2026-08-19
+/players/avery-jones        /pitchers/  301
+/players/avery-jones/       /pitchers/  301
+/players/og/avery-jones.png /  301
+
+# Isabel Findlay left the roster (also spelled Finley)
+/players/isabel-findlay        /infielders/  301
+/players/isabel-findlay/       /infielders/  301
+/players/og/isabel-findlay.png /  301
+/players/isabel-finley         /infielders/  301
+/players/isabel-finley/        /infielders/  301
+/players/og/isabel-finley.png  /  301

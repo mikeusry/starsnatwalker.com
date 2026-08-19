@@ -1,0 +1,82 @@
+---
+import FamilyChrome from '../../components/FamilyChrome.astro';
+import schedule from '../../data/schedule.json';
+import {
+  upcomingEvents,
+  nextEvent,
+  typeLabel,
+  locationLine,
+  mapsUrl,
+  googleTemplateUrl,
+  eventPagePath,
+  type ScheduleEvent,
+} from '../../lib/calendar';
+
+const events = schedule.events as ScheduleEvent[];
+const upcoming = upcomingEvents(events, { family: true });
+const next = nextEvent(events, { family: true });
+
+const familyIcs = 'https://starsnatwalker.com/family/calendar.ics';
+const webcal = familyIcs.replace('https://', 'webcal://');
+const googleSubscribe = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(familyIcs)}`;
+---
+
+<FamilyChrome title="Schedule" current="schedule">
+  <div class="space-y-5">
+    {next && (
+      <section class="bg-stars-navy text-white rounded-xl p-5 shadow-md">
+        <p class="text-xs font-semibold uppercase tracking-wider text-stars-gold">Next up</p>
+        <h2 class="text-xl font-semibold mt-1">{next.name}</h2>
+        <p class="text-white/70 text-sm mt-1">{next.dates}{locationLine(next) && ` · ${locationLine(next)}`}</p>
+        {next.notes && <p class="text-white/80 text-sm mt-3">{next.notes}</p>}
+        <div class="flex flex-wrap gap-3 mt-4 text-sm">
+          <a href={googleTemplateUrl(next)} target="_blank" rel="noopener noreferrer" class="text-stars-gold hover:underline">Add to calendar</a>
+          {mapsUrl(next) && (
+            <a href={mapsUrl(next)!} target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white hover:underline">Map</a>
+          )}
+          {eventPagePath(next) && (
+            <a href={eventPagePath(next)!} class="text-white/80 hover:text-white hover:underline">Event page</a>
+          )}
+          <a href="/family/travel/" class="text-white/80 hover:text-white hover:underline">Travel notes</a>
+        </div>
+      </section>
+    )}
+
+    <section class="bg-white rounded-xl shadow-md overflow-hidden">
+      <div class="flex items-center justify-between gap-3 px-5 py-3 bg-stars-navy text-white">
+        <h2 class="font-semibold">{schedule.season} schedule</h2>
+        <div class="flex flex-wrap gap-x-3 text-xs text-stars-gold">
+          <a href={webcal} class="hover:underline">Apple</a>
+          <a href={googleSubscribe} target="_blank" rel="noopener noreferrer" class="hover:underline">Google</a>
+          <a href="/family/calendar.ics" class="hover:underline">Outlook</a>
+        </div>
+      </div>
+
+      {upcoming.length === 0 ? (
+        <p class="px-5 py-4 text-sm text-gray-500">No upcoming events yet.</p>
+      ) : (
+        <ul class="divide-y divide-gray-100">
+          {upcoming.map((event) => (
+            <li class="px-5 py-3">
+              <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <p class="text-stars-navy font-medium">
+                    {eventPagePath(event) ? (
+                      <a href={eventPagePath(event)!} class="hover:underline">{event.name}</a>
+                    ) : (
+                      event.name
+                    )}
+                    <span class="ml-2 text-xs font-normal text-gray-500">{typeLabel(event)}</span>
+                  </p>
+                  <p class="text-sm text-gray-600 mt-0.5">{event.dates}{locationLine(event) && ` · ${locationLine(event)}`}</p>
+                  {event.notes && <p class="text-sm text-gray-500 mt-1">{event.notes}</p>}
+                </div>
+                <a href={googleTemplateUrl(event)} target="_blank" rel="noopener noreferrer" class="shrink-0 text-sm text-stars-blue hover:underline">Add</a>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </div>
+</FamilyChrome>

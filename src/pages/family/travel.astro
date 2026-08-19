@@ -1,0 +1,62 @@
+---
+import FamilyChrome from '../../components/FamilyChrome.astro';
+import schedule from '../../data/schedule.json';
+import travel from '../../data/family-travel.json';
+import {
+  upcomingEvents,
+  typeLabel,
+  locationLine,
+  type ScheduleEvent,
+} from '../../lib/calendar';
+
+const upcoming = upcomingEvents(schedule.events as ScheduleEvent[], { family: true });
+---
+
+<FamilyChrome title="Travel" current="travel">
+  <div class="space-y-5">
+    <div>
+      <p class="text-xs text-gray-500">Updated {travel.updated}</p>
+      <h1 class="text-2xl font-semibold text-stars-navy mt-1">{travel.headline}</h1>
+      <p class="text-sm text-gray-600 mt-1">When we play, when we don’t, and when to arrive.</p>
+    </div>
+
+    <figure class="bg-white rounded-xl shadow-md overflow-hidden">
+      <img src={travel.graphic} alt="Stars National Walker 2026 Fall Tournament Schedule — 6 tournaments plus Elon team camp" class="w-full" />
+      <figcaption class="px-4 py-2 text-xs text-gray-500">Adrian’s pinned graphic. Dates listed are game days.</figcaption>
+    </figure>
+
+    <section class="bg-white rounded-xl shadow-md p-5">
+      <h2 class="text-stars-navy font-semibold mb-2">The rules</h2>
+      <ul class="text-sm text-gray-700 space-y-1.5">
+        {travel.rules.map((rule) => (
+          <li class="flex gap-2"><span class="text-stars-gold">●</span> {rule}</li>
+        ))}
+      </ul>
+      <p class="text-sm text-gray-600 mt-3">{travel.hotels}</p>
+    </section>
+
+    {travel.extra.map((item) => (
+      <article class="bg-white rounded-xl shadow-md p-5 border-l-4 border-stars-gold">
+        <h2 class="text-stars-navy font-semibold">{item.name}</h2>
+        <p class="text-sm text-gray-500">{item.dates}{item.location && ` · ${item.location}`}</p>
+        <p class="text-sm text-gray-700 mt-2">{item.notes}</p>
+      </article>
+    ))}
+
+    <section class="bg-white rounded-xl shadow-md overflow-hidden">
+      <div class="px-5 py-3 bg-stars-navy text-white font-semibold">Arrival notes</div>
+      <div class="divide-y divide-gray-100">
+        {upcoming.map((event) => (
+          <article class="px-5 py-3">
+            <p class="text-stars-navy font-medium">
+              {event.name}
+              <span class="ml-2 text-xs font-normal text-gray-500">{typeLabel(event)}</span>
+            </p>
+            <p class="text-sm text-gray-500">{event.dates}{locationLine(event) && ` · ${locationLine(event)}`}</p>
+            <p class="text-sm text-gray-700 mt-1.5">{event.notes || 'Arrive the night before game days. Hotel blocks from Cynthia.'}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</FamilyChrome>

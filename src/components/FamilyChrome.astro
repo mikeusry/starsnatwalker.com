@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+interface Props {
+  title: string;
+  current: 'home' | 'schedule' | 'travel' | 'uniforms' | 'roster' | 'recruiting';
+}
+
+const { title, current } = Astro.props;
+
+const nav = [
+  { id: 'home', href: '/family/', label: 'Home' },
+  { id: 'schedule', href: '/family/schedule/', label: 'Schedule' },
+  { id: 'travel', href: '/family/travel/', label: 'Travel' },
+  { id: 'uniforms', href: '/family/uniforms/', label: 'Uniforms' },
+  { id: 'roster', href: '/family/roster/', label: 'Roster' },
+  { id: 'recruiting', href: '/family/recruiting/', label: 'Recruiting' },
+] as const;
+---
+
+<Layout title={`${title} | Stars National Walker`} noindex={true}>
+  <div class="min-h-screen bg-white flex flex-col">
+    <div id="family-loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-stars-navy/50 text-sm">Loading...</div>
+    </div>
+
+    <div id="family-app" class="hidden flex-1 flex flex-col">
+      <header class="sticky top-0 z-50 bg-stars-navy text-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="flex items-center justify-between py-3 gap-3">
+            <a href="/family/" class="flex items-center gap-3 min-w-0">
+              <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+              <div class="min-w-0">
+                <p class="font-bold text-lg leading-tight">Stars National</p>
+                <p class="text-stars-silver text-xs font-medium tracking-wider">WALKER · FAMILY</p>
+              </div>
+            </a>
+            <button id="logout-btn" class="shrink-0 px-3 py-1.5 text-sm bg-white/10 hover:bg-white/20 rounded-md">Sign out</button>
+          </div>
+          <nav
+            class="flex flex-nowrap overflow-x-auto border-t border-white/15 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            aria-label="Family"
+          >
+            {nav.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  'shrink-0 whitespace-nowrap px-3 py-2.5 text-sm font-medium border-b-2',
+                  current === item.id
+                    ? 'border-stars-gold text-stars-gold'
+                    : 'border-transparent text-white/75 hover:text-white hover:border-white/40',
+                ]}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </header>
+
+      <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-6">
+        <slot />
+      </main>
+
+      <footer class="bg-stars-navy text-white mt-8">
+        <div class="max-w-6xl mx-auto px-4 py-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <a href="/family/" class="flex items-center gap-3 min-w-0">
+              <img src="/logo.webp" alt="Stars National Walker" class="h-8" />
+              <div class="min-w-0">
+                <p class="font-bold leading-tight">Stars National</p>
+                <p class="text-stars-silver text-xs font-medium tracking-wider">WALKER · FAMILY</p>
+              </div>
+            </a>
+            <nav class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-white/70" aria-label="Family footer">
+              {nav.map((item) => (
+                <a href={item.href} class="hover:text-stars-gold">{item.label}</a>
+              ))}
+            </nav>
+          </div>
+          <div class="mt-5 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-white/50">
+            <p>This site was built on Jeremiah’s iPhone.</p>
+            <p>
+              <a href="/" class="hover:text-white">Public site</a>
+              <span class="mx-2 text-white/25">·</span>
+              © {new Date().getFullYear()} Stars National Walker
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script is:inline>
+    const AUTH_KEY = 'snw_family_auth';
+    if (sessionStorage.getItem(AUTH_KEY) !== 'true') {
+      window.location.replace('/family/login/');
+    } else {
+      document.getElementById('family-loading').classList.add('hidden');
+      document.getElementById('family-app').classList.remove('hidden');
+    }
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      sessionStorage.removeItem(AUTH_KEY);
+      window.location.replace('/family/login/');
+    });
+  </script>
+</Layout>

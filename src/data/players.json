@@ -1108,11 +1108,22 @@
       "highlightUrl": "https://www.youtube.com/watch?v=5dtqNultefE",
       "skillsUrl": null,
       "gameFootageUrl": null,
-      "muxVideos": []
+      "muxVideos": [
+        {
+          "playbackId": "5C8TGlIJBHJ6v3YTEROHLG00OmHLiwPB9MIoMme02ll8c",
+          "title": "Pitching",
+          "description": "Natalie Hall in the circle — the left-handed command that produced a perfect game, 35 strikeouts, and a 0.00 ERA as a freshman."
+        },
+        {
+          "playbackId": "bevlX02yO6aZdEjDrSGqN4aZTCZ9IbFTRABQEb1VIrV00",
+          "title": "Hitting",
+          "description": "Natalie Hall at the plate — left-handed swing from the Huntingtown first baseman."
+        }
+      ]
     },
     "contactEmail": "natalieihall8@outlook.com",
     "socialScore": null,
-    "lastUpdated": "2026-08-17T00:00:00.000000+00:00"
+    "lastUpdated": "2026-08-21T00:00:00.000000+00:00"
   },
   {
     "id": "cecb335b-08af-4b50-8a73-8a76976238fc",

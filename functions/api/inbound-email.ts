@@ -6,7 +6,7 @@
 //
 // 2. CC-LOGGING — log@recruiting.starsnatwalker.com
 //    A Stars PLAYER emails a college coach directly and CCs log@. We identify
-//    the player by her From address (player_profiles.player_email), identify the
+//    the player by her From address (player_email or extra_emails), identify the
 //    coach + program by the recipient address (coaches.email -> program_id), and
 //    create/append an OUTBOUND thread so the player's self-driven outreach lands
 //    in the CRM pipeline. High-confidence path = direct CC (from = known player).
@@ -212,6 +212,20 @@ function parseForwardedHeaders(body: string): {
   return out;
 }
 
+async function findPlayerByFrom(env: Env, email: string): Promise<any | null> {
+  if (!email) return null;
+  const enc = encodeURIComponent(email);
+  let res = await sb(env, `player_profiles?player_email=ilike.${enc}&select=id,slug,first_name,last_name&limit=1`);
+  let rows = await res.json();
+  if (Array.isArray(rows) && rows[0]) return rows[0];
+  // extra_emails is text[]; cs = contains.
+  const cs = encodeURIComponent(`{"${email.toLowerCase()}"}`);
+  res = await sb(env, `player_profiles?extra_emails=cs.${cs}&select=id,slug,first_name,last_name&limit=1`);
+  rows = await res.json();
+  if (Array.isArray(rows) && rows[0]) return rows[0];
+  return null;
+}
+
 // CC-logging handler: a player CC'd log@ on an email to a college coach (or Mike
 // forwarded it to log@). Match player (by from, or forwarded-from), coach+program
 // (by recipient, or forwarded-recipients), create/append an outbound thread, log
@@ -226,12 +240,10 @@ async function handleCcLog(env: Env, msg: {
   const rawId = msg.rawId ?? null;
   const now = new Date().toISOString();
 
-  // 1. Identify the player by the envelope From address.
+  // 1. Identify the player by the envelope From address (primary or extra_emails).
   let actualFromEmail = msg.fromEmail;
   let actualFromName = msg.fromName;
-  let playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(msg.fromEmail)}&select=id,slug,first_name,last_name&limit=1`);
-  let players = await playerRes.json();
-  let player = Array.isArray(players) && players[0] ? players[0] : null;
+  let player = await findPlayerByFrom(env, msg.fromEmail);
 
   // 1b. Fallback: this looks like a FORWARD. Parse the original sender out of the
   // body and retry. This makes Mike-forwards-to-log@ work the same as a direct CC.
@@ -239,9 +251,7 @@ async function handleCcLog(env: Env, msg: {
   if (!player && fwd.fromEmail) {
     actualFromEmail = fwd.fromEmail;
     actualFromName = fwd.fromName;
-    playerRes = await sb(env, `player_profiles?player_email=ilike.${encodeURIComponent(fwd.fromEmail)}&select=id,slug,first_name,last_name&limit=1`);
-    players = await playerRes.json();
-    player = Array.isArray(players) && players[0] ? players[0] : null;
+    player = await findPlayerByFrom(env, fwd.fromEmail);
   }
 
   // 1c. Not a player — but the COORDINATOR (Mike/Joe) also BCCs log@ when he

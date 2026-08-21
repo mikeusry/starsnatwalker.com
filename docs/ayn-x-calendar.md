@@ -31,8 +31,10 @@ Last post from her: Fri Aug 7 (Natalie Hall). Gap is real; first slot is this we
 | When | Type | Hook | Media | Extra tags |
 |------|------|------|-------|------------|
 | **Mon Aug 17** | Schedule | Fall dates, one page link | Photo: OF or team | none yet |
-| **Thu Aug 20** | Film | AFCS runner-up / a real clip | Highlights or HR | none |
-| **Mon Aug 24** | Work | Exit 73, goal was 75 — where it stands | Cage / workout | none |
+| **Fri Aug 21** | Film | Alliance — 4 triples in 2 days | Alliance Mux | none |
+| **Sat Aug 22** | Camp | Wofford Summer Elite — same day after she walks | phone still | none until she walks |
+| **Sun Aug 23** | Camp | Charlotte August Elite Prospect — same day after she walks | phone still | none until she walks |
+| **Mon Aug 24** | — | Skip. Still chasing 75 is dead. | — | — |
 | **Thu Aug 27** | Flag / multi | WR/QB, TD + 2-pt (May 15 game) | Flag clip if you have it | none |
 | **Mon Aug 31** | Track | 4x100 curve or hurdles — *not* the 8.86 | Relay or hurdles Mux | none |
 | **Thu Sep 3** | Warm follow | Kennesaw — “see you this fall” + dates | Schedule graphic | `@KSUOwlsSB` |
@@ -42,12 +44,14 @@ Last post from her: Fri Aug 7 (Natalie Hall). Gap is real; first slot is this we
 | **Thu Sep 17** | Quiet | Skip or a teammate RT. Team series is Baylee that day. | — | — |
 | **Tue Sep 22** | Quote-tweet | QT the `@StarsNatWalker` 8.86 post. No new clip. | their video | none |
 | **Thu Sep 24** | Academics | 3.74, Business/Finance, LUOA — one line, not a résumé | none or classroom | none |
-| **Mon Sep 28** | 4 weeks out | East Coast Fall Showcase (Oct 23, Pennsville) | Schedule | none |
+| **Mon Sep 28** | 3 weeks out | Starz Gold Fall Showcase (Oct 17, Richmond) | Schedule | none |
 | **Thu Oct 1** | Film | Different clip than Aug 20 | Spring 2025 or HR | none |
-| **Mon Oct 6** | Richmond setup | ACFL Fall Championship Oct 31 — Liberty camp already happened | Liberty camp photo if you have it | `@LibertySB` |
+| **Mon Oct 6** | Richmond setup | Starz Gold Oct 17, then ACFL Oct 31 | Liberty camp photo if you have it | `@LibertySB` |
 | **Thu Oct 9** | Work | Pin squats / gym — she has the 330 Mux | 330lb pin squats | none |
-| **Mon Oct 13** | 10 days out | Pennsville dates + “come watch” | Schedule | none |
+| **Mon Oct 13** | Come watch | Starz Gold Fall Showcase. Richmond. Oct 17–18. | Schedule | none |
 | **Thu Oct 16** | Off or RT | Don’t stack with team noise | — | — |
+| **Oct 17–18** | Live | Starz Gold, Richmond. She posts from the park. | phone video | none |
+| **Sun Oct 18** | Recap | One true sentence + one clip. | weekend clip | none |
 | **Mon Oct 20** | Preview | East Coast Fall Showcase this weekend | Schedule | `@StarsNatWalker` only |
 | **Oct 23–25** | Live | She posts from the park. Don’t pre-write these. | phone video | none |
 | **Sun Oct 25** | Recap | One true sentence + one clip. No box-score novel. | weekend clip | none |
@@ -77,6 +81,7 @@ Paste these this weekend. Rest get written the week before so the facts are stil
 ```
 Fall ball. Come watch.
 
+Oct 17–18  Starz Gold Fall Showcase — Richmond, VA
 Oct 23–25  East Coast Fall Showcase — Pennsville, NJ
 Oct 31–Nov 1  ACFL Fall Championship — Richmond, VA
 Nov 6–8  Scenic City — Chattanooga, TN
@@ -98,17 +103,9 @@ A few from this summer. Alliance 16U Tier III national runner-up.
 @StarsNatWalker
 ```
 
-### Mon Aug 24 — work
+### Mon Aug 24 — skipped
 
-**Media:** cage / May camp velo clip if you still have it.
-
-```
-73 at camp in May. Goal was 75 by June.
-
-Still chasing it.
-
-@StarsNatWalker
-```
+Still chasing 75 is dead. Weekend is Wofford + Charlotte.
 
 ---
 

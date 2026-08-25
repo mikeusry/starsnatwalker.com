@@ -84,6 +84,9 @@ export function generateAthleteStructuredData(player: any) {
     ['Pitch Speed', m.pitchSpeed, 'mph'],
     ['Pop Time', m.popTime, 'seconds'],
     ['60 Yard Dash', m.sixtyYard, 'seconds'],
+    ['Home to First', m.homeToFirst || m.twentyYard, 'seconds'],
+    ['Home to Home', m.homeToHome, 'seconds'],
+    ['5-10-5 Shuttle', m.shuttle, 'seconds'],
   ]
     .filter(([, v]) => v !== null && v !== undefined)
     .map(([name, value, unit]) => ({
@@ -232,6 +235,21 @@ export function generatePlayerFaqs(player: any) {
     faqs.push({
       question: `Is ${name} NCAA registered?`,
       answer: `Yes. ${name} is registered with the NCAA Eligibility Center under ID ${player.ncaaId}.`,
+    });
+  }
+
+  const latestStats = (player.statsSeasons && player.statsSeasons[0]) || player.stats;
+  if (latestStats?.avg) {
+    const parts = [`${name} hit ${latestStats.avg}`];
+    if (latestStats.ops) parts.push(`with a ${latestStats.ops} OPS`);
+    if (latestStats.hits != null) parts.push(`${latestStats.hits} hits`);
+    if (latestStats.rbi != null) parts.push(`${latestStats.rbi} RBI`);
+    if (latestStats.runs != null) parts.push(`${latestStats.runs} runs`);
+    if (latestStats.stolenBases != null) parts.push(`${latestStats.stolenBases} stolen bases`);
+    const season = latestStats.season ? ` in ${latestStats.season}` : '';
+    faqs.push({
+      question: `What are ${name}'s batting stats?`,
+      answer: `${parts.join(', ')}${season}.`,
     });
   }
 

@@ -369,6 +369,12 @@ const ogImage = `/players/og/${slug}.png`;
                       <div class="text-gray-500 text-sm">OBP</div>
                     </div>
                   )}
+                  {s.slg && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.slg}</div>
+                      <div class="text-gray-500 text-sm">SLG</div>
+                    </div>
+                  )}
                   {s.ops && (
                     <div class="text-center">
                       <div class="text-3xl font-bold text-stars-navy">{s.ops}</div>
@@ -381,22 +387,82 @@ const ogImage = `/players/og/${slug}.png`;
                       <div class="text-gray-500 text-sm">PA</div>
                     </div>
                   )}
-                  {s.hits && (
+                  {s.ab != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.ab}</div>
+                      <div class="text-gray-500 text-sm">AB</div>
+                    </div>
+                  )}
+                  {s.hits != null && (
                     <div class="text-center">
                       <div class="text-3xl font-bold text-stars-navy">{s.hits}</div>
                       <div class="text-gray-500 text-sm">Hits</div>
                     </div>
                   )}
-                  {s.games && (
+                  {s.doubles != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.doubles}</div>
+                      <div class="text-gray-500 text-sm">2B</div>
+                    </div>
+                  )}
+                  {s.triples != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.triples}</div>
+                      <div class="text-gray-500 text-sm">3B</div>
+                    </div>
+                  )}
+                  {s.hr != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.hr}</div>
+                      <div class="text-gray-500 text-sm">HR</div>
+                    </div>
+                  )}
+                  {s.runs != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.runs}</div>
+                      <div class="text-gray-500 text-sm">Runs</div>
+                    </div>
+                  )}
+                  {s.rbi != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.rbi}</div>
+                      <div class="text-gray-500 text-sm">RBI</div>
+                    </div>
+                  )}
+                  {s.stolenBases != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.stolenBases}</div>
+                      <div class="text-gray-500 text-sm">SB</div>
+                    </div>
+                  )}
+                  {s.fieldingPct && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.fieldingPct}</div>
+                      <div class="text-gray-500 text-sm">FLD%</div>
+                    </div>
+                  )}
+                  {s.games != null && (
                     <div class="text-center">
                       <div class="text-3xl font-bold text-stars-navy">{s.games}</div>
                       <div class="text-gray-500 text-sm">Games</div>
                     </div>
                   )}
-                  {s.stolenBases && (
+                  {s.era && (
                     <div class="text-center">
-                      <div class="text-3xl font-bold text-stars-navy">{s.stolenBases}</div>
-                      <div class="text-gray-500 text-sm">SB</div>
+                      <div class="text-3xl font-bold text-stars-navy">{s.era}</div>
+                      <div class="text-gray-500 text-sm">ERA</div>
+                    </div>
+                  )}
+                  {s.wins != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.wins}{s.losses != null ? `-${s.losses}` : ''}</div>
+                      <div class="text-gray-500 text-sm">W-L</div>
+                    </div>
+                  )}
+                  {s.strikeouts != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.strikeouts}</div>
+                      <div class="text-gray-500 text-sm">K</div>
                     </div>
                   )}
                 </div>
@@ -461,7 +527,28 @@ const ogImage = `/players/og/${slug}.png`;
                 <div class="text-gray-500 text-sm">Pitch Speed</div>
               </div>
             )}
+            {(player.measurables.homeToFirst || player.measurables.twentyYard) && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.homeToFirst || player.measurables.twentyYard}</div>
+                <div class="text-gray-500 text-sm">Home to First</div>
+              </div>
+            )}
+            {player.measurables.homeToHome && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.homeToHome}</div>
+                <div class="text-gray-500 text-sm">Home to Home</div>
+              </div>
+            )}
+            {player.measurables.shuttle && (
+              <div class="bg-gray-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-stars-navy">{player.measurables.shuttle}</div>
+                <div class="text-gray-500 text-sm">5-10-5 Shuttle</div>
+              </div>
+            )}
           </div>
+          {player.measurablesVerified && (
+            <p class="mt-4 text-sm text-gray-500">Verified: {player.measurablesVerified}</p>
+          )}
         </div>
       </section>
     )}

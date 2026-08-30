@@ -8,6 +8,7 @@ import {
   typeLabel,
   locationLine,
   mapsUrl,
+  travelKitPath,
   type ScheduleEvent,
 } from '../../lib/calendar';
 
@@ -18,7 +19,6 @@ const pins = notices.slice(0, 3);
 
 const utilities = [
   { href: '/family/schedule/', label: 'Schedule' },
-  { href: '/family/travel/', label: 'Travel' },
   { href: '/family/uniforms/', label: 'Uniforms' },
   { href: '/family/roster/', label: 'Roster' },
   { href: '/family/recruiting/', label: 'Recruiting' },
@@ -44,7 +44,9 @@ const utilities = [
           )}
           <div class="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-sm">
             <a href="/family/schedule/" class="text-stars-gold font-medium hover:underline">View schedule</a>
-            <a href="/family/travel/" class="text-white/80 hover:text-white hover:underline">Travel notes</a>
+            {travelKitPath(next) && (
+              <a href={travelKitPath(next)!} class="text-white/80 hover:text-white hover:underline">Weekend kit</a>
+            )}
             {mapsUrl(next) && (
               <a href={mapsUrl(next)!} target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white hover:underline">Map</a>
             )}
@@ -96,6 +98,9 @@ const utilities = [
                   <span class="ml-2 text-xs font-normal text-stars-navy/50">{typeLabel(event)}</span>
                 </p>
                 <p class="text-sm text-stars-navy/60 mt-0.5">{event.dates}{locationLine(event) && ` · ${locationLine(event)}`}</p>
+                {travelKitPath(event) && (
+                  <a href={travelKitPath(event)!} class="inline-block mt-1 text-sm text-stars-blue hover:underline">Weekend kit</a>
+                )}
               </div>
             </li>
           ))}

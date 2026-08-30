@@ -41,6 +41,10 @@
 /family/brief   /family/  301
 /family/brief/  /family/  301
 
+# Travel index folded into Schedule. Weekend kits stay at /family/travel/<id>/
+/family/travel    /family/schedule/  301
+/family/travel/   /family/schedule/  301
+
 # Avery Jones left the roster 2026-08-19
 /players/avery-jones        /pitchers/  301
 /players/avery-jones/       /pitchers/  301

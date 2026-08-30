@@ -7,36 +7,259 @@
     "Arrive the night before unless the event says you can drive in that morning.",
     "Book the team hotel link. This is stay-to-play."
   ],
-  "hotels": "East Coast Fall Showcase rooms are posted. Other weekends when the block is sent.",
+  "hotels": "East Coast, Starz Gold, Sunshine, Scenic City, and Lone Star hotel blocks are posted. ACFL when the block is sent.",
   "graphic": "/family/fall-2026-schedule.png",
   "extra": [],
   "kits": {
+    "elon-team-camp-2026": {
+      "ballparkNote": "On Williamson Avenue across from Rhodes Stadium. I-85/40 Exit 140 (University Drive).",
+      "mapCaption": "Hunt Softball Park and the food stops.",
+      "park": { "lat": 36.106254, "lng": -79.508197 },
+      "foodNearPark": [
+        {
+          "name": "Pandora's Pies",
+          "address": "130 North Williamson Avenue, Elon, NC 27244",
+          "when": "Lunch / between games",
+          "why": "Same street as the park. Pizza. Smitty's ice cream is in the building.",
+          "google": 4.5,
+          "lat": 36.101069,
+          "lng": -79.506743
+        },
+        {
+          "name": "Skid's Restaurant",
+          "address": "134 West Haggard Avenue, Elon, NC 27244",
+          "when": "Breakfast / lunch",
+          "why": "Closest diner to campus. Saturday breakfast all day. Closes 2pm.",
+          "google": 4.3,
+          "lat": 36.102989,
+          "lng": -79.507261
+        }
+      ],
+      "hotDog": [
+        {
+          "name": "Zack's Hot Dogs",
+          "address": "201 West Davis Street, Burlington, NC 27215",
+          "when": "Lunch / after games",
+          "why": "Burlington landmark since 1928. Short drive from the park.",
+          "google": 4.4,
+          "lat": 36.094071,
+          "lng": -79.438163
+        }
+      ],
+      "memorable": [
+        {
+          "name": "The Root Trackside",
+          "address": "110 West Lebanon Avenue, Elon, NC 27244",
+          "when": "Dinner",
+          "why": "Downtown Elon. Burgers and a kids menu. Open Saturday.",
+          "google": 4.6,
+          "lat": 36.100773,
+          "lng": -79.506910
+        }
+      ]
+    },
     "east-coast-fall-showcase-2026": {
       "ballparkNote": "East Coast lists this complex. We will update if 16U is assigned to another field.",
+      "mapCaption": "Hotel, ballpark, and food. I-295 across the Delaware Memorial Bridge.",
+      "routeNote": "Hotel is in Newark, DE. Complex is in Pennsville, NJ. Route is I-295 across the Delaware Memorial Bridge. Check traffic before you leave.",
+      "park": { "lat": 39.673477, "lng": -75.506696 },
+      "hotel": { "lat": 39.690055, "lng": -75.656712 },
       "foodNearHotel": [
         {
           "name": "Firebirds Wood Fired Grill",
           "address": "1225 Churchmans Road, Newark, DE 19713",
           "when": "Dinner",
-          "why": "Next to the hotel. Kids menu. 4.6 on OpenTable."
-        },
-        {
-          "name": "Olive Garden",
-          "address": "1279 New Churchmans Road, Newark, DE 19713",
-          "when": "Dinner",
-          "why": "Across from Christiana Hospital. Kids menu. 4.3 on Google."
+          "why": "Next to the hotel. Kids menu.",
+          "google": 4.4,
+          "lat": 39.690531,
+          "lng": -75.659834
         },
         {
           "name": "Eggspectation",
           "address": "507 Stanton Christiana Road, Newark, DE 19713",
           "when": "Breakfast / all day",
-          "why": "Sit-down brunch near the hotel. 4.4 public reviews."
+          "why": "Sit-down brunch near the hotel.",
+          "google": 4.3,
+          "lat": 39.696115,
+          "lng": -75.652894
+        }
+      ],
+      "foodNearPark": [
+        {
+          "name": "Italian Kitchen",
+          "address": "339 North Hook Road, Pennsville, NJ 08070",
+          "when": "After games",
+          "why": "Family shop on Hook Road — pizza, subs, bakery. Short drive from the complex.",
+          "google": 4.6,
+          "lat": 39.668258,
+          "lng": -75.488393
+        }
+      ],
+      "hotDog": [
+        {
+          "name": "Deerhead Hot Dogs",
+          "address": "1233 Churchmans Road, Newark, DE 19713",
+          "when": "Lunch / between games",
+          "why": "Same plaza as the hotel. Wilmington dogs since 1935. Get the sauce.",
+          "google": 4.3,
+          "lat": 39.690731,
+          "lng": -75.660163
+        }
+      ],
+      "memorable": [
+        {
+          "name": "The Engine House",
+          "address": "106 North Hook Road, Pennsville, NJ 08070",
+          "when": "Dinner",
+          "why": "Just north of the bridge. Short rib, sliders, golf simulators. The night-out stop.",
+          "google": 4.8,
+          "lat": 39.651682,
+          "lng": -75.491806
+        }
+      ]
+    },
+    "starz-gold-fall-2026": {
+      "ballparkNote": "Starz Gold also lists Dorey Park, Glen Allen, and LC Bird. We will update if 16U is assigned to another field.",
+      "mapCaption": "Hotel in Chester, Diamonds at Iron Bridge, and food on Iron Bridge Road.",
+      "routeNote": "Hotel is on West Hundred in Chester. Complex is Iron Bridge on Whitepine.",
+      "park": { "lat": 37.398789, "lng": -77.511495 },
+      "hotel": { "lat": 37.3532829, "lng": -77.3981316 },
+      "foodNearPark": [
+        {
+          "name": "Dante's of Ironbridge",
+          "address": "10348 Iron Bridge Road, Chester, VA 23831",
+          "when": "After games",
+          "why": "Family Italian on Iron Bridge Road. Pizza, pasta, kids eat here.",
+          "google": 4.7,
+          "lat": 37.349700,
+          "lng": -77.471981
         },
         {
-          "name": "Turning Point of Christiana",
-          "address": "3204 Fashion Center Boulevard, Newark, DE 19702",
-          "when": "Breakfast",
-          "why": "Kids menu. 4.3–4.4 on delivery apps. Christiana Fashion Center."
+          "name": "Brock's Barbeque",
+          "address": "11310 Iron Bridge Road, Chester, VA 23831",
+          "when": "Lunch / between games",
+          "why": "On the same road as the complex. Pulled pork, and they grill a dog.",
+          "google": 4.4,
+          "lat": 37.360216,
+          "lng": -77.498838
+        }
+      ]
+    },
+    "acfl-fall-championship-2026": {
+      "ballparkNote": "ACFL also lists LC Bird. We will update if 16U is assigned to another field.",
+      "mapCaption": "Diamonds at Iron Bridge and food on Iron Bridge Road.",
+      "park": { "lat": 37.398789, "lng": -77.511495 },
+      "foodNearPark": [
+        {
+          "name": "Dante's of Ironbridge",
+          "address": "10348 Iron Bridge Road, Chester, VA 23831",
+          "when": "After games",
+          "why": "Family Italian on Iron Bridge Road. Pizza, pasta, kids eat here.",
+          "google": 4.7,
+          "lat": 37.349700,
+          "lng": -77.471981
+        },
+        {
+          "name": "Brock's Barbeque",
+          "address": "11310 Iron Bridge Road, Chester, VA 23831",
+          "when": "Lunch / between games",
+          "why": "On the same road as the complex. Pulled pork, and they grill a dog.",
+          "google": 4.4,
+          "lat": 37.360216,
+          "lng": -77.498838
+        }
+      ]
+    },
+    "scenic-city-fall-2026": {
+      "ballparkNote": "Connect Sports splits games across Camp Jordan, Warner Park, Summit of Softball, and fields in Cleveland, Ooltewah, and Dalton. We will update when 16U is assigned.",
+      "mapCaption": "Walker hotel in Cleveland. Camp Jordan is one of the complexes.",
+      "routeNote": "Hotel is in Cleveland. Camp Jordan is in East Ridge. Games may also be at Warner Park, Summit, Ooltewah, or Dalton.",
+      "park": { "lat": 34.999351, "lng": -85.198037 },
+      "hotel": { "lat": 35.2153173, "lng": -84.8711879 },
+      "foodNearPark": [
+        {
+          "name": "Champy's Famous Fried Chicken",
+          "address": "6515 Ringgold Road, East Ridge, TN 37412",
+          "when": "Lunch / dinner",
+          "why": "Closest sit-down to Camp Jordan. Fried chicken, kids menu.",
+          "google": 4.4,
+          "lat": 34.989821,
+          "lng": -85.207393
+        }
+      ],
+      "hotDog": [
+        {
+          "name": "Miss Griffin's Foot Long Hot Dogs",
+          "address": "5600 Brainerd Road, Chattanooga, TN 37411",
+          "when": "Lunch / between games",
+          "why": "Chattanooga dogs since 1939. Eastgate Town Center food court. Mustard, hot sauce, onions, secret relish.",
+          "lat": 35.009810,
+          "lng": -85.216363
+        }
+      ],
+      "memorable": [
+        {
+          "name": "Aretha Frankenstein's",
+          "address": "518 Tremont Street, Chattanooga, TN 37405",
+          "when": "Breakfast / all day",
+          "why": "North Shore. Pancakes. The morning-after-games stop if you stay.",
+          "google": 4.3,
+          "lat": 35.066470,
+          "lng": -85.299312
+        }
+      ]
+    },
+    "top-gun-lone-star-fall-2026": {
+      "ballparkNote": "Where Lone Star has been in Grapevine. We will update if 2026 fall uses another complex.",
+      "mapCaption": "Hotel in Fort Worth. Oak Grove and downtown Grapevine.",
+      "routeNote": "Hotel is on Vickery in Fort Worth. Complex is Oak Grove in Grapevine.",
+      "park": { "lat": 32.968246, "lng": -97.090381 },
+      "hotel": { "lat": 32.7306817, "lng": -97.3682444 },
+      "foodNearPark": [
+        {
+          "name": "Tolbert's Restaurant",
+          "address": "423 South Main Street, Grapevine, TX 76051",
+          "when": "Lunch / dinner",
+          "why": "Downtown Grapevine. Chili parlor. Short drive from Oak Grove.",
+          "google": 4.3,
+          "lat": 32.936997,
+          "lng": -97.078116
+        }
+      ],
+      "memorable": [
+        {
+          "name": "Winewood Grill",
+          "address": "1265 South Main Street, Grapevine, TX 76051",
+          "when": "Dinner",
+          "why": "Main Street sit-down. Steak, seafood, kids can eat here too.",
+          "google": 4.4,
+          "lat": 32.926006,
+          "lng": -97.077356
+        }
+      ]
+    },
+    "east-coast-sunshine-showcase-2026": {
+      "ballparkNote": "East Coast has not posted the Clermont complexes yet. College coaches at every complex. We will add the field when 16U is assigned.",
+      "mapCaption": "Team hotel and downtown Clermont food. Field assignment not posted yet.",
+      "hotel": { "lat": 28.3483895, "lng": -81.6590521 },
+      "foodNearPark": [
+        {
+          "name": "Cheeser's Palace Cafe",
+          "address": "707 West Montrose Street, Clermont, FL 34711",
+          "when": "Breakfast / lunch",
+          "why": "Historic downtown. Breakfast, sandwiches, kids menu.",
+          "google": 4.7,
+          "lat": 28.555136,
+          "lng": -81.767110
+        },
+        {
+          "name": "Clermont Cafe",
+          "address": "824 West Montrose Street, Clermont, FL 34711",
+          "when": "Breakfast / lunch",
+          "why": "Diner on the same block. Soups and plates.",
+          "google": 4.7,
+          "lat": 28.555392,
+          "lng": -81.769165
         }
       ]
     }

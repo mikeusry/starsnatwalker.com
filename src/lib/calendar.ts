@@ -24,7 +24,9 @@ export interface ScheduleEvent {
   hotel?: string | null;
   hotelAddress?: string | null;
   hotelUrl?: string | null;
+  hotelNote?: string | null;
   hotelBlocks?: TeamHotel[];
+  noHotel?: boolean;
   schedulePosted?: string | null;
   notes?: string | null;
   type?: EventType;
@@ -178,7 +180,7 @@ export function teamHotels(event: ScheduleEvent): TeamHotel[] {
       {
         label: event.hotel || 'Team hotel block',
         url: event.hotelUrl || '',
-        note: null,
+        note: event.hotelNote ?? null,
         address: event.hotelAddress ?? null,
       },
     ];
@@ -187,7 +189,15 @@ export function teamHotels(event: ScheduleEvent): TeamHotel[] {
 }
 
 export function hasTeamHotel(event: ScheduleEvent): boolean {
-  return teamHotels(event).some((h) => h.url);
+  return teamHotels(event).some((h) => h.label || h.url);
+}
+
+export type HotelBadge = 'posted' | 'none' | 'pending';
+
+export function hotelBadge(event: ScheduleEvent): HotelBadge {
+  if (hasTeamHotel(event)) return 'posted';
+  if (event.noHotel) return 'none';
+  return 'pending';
 }
 
 export function travelKitPath(event: ScheduleEvent): string | null {

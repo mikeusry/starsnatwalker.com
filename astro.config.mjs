@@ -9,6 +9,9 @@ export default defineConfig({
   // Emitting slashed URLs everywhere keeps internal links off that redirect —
   // a redirect hop on every internal link leaks authority to the homepage.
   trailingSlash: 'always',
+  redirects: {
+    '/family/travel': '/family/schedule/',
+  },
   vite: {
     plugins: [tailwindcss()],
   },

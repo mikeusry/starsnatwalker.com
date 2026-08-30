@@ -3,7 +3,6 @@ import FamilyChrome from '../../../components/FamilyChrome.astro';
 import schedule from '../../../data/schedule.json';
 import travel from '../../../data/family-travel.json';
 import {
-  directionsEmbedUrl,
   directionsUrl,
   eventPagePath,
   hasTeamHotel,
@@ -15,8 +14,47 @@ import {
   type ScheduleEvent,
 } from '../../../lib/calendar';
 
-type FoodSpot = { name: string; address: string; when: string; why: string };
-type Kit = { ballparkNote?: string; foodNearHotel?: FoodSpot[] };
+type FoodSpot = {
+  name: string;
+  address: string;
+  when: string;
+  why: string;
+  google?: number;
+  googleUrl?: string;
+  lat?: number;
+  lng?: number;
+};
+type MapPin = {
+  kind: 'park' | 'hotel' | 'food';
+  name: string;
+  address?: string | null;
+  lat: number;
+  lng: number;
+  href: string | null;
+};
+
+function googleReviewsUrl(spot: FoodSpot): string | null {
+  if (spot.googleUrl) return spot.googleUrl;
+  return placeMapsUrl([spot.name, spot.address].filter(Boolean).join(', '));
+}
+
+function starFill(index: number, rating: number): number {
+  const leftover = rating - index;
+  if (leftover >= 1) return 1;
+  if (leftover <= 0) return 0;
+  return leftover;
+}
+type Kit = {
+  ballparkNote?: string;
+  foodNearHotel?: FoodSpot[];
+  foodNearPark?: FoodSpot[];
+  hotDog?: FoodSpot[];
+  memorable?: FoodSpot[];
+  mapCaption?: string;
+  routeNote?: string;
+  park?: { lat: number; lng: number };
+  hotel?: { lat: number; lng: number };
+};
 
 export function getStaticPaths() {
   return (schedule.events as ScheduleEvent[])
@@ -30,22 +68,67 @@ export function getStaticPaths() {
 const { event } = Astro.props as { event: ScheduleEvent };
 const hotels = teamHotels(event);
 const booked = hasTeamHotel(event);
+const hotel = hotels[0] ?? null;
 const publicEvent = eventPagePath(event);
-const hotelAddress = hotels[0]?.address || event.hotelAddress || null;
+const hotelAddress = hotel?.address || event.hotelAddress || null;
 const ballparkAddress = event.address || null;
 const kit = ((travel as { kits?: Record<string, Kit> }).kits?.[event.id || ''] ?? {}) as Kit;
-const food = kit.foodNearHotel ?? [];
+const foodSections = [
+  { title: 'Food near the hotel', spots: kit.foodNearHotel ?? [] },
+  { title: 'Food near the park', spots: kit.foodNearPark ?? [] },
+  { title: 'Best hot dog', spots: kit.hotDog ?? [] },
+  { title: 'Memorable meals and experiences', spots: kit.memorable ?? [] },
+].filter((section) => section.spots.length);
 const haveRoute = Boolean(hotelAddress && ballparkAddress);
-const embed = haveRoute ? directionsEmbedUrl(hotelAddress as string, ballparkAddress as string) : null;
 const driveLink = haveRoute ? directionsUrl(hotelAddress as string, ballparkAddress as string) : null;
 const ballparkMap = mapsUrl(event);
-const schedulePosted = event.schedulePosted ?? null;
+const pins: MapPin[] = [];
+if (kit.park) {
+  pins.push({
+    kind: 'park',
+    name: event.venue || 'Ballpark',
+    address: event.address,
+    lat: kit.park.lat,
+    lng: kit.park.lng,
+    href: ballparkMap,
+  });
+}
+if (kit.hotel && hotel) {
+  pins.push({
+    kind: 'hotel',
+    name: hotel.label,
+    address: hotel.address,
+    lat: kit.hotel.lat,
+    lng: kit.hotel.lng,
+    href: hotel.address ? placeMapsUrl(hotel.address) : null,
+  });
+}
+for (const section of foodSections) {
+  for (const spot of section.spots) {
+    if (spot.lat == null || spot.lng == null) continue;
+    pins.push({
+      kind: 'food',
+      name: spot.name,
+      address: spot.address,
+      lat: spot.lat,
+      lng: spot.lng,
+      href: placeMapsUrl([spot.name, spot.address].filter(Boolean).join(', ')),
+    });
+  }
+}
+const haveMap = pins.length > 0;
+const haveBallpark = Boolean(event.venue || event.address);
+const missing = [
+  !booked && !event.noHotel && 'Hotel',
+  !event.schedulePosted && 'Game schedule',
+  !foodSections.length && 'Food',
+].filter(Boolean) as string[];
 ---
 
-<FamilyChrome title={`${event.name} travel`} current="travel">
+<FamilyChrome title={`${event.name} travel`} current="schedule">
   <div class="space-y-5">
     <p class="text-xs text-gray-500">
-      <a href="/family/travel/" class="text-stars-navy hover:underline">Travel</a>
+      <a href="/family/schedule/" class="text-stars-navy hover:underline">Schedule</a>
       <span class="text-gray-300"> / </span>
       {event.name}
     </p>
@@ -57,33 +140,150 @@ const schedulePosted = event.schedulePosted ?? null;
         {event.dates}
         {locationLine(event) && ` · ${locationLine(event)}`}
       </p>
-      <p class="text-white/90 text-sm mt-3">Game days. Arrive the night before unless this weekend says you can drive in.</p>
-      {event.notes && <p class="text-white/80 text-sm mt-2">{event.notes}</p>}
-      {booked && hotels[0]?.url && (
-        <a
-          href={hotels[0].url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block mt-4 bg-stars-gold text-stars-navy font-semibold text-sm px-4 py-2.5 rounded-lg"
-        >
-          Book team hotel
-        </a>
+      {event.notes && <p class="text-white/90 text-sm mt-3">{event.notes}</p>}
+      {(hotel?.url || ballparkMap) && (
+        <div class="mt-4 flex flex-col gap-2">
+          {hotel?.url && (
+            <a
+              href={hotel.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block text-center bg-stars-gold text-stars-navy font-semibold text-sm px-4 py-3 rounded-lg"
+            >
+              {hotels.length > 1 ? 'Book team hotels' : 'Book team hotel'}
+            </a>
+          )}
+          {ballparkMap && (
+            <a
+              href={ballparkMap}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block text-center bg-white/10 text-white font-semibold text-sm px-4 py-3 rounded-lg"
+            >
+              Open field in Maps
+            </a>
+          )}
+        </div>
       )}
+      {hotel?.url && <p class="text-white/70 text-xs mt-3">Stay-to-play. Book the team link, not a random site.</p>}
     </header>
 
-    {embed && (
+    {booked && hotels.length > 0 && (
+      <section class="bg-white rounded-xl shadow-md p-5">
+        <h2 class="text-stars-navy font-semibold">{hotels.length > 1 ? 'Team hotels' : 'Team hotel'}</h2>
+        <ul class="mt-3 space-y-3">
+          {hotels.map((entry) => (
+            <li class="border border-gray-100 rounded-lg p-3">
+              <p class="font-medium text-stars-navy">{entry.label}</p>
+              {entry.address && <p class="text-sm text-gray-600 mt-1">{entry.address}</p>}
+              {entry.note && <p class="text-sm text-gray-600 mt-1">{entry.note}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {haveBallpark && (
+      <section class="bg-white rounded-xl shadow-md p-5">
+        <h2 class="text-stars-navy font-semibold">Ballpark</h2>
+        {event.venue && <p class="font-medium text-stars-navy mt-2">{event.venue}</p>}
+        {event.address && <p class="text-sm text-gray-700 mt-1">{event.address}</p>}
+        {kit.ballparkNote && <p class="text-sm text-gray-500 mt-2">{kit.ballparkNote}</p>}
+      </section>
+    )}
+
+    {haveMap && (
       <section class="bg-white rounded-xl shadow-md overflow-hidden">
         <div class="px-5 pt-5">
-          <h2 class="text-stars-navy font-semibold">Hotel and ballpark</h2>
-          <p class="text-sm text-gray-600 mt-1">Hampton Inn Christiana to Pennsville Complex. I-295 across the Delaware Memorial Bridge.</p>
+          <h2 class="text-stars-navy font-semibold">Map</h2>
+          {kit.mapCaption && <p class="text-sm text-gray-600 mt-1">{kit.mapCaption}</p>}
+          {kit.routeNote && <p class="text-sm text-gray-700 mt-2">{kit.routeNote}</p>}
+          <p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+            <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-stars-gold align-middle mr-1"></span>Ballpark</span>
+            {pins.some((pin) => pin.kind === 'hotel') && (
+              <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-stars-navy align-middle mr-1"></span>Hotel</span>
+            )}
+            {pins.some((pin) => pin.kind === 'food') && (
+              <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-stars-blue align-middle mr-1"></span>Food</span>
+            )}
+          </p>
         </div>
-        <iframe
-          title="Hotel to ballpark map"
-          src={embed}
-          class="mt-4 w-full h-80 border-0"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <div id="kit-map" class="mt-4 w-full h-80 bg-gray-100"></div>
+        <script type="application/json" id="kit-pins" set:html={JSON.stringify(pins)}></script>
+        <script is:inline>
+          (function () {
+            var el = document.getElementById('kit-pins');
+            var mapEl = document.getElementById('kit-map');
+            var app = document.getElementById('family-app');
+            if (!el || !mapEl) return;
+            var pins = JSON.parse(el.textContent || '[]');
+            if (!pins.length) return;
+
+            function loadLeaflet(done) {
+              if (window.L) return done();
+              var s = document.createElement('script');
+              s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+              s.onload = done;
+              document.head.appendChild(s);
+            }
+
+            function icon(color) {
+              return L.divIcon({
+                className: '',
+                html: '<span style="display:block;width:16px;height:16px;border-radius:9999px;background:' + color + ';border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.35)"></span>',
+                iconSize: [16, 16],
+                iconAnchor: [8, 8],
+                popupAnchor: [0, -10],
+              });
+            }
+            var colors = { park: '#FFD700', hotel: '#062a4b', food: '#2E91FC' };
+
+            function draw() {
+              if (mapEl.dataset.ready === '1') {
+                if (window.__kitMap) window.__kitMap.invalidateSize();
+                return;
+              }
+              mapEl.dataset.ready = '1';
+              var map = L.map(mapEl, { scrollWheelZoom: false });
+              window.__kitMap = map;
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap',
+                maxZoom: 19,
+              }).addTo(map);
+              var bounds = [];
+              pins.forEach(function (pin) {
+                var marker = L.marker([pin.lat, pin.lng], { icon: icon(colors[pin.kind] || colors.food) }).addTo(map);
+                var html = '<p style="margin:0;font-weight:600">' + pin.name + '</p>';
+                if (pin.address) html += '<p style="margin:4px 0 0;font-size:12px">' + pin.address + '</p>';
+                if (pin.href) html += '<p style="margin:6px 0 0"><a href="' + pin.href + '" target="_blank" rel="noopener noreferrer">Open in Maps</a></p>';
+                marker.bindPopup(html);
+                bounds.push([pin.lat, pin.lng]);
+              });
+              if (bounds.length === 1) map.setView(bounds[0], 15);
+              else map.fitBounds(bounds, { padding: [28, 28] });
+              setTimeout(function () { map.invalidateSize(); }, 80);
+            }
+
+            function start() {
+              loadLeaflet(function () {
+                if (app && app.classList.contains('hidden')) {
+                  var obs = new MutationObserver(function () {
+                    if (!app.classList.contains('hidden')) {
+                      obs.disconnect();
+                      draw();
+                    }
+                  });
+                  obs.observe(app, { attributes: true, attributeFilter: ['class'] });
+                } else {
+                  draw();
+                }
+              });
+            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+            else start();
+          })();
+        </script>
         {driveLink && (
           <p class="px-5 py-3 text-sm">
             <a href={driveLink} target="_blank" rel="noopener noreferrer" class="font-medium text-stars-navy underline">
@@ -94,116 +294,75 @@ const schedulePosted = event.schedulePosted ?? null;
       </section>
     )}
 
-    <div class="grid gap-5 md:grid-cols-2">
+    {foodSections.map((section) => (
       <section class="bg-white rounded-xl shadow-md p-5">
-        <h2 class="text-stars-navy font-semibold">Team hotels</h2>
-        {booked ? (
-          <ul class="mt-3 space-y-3">
-            {hotels.map((hotel) => (
-              <li class="border border-gray-100 rounded-lg p-3">
-                <p class="font-medium text-stars-navy">{hotel.label}</p>
-                {hotel.address && <p class="text-sm text-gray-600 mt-1">{hotel.address}</p>}
-                {hotel.note && <p class="text-sm text-gray-600 mt-1">{hotel.note}</p>}
-                {hotel.url ? (
-                  <a
-                    href={hotel.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-block mt-2 text-sm font-medium text-stars-navy underline"
-                  >
-                    Book rooms
-                  </a>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p class="text-sm text-gray-500 mt-2">Team hotel block not posted yet.</p>
-        )}
-        <p class="text-sm text-gray-600 mt-3">Stay-to-play. Book the team link, not a random booking site.</p>
+        <h2 class="text-stars-navy font-semibold">{section.title}</h2>
+        <ul class="mt-4 space-y-3">
+          {section.spots.map((spot) => (
+            <li class="border border-gray-100 rounded-lg p-3">
+              <div class="flex flex-wrap items-baseline justify-between gap-2">
+                <p class="font-medium text-stars-navy">{spot.name}</p>
+                <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">{spot.when}</p>
+              </div>
+              {spot.google != null && googleReviewsUrl(spot) && (
+                <a
+                  href={googleReviewsUrl(spot)!}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-2 inline-flex flex-wrap items-center gap-x-2 gap-y-0.5"
+                  aria-label={`${spot.google.toFixed(1)} stars on Google. Open reviews.`}
+                >
+                  <span class="inline-flex items-center" aria-hidden="true">
+                    {[0, 1, 2, 3, 4].map((i) => {
+                      const fill = starFill(i, spot.google as number);
+                      return (
+                        <span class="relative inline-block w-4 h-4">
+                          <svg class="absolute inset-0 text-[#dadce0]" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                          </svg>
+                          {fill > 0 && (
+                            <span class="absolute inset-y-0 left-0 overflow-hidden" style={`width: ${Math.round(fill * 100)}%`}>
+                              <svg class="block w-4 h-4 text-[#fbbc04]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                              </svg>
+                            </span>
+                          )}
+                        </span>
+                      );
+                    })}
+                  </span>
+                  <span class="text-[15px] font-medium text-[#202124]">{spot.google.toFixed(1)}</span>
+                  <span class="text-sm text-[#1a73e8]">stars on Google</span>
+                </a>
+              )}
+              <p class="text-sm text-gray-600 mt-1">{spot.address}</p>
+              <p class="text-sm text-gray-700 mt-1">{spot.why}</p>
+              {placeMapsUrl(spot.address) && (
+                <a
+                  href={placeMapsUrl(spot.address)!}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-block mt-2 text-sm font-medium text-stars-navy underline"
+                >
+                  Map
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
       </section>
+    ))}
 
-      <section class="bg-white rounded-xl shadow-md p-5">
-        <h2 class="text-stars-navy font-semibold">Ballpark</h2>
-        {event.venue || event.address ? (
-          <>
-            {event.venue && <p class="font-medium text-stars-navy mt-2">{event.venue}</p>}
-            {event.address && <p class="text-sm text-gray-700 mt-1">{event.address}</p>}
-            {event.location && <p class="text-sm text-gray-500 mt-1">{event.location}</p>}
-            {kit.ballparkNote && <p class="text-sm text-gray-500 mt-2">{kit.ballparkNote}</p>}
-          </>
-        ) : (
-          <p class="text-sm text-gray-500 mt-2">{event.location ? `${event.location} — complex name and address when we have them.` : 'Complex not posted yet.'}</p>
-        )}
-        {ballparkMap && (
-          <a href={ballparkMap} target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm font-medium text-stars-navy underline">
-            Open ballpark in Maps
-          </a>
-        )}
-      </section>
-    </div>
+    {event.schedulePosted && (
+      <p class="text-sm text-gray-600">Official schedule posted {event.schedulePosted}.</p>
+    )}
 
-    <section class="bg-white rounded-xl shadow-md p-5">
-      <h2 class="text-stars-navy font-semibold">Hotel to ballpark</h2>
-      {haveRoute ? (
-        <p class="text-sm text-gray-700 mt-2">
-          Hotel is in Newark, DE. Complex is in Pennsville, NJ. Route is I-295 across the Delaware Memorial Bridge. Check traffic before you leave.
-        </p>
-      ) : (
-        <p class="text-sm text-gray-500 mt-2">Directions when both the hotel address and the complex address are on this page.</p>
-      )}
-      {driveLink && (
-        <a href={driveLink} target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm font-medium text-stars-navy underline">
-          Open directions
-        </a>
-      )}
-    </section>
-
-    <section class="bg-white rounded-xl shadow-md p-5">
-      <h2 class="text-stars-navy font-semibold">When to be there</h2>
-      <p class="text-sm text-gray-500 mt-2">Report times when the official schedule is up.</p>
-      <p class="text-sm text-gray-600 mt-2">
-        {schedulePosted
-          ? `Official schedule posted ${schedulePosted}.`
-          : 'Official game schedule not posted yet.'}
-      </p>
-    </section>
-
-    <section class="bg-white rounded-xl shadow-md p-5">
-      <h2 class="text-stars-navy font-semibold">Food near the hotel</h2>
-      {food.length ? (
-        <>
-          <p class="text-sm text-gray-600 mt-2">Sit-down, 4.0 and up, family-friendly. Cut any you don’t want.</p>
-          <ul class="mt-4 space-y-3">
-            {food.map((spot) => (
-              <li class="border border-gray-100 rounded-lg p-3">
-                <div class="flex flex-wrap items-baseline justify-between gap-2">
-                  <p class="font-medium text-stars-navy">{spot.name}</p>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">{spot.when}</p>
-                </div>
-                <p class="text-sm text-gray-600 mt-1">{spot.address}</p>
-                <p class="text-sm text-gray-700 mt-1">{spot.why}</p>
-                {placeMapsUrl(spot.address) && (
-                  <a
-                    href={placeMapsUrl(spot.address)!}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-block mt-2 text-sm font-medium text-stars-navy underline"
-                  >
-                    Map
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <p class="text-sm text-gray-500 mt-2">Near the hotel and near the complex — adding after we pick the list.</p>
-      )}
-    </section>
+    {missing.length > 0 && (
+      <p class="text-sm text-gray-500">{missing.join(', ')} not posted yet.</p>
+    )}
 
     <p class="text-xs text-gray-500">
-      <a href="/family/travel/" class="hover:underline">All weekends</a>
+      <a href="/family/schedule/" class="hover:underline">All weekends</a>
       {publicEvent && (
         <>
           <span class="mx-2">·</span>

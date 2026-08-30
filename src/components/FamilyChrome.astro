@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 
 interface Props {
   title: string;
-  current: 'home' | 'schedule' | 'travel' | 'uniforms' | 'roster' | 'recruiting';
+  current: 'home' | 'schedule' | 'uniforms' | 'roster' | 'recruiting';
 }
 
 const { title, current } = Astro.props;
@@ -11,7 +11,6 @@ const { title, current } = Astro.props;
 const nav = [
   { id: 'home', href: '/family/', label: 'Home' },
   { id: 'schedule', href: '/family/schedule/', label: 'Schedule' },
-  { id: 'travel', href: '/family/travel/', label: 'Travel' },
   { id: 'uniforms', href: '/family/uniforms/', label: 'Uniforms' },
   { id: 'roster', href: '/family/roster/', label: 'Roster' },
   { id: 'recruiting', href: '/family/recruiting/', label: 'Recruiting' },

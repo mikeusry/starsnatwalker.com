@@ -10,8 +10,9 @@
       "end": "2026-09-12",
       "timezone": "America/New_York",
       "location": "Elon, NC",
-      "venue": null,
-      "address": null,
+      "venue": "Hunt Softball Park",
+      "address": "Hunt Softball Park, Elon, NC 27244",
+      "noHotel": true,
       "type": "camp",
       "visibility": "public",
       "isShowcase": false,
@@ -26,11 +27,15 @@
       "end": "2026-10-18",
       "timezone": "America/New_York",
       "location": "Richmond, VA",
-      "venue": null,
-      "address": null,
+      "venue": "Diamonds at Iron Bridge",
+      "address": "6600 Whitepine Road, Richmond, VA 23237",
       "type": "tournament",
       "visibility": "public",
       "isShowcase": true,
+      "hotel": "Holiday Inn Express and Suites Chester",
+      "hotelAddress": "1911 West Hundred Road, Chester, VA 23836",
+      "hotelUrl": "https://presto.eventpipe.com/event/ce198056-1ae4-48e0-b415-13aa220eaef2/groups/5239fa00-8721-46d4-8471-bb28f5865bec?inventory=public",
+      "hotelNote": "Stars National Walker block. Book the EventPipe team link.",
       "notes": "Arrive Fri Oct 16, or Saturday if you skip the morning camp. Optional camp Saturday morning until noon — register separately online. Tournament games start around noon."
     },
     {
@@ -62,8 +67,8 @@
       "end": "2026-11-01",
       "timezone": "America/New_York",
       "location": "Richmond, VA",
-      "venue": null,
-      "address": null,
+      "venue": "Diamonds at Iron Bridge",
+      "address": "6600 Whitepine Road, Richmond, VA 23237",
       "type": "tournament",
       "visibility": "public",
       "isShowcase": false,
@@ -78,11 +83,14 @@
       "end": "2026-11-08",
       "timezone": "America/New_York",
       "location": "Chattanooga, TN",
-      "venue": null,
-      "address": null,
+      "venue": "Camp Jordan",
+      "address": "323 Camp Jordan Parkway, East Ridge, TN 37412",
       "type": "tournament",
       "visibility": "public",
       "isShowcase": false,
+      "hotel": "Hampton Inn Cleveland",
+      "hotelAddress": "4355 Frontage Road NW, Cleveland, TN 37312",
+      "hotelNote": "Stars National Walker block.",
       "notes": "Standard format. Arrive the night before (Thu Nov 5)."
     },
     {
@@ -94,11 +102,13 @@
       "end": "2026-11-15",
       "timezone": "America/New_York",
       "location": "Grapevine, TX",
-      "venue": null,
-      "address": null,
+      "venue": "Oak Grove Softball Complex",
+      "address": "2700 Dove Loop Road, Grapevine, TX 76051",
       "type": "tournament",
       "visibility": "public",
       "isShowcase": true,
+      "hotel": "TownePlace Suites Fort Worth University Area/Medical Center",
+      "hotelAddress": "3450 West Vickery Boulevard, Fort Worth, TX 76107",
       "notes": "Arrive the night before game days (Thu Nov 12)."
     },
     {
@@ -115,6 +125,63 @@
       "type": "tournament",
       "visibility": "public",
       "isShowcase": true,
+      "hotel": "Holiday Inn Express & Suites Clermont SE – West Orlando",
+      "hotelAddress": "105 Summer Bay Boulevard, Clermont, FL 34714",
+      "hotelUrl": "https://travel.fastbreak.ai/book/PBxjo87D",
+      "hotelNote": "Stars National Walker block. Book by Fri Sep 4.",
+      "hotelBlocks": [
+        {
+          "label": "Holiday Inn Express & Suites Clermont SE – West Orlando",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "address": "105 Summer Bay Boulevard, Clermont, FL 34714",
+          "note": "Stars National Walker block. Book by Fri Sep 4."
+        },
+        {
+          "label": "Holiday Inn Resort Kissimmee by the Parks",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Kissimmee · event hotel"
+        },
+        {
+          "label": "Embassy Suites by Hilton Orlando Sunset Walk",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Kissimmee · event hotel"
+        },
+        {
+          "label": "Fairfield Inn & Suites Orlando at Flamingo Crossings Town Center",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Winter Garden · event hotel"
+        },
+        {
+          "label": "Homewood Suites by Hilton Orlando at Flamingo Crossings",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Winter Garden · event hotel"
+        },
+        {
+          "label": "Hampton Inn & Suites Clermont",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Clermont · sold out"
+        },
+        {
+          "label": "Hampton Inn by Hilton Ocoee Orlando",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Ocoee · sold out"
+        },
+        {
+          "label": "Home2 Suites by Hilton Clermont",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Clermont · sold out"
+        },
+        {
+          "label": "Home2 Suites by Hilton Orlando at Flamingo Crossings",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Winter Garden · sold out"
+        },
+        {
+          "label": "Staybridge Suites Clermont Southeast",
+          "url": "https://travel.fastbreak.ai/book/PBxjo87D",
+          "note": "Clermont · sold out"
+        }
+      ],
       "notes": "Arrive Thu Nov 19 unless Friday games start late enough to drive in that morning. Friday start time still TBD."
     }
   ],

@@ -3,6 +3,13 @@ import { generateEventSlug } from './slug';
 export type EventType = 'tournament' | 'camp' | 'practice' | 'hotel' | 'travel' | 'other';
 export type EventVisibility = 'public' | 'family';
 
+export type TeamHotel = {
+  label: string;
+  url: string;
+  note?: string | null;
+  address?: string | null;
+};
+
 export interface ScheduleEvent {
   id?: string;
   name: string;
@@ -15,6 +22,10 @@ export interface ScheduleEvent {
   venue?: string | null;
   address?: string | null;
   hotel?: string | null;
+  hotelAddress?: string | null;
+  hotelUrl?: string | null;
+  hotelBlocks?: TeamHotel[];
+  schedulePosted?: string | null;
   notes?: string | null;
   type?: EventType;
   visibility?: EventVisibility;
@@ -135,6 +146,53 @@ export function mapsUrl(event: ScheduleEvent): string | null {
   const query = event.address || [event.venue, event.location].filter(Boolean).join(', ');
   if (!query) return null;
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+export function placeMapsUrl(query: string | null | undefined): string | null {
+  if (!query) return null;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+export function directionsUrl(origin: string, destination: string): string {
+  const params = new URLSearchParams({
+    api: '1',
+    origin,
+    destination,
+  });
+  return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
+
+export function directionsEmbedUrl(origin: string, destination: string): string {
+  const params = new URLSearchParams({
+    saddr: origin,
+    daddr: destination,
+    output: 'embed',
+  });
+  return `https://maps.google.com/maps?${params.toString()}`;
+}
+
+export function teamHotels(event: ScheduleEvent): TeamHotel[] {
+  if (event.hotelBlocks?.length) return event.hotelBlocks;
+  if (event.hotelUrl || event.hotel) {
+    return [
+      {
+        label: event.hotel || 'Team hotel block',
+        url: event.hotelUrl || '',
+        note: null,
+        address: event.hotelAddress ?? null,
+      },
+    ];
+  }
+  return [];
+}
+
+export function hasTeamHotel(event: ScheduleEvent): boolean {
+  return teamHotels(event).some((h) => h.url);
+}
+
+export function travelKitPath(event: ScheduleEvent): string | null {
+  if (!event.id && !event.name) return null;
+  return `/family/travel/${eventId(event)}/`;
 }
 
 export function eventPagePath(event: ScheduleEvent): string | null {

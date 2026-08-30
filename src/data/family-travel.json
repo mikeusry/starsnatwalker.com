@@ -1,13 +1,44 @@
 {
-  "updated": "2026-08-19",
-  "headline": "Fall schedule is locked in.",
+  "updated": "2026-08-30",
+  "headline": "Weekend kits. Team hotel blocks when they’re posted.",
   "source": "GroupMe travel brief",
   "rules": [
     "Dates on the calendar are game days.",
     "Arrive the night before unless the event says you can drive in that morning.",
-    "Cynthia is booking hotel blocks — links coming, same as summer."
+    "Book the team hotel link. This is stay-to-play."
   ],
-  "hotels": "Cynthia handled hotels in the summer and will start sending block links soon.",
+  "hotels": "East Coast Fall Showcase rooms are posted. Other weekends when the block is sent.",
   "graphic": "/family/fall-2026-schedule.png",
-  "extra": []
+  "extra": [],
+  "kits": {
+    "east-coast-fall-showcase-2026": {
+      "ballparkNote": "East Coast lists this complex. We will update if 16U is assigned to another field.",
+      "foodNearHotel": [
+        {
+          "name": "Firebirds Wood Fired Grill",
+          "address": "1225 Churchmans Road, Newark, DE 19713",
+          "when": "Dinner",
+          "why": "Next to the hotel. Kids menu. 4.6 on OpenTable."
+        },
+        {
+          "name": "Olive Garden",
+          "address": "1279 New Churchmans Road, Newark, DE 19713",
+          "when": "Dinner",
+          "why": "Across from Christiana Hospital. Kids menu. 4.3 on Google."
+        },
+        {
+          "name": "Eggspectation",
+          "address": "507 Stanton Christiana Road, Newark, DE 19713",
+          "when": "Breakfast / all day",
+          "why": "Sit-down brunch near the hotel. 4.4 public reviews."
+        },
+        {
+          "name": "Turning Point of Christiana",
+          "address": "3204 Fashion Center Boulevard, Newark, DE 19702",
+          "when": "Breakfast",
+          "why": "Kids menu. 4.3–4.4 on delivery apps. Christiana Fashion Center."
+        }
+      ]
+    }
+  }
 }

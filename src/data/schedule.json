@@ -42,12 +42,16 @@
       "end": "2026-10-25",
       "timezone": "America/New_York",
       "location": "Pennsville, NJ",
-      "venue": null,
-      "address": null,
+      "venue": "Pennsville Complex",
+      "address": "40 Church Landing Road, Pennsville, NJ 08070",
       "type": "tournament",
       "visibility": "public",
       "isShowcase": true,
-      "notes": "Arrive Thu Oct 22 unless Friday games start late enough to drive in that morning. Asking Rhonda for the Friday start time."
+      "hotel": "Hampton Inn & Suites Wilmington Christiana",
+      "hotelUrl": "https://www.reservetravel.com/v6/groupHold?siteId=116436&eventName=2026%20East%20Coast%20Fall%20Showcase&propertyId=534240&roomType=1805891&groupName=Stars%20Nationals%20-%20Walker&currency=USD",
+      "schedulePosted": null,
+      "notes": "Arrive Thu Oct 22 unless Friday games start late enough to drive in that morning. Friday start time still TBD.",
+      "hotelAddress": "1008 Old Churchmans Road, Newark, DE 19713"
     },
     {
       "id": "acfl-fall-championship-2026",
@@ -95,7 +99,7 @@
       "type": "tournament",
       "visibility": "public",
       "isShowcase": true,
-      "notes": "Arrive the night before game days (Thu Nov 12). Hotel blocks from Cynthia."
+      "notes": "Arrive the night before game days (Thu Nov 12)."
     },
     {
       "id": "east-coast-sunshine-showcase-2026",
@@ -111,7 +115,7 @@
       "type": "tournament",
       "visibility": "public",
       "isShowcase": true,
-      "notes": "Arrive Thu Nov 19 unless Friday games start late enough to drive in that morning. Asking Rhonda for the Friday start time."
+      "notes": "Arrive Thu Nov 19 unless Friday games start late enough to drive in that morning. Friday start time still TBD."
     }
   ],
   "pastEvents": [

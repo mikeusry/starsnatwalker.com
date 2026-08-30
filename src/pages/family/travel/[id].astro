@@ -1,0 +1,215 @@
+---
+import FamilyChrome from '../../../components/FamilyChrome.astro';
+import schedule from '../../../data/schedule.json';
+import travel from '../../../data/family-travel.json';
+import {
+  directionsEmbedUrl,
+  directionsUrl,
+  eventPagePath,
+  hasTeamHotel,
+  locationLine,
+  mapsUrl,
+  placeMapsUrl,
+  teamHotels,
+  typeLabel,
+  type ScheduleEvent,
+} from '../../../lib/calendar';
+
+type FoodSpot = { name: string; address: string; when: string; why: string };
+type Kit = { ballparkNote?: string; foodNearHotel?: FoodSpot[] };
+
+export function getStaticPaths() {
+  return (schedule.events as ScheduleEvent[])
+    .filter((event) => event.id)
+    .map((event) => ({
+      params: { id: event.id as string },
+      props: { event },
+    }));
+}
+
+const { event } = Astro.props as { event: ScheduleEvent };
+const hotels = teamHotels(event);
+const booked = hasTeamHotel(event);
+const publicEvent = eventPagePath(event);
+const hotelAddress = hotels[0]?.address || event.hotelAddress || null;
+const ballparkAddress = event.address || null;
+const kit = ((travel as { kits?: Record<string, Kit> }).kits?.[event.id || ''] ?? {}) as Kit;
+const food = kit.foodNearHotel ?? [];
+const haveRoute = Boolean(hotelAddress && ballparkAddress);
+const embed = haveRoute ? directionsEmbedUrl(hotelAddress as string, ballparkAddress as string) : null;
+const driveLink = haveRoute ? directionsUrl(hotelAddress as string, ballparkAddress as string) : null;
+const ballparkMap = mapsUrl(event);
+const schedulePosted = event.schedulePosted ?? null;
+---
+
+<FamilyChrome title={`${event.name} travel`} current="travel">
+  <div class="space-y-5">
+    <p class="text-xs text-gray-500">
+      <a href="/family/travel/" class="text-stars-navy hover:underline">Travel</a>
+      <span class="text-gray-300"> / </span>
+      {event.name}
+    </p>
+
+    <header class="bg-stars-navy text-white rounded-xl p-5 shadow-md">
+      <p class="text-xs font-semibold uppercase tracking-wider text-stars-gold">{typeLabel(event)}</p>
+      <h1 class="text-2xl font-semibold mt-1">{event.name}</h1>
+      <p class="text-white/75 text-sm mt-2">
+        {event.dates}
+        {locationLine(event) && ` · ${locationLine(event)}`}
+      </p>
+      <p class="text-white/90 text-sm mt-3">Game days. Arrive the night before unless this weekend says you can drive in.</p>
+      {event.notes && <p class="text-white/80 text-sm mt-2">{event.notes}</p>}
+      {booked && hotels[0]?.url && (
+        <a
+          href={hotels[0].url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block mt-4 bg-stars-gold text-stars-navy font-semibold text-sm px-4 py-2.5 rounded-lg"
+        >
+          Book team hotel
+        </a>
+      )}
+    </header>
+
+    {embed && (
+      <section class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-5 pt-5">
+          <h2 class="text-stars-navy font-semibold">Hotel and ballpark</h2>
+          <p class="text-sm text-gray-600 mt-1">Hampton Inn Christiana to Pennsville Complex. I-295 across the Delaware Memorial Bridge.</p>
+        </div>
+        <iframe
+          title="Hotel to ballpark map"
+          src={embed}
+          class="mt-4 w-full h-80 border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        {driveLink && (
+          <p class="px-5 py-3 text-sm">
+            <a href={driveLink} target="_blank" rel="noopener noreferrer" class="font-medium text-stars-navy underline">
+              Open directions
+            </a>
+          </p>
+        )}
+      </section>
+    )}
+
+    <div class="grid gap-5 md:grid-cols-2">
+      <section class="bg-white rounded-xl shadow-md p-5">
+        <h2 class="text-stars-navy font-semibold">Team hotels</h2>
+        {booked ? (
+          <ul class="mt-3 space-y-3">
+            {hotels.map((hotel) => (
+              <li class="border border-gray-100 rounded-lg p-3">
+                <p class="font-medium text-stars-navy">{hotel.label}</p>
+                {hotel.address && <p class="text-sm text-gray-600 mt-1">{hotel.address}</p>}
+                {hotel.note && <p class="text-sm text-gray-600 mt-1">{hotel.note}</p>}
+                {hotel.url ? (
+                  <a
+                    href={hotel.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-block mt-2 text-sm font-medium text-stars-navy underline"
+                  >
+                    Book rooms
+                  </a>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="text-sm text-gray-500 mt-2">Team hotel block not posted yet.</p>
+        )}
+        <p class="text-sm text-gray-600 mt-3">Stay-to-play. Book the team link, not a random booking site.</p>
+      </section>
+
+      <section class="bg-white rounded-xl shadow-md p-5">
+        <h2 class="text-stars-navy font-semibold">Ballpark</h2>
+        {event.venue || event.address ? (
+          <>
+            {event.venue && <p class="font-medium text-stars-navy mt-2">{event.venue}</p>}
+            {event.address && <p class="text-sm text-gray-700 mt-1">{event.address}</p>}
+            {event.location && <p class="text-sm text-gray-500 mt-1">{event.location}</p>}
+            {kit.ballparkNote && <p class="text-sm text-gray-500 mt-2">{kit.ballparkNote}</p>}
+          </>
+        ) : (
+          <p class="text-sm text-gray-500 mt-2">{event.location ? `${event.location} — complex name and address when we have them.` : 'Complex not posted yet.'}</p>
+        )}
+        {ballparkMap && (
+          <a href={ballparkMap} target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm font-medium text-stars-navy underline">
+            Open ballpark in Maps
+          </a>
+        )}
+      </section>
+    </div>
+
+    <section class="bg-white rounded-xl shadow-md p-5">
+      <h2 class="text-stars-navy font-semibold">Hotel to ballpark</h2>
+      {haveRoute ? (
+        <p class="text-sm text-gray-700 mt-2">
+          Hotel is in Newark, DE. Complex is in Pennsville, NJ. Route is I-295 across the Delaware Memorial Bridge. Check traffic before you leave.
+        </p>
+      ) : (
+        <p class="text-sm text-gray-500 mt-2">Directions when both the hotel address and the complex address are on this page.</p>
+      )}
+      {driveLink && (
+        <a href={driveLink} target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm font-medium text-stars-navy underline">
+          Open directions
+        </a>
+      )}
+    </section>
+
+    <section class="bg-white rounded-xl shadow-md p-5">
+      <h2 class="text-stars-navy font-semibold">When to be there</h2>
+      <p class="text-sm text-gray-500 mt-2">Report times when the official schedule is up.</p>
+      <p class="text-sm text-gray-600 mt-2">
+        {schedulePosted
+          ? `Official schedule posted ${schedulePosted}.`
+          : 'Official game schedule not posted yet.'}
+      </p>
+    </section>
+
+    <section class="bg-white rounded-xl shadow-md p-5">
+      <h2 class="text-stars-navy font-semibold">Food near the hotel</h2>
+      {food.length ? (
+        <>
+          <p class="text-sm text-gray-600 mt-2">Sit-down, 4.0 and up, family-friendly. Cut any you don’t want.</p>
+          <ul class="mt-4 space-y-3">
+            {food.map((spot) => (
+              <li class="border border-gray-100 rounded-lg p-3">
+                <div class="flex flex-wrap items-baseline justify-between gap-2">
+                  <p class="font-medium text-stars-navy">{spot.name}</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">{spot.when}</p>
+                </div>
+                <p class="text-sm text-gray-600 mt-1">{spot.address}</p>
+                <p class="text-sm text-gray-700 mt-1">{spot.why}</p>
+                {placeMapsUrl(spot.address) && (
+                  <a
+                    href={placeMapsUrl(spot.address)!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-block mt-2 text-sm font-medium text-stars-navy underline"
+                  >
+                    Map
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p class="text-sm text-gray-500 mt-2">Near the hotel and near the complex — adding after we pick the list.</p>
+      )}
+    </section>
+
+    <p class="text-xs text-gray-500">
+      <a href="/family/travel/" class="hover:underline">All weekends</a>
+      {publicEvent && (
+        <>
+          <span class="mx-2">·</span>
+          <a href={publicEvent} class="hover:underline">Public event page</a>
+        </>
+      )}
+    </p>
+  </div>
+</FamilyChrome>

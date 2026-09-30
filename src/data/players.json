@@ -181,7 +181,7 @@
     "twitter": "MaddieDiaz2028",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807445/StarsNationalWalker/maddie-diaz-profile.jpg",
-    "bio": "A left-handed slapper and outfielder, Maddie was named to the North Carolina all-state team as a sophomore after helping Weddington complete an undefeated season and win the 7A state championship, delivering hits in key moments of the title series against D.H. Conley. She was also an All-Southern Carolina Conference selection.\n\nHer speed out of the left side puts constant pressure on infield defenses, and her range in the outfield lets her track down balls in the gaps. She has competed in the power and premier pools of top tournaments across the country through the summer circuit.",
+    "bio": "On September 29, 2026, Maddie announced her verbal commitment to continue her academic and athletic career playing Division I softball at Elon University. \"I'm so excited to call Elon HOME!\" she wrote, thanking the Phoenix staff for believing in her and Stars National Walker head coach Joe Walker for four years together: \"I wouldn't have wanted to spend the past four years with anyone else. You have helped me grow so much, both on and off the field.\"\n\nA left-handed slapper and outfielder, Maddie was named to the North Carolina all-state team as a sophomore after helping Weddington complete an undefeated season and win the 7A state championship, delivering hits in key moments of the title series against D.H. Conley. She was also an All-Southern Carolina Conference selection.\n\nHer speed out of the left side puts constant pressure on infield defenses, and her range in the outfield lets her track down balls in the gaps. She has competed in the power and premier pools of top tournaments across the country through the summer circuit.",
     "heightInches": 65,
     "weightLbs": null,
     "gpa": 3.8,
@@ -192,8 +192,9 @@
     "highSchool": "Weddington",
     "highSchoolState": "NC",
     "ncaaId": "2412471951",
-    "recruitingStatus": "uncommitted",
-    "committedTo": null,
+    "recruitingStatus": "committed",
+    "committedTo": "Elon University",
+    "committedLogoUrl": "https://res.cloudinary.com/southland-organics/image/upload/w_160,q_auto,f_auto/StarsNationalWalker/logo-elon",
     "measurables": {
       "sixtyYard": null,
       "exitVelo": null,
@@ -240,10 +241,29 @@
         "Lenoir Rhyne University"
       ]
     },
+    "photos": [
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_limit,q_auto,f_auto/StarsNationalWalker/maddie-diaz-elon-committed",
+        "caption": "Committed — Elon University Softball"
+      },
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_limit,q_auto,f_auto/StarsNationalWalker/maddie-diaz-elon-flag",
+        "caption": "Future Phoenix"
+      },
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_limit,q_auto,f_auto/StarsNationalWalker/maddie-diaz-elon-family",
+        "caption": "With her mom and dad in Elon #27"
+      },
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_800,c_limit,q_auto,f_auto/StarsNationalWalker/maddie-diaz-elon-letter",
+        "caption": "Maddie's commitment announcement"
+      }
+    ],
     "contactEmail": "MadelynEDiaz67@gmail.com",
     "socialScore": null,
-    "lastUpdated": "2026-05-30T00:00:00.000000+00:00",
+    "lastUpdated": "2026-09-30T00:00:00.000000+00:00",
     "achievements": [
+      "Committed to Elon University (Class of 2028)",
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
       "2026 NCHSAA 7A State Champions",
       "2026 1st Team All-County",

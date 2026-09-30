@@ -13,6 +13,8 @@ interface Props {
   twitter?: string | null;
   photoUrl?: string | null;
   featured?: boolean;
+  committedTo?: string | null;
+  committedLogoUrl?: string | null;
 }
 
 const {
@@ -26,7 +28,9 @@ const {
   throws,
   twitter,
   photoUrl,
-  featured = false
+  featured = false,
+  committedTo,
+  committedLogoUrl
 } = Astro.props;
 
 const positions = [position, ...(secondaryPositions || [])].filter(Boolean).join(' / ');
@@ -64,6 +68,16 @@ const playerSlug = generatePlayerSlug(firstName, lastName);
     <div class="absolute top-4 right-4 bg-stars-blue text-white font-bold text-sm px-3 py-1 rounded-full shadow-lg">
       {gradYear}
     </div>
+
+    <!-- Committed School Logo -->
+    {committedTo && committedLogoUrl && (
+      <div
+        class="absolute bottom-4 left-4 w-14 h-14 bg-white rounded-full shadow-lg p-2 flex items-center justify-center"
+        title={`Committed to ${committedTo}`}
+      >
+        <img src={committedLogoUrl} alt={`Committed to ${committedTo}`} class="w-full h-full object-contain" />
+      </div>
+    )}
 
     <!-- Featured Badge -->
     {featured && (

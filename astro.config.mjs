@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import shortLinks from './src/integrations/short-links.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,6 +13,7 @@ export default defineConfig({
   redirects: {
     '/family/travel': '/family/schedule/',
   },
+  integrations: [shortLinks()],
   vite: {
     plugins: [tailwindcss()],
   },

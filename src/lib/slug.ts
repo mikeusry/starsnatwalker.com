@@ -23,6 +23,15 @@ export function generatePlayerSlug(firstName: string, lastName: string): string 
 }
 
 /**
+ * Short link for social posts: starsnatwalker.com/<first word of first name>.
+ * "Ayn Parker" → "ayn". Uniqueness is enforced at build time by the
+ * short-links integration, not here.
+ */
+export function generatePlayerShortSlug(firstName: string): string {
+  return slugify(firstName.trim().split(/\s+/)[0]);
+}
+
+/**
  * Event page slug — keep in lockstep with getStaticPaths in
  * src/pages/events/[slug].astro and sitemap.xml.ts.
  */

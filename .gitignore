@@ -39,3 +39,7 @@ scripts/eis-scraper/state.json
 
 # Family roster contacts (phones/emails). This GitHub repo is public.
 functions/api/_family-contacts.json
+
+# EIS nomination inputs: coach phone/email, GameChanger screenshots (show the
+# logged-in account), action photos. Local only — see scripts/gamechanger/README.md.
+scripts/gamechanger/eis-*/

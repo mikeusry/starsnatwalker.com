@@ -159,6 +159,22 @@ she changes her avatar. The build does not fail (OG falls back to text), so
 nothing alerts you. Check with `command grep -rn "twimg\.com" src/` — plain
 `grep -r` is aliased to ugrep here and skips gitignored files.
 
+## Recent Work (Oct 2 2026)
+
+### EIS Class of 2028 nominations — `scripts/gamechanger/`
+
+GameChanger season CSVs → combined stats → per-player approval PDF for Joe →
+submitted on myeis360.com/nominate. **Start at `scripts/gamechanger/README.md`**:
+where every input lives (CSV exports, GC screenshots, action photos, parent
+contacts, tournament names, GC team IDs), the workflow, the combining formulas,
+and what was still open. The PDF lists parent phones/emails, so it stays on the
+Desktop (`~/Desktop/EIS Nominations 2028/`), never in git. This is marketing to
+EIS, **not** site data — `import.mjs` only touches `players.json` with `--write`.
+
+Tournament names: GameChanger has none. The team's per-tournament schedule
+graphics on X are the source (`x-media.mjs`); two of four date-matched guesses
+from public calendars turned out wrong, so don't guess.
+
 ## Recent Work (Aug 2 2026)
 
 ### SEO overhaul — the homepage was outranking the players

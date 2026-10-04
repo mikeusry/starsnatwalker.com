@@ -825,55 +825,6 @@
     "lastUpdated": "2026-08-17T00:00:00.000000+00:00"
   },
   {
-    "id": "33d464c0-6130-4819-80d3-e0c47d5e8fb6",
-    "firstName": "Sara",
-    "lastName": "Utrera",
-    "gradYear": 2028,
-    "position": "Middle Infield",
-    "secondaryPositions": [
-      "Utility"
-    ],
-    "bats": "R",
-    "throws": "R",
-    "twitter": "Sara_Utrera2028",
-    "featured": false,
-    "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807457/StarsNationalWalker/sara-utrera-profile.jpg",
-    "bio": "Sara is a championship-caliber infielder who helped lead Doral Academy to the 2025 FHSAA 6A State Championship. A 2025 All-County 1st Team selection, she combines exceptional defensive skills with clutch hitting in big moments.",
-    "heightInches": 65,
-    "weightLbs": null,
-    "gpa": null,
-    "satScore": null,
-    "actScore": null,
-    "intendedMajor": null,
-    "hometown": "Doral",
-    "highSchool": "Doral Academy",
-    "highSchoolState": "FL",
-    "ncaaId": "2512787307",
-    "recruitingStatus": "uncommitted",
-    "committedTo": null,
-    "measurables": {
-      "sixtyYard": null,
-      "exitVelo": null,
-      "popTime": null,
-      "infieldVelo": null,
-      "outfieldVelo": null,
-      "pitchSpeed": null
-    },
-    "videos": {
-      "highlightUrl": null,
-      "skillsUrl": null,
-      "gameFootageUrl": null
-    },
-    "achievements": [
-      "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
-      "2025 FHSAA 6A State Champion",
-      "2025 All-County 1st Team 6A"
-    ],
-    "contactEmail": "sarautrera_2028@icloud.com",
-    "socialScore": null,
-    "lastUpdated": "2026-08-08T00:00:00.000000+00:00"
-  },
-  {
     "id": "5b354126-07b6-467e-b253-ddfb545256e5",
     "firstName": "Kierra",
     "lastName": "Wunderlich",

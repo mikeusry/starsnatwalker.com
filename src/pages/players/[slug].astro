@@ -110,6 +110,7 @@ const extraYouTubeVideos = ((player.videos as any)?.youtubeVideos || [])
 
 // Check for Mux videos
 const muxVideos = player.videos?.muxVideos || [];
+const videoCount = (highlightVideoId ? 1 + extraYouTubeVideos.length : 0) + muxVideos.length;
 
 // Check if player has any measurables
 const hasMeasurables = player.measurables && Object.values(player.measurables).some(v => v !== null);
@@ -246,6 +247,19 @@ const ogImage = `/players/og/${slug}.png`;
 
             <!-- Action Buttons -->
             <div class="flex flex-wrap gap-4 mt-6">
+              {videoCount > 0 && (
+                <a
+                  href="#videos"
+                  class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-stars-gold hover:bg-yellow-400 text-stars-navy text-xl md:text-2xl font-extrabold uppercase tracking-wide rounded-xl shadow-lg transition-colors"
+                >
+                  <span class="w-10 h-10 rounded-full bg-stars-navy flex items-center justify-center">
+                    <svg class="w-5 h-5 text-stars-gold ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </span>
+                  {videoCount === 1 ? 'Watch Video' : `Watch ${videoCount} Videos`}
+                </a>
+              )}
               <!-- Contact About Player Button -->
               <a
                 id="contact-player-btn"
@@ -570,7 +584,7 @@ const ogImage = `/players/og/${slug}.png`;
 
     <!-- Highlight Video (YouTube) -->
     {highlightVideoId && (
-      <section class="section-padding bg-gray-50">
+      <section id="videos" class="section-padding bg-gray-50 scroll-mt-20">
         <div class="container-narrow max-w-4xl">
           <h2 class="text-3xl font-bold text-gray-900 mb-6">
             {extraYouTubeVideos.length > 0 ? 'Highlight Videos' : 'Highlight Video'}
@@ -618,7 +632,7 @@ const ogImage = `/players/og/${slug}.png`;
 
     <!-- Mux Videos -->
     {muxVideos.length > 0 && (
-      <section class="section-padding bg-gray-50">
+      <section id={highlightVideoId ? undefined : 'videos'} class="section-padding bg-gray-50 scroll-mt-20">
         <div class="container-narrow max-w-4xl">
           <h2 class="text-3xl font-bold text-gray-900 mb-6">
             {muxVideos.length === 1 ? 'Video' : 'Videos'}

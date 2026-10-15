@@ -104,6 +104,9 @@ const getYouTubeId = (url: string | null) => {
 
 const highlightVideoId = getYouTubeId(player.videos?.highlightUrl);
 const skillsVideoId = getYouTubeId(player.videos?.skillsUrl);
+const extraYouTubeVideos = ((player.videos as any)?.youtubeVideos || [])
+  .map((v: { url: string; title?: string }) => ({ id: getYouTubeId(v.url), title: v.title }))
+  .filter((v: { id: string | null }) => v.id);
 
 // Check for Mux videos
 const muxVideos = player.videos?.muxVideos || [];
@@ -453,6 +456,12 @@ const ogImage = `/players/og/${slug}.png`;
                       <div class="text-gray-500 text-sm">ERA</div>
                     </div>
                   )}
+                  {s.ip != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.ip}</div>
+                      <div class="text-gray-500 text-sm">IP</div>
+                    </div>
+                  )}
                   {s.wins != null && (
                     <div class="text-center">
                       <div class="text-3xl font-bold text-stars-navy">{s.wins}{s.losses != null ? `-${s.losses}` : ''}</div>
@@ -463,6 +472,12 @@ const ogImage = `/players/og/${slug}.png`;
                     <div class="text-center">
                       <div class="text-3xl font-bold text-stars-navy">{s.strikeouts}</div>
                       <div class="text-gray-500 text-sm">K</div>
+                    </div>
+                  )}
+                  {s.walks != null && (
+                    <div class="text-center">
+                      <div class="text-3xl font-bold text-stars-navy">{s.walks}</div>
+                      <div class="text-gray-500 text-sm">BB</div>
                     </div>
                   )}
                 </div>
@@ -557,18 +572,46 @@ const ogImage = `/players/og/${slug}.png`;
     {highlightVideoId && (
       <section class="section-padding bg-gray-50">
         <div class="container-narrow max-w-4xl">
-          <h2 class="text-3xl font-bold text-gray-900 mb-6">Highlight Video</h2>
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">
+            {extraYouTubeVideos.length > 0 ? 'Highlight Videos' : 'Highlight Video'}
+          </h2>
+          {(player.videos as any)?.highlightTitle && (
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">{(player.videos as any).highlightTitle}</h3>
+          )}
           <div class="aspect-video rounded-xl overflow-hidden shadow-2xl">
             <iframe
               width="100%"
               height="100%"
               src={`https://www.youtube.com/embed/${highlightVideoId}`}
-              title="Player Highlights"
+              title={(player.videos as any)?.highlightTitle || 'Player Highlights'}
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
           </div>
+          {extraYouTubeVideos.length > 0 && (
+            <div class="grid md:grid-cols-2 gap-6 mt-8">
+              {extraYouTubeVideos.map((video: { id: string; title?: string }) => (
+                <div>
+                  {video.title && (
+                    <h3 class="text-base font-semibold text-gray-800 mb-2">{video.title}</h3>
+                  )}
+                  <div class="aspect-video rounded-xl overflow-hidden shadow-lg">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${video.id}`}
+                      title={video.title || 'Player Highlights'}
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                      loading="lazy"
+                    ></iframe>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     )}

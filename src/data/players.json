@@ -473,8 +473,13 @@
     "twitter": "Caraorlando2028",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807454/StarsNationalWalker/cara-orlando-profile.jpg",
-    "bio": "Cara delivered the biggest swing of Pittsford Sutherland's 2026 postseason: a two-out, three-run home run that broke a scoreless tie and lifted the Knights past Eastridge 5-2 for the Section V Class AA2 championship. She also homered in the 13-1 semifinal rout of Pittsford Mendon, and earlier in the season hit two home runs in a single game. She has led Sutherland in home runs two straight years and finished second in the region last year, and was voted a News 8 WROC athlete of the week by area readers.\n\nA multi-sport athlete with elite speed and competitive fire, Cara is also a varsity ski racer — a 4x sectional champion who placed 5th overall at the 2026 Section V Championships. She brings that same explosiveness to the outfield, with exceptional range and the versatility to contribute in the infield.",
+    "bio": "Cara led all of New York State in both home runs and RBIs in 2026, [slugging 11 home runs as a sophomore](https://www.democratandchronicle.com/picture-gallery/sports/high-school/2026/07/18/meet-the-section-v-athletes-to-watch-in-2026-27/90942192007/) at Pittsford Sutherland with 42 RBIs and a 1.550 OPS. She now holds Sutherland's single-season and career home run records, is on pace to finish among the top five home run hitters in New York State history, and was named third team all-state by the New York State Sportswriters' Association and first team All-Greater Rochester.\n\nThe biggest of those swings came in the 2026 postseason: a two-out, three-run home run that broke a scoreless tie and lifted the Knights past Eastridge 5-2 for the Section V Class AA2 championship. She also homered in the 13-1 semifinal rout of Pittsford Mendon, and earlier in the season hit two home runs in a single game. She has led Sutherland in home runs two straight years and finished second in the region last year, and was voted a News 8 WROC athlete of the week by area readers.\n\nA multi-sport athlete with elite speed and competitive fire, Cara is also a varsity ski racer — a 4x sectional champion who placed 5th overall at the 2026 Section V Championships. She brings that same explosiveness to the outfield, with exceptional range and the versatility to contribute in the infield.",
     "achievements": [
+      "#1 in New York State in Home Runs & RBIs (2026)",
+      "Sutherland School Record — Single-Season & Career Home Runs",
+      "11 HR, 42 RBI, 1.550 OPS — 2026 Sophomore Season",
+      "2026 NYSSWA Third Team All-State",
+      "2026 First Team All-Greater Rochester",
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
       "HS HR Leader — 2 Consecutive Years (Sutherland)",
       "2nd in Region in HRs (2025)",
@@ -503,6 +508,12 @@
       "outfieldVelo": null,
       "pitchSpeed": null
     },
+    "stats": {
+      "season": "2026 H.S. (Sutherland)",
+      "ops": "1.550",
+      "hr": 11,
+      "rbi": 42
+    },
     "videos": {
       "highlightUrl": null,
       "skillsUrl": null,
@@ -526,7 +537,7 @@
     },
     "contactEmail": "caraorlando2028@gmail.com",
     "socialScore": null,
-    "lastUpdated": "2026-02-15T09:00:00.000000+00:00"
+    "lastUpdated": "2026-10-03T09:00:00.000000+00:00"
   },
   {
     "id": "48fec156-a722-47d2-9cdb-b182de64836a",
@@ -806,8 +817,8 @@
     "achievements": [
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
       "Exit Velo 73 mph (Stars Camp); 71 & 68 (USA Softball HPP)",
-      "Varsity Flag Football — Starting WR/QB",
-      "60m — 8.86 Laser (18th/71, 5A Georgia Meet)",
+      "Varsity Flag Football — Starting WR & Safety",
+      "60m — 8.86 Laser (5A Georgia Meet)",
       "4x100m Relay — Strong Curve Runner",
       "Alliance Atlantic Region Champions 2025",
       "BETA Club Inductee 2025-2026",
@@ -903,15 +914,24 @@
     "twitter": "nataliehall2029",
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1787009927/StarsNationalWalker/natalie-hall-profile.jpg",
-    "bio": "Natalie announced herself with a perfect game in her very first varsity start — striking out 14 of the 15 batters she faced in Huntingtown's 20-0 win over Westlake as a freshman. Across her 2026 high school season she threw 16 innings with 35 strikeouts, zero walks, and a 0.00 ERA, allowing just two hits.\n\nA left-handed pitcher and first baseman with elite command, she is a 2026 USA Softball All-American and a Line Drive Media Top 100 player in the Class of 2029, and helped drive Huntingtown's run back to the Maryland state finals. Off the field she carries a 4.1 GPA on the Honor Roll and captains her high school volleyball team.",
+    "bio": "Natalie announced herself with a perfect game in her very first varsity start — striking out 14 of the 15 batters she faced in Huntingtown's 20-0 win over Westlake as a freshman. Across her 2026 high school season she threw 16 innings with 35 strikeouts, zero walks, and a 0.00 ERA, allowing just two hits, and batted .471 at the plate. Huntingtown went on to win the Maryland 2A state championship, and in April she was nominated for Maryland softball player of the week.\n\nShe carried it straight into summer: across the combined 2026 Stars and Fury travel season she threw 121 innings with 137 strikeouts and batted .575.\n\nA left-handed pitcher and first baseman with elite command, she is a 2026 USA Softball All-American and a Line Drive Media Top 100 player in the Class of 2029. Off the field she carries a 4.1 GPA, made the Honor Roll in 2025 and 2026, and captains her high school volleyball team.",
     "achievements": [
+      "2026 Maryland 2A State Champion — Huntingtown High School",
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
       "2026 USA Softball All-American",
       "Line Drive Media Top 100 — Class of 2029",
-      "2026 HS Pitching: 16 IP, 35 K, 0 BB, 0.00 ERA, 2 H allowed",
+      "Nominated — Maryland Softball Player of the Week (April 2026)",
+      "2026 HS: 16 IP, 35 K, 0 BB, 0.00 ERA, 2 H allowed; .471 AVG",
+      "2026 Summer Travel (Stars & Fury): 121 IP, 137 K, 39 BB; .575 AVG",
       "2025 Fall Travel: 35 IP, 67 K, 9 BB, 1.10 ERA",
-      "4.1 GPA, Honor Roll",
+      "4.1 GPA, Honor Roll 2025 & 2026",
       "Captain — High School Volleyball Team"
+    ],
+    "photos": [
+      {
+        "url": "https://res.cloudinary.com/southland-organics/image/upload/w_600,c_limit,q_auto,f_auto/StarsNationalWalker/natalie-hall-pitching",
+        "caption": "In the circle for Stars National Walker"
+      }
     ],
     "heightInches": 66,
     "weightLbs": null,
@@ -934,13 +954,56 @@
       "outfieldVelo": null,
       "pitchSpeed": null
     },
+    "statsSeasons": [
+      {
+        "season": "2026 Summer Travel (Stars & Fury combined)",
+        "avg": ".575",
+        "ip": 121,
+        "strikeouts": 137,
+        "walks": 39
+      },
+      {
+        "season": "2026 Huntingtown High School",
+        "avg": ".471",
+        "era": "0.00",
+        "ip": 16,
+        "strikeouts": 35,
+        "walks": 0
+      }
+    ],
     "stats": {
-      "season": "2026 H.S. Pitching",
+      "season": "2026 Huntingtown High School",
+      "avg": ".471",
       "era": "0.00",
-      "strikeouts": 35
+      "ip": 16,
+      "strikeouts": 35,
+      "walks": 0
     },
     "videos": {
-      "highlightUrl": "https://www.youtube.com/watch?v=5dtqNultefE",
+      "highlightUrl": "https://youtu.be/WH3EzowWO8Q",
+      "highlightTitle": "Summer 2026 Pitching Highlights",
+      "youtubeVideos": [
+        {
+          "url": "https://youtu.be/5fCCpBRoNHo",
+          "title": "Summer 2026 Hitting Highlights"
+        },
+        {
+          "url": "https://youtu.be/CGa3pbGReCY",
+          "title": "Fall 2026 Prospect Camp Pitching"
+        },
+        {
+          "url": "https://youtu.be/RGk4H_aEbvE",
+          "title": "USA All-American Games — Devon Park, Aug 2026"
+        },
+        {
+          "url": "https://youtu.be/aYvva-PAm4w",
+          "title": "2026 Huntingtown HS Pitching Highlights"
+        },
+        {
+          "url": "https://youtu.be/5dtqNultefE",
+          "title": "2026 Huntingtown HS Hitting Highlights"
+        }
+      ],
       "skillsUrl": null,
       "gameFootageUrl": null,
       "muxVideos": [

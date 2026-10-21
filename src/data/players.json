@@ -134,6 +134,7 @@
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
       "2026 5A NC State Champion - Softball (EHS), HR and RBI leader",
       "Starting Varsity Freshman (EHS)",
+      "All-Conference and All-State as a freshman (2026, EHS)",
       "A Honor Roll (grades 3-9), All Honors course load",
       "Key Club (community outreach), Special Olympics volunteer, Student Leadership Program"
     ],
@@ -342,7 +343,7 @@
       "skillsUrl": null,
       "gameFootageUrl": null
     },
-    "contactEmail": "Kelsey.fliss@icloud.com",
+    "contactEmail": "kelseyfliss29@gmail.com",
     "socialScore": null,
     "lastUpdated": "2026-01-24T09:00:00.000000+00:00"
   },
@@ -1149,7 +1150,6 @@
     "ncaaId": null,
     "recruitingStatus": "uncommitted",
     "committedTo": null,
-    "recruitingNotes": "TEMP TRYOUT (SMTM) — added 2026-05-26. NCSA recruiting profile: https://recruit-match.ncsasports.org/clientrms/athletes/14766134 . Remove if she does not join the roster.",
     "measurables": {
       "sixtyYard": null,
       "exitVelo": null,
@@ -1281,5 +1281,50 @@
       "#100 National Catcher (Extra Inning Softball)",
       "EI Top 25 Slugger"
     ]
+  },
+  {
+    "id": "d80589d4-438d-48dd-80f4-238b48b3b680",
+    "firstName": "Alex",
+    "lastName": "Owen",
+    "gradYear": 2029,
+    "position": "Middle Infield",
+    "secondaryPositions": [],
+    "bats": "R",
+    "throws": "R",
+    "twitter": "AlexOwen_11",
+    "featured": false,
+    "photoUrl": null,
+    "bio": null,
+    "achievements": [],
+    "heightInches": null,
+    "weightLbs": null,
+    "gpa": null,
+    "satScore": null,
+    "actScore": null,
+    "intendedMajor": null,
+    "hometown": null,
+    "highSchool": null,
+    "highSchoolState": null,
+    "ncaaId": null,
+    "recruitingStatus": "uncommitted",
+    "committedTo": null,
+    "measurables": {
+      "sixtyYard": null,
+      "exitVelo": null,
+      "popTime": null,
+      "infieldVelo": null,
+      "outfieldVelo": null,
+      "pitchSpeed": null
+    },
+    "videos": {
+      "highlightUrl": null,
+      "skillsUrl": null,
+      "gameFootageUrl": null,
+      "muxVideos": []
+    },
+    "photos": [],
+    "contactEmail": null,
+    "socialScore": null,
+    "lastUpdated": "2026-10-21T00:00:00.000000+00:00"
   }
 ]

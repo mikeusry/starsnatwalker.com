@@ -3,9 +3,10 @@
 import { chromium } from 'playwright';
 
 const BASE = process.env.BASE || 'https://starsnatwalker.com';
-const { ADMIN_USER, ADMIN_PASS } = process.env;
-if (!ADMIN_USER || !ADMIN_PASS) {
-  console.error('Set ADMIN_USER and ADMIN_PASS (admin login: ask Mike / password manager)');
+// Credentials come from the environment (same values as the ADMIN_USER /
+// ADMIN_PASS Pages secrets) — never hardcode them here.
+if (!process.env.ADMIN_USER || !process.env.ADMIN_PASS) {
+  console.error('Set ADMIN_USER and ADMIN_PASS in the environment.');
   process.exit(1);
 }
 
@@ -17,8 +18,8 @@ const run = async () => {
 
   console.log('1. log in at /admin/');
   await page.goto(BASE + '/admin/', { waitUntil: 'networkidle' });
-  await page.fill('#username', ADMIN_USER);
-  await page.fill('#password', ADMIN_PASS);
+  await page.fill('#username', process.env.ADMIN_USER || '');
+  await page.fill('#password', process.env.ADMIN_PASS || '');
   await page.click('#login-form button[type=submit]');
   await page.waitForURL(/\/admin\/camps/, { timeout: 10000 });
   console.log('   landed on:', new URL(page.url()).pathname);

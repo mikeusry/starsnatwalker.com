@@ -9,9 +9,14 @@
 
 import playersData from '../../src/data/players.json';
 
+// Requires the admin login headers (checked against the ADMIN_USER/ADMIN_PASS
+// Pages secrets) so /api/camp-list is not a public dump.
+
 interface Env {
   SUPABASE_URL: string;
   SUPABASE_SERVICE_KEY: string;
+  ADMIN_USER?: string;
+  ADMIN_PASS?: string;
 }
 
 // Derived from players.json — the single roster source of truth. This used to
@@ -28,13 +33,21 @@ const ID_TO_NAME: Record<string, string> = Object.fromEntries(
 );
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
-  const { env } = context;
+  const { env, request } = context;
 
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
     'Cache-Control': 'no-store',
   };
+
+  const expectedUser = env.ADMIN_USER || '';
+  const expectedPass = env.ADMIN_PASS || '';
+  const user = request.headers.get('x-admin-user') || '';
+  const pass = request.headers.get('x-admin-pass') || '';
+  if (!expectedUser || !expectedPass || user !== expectedUser || pass !== expectedPass) {
+    return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers });
+  }
 
   try {
     const url =

@@ -3,6 +3,11 @@
 import { chromium } from 'playwright';
 
 const BASE = process.env.BASE || 'https://starsnatwalker.com';
+const { ADMIN_USER, ADMIN_PASS } = process.env;
+if (!ADMIN_USER || !ADMIN_PASS) {
+  console.error('Set ADMIN_USER and ADMIN_PASS (admin login: ask Mike / password manager)');
+  process.exit(1);
+}
 
 const run = async () => {
   const browser = await chromium.launch();
@@ -12,8 +17,8 @@ const run = async () => {
 
   console.log('1. log in at /admin/');
   await page.goto(BASE + '/admin/', { waitUntil: 'networkidle' });
-  await page.fill('#username', 'StarsNatWalker');
-  await page.fill('#password', 'JoeClooney');
+  await page.fill('#username', ADMIN_USER);
+  await page.fill('#password', ADMIN_PASS);
   await page.click('#login-form button[type=submit]');
   await page.waitForURL(/\/admin\/camps/, { timeout: 10000 });
   console.log('   landed on:', new URL(page.url()).pathname);

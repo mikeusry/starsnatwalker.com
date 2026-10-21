@@ -9,7 +9,8 @@
 | Build | `npm run build` |
 | Dev | `npm run dev` (port 4321) |
 | Cloudinary | Cloud: `southland-organics`, Folder: `StarsNationalWalker` |
-| Admin | `/admin/` — user: `StarsNatWalker`, pass: `JoeClooney` |
+| Admin | `/admin/` — Admin login: ask Mike / password manager |
+| History | Dated changelog: `docs/HISTORY.md` |
 
 ## Deploy
 
@@ -31,7 +32,7 @@ npm run build && npx wrangler pages deploy dist --project-name starsnatwalker --
 
 ### Data
 
-- **Player data**: `src/data/players.json` — all player info, photos, videos, achievements
+- **Player data**: `src/data/players.json` — all player info, photos, videos, achievements (roster: 14 players)
 - **Team data**: `src/data/team.json` — coaches, contact info, social links
 - **Schedule**: `src/data/schedule.json` — tournament schedule
 
@@ -97,6 +98,9 @@ and all four position hubs. Add new routes there when you add pages; the slug he
 events/staff are duplicated from their templates (the originals live inside
 `getStaticPaths` and aren't importable), so a slug rule change needs both edited.
 
+`FAQPage` schema needs a **visible** FAQ section on the page — schema alone is a
+thin-content risk.
+
 ### GSC
 
 `sc-domain:starsnatwalker.com` — service account
@@ -105,19 +109,18 @@ events/staff are duplicated from their templates (the originals live inside
 2026-08-02, so **there is no history before that date** — an empty result means "no data
 yet," not "no traffic."
 
-## TODO
+## Roster rules
 
-### Next Session
-- [ ] **Re-run the per-player SERP check ~Aug 16-30** and diff vs the baseline in memory
-      (`project_seo_baseline_2026-08.md`). Pre-fix: only 3/15 girls ranked their OWN page.
-- [ ] **8 missing GPAs** — Fliss, Frazier, Jones, LaManche, Llaneza, Orlando, Wunderlich,
-      Kinch. Not public data; needs Mike. Each adds a schema field AND an FAQ entry.
+### Open items
+- [ ] **Re-run the per-player SERP check** (was due Aug 16-30 — overdue) and diff vs the
+      baseline in memory (`project_seo_baseline_2026-08.md`).
+- [ ] **7 missing GPAs** — Fliss, LaManche, Llaneza, Orlando, Wunderlich, Kinch, Owen.
+      Not public data; needs Mike. Each adds a schema field AND an FAQ entry.
 - [ ] Kendall LaManche + Charlotte Llaneza have **zero public press coverage** despite
       Kendall being #1 NE pitcher — a PR gap, not an SEO one.
 - [ ] Test coach inquiry form (submit test, verify Supabase + SendGrid)
 - [ ] Add tracking pixel to player pages so dashboard has data
 - [ ] Get email addresses for all players and set up forwarding
-- [x] ~~Upload all player photos to Cloudinary~~ — done; all 17 verified 200 (Jul 27 2026)
 
 **When adding a player: write a real bio in the same commit.** A bio of scouting
 adjectives ("excellent range and a reliable bat") is worth almost nothing — the girls who
@@ -136,7 +139,7 @@ derive from it. **Never add a second hardcoded list of players, names or ids.**
 Four parallel roster copies existed as of 2026-08-08 and every one had drifted —
 `pitcherOrder` in `pitchers.astro` silently dropped pitchers from the hub;
 `PLAYER_IDS` in `camp-checkin.ts` 400'd a restored player on submit; `ID_TO_NAME` in
-`camp-list.ts` showed her row as "Unknown player"; and 5 of 17 `id` fields were fake
+`camp-list.ts` showed her row as "Unknown player"; and 5 `id` fields were fake
 or hand-typed. All four now derive from `players.json` (`ce95e3f`, `2f4eea5`,
 `3fd816f`). `PITCHER_ORDER` survives as **display ranking only** — an unlisted
 pitcher still appears, sorted after the ranked names. The one hardcoded UUID that
@@ -159,77 +162,19 @@ she changes her avatar. The build does not fail (OG falls back to text), so
 nothing alerts you. Check with `command grep -rn "twimg\.com" src/` — plain
 `grep -r` is aliased to ugrep here and skips gitignored files.
 
-## Recent Work (Oct 2 2026)
+## Schedule & OG conventions
 
-### EIS Class of 2028 nominations — `scripts/gamechanger/`
-
-GameChanger season CSVs → combined stats → per-player approval PDF for Joe →
-submitted on myeis360.com/nominate. **Start at `scripts/gamechanger/README.md`**:
-where every input lives (CSV exports, GC screenshots, action photos, parent
-contacts, tournament names, GC team IDs), the workflow, the combining formulas,
-and what was still open. The PDF lists parent phones/emails, so it stays on the
-Desktop (`~/Desktop/EIS Nominations 2028/`), never in git. This is marketing to
-EIS, **not** site data — `import.mjs` only touches `players.json` with `--write`.
-
-Tournament names: GameChanger has none. The team's per-tournament schedule
-graphics on X are the source (`x-media.mjs`); two of four date-matched guesses
-from public calendars turned out wrong, so don't guess.
-
-## Recent Work (Aug 2 2026)
-
-### SEO overhaul — the homepage was outranking the players
-
-Live DataForSEO check across all 15 `<name> softball` queries found only **3 of 15 girls
-had their OWN page ranking** (Ayn #1, Kendall #3, Riley #9). Six more ranked but Google
-served the **homepage** (Kelsey #4, Charlotte #7, Kierra #7, Lyla #8, Baylee #9,
-Austyn #17); six ranked nowhere. Homepage-instead-of-deep-page is the signature of
-authority pooling at the root.
-
-Cause: every internal link was slashless and 308-redirected. Fixed sitewide (see the SEO
-rules above), sitemap 19 → 35 URLs, plus a full athlete entity — `Person` with height,
-`alumniOf`, `award[]`, NCAA ID and measurables; `BreadcrumbList` routing each player up
-through her position hub; `FAQPage` with a **visible** FAQ section (schema alone is a
-thin-content risk); and teammate cross-links, since player pages had been dead ends.
-
-Seven thin bios rewritten from verified public reporting. Page word counts ~251 → 420-690.
-
-**Not yet proven:** the fix is mechanically sound and verified live, but no ranking
-movement has been measured. Baseline is saved in memory for a clean before/after —
-re-run the SERP check before claiming any win.
-
-## Recent Work (Jul 27 2026)
-
-### AFCS 2026 — 16U Tier III National Runner-Up
-
-Alliance Fastpitch Championship Series, Jul 19-26, Grand Park (Westfield IN).
-Beat Power Surge National, EC Bullets, and LS Bombers in Bracket A; lost the
-championship series to EC Bullets Gold Ellis/Keeling.
-
-Surfaced on: Hero badge, `team.json` achievements, Schedule featured card
-(6-photo gallery), all 17 player pages, and the `/events/...` page.
-
-**Two conventions this set:**
-
-- **An event with a `result` renders as a result, not a preview.** Setting
-  `result` on a `schedule.json` event flips `/events/[slug]` to a result hero
-  with a "Road to the Championship" block, and drops it from "Upcoming
-  Events". Keep the event in BOTH `events` and `pastEvents` — `/events/[slug]`
+- **An event with a `result` renders as a result, not a preview.** Setting `result` on a
+  `schedule.json` event flips `/events/[slug]` to a result hero and drops it from
+  "Upcoming Events". Keep the event in BOTH `events` and `pastEvents` — `/events/[slug]`
   generates its page from `events`, so removing it 404s the page.
-- **`team.achievements[0]` drives the OG share card** (`src/pages/og.png.ts`
-  renders it as a gold banner). Best current credential goes first.
+- **`team.achievements[0]` drives the OG share card** (`src/pages/og.png.ts` renders it
+  as a gold banner). Best current credential goes first.
 
-## Recent Work (Feb 15 2026)
+## EIS nominations — `scripts/gamechanger/`
 
-### Player Updates
-- Added Kierra Wunderlich (pitcher, RHP/Utility, 2028, Hortonville HS WI)
-- Updated bios: Isabel Findlay (power hitter, 5'10"), Cara Orlando (skiing), Keira Frazier (track champion), Ayn Parker Usry (track), Kendall LaManche (#1 NE), Riley Walker (#14 SE), Kelsey Fliss (#15 SE)
-- Added Mux videos: Isabel hitting, Cara skiing, Keira track (3 videos), Ayn track (2 videos)
-- Added Cloudinary photos to About sections (EIS rankings, track)
-
-### Site Features
-- Position pages: `/pitchers`, `/catchers`, `/infielders`, `/outfielders`
-- Recruiting hub: `/recruiting` with coach inquiry form
-- Admin dashboard: `/admin/dashboard`
-- Per-player OG images via satori
-- Header polish: button divider, padding, font size
-- All mailto: links replaced with web form
+- Start at `scripts/gamechanger/README.md` (inputs, workflow, combining formulas).
+- The approval PDF lists parent phones/emails: Desktop only, **never in git**.
+- `import.mjs` only touches `players.json` with `--write`.
+- Tournament names come from the team's schedule graphics on X (`x-media.mjs`).
+  **Never guess them** from public calendars — two of four guesses were wrong.

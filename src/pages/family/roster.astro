@@ -90,7 +90,7 @@ const localRoster = import.meta.env.DEV ? buildFamilyRoster(players, loadContact
 </FamilyChrome>
 
 <script is:inline>
-  const FAMILY_PASS = 'starsfamily';
+  const FAMILY_PASS = sessionStorage.getItem('snw_family_pass') || '';
 
   function telHref(phone) {
     return 'tel:' + String(phone).replace(/[^\d+]/g, '');

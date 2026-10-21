@@ -48,19 +48,29 @@ import Layout from '../../layouts/Layout.astro';
   </div>
 
   <script is:inline>
-    const FAMILY_PASS = 'starsfamily';
+    const PASS_KEY = 'snw_family_pass';
     const AUTH_KEY = 'snw_family_auth';
 
     if (sessionStorage.getItem(AUTH_KEY) === 'true') {
       window.location.replace('/family/');
     }
 
-    document.getElementById('login-form').addEventListener('submit', (e) => {
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const pw = document.getElementById('password').value.trim().toLowerCase();
       const errorMsg = document.getElementById('error-msg');
-      if (pw === FAMILY_PASS) {
+      let ok = false;
+      try {
+        const res = await fetch('/api/family-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw }),
+        });
+        ok = res.ok;
+      } catch (err) { ok = false; }
+      if (ok) {
         sessionStorage.setItem(AUTH_KEY, 'true');
+        sessionStorage.setItem(PASS_KEY, pw);
         window.location.replace('/family/');
       } else {
         errorMsg.textContent = 'Wrong password. Try again.';

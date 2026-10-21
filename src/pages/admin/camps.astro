@@ -121,8 +121,18 @@ import Layout from '../../layouts/Layout.astro';
         return '<span class="text-xs px-2 py-1 rounded-full ' + cls + '">' + esc(s) + '</span>';
       };
 
-      fetch('/api/camp-list')
+      fetch('/api/camp-list', {
+        headers: {
+          'x-admin-user': sessionStorage.getItem('snw_admin_user') || '',
+          'x-admin-pass': sessionStorage.getItem('snw_admin_pass') || '',
+        },
+      })
         .then(function (r) {
+          if (r.status === 401) {
+            sessionStorage.removeItem('snw_admin_auth');
+            window.location.href = '/admin/';
+            throw new Error('Session expired — please sign in again.');
+          }
           if (!r.ok) throw new Error('Could not load camps.');
           return r.json();
         })

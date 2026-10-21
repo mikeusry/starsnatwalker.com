@@ -9,7 +9,7 @@
 | Build | `npm run build` |
 | Dev | `npm run dev` (port 4321) |
 | Cloudinary | Cloud: `southland-organics`, Folder: `StarsNationalWalker` |
-| Admin | `/admin/` — Admin login: ask Mike / password manager |
+| Admin | `/admin/` — credentials in Pages secrets `ADMIN_USER` / `ADMIN_PASS` (checked by `functions/api/admin-login.ts`) |
 | History | Dated changelog: `docs/HISTORY.md` |
 
 ## Deploy
@@ -27,6 +27,8 @@ npm run build && npx wrangler pages deploy dist --project-name starsnatwalker --
 | `SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_SERVICE_KEY` | Supabase service role key (for server-side writes) |
 | `SENDGRID_API_KEY` | SendGrid API key for transactional email |
+| `ADMIN_USER` | `/admin/` login username (checked server-side; unset = login always fails) |
+| `ADMIN_PASS` | `/admin/` login password (checked server-side; unset = login always fails) |
 
 ## Architecture
 
@@ -62,7 +64,7 @@ Per-player OG images (1200x630) generated at build time via satori:
 
 ### Admin Dashboard
 
-- `/admin/` — login gate (sessionStorage auth)
+- `/admin/` — login gate: `/api/admin-login` checks `ADMIN_USER`/`ADMIN_PASS`, then sessionStorage flag; `/api/camp-list` requires the same creds as headers
 - `/admin/dashboard` — profile view analytics from Supabase `profile_views` table
 - Filters out: localhost referrers, Sharpsburg (owner's city)
 - Highlights: `.edu` referrers (green), college towns (purple)

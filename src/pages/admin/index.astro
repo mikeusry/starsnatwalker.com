@@ -60,9 +60,9 @@ import Layout from '../../layouts/Layout.astro';
   </div>
 
   <script is:inline>
-    // Simple client-side auth
-    const VALID_USER = 'StarsNatWalker';
-    const VALID_PASS = 'JoeClooney';
+    // Credentials are checked server-side against Pages secrets (/api/admin-login).
+    const USER_KEY = 'snw_admin_user';
+    const PASS_KEY = 'snw_admin_pass';
     const AUTH_KEY = 'snw_admin_auth';
 
     // Check if already authenticated
@@ -70,14 +70,25 @@ import Layout from '../../layouts/Layout.astro';
       window.location.href = '/admin/camps';
     }
 
-    document.getElementById('login-form').addEventListener('submit', function(e) {
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const errorMsg = document.getElementById('error-msg');
 
-      if (username === VALID_USER && password === VALID_PASS) {
+      let ok = false;
+      try {
+        const res = await fetch('/api/admin-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+        ok = res.ok;
+      } catch (err) { ok = false; }
+      if (ok) {
         sessionStorage.setItem(AUTH_KEY, 'true');
+        sessionStorage.setItem(USER_KEY, username);
+        sessionStorage.setItem(PASS_KEY, password);
         window.location.href = '/admin/camps';
       } else {
         errorMsg.textContent = 'Invalid username or password';

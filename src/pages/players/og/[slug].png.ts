@@ -34,9 +34,14 @@ export const GET: APIRoute = async ({ props }) => {
   let photoDataUrl: string | null = null
   if (player.photoUrl) {
     try {
-      const res = await fetch(player.photoUrl)
-      if (res.ok) {
-        const buffer = Buffer.from(await res.arrayBuffer())
+      let buffer: Buffer | null = null
+      if (player.photoUrl.startsWith('/')) {
+        buffer = readFileSync(join(process.cwd(), 'public', player.photoUrl))
+      } else {
+        const res = await fetch(player.photoUrl)
+        if (res.ok) buffer = Buffer.from(await res.arrayBuffer())
+      }
+      if (buffer) {
         // Convert to PNG via sharp for consistency
         const pngBuffer = await sharp(buffer).resize(300, 300, { fit: 'cover' }).png().toBuffer()
         photoDataUrl = `data:image/png;base64,${pngBuffer.toString('base64')}`

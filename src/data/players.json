@@ -1296,7 +1296,7 @@
     "twitter": "AlexOwen_11",
     "featured": false,
     "photoUrl": "/images/players/alex-owen.jpg",
-    "bio": "A switch-hitting middle infielder and utility player from McDonogh School in Owings Mills, Maryland, Alex started on varsity as a freshman at shortstop and third base and was named All Conference (IAAM - A). She is a USA Softball High Performance Program (HPP) Direct Select.\n\nVerified personal bests: 68 mph overhand throw (Wasserman High Level Throwing, 8/30/26); 72 mph exit velo (Bucknell University Camp, 9/5/26; 71 at USA HPP Tryouts); 4.84 5-10-5 shuttle (USA Softball HPP Tryouts, 3/29/26). Verified by ODM Testing (9/20/26, public leaderboard at theplayersapp.us/board): 20-yard dash 2.803, 40-yard dash 5.223, bat speed 62.8 mph, hand speed 21.1, time to contact .15, broad jump 88.\n\nAlex carries a 3.5 unweighted GPA (McDonogh does not weight grades or offer AP), including Honors Spanish II and Honors Vocal Music II. She is a member of the Fellowship of Christian Athletes and serves with Breaking Bread with the Hungry. She also competes in indoor track and field and women's foil fencing, and loves all things music: voice, piano, guitar, violin and musical theater.",
+    "bio": "Alex Owen is a new member of the Stars National organization, bringing both versatility and speed to the team. Alex spent her 2026 freshman season as a varsity player for the McDonogh School in Owings Mills, Maryland, where she began as the starting third-baseman and was later transitioned to short stop. She was the lead-off batter and led the team in both batting average and slugging percentage, completing the season with a 1.210 OPS and contributing 16 RBI, 23 runs, and 3 home runs. Alex earned All-Conference honors from the Interscholastic Athletic Association of Maryland (IAAM) in the Conference “A” bracket as a fitting end to her freshman season. Alex was also selected as a USA Softball High Performance Program (HPP) Direct Select and took home the championship for her age group in the MLB Pitch, Hit, and Run competition (Baltimore Region).\n\nAlex began playing fastpitch regionally over six years ago, competing both locally and at national events, beginning with winning the Maryland State Championship at 10U. She continued playing with the same organization through 15U and played up in 18U tournaments and national showcases. She concluded her final run with that team in Summer 2026, ending the year with a .429 AVG, 1.296 OPS, 9 doubles, 3 triples, 9 home runs, 51 RBI, and 26 stolen bases (in 127 plate appearances). Her home run against Batbusters Iwema (commit) at Scenic City Summer marked her 20th career home run.\n\nAlex’s athleticism translates to the defensive side of the game as well. She displays fluid footwork, quick reactions, and the ability to move efficiently to the ball. Throughout her softball career she has proven her effectiveness at multiple positions, including left and center fields. She has also demonstrated her willingness to be a true team player, stepping outside her comfort zone and into the circle as a pitcher due to high school team injuries.\n\nHer verified performance metrics demonstrate her developing strength, speed, and explosiveness. Alex has recorded a 72 mph Exit Velo (Bucknell University Camp on September 5, 2026) and 71 mph at USA Softball HPP Tryouts (March 29, 2026). Her verified overhand throwing velocity reached 68 mph at Wasserman High Level Throwing on August 30, 2026. She has also recorded a 4.84-second 5-10-5 shuttle at USA Softball HPP Tryouts.\n\nAdditional results verified by ODM Testing on September 20, 2026, include a 2.803-sec 20-yd dash, a 5.223-second 40-yard dash, 62.8 mph bat speed, 21.1 hand speed, a 0.15-second time to contact, and an 88-inch broad jump. These measurements highlight her combination of quickness, bat speed, and explosive athletic ability.\n\nBeyond softball, Alex maintains a 3.5 unweighted GPA at McDonogh School, where she takes honors courses, including Honors Spanish II and Honors Vocal Music II. She is a member of the Fellowship of Christian Athletes and volunteers with Breaking Bread with the Hungry. She has also competed in Indoor Track & Field, as well as Women’s Foil Fencing. Other interests include singing, writing music and studying piano, guitar, and violin.\n\nWith a strong academic foundation, a commitment to service, proven offensive production, and the versatility to contribute at multiple defensive positions, Alex Owen continues to develop as a well-rounded student-athlete in the 2029 recruiting class.",
     "achievements": [
       "Line Drive Media HOT 100 Player (Class of 2029)",
       "Extra Innings Softball: National Elite Top 100 Slugger (Class of 2029)",
@@ -1315,7 +1315,7 @@
     "hometown": "Owings Mills",
     "highSchool": "McDonogh School",
     "highSchoolState": "MD",
-    "ncaaId": null,
+    "ncaaId": "2509714062",
     "recruitingStatus": "uncommitted",
     "committedTo": null,
     "measurables": {
@@ -1323,9 +1323,9 @@
       "exitVelo": 72,
       "popTime": null,
       "infieldVelo": null,
-      "outfieldVelo": null,
+      "outfieldVelo": 68,
       "pitchSpeed": null,
-      "batSpeed": 62.8
+      "batSpeed": null
     },
     "videos": {
       "highlightUrl": null,

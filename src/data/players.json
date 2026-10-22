@@ -1288,33 +1288,44 @@
     "lastName": "Owen",
     "gradYear": 2029,
     "position": "Middle Infield",
-    "secondaryPositions": [],
-    "bats": "R",
+    "secondaryPositions": [
+      "Utility"
+    ],
+    "bats": "S",
     "throws": "R",
     "twitter": "AlexOwen_11",
     "featured": false,
     "photoUrl": "/images/players/alex-owen.jpg",
-    "bio": null,
-    "achievements": [],
-    "heightInches": null,
+    "bio": "A switch-hitting middle infielder and utility player from McDonogh School in Owings Mills, Maryland, Alex started on varsity as a freshman at shortstop and third base and was named All Conference (IAAM - A). She is a USA Softball High Performance Program (HPP) Direct Select.\n\nVerified personal bests: 68 mph overhand throw (Wasserman High Level Throwing, 8/30/26); 72 mph exit velo (Bucknell University Camp, 9/5/26; 71 at USA HPP Tryouts); 4.84 5-10-5 shuttle (USA Softball HPP Tryouts, 3/29/26). Verified by ODM Testing (9/20/26, public leaderboard at theplayersapp.us/board): 20-yard dash 2.803, 40-yard dash 5.223, bat speed 62.8 mph, hand speed 21.1, time to contact .15, broad jump 88.\n\nAlex carries a 3.5 unweighted GPA (McDonogh does not weight grades or offer AP), including Honors Spanish II and Honors Vocal Music II. She is a member of the Fellowship of Christian Athletes and serves with Breaking Bread with the Hungry. She also competes in indoor track and field and women's foil fencing, and loves all things music: voice, piano, guitar, violin and musical theater.",
+    "achievements": [
+      "Line Drive Media HOT 100 Player (Class of 2029)",
+      "Extra Innings Softball: National Elite Top 100 Slugger (Class of 2029)",
+      "Extra Innings Softball: Hot 100 Hitters Hotlist (Class of 2029, Northeast Region)",
+      "Prep Softball: Top 2029 Prospects to Watch in Maryland",
+      "High School Varsity Starter as Freshman (SS and 3B)",
+      "All Conference (IAAM - A) as Freshman",
+      "USA Softball High Performance Program (HPP) Direct Select"
+    ],
+    "heightInches": 63,
     "weightLbs": null,
-    "gpa": null,
+    "gpa": 3.5,
     "satScore": null,
     "actScore": null,
     "intendedMajor": null,
-    "hometown": null,
-    "highSchool": null,
-    "highSchoolState": null,
+    "hometown": "Owings Mills",
+    "highSchool": "McDonogh School",
+    "highSchoolState": "MD",
     "ncaaId": null,
     "recruitingStatus": "uncommitted",
     "committedTo": null,
     "measurables": {
       "sixtyYard": null,
-      "exitVelo": null,
+      "exitVelo": 72,
       "popTime": null,
       "infieldVelo": null,
       "outfieldVelo": null,
-      "pitchSpeed": null
+      "pitchSpeed": null,
+      "batSpeed": 62.8
     },
     "videos": {
       "highlightUrl": null,
@@ -1325,6 +1336,6 @@
     "photos": [],
     "contactEmail": null,
     "socialScore": null,
-    "lastUpdated": "2026-10-21T00:00:00.000000+00:00"
+    "lastUpdated": "2026-10-22T00:00:00.000000+00:00"
   }
 ]

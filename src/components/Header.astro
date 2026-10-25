@@ -42,105 +42,118 @@ const positionLinks = [
   class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-tg-line"
 >
   <nav class="container-narrow">
-    <div class="flex items-center justify-between h-[72px]">
-      <!-- Logo (full-color logo is only used on white) -->
-      <a href="/" class="flex items-center gap-3 group" aria-label="Top Gun Walker home">
+    <!-- Centered-logo header: links split left/right on desktop (lg+);
+         logo centered with hamburger on the right below lg. -->
+    <div class="grid grid-cols-[1fr_auto_1fr] items-center h-[72px] gap-4">
+      <!-- Left column -->
+      <div class="flex items-center h-full min-w-0">
+        <div class="hidden lg:flex items-center gap-6 h-full">
+          {navLinks.slice(0, 4).map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                "tg-nav-link text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors h-full flex items-center border-b-[3px] whitespace-nowrap",
+                isActive(link.href) ? "border-tg-orange" : "border-transparent"
+              ]}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+          <!-- Positions Dropdown -->
+          <div class:list={["relative group h-full flex items-center border-b-[3px]", isPositionActive ? "border-tg-orange" : "border-transparent"]}>
+            <button class="text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors flex items-center gap-1">
+              Positions
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="absolute top-full left-0 mt-0 w-40 bg-white border border-tg-line rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              {positionLinks.map(link => (
+                <a
+                  href={link.href}
+                  class="block px-4 py-2 text-tg-navy font-medium hover:bg-tg-sky first:rounded-t-lg last:rounded-b-lg transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: logo (full-color logo is only used on white) -->
+      <a href="/" class="flex flex-col items-center justify-center gap-0.5 group" aria-label="Top Gun Walker home">
         <img
           src="/topgun-logo.png"
           alt="Top Gun logo"
           width="480"
           height="245"
-          class="h-8 md:h-10 w-auto"
+          class="h-9 lg:h-10 w-auto"
         />
-        <span class="tg-heading text-tg-navy text-base md:text-lg leading-none">Walker</span>
+        <span class="tg-heading text-tg-navy text-[11px] lg:text-xs leading-none tracking-[0.3em] pl-[0.3em]">Walker</span>
       </a>
 
-      <!-- Desktop Nav -->
-      <div class="hidden md:flex items-center gap-5 h-full">
-        {navLinks.slice(0, 5).map(link => (
+      <!-- Right column -->
+      <div class="flex items-center justify-end h-full gap-5">
+        <div class="hidden lg:flex items-center gap-5 h-full">
           <a
-            href={link.href}
+            href={navLinks[4].href}
             class:list={[
-              "tg-nav-link text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors h-full flex items-center border-b-[3px]",
-              isActive(link.href) ? "border-tg-orange" : "border-transparent"
+              "tg-nav-link text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors h-full flex items-center border-b-[3px] whitespace-nowrap",
+              isActive(navLinks[4].href) ? "border-tg-orange" : "border-transparent"
             ]}
-            aria-current={isActive(link.href) ? 'page' : undefined}
           >
-            {link.label}
+            {navLinks[4].label}
           </a>
-        ))}
-
-        <!-- Positions Dropdown -->
-        <div class:list={["relative group h-full flex items-center border-b-[3px]", isPositionActive ? "border-tg-orange" : "border-transparent"]}>
-          <button class="text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors flex items-center gap-1">
-            Positions
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div class="absolute top-full left-0 mt-0 w-40 bg-white border border-tg-line rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-            {positionLinks.map(link => (
+          {navLinks.slice(5).map(link => (
+            link.highlight === 'primary' ? (
               <a
                 href={link.href}
-                class="block px-4 py-2 text-tg-navy font-medium hover:bg-tg-sky first:rounded-t-lg last:rounded-b-lg transition-colors"
+                class="text-[15px] font-semibold px-5 py-2 rounded-full bg-tg-navy text-white hover:bg-tg-navy-deep transition-colors whitespace-nowrap"
               >
                 {link.label}
               </a>
-            ))}
-          </div>
+            ) : (
+              <a
+                href={link.href}
+                class="text-[15px] font-semibold px-4 py-2 rounded-full border border-tg-navy text-tg-navy hover:bg-tg-sky transition-colors whitespace-nowrap"
+              >
+                {link.label}
+              </a>
+            )
+          ))}
+          <!-- X/Twitter Link -->
+          <a
+            href={team.socialLinks.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-tg-navy hover:text-tg-orange transition-colors"
+            aria-label="Follow us on X"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
         </div>
 
-        <div class="border-l border-tg-line h-6"></div>
-
-        {navLinks.slice(5).map(link => (
-          link.highlight === 'primary' ? (
-            <a
-              href={link.href}
-              class="text-[15px] font-semibold px-5 py-2 rounded-full bg-tg-navy text-white hover:bg-tg-navy-deep transition-colors"
-            >
-              {link.label}
-            </a>
-          ) : (
-            <a
-              href={link.href}
-              class:list={[
-                "text-[15px] font-semibold px-4 py-2 rounded-full border border-tg-navy text-tg-navy hover:bg-tg-sky transition-colors",
-              ]}
-            >
-              {link.label}
-            </a>
-          )
-        ))}
-        <!-- X/Twitter Link -->
-        <a
-          href={team.socialLinks.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-tg-navy hover:text-tg-orange transition-colors"
-          aria-label="Follow us on X"
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-btn"
+          class="lg:hidden text-tg-navy p-2 -mr-2"
+          aria-label="Toggle menu"
         >
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
-        </a>
+        </button>
       </div>
-
-      <!-- Mobile Menu Button -->
-      <button
-        id="mobile-menu-btn"
-        class="md:hidden text-tg-navy p-2"
-        aria-label="Toggle menu"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
     </div>
   </nav>
 
   <!-- Mobile Menu (white drawer) -->
-  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-tg-line shadow-lg max-h-[calc(100vh-72px)] overflow-y-auto">
+  <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-tg-line shadow-lg max-h-[calc(100vh-72px)] overflow-y-auto">
     <div class="container-narrow py-4 space-y-1">
       {navLinks.slice(0, 5).map(link => (
         <a

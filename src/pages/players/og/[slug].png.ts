@@ -26,7 +26,7 @@ export const GET: APIRoute = async ({ props }) => {
   ).buffer
 
   // Convert logo to PNG for satori
-  const logoPath = join(process.cwd(), 'public/logo.webp')
+  const logoPath = join(process.cwd(), 'public/star-white.png')
   const logoPngBuffer = await sharp(logoPath).png().toBuffer()
   const logoDataUrl = `data:image/png;base64,${logoPngBuffer.toString('base64')}`
 
@@ -64,7 +64,7 @@ export const GET: APIRoute = async ({ props }) => {
           height: '100%',
           width: '100%',
           display: 'flex',
-          backgroundColor: '#062a4b',
+          backgroundColor: '#1F2D5C',
           padding: '50px 60px',
         },
         children: [
@@ -89,7 +89,7 @@ export const GET: APIRoute = async ({ props }) => {
                         height: 280,
                         style: {
                           borderRadius: '50%',
-                          border: '4px solid #FFD700',
+                          border: '4px solid #FFFFFF',
                           objectFit: 'cover',
                         },
                       },
@@ -130,7 +130,7 @@ export const GET: APIRoute = async ({ props }) => {
                     style: {
                       fontSize: 30,
                       fontWeight: 700,
-                      color: '#FFD700',
+                      color: '#EEF2FA',
                       marginBottom: '8px',
                     },
                     children: [positions, height].filter(Boolean).join(' • '),
@@ -176,7 +176,7 @@ export const GET: APIRoute = async ({ props }) => {
                             fontWeight: 700,
                             color: 'rgba(255,255,255,0.6)',
                           },
-                          children: 'Stars National Walker',
+                          children: 'Top Gun Walker',
                         },
                       },
                     ],

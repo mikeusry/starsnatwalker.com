@@ -1,13 +1,13 @@
 {
-  "name": "Stars National Walker",
-  "shortName": "Stars Walker",
+  "name": "Top Gun Walker",
+  "shortName": "Top Gun Walker",
   "division": "16U",
   "season": "2026",
   "location": "Charlotte, NC",
-  "organization": "Stars National Softball",
+  "organization": "Top Gun Fastpitch",
   "about": {
     "title": "About Our Team",
-    "description": "Stars National Walker is an elite 16U travel softball team based in Charlotte, NC with players from around the country. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
+    "description": "Top Gun Walker (formerly Stars National Walker) is an elite 16U travel softball team based in Charlotte, NC with players from around the country. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
     "features": [
       {
         "title": "Elite Competition",
@@ -59,9 +59,9 @@
     "title": "Recruiting Coordinator",
     "email": "mike@starsnatwalker.com",
     "photo": "https://res.cloudinary.com/southland-organics/image/upload/w_500,h_600,c_fill,q_auto,f_auto,g_face/Southland%20Website/team/MIKE_Usry",
-    "bio": "Mike played Division I football at Georgia and South Florida, so he knows the recruiting process from the inside — what college coaches are actually evaluating, and what it takes to earn a spot at the next level. As Stars National Walker's recruiting coordinator, that's the work he owns: building each player's target school list, getting her video and profile in front of the right coaches, and managing the outreach and follow-up that turns interest into offers.\n\nMike treats recruiting as the team's responsibility, not something families have to figure out alone. He has helped athletes across multiple sports secure Division I scholarships, and brings that same hands-on advocacy to every player on the roster — finding the right athletic, academic, and cultural fit for each one."
+    "bio": "Mike played Division I football at Georgia and South Florida, so he knows the recruiting process from the inside — what college coaches are actually evaluating, and what it takes to earn a spot at the next level. As Top Gun Walker's recruiting coordinator, that's the work he owns: building each player's target school list, getting her video and profile in front of the right coaches, and managing the outreach and follow-up that turns interest into offers.\n\nMike treats recruiting as the team's responsibility, not something families have to figure out alone. He has helped athletes across multiple sports secure Division I scholarships, and brings that same hands-on advocacy to every player on the roster — finding the right athletic, academic, and cultural fit for each one."
   },
-  "description": "Stars National Walker is an elite 16U travel softball team based in Charlotte, NC with players from around the country. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
+  "description": "Top Gun Walker (formerly Stars National Walker) is an elite 16U travel softball team based in Charlotte, NC with players from around the country. We compete in top-tier national tournaments and are dedicated to player development and college placement.",
   "socialLinks": {
     "twitter": "https://x.com/StarsNatWalker",
     "instagram": "https://instagram.com/starsnatwalker"
@@ -72,5 +72,10 @@
     "AFCA Atlantic Champions",
     "PGF Southeast Qualifier - Top 8"
   ],
-  "contactEmail": "mikeusry@gmail.com"
+  "contactEmail": "starsnationalwalker@gmail.com",
+  "formerName": "Stars National Walker",
+  "parentOrg": {
+    "name": "Top Gun Fastpitch",
+    "url": "https://topgunfastpitch.com"
+  }
 }

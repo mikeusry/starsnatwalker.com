@@ -15,7 +15,7 @@ const { rv } = Astro.props;
 const isVertical = rv.aspectRatio === '9:16';
 
 // Page title is intentionally generic to avoid revealing the school name in browser tab if shared
-const pageTitle = `${rv.playerName} · Stars National Walker`;
+const pageTitle = `${rv.playerName} · Top Gun Walker`;
 ---
 
 <Layout title={pageTitle} description={rv.title} noindex={true}>
@@ -24,9 +24,9 @@ const pageTitle = `${rv.playerName} · Stars National Walker`;
     <header class="border-b border-gray-200 bg-white">
       <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
         <a href="/" class="flex items-center gap-3">
-          <img src="/logo.webp" alt="Stars National Walker" class="h-10 w-auto" />
+          <img src="/topgun-logo.png" alt="Top Gun logo" class="h-10 w-auto" />
           <div class="hidden sm:block">
-            <div class="text-sm font-semibold text-gray-900">Stars National Walker</div>
+            <div class="text-sm font-semibold text-gray-900">Top Gun Walker</div>
             <div class="text-xs text-gray-500">16U · National</div>
           </div>
         </a>
@@ -58,7 +58,7 @@ const pageTitle = `${rv.playerName} · Stars National Walker`;
                 playback-id={rv.muxPlaybackId}
                 metadata-video-title={rv.title}
                 metadata-viewer-user-id={rv.targetProgramShort}
-                accent-color="#c41e3a"
+                accent-color="#1F2D5C"
                 style="width: 100%; height: 100%;"
               ></mux-player>
             </div>
@@ -70,7 +70,7 @@ const pageTitle = `${rv.playerName} · Stars National Walker`;
               playback-id={rv.muxPlaybackId}
               metadata-video-title={rv.title}
               metadata-viewer-user-id={rv.targetProgramShort}
-              accent-color="#c41e3a"
+              accent-color="#1F2D5C"
               style="width: 100%; height: 100%;"
             ></mux-player>
           </div>

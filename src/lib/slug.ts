@@ -137,7 +137,7 @@ export function generateAthleteStructuredData(player: any) {
     nationality: 'US',
     memberOf: {
       '@type': 'SportsTeam',
-      name: 'Stars National Walker',
+      name: 'Top Gun Walker',
       sport: 'Softball',
       url: SITE_URL,
     },
@@ -220,7 +220,7 @@ export function generatePlayerFaqs(player: any) {
   if (positions) {
     faqs.push({
       question: `What position does ${name} play?`,
-      answer: `${name} plays ${positions} for Stars National Walker, a national travel softball program based in Charlotte, NC. She bats ${player.bats || 'R'} and throws ${player.throws || 'R'}.`,
+      answer: `${name} plays ${positions} for Top Gun Walker, a national travel softball program based in Charlotte, NC. She bats ${player.bats || 'R'} and throws ${player.throws || 'R'}.`,
     });
   }
 
@@ -264,7 +264,7 @@ export function generatePlayerFaqs(player: any) {
 
   faqs.push({
     question: `How do college coaches contact ${name}?`,
-    answer: `College coaches can reach ${name} through the Stars National Walker recruiting coordinator using the coach inquiry form at ${SITE_URL}/recruiting/. Video, transcripts, and tournament schedule are available on request.`,
+    answer: `College coaches can reach ${name} through the Top Gun Walker recruiting coordinator using the coach inquiry form at ${SITE_URL}/recruiting/. Video, transcripts, and tournament schedule are available on request.`,
   });
 
   if (player.recruitingStatus === 'uncommitted') {

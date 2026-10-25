@@ -17,7 +17,7 @@ const nav = [
 ] as const;
 ---
 
-<Layout title={`${title} | Stars National Walker`} noindex={true}>
+<Layout title={`${title} | Top Gun Walker`} noindex={true}>
   <div class="min-h-screen bg-white flex flex-col">
     <div id="family-loading" class="flex items-center justify-center min-h-screen">
       <div class="text-stars-navy/50 text-sm">Loading...</div>
@@ -28,9 +28,9 @@ const nav = [
         <div class="max-w-6xl mx-auto px-4">
           <div class="flex items-center justify-between py-3 gap-3">
             <a href="/family/" class="flex items-center gap-3 min-w-0">
-              <img src="/logo.webp" alt="Stars National Walker" class="h-10" />
+              <img src="/star-white.png" alt="" class="h-8 w-8" />
               <div class="min-w-0">
-                <p class="font-bold text-lg leading-tight">Stars National</p>
+                <p class="tg-heading text-lg leading-tight">Top Gun</p>
                 <p class="text-stars-silver text-xs font-medium tracking-wider">WALKER · FAMILY</p>
               </div>
             </a>
@@ -46,7 +46,7 @@ const nav = [
                 class:list={[
                   'shrink-0 whitespace-nowrap px-3 py-2.5 text-sm font-medium border-b-2',
                   current === item.id
-                    ? 'border-stars-gold text-stars-gold'
+                    ? 'border-tg-orange text-white'
                     : 'border-transparent text-white/75 hover:text-white hover:border-white/40',
                 ]}
               >
@@ -65,15 +65,15 @@ const nav = [
         <div class="max-w-6xl mx-auto px-4 py-6">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <a href="/family/" class="flex items-center gap-3 min-w-0">
-              <img src="/logo.webp" alt="Stars National Walker" class="h-8" />
+              <img src="/star-white.png" alt="" class="h-7 w-7" />
               <div class="min-w-0">
-                <p class="font-bold leading-tight">Stars National</p>
+                <p class="tg-heading leading-tight">Top Gun</p>
                 <p class="text-stars-silver text-xs font-medium tracking-wider">WALKER · FAMILY</p>
               </div>
             </a>
             <nav class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-white/70" aria-label="Family footer">
               {nav.map((item) => (
-                <a href={item.href} class="hover:text-stars-gold">{item.label}</a>
+                <a href={item.href} class="hover:text-tg-orange">{item.label}</a>
               ))}
             </nav>
           </div>
@@ -82,7 +82,7 @@ const nav = [
             <p>
               <a href="/" class="hover:text-white">Public site</a>
               <span class="mx-2 text-white/25">·</span>
-              © {new Date().getFullYear()} Stars National Walker
+              © {new Date().getFullYear()} Top Gun Walker
             </p>
           </div>
         </div>

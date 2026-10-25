@@ -5,7 +5,18 @@ interface Props {
   transparent?: boolean;
 }
 
+// `transparent` is kept for API compatibility; the Top Gun header is always white.
 const { transparent = false } = Astro.props;
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href.includes('#')) return false;
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+};
+const isPositionActive = positionLinksActive();
+function positionLinksActive() {
+  return ['/pitchers/', '/catchers/', '/infielders/', '/outfielders/'].some(h => Astro.url.pathname.startsWith(h));
+}
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -27,54 +38,51 @@ const positionLinks = [
 
 <header
   id="header"
-  class:list={[
-    "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-    transparent ? "bg-transparent" : "bg-stars-navy shadow-lg"
-  ]}
+  data-transparent={transparent ? 'true' : 'false'}
+  class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-tg-line"
 >
   <nav class="container-narrow">
-    <div class="flex items-center justify-between h-16 md:h-20">
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-3 group">
+    <div class="flex items-center justify-between h-[72px]">
+      <!-- Logo (full-color logo is only used on white) -->
+      <a href="/" class="flex items-center gap-3 group" aria-label="Top Gun Walker home">
         <img
-          src="/logo.webp"
-          alt="Stars National Walker Logo"
-          class="h-10 md:h-12 w-auto"
+          src="/topgun-logo.png"
+          alt="Top Gun logo"
+          width="480"
+          height="245"
+          class="h-8 md:h-10 w-auto"
         />
-        <div>
-          <div class="text-white font-bold text-lg md:text-xl leading-tight">
-            Stars National
-          </div>
-          <div class="text-stars-silver text-xs md:text-sm font-medium tracking-wider">
-            WALKER
-          </div>
-        </div>
+        <span class="tg-heading text-tg-navy text-base md:text-lg leading-none">Walker</span>
       </a>
 
       <!-- Desktop Nav -->
-      <div class="hidden md:flex items-center gap-6">
+      <div class="hidden md:flex items-center gap-5 h-full">
         {navLinks.slice(0, 5).map(link => (
           <a
             href={link.href}
-            class="font-medium text-white/80 hover:text-white transition-colors"
+            class:list={[
+              "tg-nav-link text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors h-full flex items-center border-b-[3px]",
+              isActive(link.href) ? "border-tg-orange" : "border-transparent"
+            ]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
           >
             {link.label}
           </a>
         ))}
 
         <!-- Positions Dropdown -->
-        <div class="relative group">
-          <button class="font-medium text-white/80 hover:text-white transition-colors flex items-center gap-1">
+        <div class:list={["relative group h-full flex items-center border-b-[3px]", isPositionActive ? "border-tg-orange" : "border-transparent"]}>
+          <button class="text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors flex items-center gap-1">
             Positions
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="absolute top-full left-0 mt-2 w-40 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          <div class="absolute top-full left-0 mt-0 w-40 bg-white border border-tg-line rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
             {positionLinks.map(link => (
               <a
                 href={link.href}
-                class="block px-4 py-2 text-gray-700 hover:bg-stars-navy hover:text-white first:rounded-t-lg last:rounded-b-lg transition-colors"
+                class="block px-4 py-2 text-tg-navy font-medium hover:bg-tg-sky first:rounded-t-lg last:rounded-b-lg transition-colors"
               >
                 {link.label}
               </a>
@@ -82,28 +90,22 @@ const positionLinks = [
           </div>
         </div>
 
-        <div class="border-l border-white/20 h-6 ml-1"></div>
+        <div class="border-l border-tg-line h-6"></div>
 
         {navLinks.slice(5).map(link => (
           link.highlight === 'primary' ? (
             <a
               href={link.href}
-              class="font-bold text-[0.95rem] px-5 py-2.5 rounded-lg transition-all hover:opacity-90"
-              style="background-color: #FFD700; color: #062a4b;"
-            >
-              {link.label}
-            </a>
-          ) : link.highlight === 'secondary' ? (
-            <a
-              href={link.href}
-              class="font-semibold text-[0.95rem] px-5 py-2.5 rounded-lg border-2 border-white text-white transition-all hover:bg-white hover:text-stars-navy"
+              class="text-[15px] font-semibold px-5 py-2 rounded-full bg-tg-navy text-white hover:bg-tg-navy-deep transition-colors"
             >
               {link.label}
             </a>
           ) : (
             <a
               href={link.href}
-              class="font-medium text-white/80 hover:text-white transition-colors"
+              class:list={[
+                "text-[15px] font-semibold px-4 py-2 rounded-full border border-tg-navy text-tg-navy hover:bg-tg-sky transition-colors",
+              ]}
             >
               {link.label}
             </a>
@@ -114,7 +116,7 @@ const positionLinks = [
           href={team.socialLinks.twitter}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-white/80 hover:text-white transition-colors"
+          class="text-tg-navy hover:text-tg-orange transition-colors"
           aria-label="Follow us on X"
         >
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -126,7 +128,7 @@ const positionLinks = [
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden text-white p-2"
+        class="md:hidden text-tg-navy p-2"
         aria-label="Toggle menu"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,65 +139,49 @@ const positionLinks = [
     </div>
   </nav>
 
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-stars-navy-light border-t border-white/10">
-    <div class="container-narrow py-4 space-y-3">
+  <!-- Mobile Menu (white drawer) -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-tg-line shadow-lg max-h-[calc(100vh-72px)] overflow-y-auto">
+    <div class="container-narrow py-4 space-y-1">
       {navLinks.slice(0, 5).map(link => (
         <a
           href={link.href}
-          class="block font-medium py-2 text-white/80 hover:text-white"
+          class:list={["block font-semibold py-2 text-tg-navy hover:text-tg-orange border-l-[3px] pl-3", isActive(link.href) ? "border-tg-orange" : "border-transparent"]}
         >
           {link.label}
         </a>
       ))}
 
-      <!-- Positions Section -->
-      <div class="border-t border-white/10 pt-3 mt-3">
-        <p class="text-white/50 text-sm mb-2">By Position</p>
+      <div class="border-t border-tg-line pt-3 mt-3">
+        <p class="text-tg-muted text-sm mb-2 pl-3">By Position</p>
         {positionLinks.map(link => (
           <a
             href={link.href}
-            class="block font-medium py-2 text-white/80 hover:text-white pl-4"
+            class="block font-medium py-2 text-tg-navy hover:text-tg-orange pl-6"
           >
             {link.label}
           </a>
         ))}
       </div>
 
-      <div class="border-t border-white/10 pt-3 mt-3">
+      <div class="border-t border-tg-line pt-4 mt-3 flex flex-col gap-3">
         {navLinks.slice(5).map(link => (
           link.highlight === 'primary' ? (
-            <a
-              href={link.href}
-              class="block font-bold py-2"
-              style="color: #FFD700;"
-            >
-              {link.label}
-            </a>
-          ) : link.highlight === 'secondary' ? (
-            <a
-              href={link.href}
-              class="block font-semibold py-2 text-white"
-            >
+            <a href={link.href} class="block text-center font-semibold py-2.5 rounded-full bg-tg-navy text-white">
               {link.label}
             </a>
           ) : (
-            <a
-              href={link.href}
-              class="block font-medium py-2 text-white/80 hover:text-white"
-            >
+            <a href={link.href} class="block text-center font-semibold py-2.5 rounded-full border border-tg-navy text-tg-navy">
               {link.label}
             </a>
           )
         ))}
       </div>
 
-      <!-- X/Twitter Link -->
       <a
         href={team.socialLinks.twitter}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-2 text-white/80 hover:text-white font-medium py-2"
+        class="flex items-center gap-2 text-tg-navy hover:text-tg-orange font-medium py-3 pl-3"
       >
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -219,25 +205,11 @@ const positionLinks = [
     closeIcon?.classList.toggle('hidden');
   });
 
-  // Close menu on link click
   mobileMenu?.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu?.classList.add('hidden');
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
     });
-  });
-
-  // Header background on scroll
-  const header = document.getElementById('header');
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      header?.classList.remove('bg-transparent');
-      header?.classList.add('bg-stars-navy', 'shadow-lg');
-    } else if (header?.dataset.transparent === 'true') {
-      header?.classList.add('bg-transparent');
-      header?.classList.remove('bg-stars-navy', 'shadow-lg');
-    }
   });
 </script>

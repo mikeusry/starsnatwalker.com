@@ -1,0 +1,47 @@
+# Production deploy for starsnatwalker.com.
+# GitHub main is the live site: every push to main builds and uploads to the
+# Cloudflare Pages Direct Upload project `starsnatwalker` (which owns
+# starsnatwalker.com + www and holds all runtime secrets). Never hand-deploy
+# with `wrangler pages deploy` from a Mac.
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # Static Astro build + functions/ Pages Functions. Uploading dist ships
+      # assets; Wrangler also picks up functions/ from the repo root.
+      # wrangler is pinned in package.json / package-lock.json.
+      - name: Deploy dist to starsnatwalker (production)
+        run: >-
+          npx --no-install wrangler pages deploy dist
+          --project-name starsnatwalker
+          --branch main
+          --commit-hash "$GITHUB_SHA"
+          --commit-dirty=false
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 07f1d3224d68222be7b6f97190608b80

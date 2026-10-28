@@ -5,7 +5,7 @@
 | Item | Value |
 |------|-------|
 | Stack | Astro static, Cloudflare Pages, Supabase, SendGrid, Mux |
-| Deploy | `npx wrangler pages deploy dist --project-name starsnatwalker --commit-dirty=true` |
+| Deploy | Push/merge to `main` → GitHub Action deploys (`.github/workflows/deploy.yml`) |
 | Build | `npm run build` |
 | Dev | `npm run dev` (port 4321) |
 | Cloudinary | Cloud: `southland-organics`, Folder: `StarsNationalWalker` |
@@ -14,11 +14,17 @@
 
 ## Deploy
 
-NOT connected to GitHub auto-deploy. Must deploy manually:
+GitHub `main` is production. Every push to `main` runs `.github/workflows/deploy.yml`:
+`npm ci` → `npm run build` → `wrangler pages deploy dist` into the existing
+Direct Upload project `starsnatwalker` (owns starsnatwalker.com + www; holds
+runtime secrets). Same pattern as Southeast Game Bird.
 
-```bash
-npm run build && npx wrangler pages deploy dist --project-name starsnatwalker --commit-dirty=true
-```
+**Never** run `wrangler pages deploy` from a Mac — that is how production drifted
+off Git before. Use `workflow_dispatch` on the Action if you need a re-deploy of
+the current `main` tip.
+
+Repo secrets: `CLOUDFLARE_API_TOKEN` (Pages Edit). Account ID is hardcoded in the
+workflow (`07f1d3224d68222be7b6f97190608b80`, point.dog Digital).
 
 ### Cloudflare Pages Env Vars (Production)
 

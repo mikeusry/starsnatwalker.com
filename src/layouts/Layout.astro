@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title,
-  description = "Stars National Walker - Elite 16U Travel Softball Team based in Charlotte, NC with players from around the country. Competing in top-tier national tournaments and dedicated to player development and college placement.",
+  description = "Top Gun Walker (formerly Stars National Walker) - Elite 16U Travel Softball Team based in Charlotte, NC with players from around the country. Competing in top-tier national tournaments and dedicated to player development and college placement.",
   image = "/og.png",
   noindex = false
 } = Astro.props;
@@ -20,10 +20,11 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 const organizationStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'SportsTeam',
-  name: 'Stars National Walker',
+  name: 'Top Gun Walker',
   sport: 'Softball',
   url: siteUrl,
-  logo: `${siteUrl}/logo.webp`,
+  alternateName: 'Stars National Walker',
+  logo: `${siteUrl}/topgun-logo.png`,
   location: {
     '@type': 'Place',
     address: {
@@ -35,7 +36,8 @@ const organizationStructuredData = {
   },
   memberOf: {
     '@type': 'SportsOrganization',
-    name: 'Stars National Softball',
+    name: 'Top Gun Fastpitch',
+    url: 'https://topgunfastpitch.com',
   },
   ...(description && { description }),
 };
@@ -46,6 +48,7 @@ const organizationStructuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
 
@@ -55,20 +58,20 @@ const organizationStructuredData = {
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Keywords -->
-    <meta name="keywords" content="Stars National Walker, 16U softball, travel softball, Charlotte softball, North Carolina softball, college softball recruiting, Stars National Softball, youth softball, elite softball team, softball players, NCAA softball" />
+    <meta name="keywords" content="Top Gun Walker, 16U softball, travel softball, Charlotte softball, North Carolina softball, college softball recruiting, Top Gun Fastpitch, Stars National Walker, youth softball, elite softball team, softball players, NCAA softball" />
 
     <!-- Author and Copyright -->
-    <meta name="author" content="Stars National Walker" />
-    <meta name="copyright" content="Stars National Walker" />
+    <meta name="author" content="Top Gun Walker" />
+    <meta name="copyright" content="Top Gun Walker" />
     <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Stars National Walker" />
+    <meta property="og:site_name" content="Top Gun Walker" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image && image.startsWith('http') ? image : `${siteUrl}${image || '/logo.webp'}`} />
+    <meta property="og:image" content={image && image.startsWith('http') ? image : `${siteUrl}${image || '/og.png'}`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
@@ -79,7 +82,7 @@ const organizationStructuredData = {
     <meta name="twitter:creator" content="@StarsNatWalker" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image && image.startsWith('http') ? image : `${siteUrl}${image || '/logo.webp'}`} />
+    <meta name="twitter:image" content={image && image.startsWith('http') ? image : `${siteUrl}${image || '/og.png'}`} />
 
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationStructuredData)} />
@@ -90,10 +93,10 @@ const organizationStructuredData = {
     <!-- Fonts - Non-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     </noscript>
 
     <!-- Styles -->
@@ -101,7 +104,7 @@ const organizationStructuredData = {
       @import "../styles/global.css";
     </style>
   </head>
-  <body class="bg-gray-50 text-gray-900 antialiased">
+  <body class="bg-white text-tg-ink antialiased">
     <slot />
 
     <!-- pd-pixel: Profile view tracking -->

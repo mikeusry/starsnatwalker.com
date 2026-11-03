@@ -1,38 +1,55 @@
 @import "tailwindcss";
 
-/* Stars National Walker Brand Colors */
+/* Top Gun Walker brand colors (Design Desk spec, Oct 2026).
+   Change the --tg-* values below to re-skin the whole site.
+   Legacy "stars-*" utility names are kept as aliases so existing pages
+   (bg-stars-navy, text-stars-blue, ...) pick up the new palette. */
 @theme {
-  /* Primary Colors - From starsnational.com */
-  --color-stars-navy: #062a4b;
-  --color-stars-navy-light: #0a3d6a;
-  --color-stars-blue: #2E91FC;
-  --color-stars-silver: #C0C0C0;
-  --color-stars-gold: #FFD700;
-  --color-stars-red: #DC2626;
+  /* Core palette */
+  --color-tg-navy: #1F2D5C;       /* header text, hero bg, headings, primary buttons */
+  --color-tg-navy-deep: #14204A;  /* footer, hover */
+  --color-tg-sky: #EEF2FA;        /* alt sections, table stripes */
+  --color-tg-white: #FFFFFF;
+  --color-tg-ink: #1A1F2E;        /* body text */
+  --color-tg-muted: #5B6478;
+  --color-tg-line: #D9DEE8;
+  --color-tg-orange: #D9582A;     /* ONLY: active-nav underline, eyebrow label, link hover */
+  --color-tg-blue: #3D5A9E;       /* mid blue for secondary text that must read on white and navy */
+
+  /* Legacy aliases (old Stars names -> Top Gun palette) */
+  --color-stars-navy: var(--color-tg-navy);
+  --color-stars-navy-light: var(--color-tg-navy-deep);
+  --color-stars-blue: var(--color-tg-blue);
+  --color-stars-silver: var(--color-tg-line);
+  --color-stars-gold: var(--color-tg-sky);   /* gold retired: former gold chips/buttons become sky w/ navy text */
+  --color-stars-red: var(--color-tg-navy);   /* red retired */
 
   /* Gray Scale */
-  --color-stars-gray-blue: #737e94;
-  --color-stars-gray-light: #c8ccd1;
-  --color-stars-gray-medium: #595959;
-  --color-stars-gray-dark: #555655;
+  --color-stars-gray-blue: var(--color-tg-muted);
+  --color-stars-gray-light: var(--color-tg-line);
+  --color-stars-gray-medium: var(--color-tg-muted);
+  --color-stars-gray-dark: var(--color-tg-ink);
 
   /* Base Colors */
   --color-stars-white: #ffffff;
 
   /* Semantic colors */
-  --color-primary: var(--color-stars-navy);
-  --color-accent: var(--color-stars-silver);
-  --color-action: var(--color-stars-blue);
-  --color-background: var(--color-stars-white);
-  --color-text: var(--color-stars-gray-dark);
+  --color-primary: var(--color-tg-navy);
+  --color-accent: var(--color-tg-line);
+  --color-action: var(--color-tg-navy);
+  --color-background: var(--color-tg-white);
+  --color-text: var(--color-tg-ink);
+
+  /* Fonts */
+  --font-heading: 'Oswald', 'Arial Narrow', system-ui, sans-serif;
 }
 
 /* Custom components */
 @layer components {
   .btn-primary {
     @apply inline-flex items-center justify-center px-6 py-3
-           bg-stars-navy text-white font-semibold rounded-lg
-           hover:bg-stars-blue transition-colors duration-200;
+           bg-tg-navy text-white font-semibold rounded-full
+           hover:bg-tg-navy-deep transition-colors duration-200;
   }
 
   .btn-secondary {
@@ -72,5 +89,51 @@ html {
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-tg-ink);
+}
+@media (min-width: 768px) { body { font-size: 17px; } }
+
+/* Headings: Oswald 600 uppercase (Design Desk spec). Tailwind size utilities on a
+   given heading still win, so these are the defaults. */
+@layer base {
+  h1, h2, h3, .tg-heading {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+  }
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 20px; }
+  @media (min-width: 768px) {
+    h1 { font-size: 44px; }
+    h2 { font-size: 28px; }
+  }
+  a:hover { text-decoration-color: var(--color-tg-orange); }
+}
+
+/* Small orange eyebrow label (one of the 3 allowed orange uses) */
+.tg-eyebrow {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-tg-orange);
+}
+/* Text links in body copy: hover goes orange */
+.tg-link:hover, main p a:hover, footer a:hover { color: var(--color-tg-orange); }
+
+/* Visible TODO placeholder on the dev site (remove once confirmed) */
+.tg-todo {
+  background: #FFF4CC;
+  color: #5B4600;
+  padding: 0 4px;
+  border-radius: 3px;
+  font-weight: 600;
 }

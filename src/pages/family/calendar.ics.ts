@@ -4,7 +4,7 @@ import { buildIcs, icsResponse, type ScheduleEvent } from '../../lib/calendar';
 
 export const GET: APIRoute = () => {
   const body = buildIcs(schedule.events as ScheduleEvent[], {
-    name: 'Stars National Walker (Family)',
+    name: 'Top Gun Walker (Family)',
     family: true,
   });
   return icsResponse(body, 'stars-family.ics');

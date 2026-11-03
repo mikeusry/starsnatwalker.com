@@ -92,11 +92,11 @@ const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
 
 <Layout
   title={hasResult
-    ? `${event.result} — ${event.name} | Stars National Walker`
-    : `${event.name} | Stars National Walker Roster`}
+    ? `${event.result} — ${event.name} | Top Gun Walker`
+    : `${event.name} | Top Gun Walker Roster`}
   description={hasResult
     ? `Stars National Walker finished ${event.result} at the ${event.name} (${event.dates}, ${event.location}). See the roster of ${players.length} elite 16U softball players.`
-    : `See the Stars National Walker roster for ${event.name} (${event.dates}). ${players.length} elite 16U softball players competing in ${event.location}.`}
+    : `See the Top Gun Walker roster for ${event.name} (${event.dates}). ${players.length} elite 16U softball players competing in ${event.location}.`}
 >
   <Header />
   <main class="pt-20">
@@ -126,7 +126,7 @@ const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
                 {event.result}
               </h1>
               <p class="text-xl md:text-2xl text-stars-gold font-semibold mb-2">
-                Stars National Walker &middot; {event.name}
+                Top Gun Walker &middot; {event.name}
               </p>
               <p class="text-lg text-white/80">{event.dates} &middot; {event.location}</p>
               {event.resultDetail && (
@@ -136,7 +136,7 @@ const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
           ) : (
             <>
               <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                Stars National Walker
+                Top Gun Walker
               </h1>
               <p class="text-2xl text-stars-gold font-semibold mb-2">{event.name}</p>
               <p class="text-xl text-white/80">{event.dates}</p>

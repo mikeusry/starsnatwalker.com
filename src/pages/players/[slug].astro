@@ -131,10 +131,10 @@ const ogImage = `/players/og/${slug}.png`;
 ---
 
 <Layout
-  title={`${player.firstName} ${player.lastName} - ${player.position} - Class of ${player.gradYear} | Stars National Walker`}
+  title={`${player.firstName} ${player.lastName} - ${player.position} - Class of ${player.gradYear} | Top Gun Walker`}
   description={player.bio
     ? player.bio.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1')
-    : `${player.firstName} ${player.lastName} is a ${player.position} for Stars National Walker 16U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
+    : `${player.firstName} ${player.lastName} is a ${player.position} for Top Gun Walker 16U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
   image={ogImage}
 >
   <!-- Structured Data for SEO -->
@@ -264,7 +264,7 @@ const ogImage = `/players/og/${slug}.png`;
               <a
                 id="contact-player-btn"
                 href={`/recruiting/?player=${encodeURIComponent(player.firstName + ' ' + player.lastName)}#inquiry`}
-                class="btn-primary inline-flex items-center gap-2"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-tg-navy font-semibold hover:bg-tg-sky transition-colors"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -678,7 +678,7 @@ const ogImage = `/players/og/${slug}.png`;
                     stream-type="on-demand"
                     playback-id={video.playbackId}
                     metadata-video-title={video.title || `${player.firstName} ${player.lastName}`}
-                    accent-color="#c41e3a"
+                    accent-color="#1F2D5C"
                   ></mux-player>
                 </div>
               </div>
@@ -706,7 +706,7 @@ const ogImage = `/players/og/${slug}.png`;
             id="lightbox-player"
             stream-type="on-demand"
             playback-id=""
-            accent-color="#c41e3a"
+            accent-color="#1F2D5C"
             class="w-full h-full"
           ></mux-player>
         </div>
@@ -856,7 +856,7 @@ const ogImage = `/players/og/${slug}.png`;
         {teammates.length > 0 && (
           <>
             <h2 class="text-2xl font-bold text-gray-900 mb-6">
-              More {positionHub.name === 'Roster' ? 'Players' : positionHub.name} on Stars National Walker
+              More {positionHub.name === 'Roster' ? 'Players' : positionHub.name} on Top Gun Walker
             </h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
               {teammates.map((t) => (

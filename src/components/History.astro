@@ -1,0 +1,76 @@
+---
+// "Our Stars years" heritage timeline. Uses ONLY results and commitments that
+// already appear elsewhere on the site (schedule.json pastEvents, team.json
+// achievements, players.json commitments, tryout page copy). Add new rows here.
+const timeline = [
+  {
+    when: 'Sep 2025',
+    title: 'PGF Southeast Qualifier',
+    detail: 'Top 8 · Tampa, FL',
+  },
+  {
+    when: 'Oct 2025',
+    title: 'Alliance Atlantic Region Championship',
+    detail: 'Champions · Atlanta, GA',
+  },
+  {
+    when: 'Debut season',
+    title: 'AFCA Atlantic',
+    detail: 'Champions',
+  },
+  {
+    when: 'Jul 19–26, 2026',
+    title: 'Alliance Fastpitch Championship Series',
+    detail: '16U Tier III National Runner-Up · Westfield, IN',
+  },
+  {
+    when: 'Sep 29, 2026',
+    title: 'Maddie Diaz commits to Elon University',
+    detail: 'Verbal commitment to play Division I softball',
+  },
+  {
+    when: 'Oct 2026',
+    title: 'Stars National Walker becomes Top Gun Walker',
+    detail: 'Joining the Top Gun Fastpitch family',
+    current: true,
+  },
+];
+---
+
+<section id="history" class="section-padding bg-tg-sky scroll-mt-[72px]">
+  <div class="container-narrow">
+    <div class="grid md:grid-cols-[220px_1fr] gap-10 md:gap-16 items-start">
+      <div class="text-center md:text-left">
+        <span class="tg-eyebrow mb-2">Our heritage</span>
+        <h2 class="text-tg-navy mb-6">Our Stars years</h2>
+        <img
+          src="/stars-logo.webp"
+          alt="Stars National Walker logo"
+          width="120"
+          class="w-[120px] h-auto mx-auto md:mx-0 mb-3"
+
+        />
+        <p class="text-sm text-tg-muted">
+          Stars National Walker, <span class="tg-todo" title="TODO: confirm first season with Mike">[TODO first year]</span> to 2026
+        </p>
+      </div>
+
+      <ol class="relative border-l-2 border-tg-line ml-3">
+        {timeline.map(item => (
+          <li class="relative pl-8 pb-8 last:pb-0">
+            <span
+              class:list={[
+                "absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2",
+                item.current ? "bg-tg-navy border-tg-navy" : "bg-white border-tg-navy"
+              ]}
+              aria-hidden="true"
+            ></span>
+            <p class="text-sm font-semibold text-tg-muted uppercase tracking-wide">{item.when}</p>
+            <h3 class="text-tg-navy mt-1">{item.title}</h3>
+            <p class="text-tg-ink/80">{item.detail}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

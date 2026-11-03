@@ -13,7 +13,7 @@ export const GET: APIRoute = async () => {
   ).buffer;
 
   // Convert webp logo to PNG base64 for satori compatibility
-  const logoPath = join(process.cwd(), 'public/logo.webp');
+  const logoPath = join(process.cwd(), 'public/star-white.png');
   const logoPngBuffer = await sharp(logoPath).png().toBuffer();
   const logoDataUrl = `data:image/png;base64,${logoPngBuffer.toString('base64')}`;
 
@@ -32,7 +32,7 @@ export const GET: APIRoute = async () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#062a4b',
+          backgroundColor: '#1F2D5C',
           padding: '40px',
         },
         children: [
@@ -40,8 +40,8 @@ export const GET: APIRoute = async () => {
             type: 'img',
             props: {
               src: logoDataUrl,
-              width: 340,
-              height: 117,
+              width: 110,
+              height: 110,
               style: {
                 marginBottom: '28px',
                 objectFit: 'contain',
@@ -67,11 +67,11 @@ export const GET: APIRoute = async () => {
               style: {
                 fontSize: 32,
                 fontWeight: 700,
-                color: '#c0c0c0',
+                color: '#D9DEE8',
                 textAlign: 'center',
                 marginBottom: headlineAchievement ? '28px' : '0px',
               },
-              children: `${team.division} • ${team.location}`,
+              children: `${team.division} • ${team.location} • Formerly Stars National Walker`,
             },
           },
           ...(headlineAchievement
@@ -81,8 +81,8 @@ export const GET: APIRoute = async () => {
                   props: {
                     style: {
                       display: 'flex',
-                      backgroundColor: '#f5c518',
-                      color: '#062a4b',
+                      backgroundColor: '#FFFFFF',
+                      color: '#1F2D5C',
                       fontSize: 30,
                       fontWeight: 700,
                       textAlign: 'center',

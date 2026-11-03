@@ -116,7 +116,7 @@ yet," not "no traffic."
 ### Open items
 - [ ] **Re-run the per-player SERP check** (was due Aug 16-30 — overdue) and diff vs the
       baseline in memory (`project_seo_baseline_2026-08.md`).
-- [ ] **7 missing GPAs** — Fliss, LaManche, Llaneza, Orlando, Wunderlich, Kinch, Owen.
+- [ ] **6 missing GPAs** — Fliss, LaManche, Llaneza, Orlando, Wunderlich, Owen.
       Not public data; needs Mike. Each adds a schema field AND an FAQ entry.
 - [ ] Kendall LaManche + Charlotte Llaneza have **zero public press coverage** despite
       Kendall being #1 NE pitcher — a PR gap, not an SEO one.

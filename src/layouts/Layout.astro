@@ -14,6 +14,9 @@ const {
 } = Astro.props;
 
 const siteUrl = "https://topgunwalker.com";
+// Cache-bust share images per deploy so X/Facebook refetch updated OG cards.
+const ogVersion = (process.env.GITHUB_SHA || String(Date.now())).slice(0, 8);
+const ogImageUrl = (image && image.startsWith('http') ? image : `${siteUrl}${image || '/og.png'}`) + (image && image.startsWith('http') ? '' : `?v=${ogVersion}`);
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 
 // Structured data for organization
@@ -71,7 +74,7 @@ const organizationStructuredData = {
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image && image.startsWith('http') ? image : `${siteUrl}${image || '/og.png'}`} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
@@ -82,7 +85,7 @@ const organizationStructuredData = {
     <meta name="twitter:creator" content="@StarsNatWalker" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image && image.startsWith('http') ? image : `${siteUrl}${image || '/og.png'}`} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationStructuredData)} />

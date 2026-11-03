@@ -1,6 +1,6 @@
 # Components
 
-Astro components for Stars National Walker team website.
+Astro components for the Top Gun National Walker team website.
 
 ## Component List
 
@@ -48,13 +48,13 @@ import Header from '../components/Header.astro';
 - Responsive mobile hamburger menu
 - Active link highlighting
 - Sticky positioning on scroll
-- Navigation links: Home | Roster | Schedule | About | Contact
+- Navigation links: Home, Roster, Schedule, About | logo | Contact, College Coaches, Join Us
 
 ### Styling
 
-Uses Stars National branding colors:
-- Background: Navy (`#062a4b`)
-- Accent: Red (`#c41e3a`)
+Uses Top Gun National Walker branding colors:
+- Background: Navy (`#2C3669`)
+- Accent: Orange (`#DE5E2F`) — active-nav underline, eyebrow, link hover only
 - Mobile menu: 768px breakpoint
 
 ---
@@ -79,7 +79,7 @@ import Hero from '../components/Hero.astro';
 
 ### Features
 
-- Full-width hero with gradient background
+- Full-width hero with a flat navy overlay on the team photo
 - Team name and tagline
 - Season and location info
 - CTA button linking to roster
@@ -90,7 +90,7 @@ import Hero from '../components/Hero.astro';
 To change hero text, edit `src/data/team.json`:
 ```json
 {
-  "name": "Stars National Walker",
+  "name": "Top Gun National Walker",
   "division": "18U",
   "season": "2025-2026",
   "location": "Charlotte, NC"
@@ -407,7 +407,8 @@ Use these Tailwind classes:
 - `bg-stars-navy` - Primary navy background
 - `bg-stars-navy-light` - Lighter navy
 - `bg-stars-red` - Red accent
-- `bg-stars-gold` - Gold highlights
+- `bg-tg-navy` - Primary navy
+- `bg-tg-sky` - Alternate sections (former gold chips)
 - `text-stars-*` - Text colors
 
 ---

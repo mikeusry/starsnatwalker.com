@@ -7,6 +7,7 @@ import players from '../data/players.json';
 import team from '../data/team.json';
 import schedule from '../data/schedule.json';
 import { generatePlayerSlug } from '../lib/slug';
+import { playerInitials, showPlayerPhoto } from '../lib/player-photo';
 
 // Sort players alphabetically by last name
 const sortedPlayers = [...players].sort((a, b) => {
@@ -33,8 +34,8 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
 ---
 
 <Layout
-  title="College Coaches | Top Gun Walker Softball"
-  description="College coaches: view the Top Gun Walker 16U roster, player stats, recruiting information, and schedule. Contact us about our student-athletes."
+  title="College Coaches | Top Gun National Walker Softball"
+  description="College coaches: view the Top Gun National Walker 16U roster, player stats, recruiting information, and schedule. Contact us about our student-athletes."
 >
   <Header />
   <main class="pt-20">
@@ -131,12 +132,12 @@ const gradYears = [...new Set(players.map(p => p.gradYear))].sort();
                   >
                     <td class="px-4 py-4">
                       <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
-                          {player.photoUrl ? (
+                        <div class="w-10 h-10 rounded-full bg-tg-navy overflow-hidden flex-shrink-0">
+                          {showPlayerPhoto(player) ? (
                             <img src={player.photoUrl} alt="" class="w-full h-full object-cover" />
                           ) : (
-                            <div class="w-full h-full flex items-center justify-center text-stars-navy font-bold text-sm">
-                              {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                            <div class="w-full h-full flex items-center justify-center bg-tg-navy text-white font-bold text-sm">
+                              {playerInitials(player.firstName, player.lastName)}
                             </div>
                           )}
                         </div>

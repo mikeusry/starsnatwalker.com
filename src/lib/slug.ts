@@ -1,3 +1,5 @@
+import { showPlayerPhoto } from './player-photo';
+
 /**
  * Generate URL-friendly slug from text
  * @param text - Text to slugify
@@ -137,12 +139,12 @@ export function generateAthleteStructuredData(player: any) {
     nationality: 'US',
     memberOf: {
       '@type': 'SportsTeam',
-      name: 'Top Gun Walker',
+      name: 'Top Gun National Walker',
       sport: 'Softball',
       url: SITE_URL,
     },
     ...(player.bio && { description: stripBioLinks(player.bio) }),
-    ...(player.photoUrl && { image: player.photoUrl }),
+    ...(showPlayerPhoto(player) && { image: player.photoUrl }),
     ...(height && { height }),
     ...(player.weightLbs && {
       weight: {
@@ -220,7 +222,7 @@ export function generatePlayerFaqs(player: any) {
   if (positions) {
     faqs.push({
       question: `What position does ${name} play?`,
-      answer: `${name} plays ${positions} for Top Gun Walker, a national travel softball program based in Charlotte, NC. She bats ${player.bats || 'R'} and throws ${player.throws || 'R'}.`,
+      answer: `${name} plays ${positions} for Top Gun National Walker, a national travel softball program based in Charlotte, NC. She bats ${player.bats || 'R'} and throws ${player.throws || 'R'}.`,
     });
   }
 
@@ -264,7 +266,7 @@ export function generatePlayerFaqs(player: any) {
 
   faqs.push({
     question: `How do college coaches contact ${name}?`,
-    answer: `College coaches can reach ${name} through the Top Gun Walker recruiting coordinator using the coach inquiry form at ${SITE_URL}/recruiting/. Video, transcripts, and tournament schedule are available on request.`,
+    answer: `College coaches can reach ${name} through the Top Gun National Walker recruiting coordinator using the coach inquiry form at ${SITE_URL}/recruiting/. Video, transcripts, and tournament schedule are available on request.`,
   });
 
   if (player.recruitingStatus === 'uncommitted') {

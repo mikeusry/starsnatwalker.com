@@ -3,6 +3,7 @@ import satori from 'satori'
 import { Resvg } from '@resvg/resvg-js'
 import players from '../../../data/players.json'
 import { generatePlayerSlug } from '../../../lib/slug'
+import { showPlayerPhoto } from '../../../lib/player-photo'
 import { getOgFonts, getOgLogoDataUrl, getOgPlayerPhoto } from '../../../lib/og'
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -27,7 +28,7 @@ function playerCard(player: Player, photoDataUrl: string | null, logoDataUrl: st
         height: '100%',
         width: '100%',
         display: 'flex',
-        backgroundColor: '#1F2D5C',
+        backgroundColor: '#2C3669',
         padding: '50px 60px',
       },
       children: [
@@ -133,7 +134,7 @@ function playerCard(player: Player, photoDataUrl: string | null, logoDataUrl: st
                           fontWeight: 700,
                           color: 'rgba(255,255,255,0.6)',
                         },
-                        children: 'Top Gun Walker',
+                        children: 'Top Gun National Walker',
                       },
                     },
                   ],
@@ -151,7 +152,7 @@ export const GET: APIRoute = async ({ props }) => {
   const player = props.player as Player
   const fonts = getOgFonts()
   const logoDataUrl = await getOgLogoDataUrl()
-  let photoDataUrl = await getOgPlayerPhoto(player.photoUrl)
+  let photoDataUrl = showPlayerPhoto(player) ? await getOgPlayerPhoto(player.photoUrl) : null
 
   const satoriOptions = {
     width: 1200,

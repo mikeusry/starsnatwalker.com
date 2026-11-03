@@ -12,6 +12,7 @@ import {
   generatePlayerFaqs,
   generateFaqStructuredData,
 } from '../../lib/slug';
+import { playerInitials, showPlayerPhoto } from '../../lib/player-photo';
 
 /** Render `[label](https://...)` in player bios as a real link. */
 function renderBioParagraph(text: string) {
@@ -75,9 +76,12 @@ const teammates = [...samePosition, ...others.filter((p: any) => !samePosition.i
   .map((p: any) => ({
     slug: generatePlayerSlug(p.firstName, p.lastName),
     name: `${p.firstName} ${p.lastName}`,
+    firstName: p.firstName,
+    lastName: p.lastName,
     position: p.position,
     gradYear: p.gradYear,
     photoUrl: p.photoUrl,
+    jerseyOk: p.jerseyOk,
   }));
 
 const breadcrumbData = generateBreadcrumbData([
@@ -131,10 +135,10 @@ const ogImage = `/players/og/${slug}.png`;
 ---
 
 <Layout
-  title={`${player.firstName} ${player.lastName} - ${player.position} - Class of ${player.gradYear} | Top Gun Walker`}
+  title={`${player.firstName} ${player.lastName} - ${player.position} - Class of ${player.gradYear} | Top Gun National Walker`}
   description={player.bio
     ? player.bio.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1')
-    : `${player.firstName} ${player.lastName} is a ${player.position} for Top Gun Walker 16U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
+    : `${player.firstName} ${player.lastName} is a ${player.position} for Top Gun National Walker 16U travel softball team, graduating in ${player.gradYear}. View stats, highlights, and recruiting info.`}
   image={ogImage}
 >
   <!-- Structured Data for SEO -->
@@ -152,21 +156,18 @@ const ogImage = `/players/og/${slug}.png`;
         <div class="grid md:grid-cols-3 gap-8 items-start">
           <!-- Photo -->
           <div class="md:col-span-1">
-            <div class="aspect-[4/5] bg-gradient-to-br from-stars-navy-light to-stars-navy rounded-2xl overflow-hidden relative">
-              {player.photoUrl ? (
+            <div class="aspect-[4/5] bg-tg-navy rounded-2xl overflow-hidden relative">
+              {showPlayerPhoto(player) ? (
                 <img
                   src={player.photoUrl}
                   alt={`${player.firstName} ${player.lastName}`}
                   class="w-full h-full object-cover"
                 />
               ) : (
-                <div class="w-full h-full flex items-center justify-center">
-                  <div class="text-center">
-                    <div class="text-8xl text-stars-red/50 mb-4">★</div>
-                    <div class="text-white/30 font-bold text-2xl">
-                      {player.firstName.charAt(0)}{player.lastName.charAt(0)}
-                    </div>
-                  </div>
+                <div class="w-full h-full flex items-center justify-center bg-tg-navy">
+                  <span class="text-white font-bold text-5xl tracking-wide">
+                    {playerInitials(player.firstName, player.lastName)}
+                  </span>
                 </div>
               )}
               <!-- Recruiting Status Badge -->
@@ -250,10 +251,10 @@ const ogImage = `/players/og/${slug}.png`;
               {videoCount > 0 && (
                 <a
                   href="#videos"
-                  class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-stars-gold hover:bg-yellow-400 text-stars-navy text-xl md:text-2xl font-extrabold uppercase tracking-wide rounded-xl shadow-lg transition-colors"
+                  class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-white hover:bg-tg-sky text-tg-navy text-xl md:text-2xl font-extrabold uppercase tracking-wide rounded-xl transition-colors"
                 >
-                  <span class="w-10 h-10 rounded-full bg-stars-navy flex items-center justify-center">
-                    <svg class="w-5 h-5 text-stars-gold ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                  <span class="w-10 h-10 rounded-full bg-tg-navy flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M8 5v14l11-7z"/>
                     </svg>
                   </span>
@@ -659,7 +660,7 @@ const ogImage = `/players/og/${slug}.png`;
                   </div>
                 </div>
                 {video.title && (
-                  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                  <div class="absolute bottom-0 left-0 right-0 bg-black/70 p-3">
                     <p class="text-white text-sm font-medium truncate">{video.title}</p>
                   </div>
                 )}
@@ -678,7 +679,7 @@ const ogImage = `/players/og/${slug}.png`;
                     stream-type="on-demand"
                     playback-id={video.playbackId}
                     metadata-video-title={video.title || `${player.firstName} ${player.lastName}`}
-                    accent-color="#1F2D5C"
+                    accent-color="#2C3669"
                   ></mux-player>
                 </div>
               </div>
@@ -706,7 +707,7 @@ const ogImage = `/players/og/${slug}.png`;
             id="lightbox-player"
             stream-type="on-demand"
             playback-id=""
-            accent-color="#1F2D5C"
+            accent-color="#2C3669"
             class="w-full h-full"
           ></mux-player>
         </div>
@@ -856,7 +857,7 @@ const ogImage = `/players/og/${slug}.png`;
         {teammates.length > 0 && (
           <>
             <h2 class="text-2xl font-bold text-gray-900 mb-6">
-              More {positionHub.name === 'Roster' ? 'Players' : positionHub.name} on Top Gun Walker
+              More {positionHub.name === 'Roster' ? 'Players' : positionHub.name} on Top Gun National Walker
             </h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
               {teammates.map((t) => (
@@ -864,7 +865,7 @@ const ogImage = `/players/og/${slug}.png`;
                   href={`/players/${t.slug}/`}
                   class="bg-white rounded-xl p-4 shadow hover:shadow-lg transition-all block text-center"
                 >
-                  {t.photoUrl && (
+                  {showPlayerPhoto(t) ? (
                     <img
                       src={t.photoUrl}
                       alt={`${t.name} — ${t.position}, class of ${t.gradYear}`}
@@ -873,6 +874,10 @@ const ogImage = `/players/og/${slug}.png`;
                       loading="lazy"
                       class="w-20 h-20 rounded-full object-cover mx-auto mb-3"
                     />
+                  ) : (
+                    <div class="w-20 h-20 rounded-full bg-tg-navy text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">
+                      {playerInitials(t.firstName, t.lastName)}
+                    </div>
                   )}
                   <span class="block font-semibold text-gray-900 text-sm">{t.name}</span>
                   <span class="block text-xs text-gray-600 mt-1">{t.position}</span>

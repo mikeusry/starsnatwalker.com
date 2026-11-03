@@ -1,5 +1,6 @@
 ---
 import { generatePlayerSlug } from '../lib/slug';
+import { playerInitials, showPlayerPhoto } from '../lib/player-photo';
 
 interface Props {
   id: string;
@@ -12,6 +13,7 @@ interface Props {
   throws?: string | null;
   twitter?: string | null;
   photoUrl?: string | null;
+  jerseyOk?: boolean;
   featured?: boolean;
   committedTo?: string | null;
   committedLogoUrl?: string | null;
@@ -28,6 +30,7 @@ const {
   throws,
   twitter,
   photoUrl,
+  jerseyOk = true,
   featured = false,
   committedTo,
   committedLogoUrl
@@ -36,6 +39,8 @@ const {
 const positions = [position, ...(secondaryPositions || [])].filter(Boolean).join(' / ');
 const handedness = bats && throws ? `${bats}/${throws}` : null;
 const playerSlug = generatePlayerSlug(firstName, lastName);
+const visiblePhoto = showPlayerPhoto({ firstName, lastName, photoUrl, jerseyOk });
+const initials = playerInitials(firstName, lastName);
 ---
 
 <a
@@ -46,21 +51,16 @@ const playerSlug = generatePlayerSlug(firstName, lastName);
   ]}
 >
   <!-- Photo or Placeholder -->
-  <div class="aspect-[4/5] bg-gradient-to-br from-stars-navy to-stars-navy-light relative overflow-hidden">
-    {photoUrl ? (
+  <div class="aspect-[4/5] bg-tg-navy relative overflow-hidden">
+    {visiblePhoto ? (
       <img
         src={photoUrl}
         alt={`${firstName} ${lastName}`}
         class="w-full h-full object-cover"
       />
     ) : (
-      <div class="w-full h-full flex items-center justify-center">
-        <div class="text-center">
-          <div class="text-6xl text-stars-blue/50 mb-2">★</div>
-          <div class="text-white/30 font-bold text-lg">
-            {firstName.charAt(0)}{lastName.charAt(0)}
-          </div>
-        </div>
+      <div class="w-full h-full flex items-center justify-center bg-tg-navy">
+        <span class="text-white font-bold text-4xl tracking-wide">{initials}</span>
       </div>
     )}
 

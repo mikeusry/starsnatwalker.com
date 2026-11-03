@@ -139,12 +139,12 @@ async function readPhotoBuffer(photoUrl: string): Promise<Buffer | null> {
  * Player photo as a PNG data URL, or null so the card renders without a face.
  * A bad fetch / non-image body / sharp failure must not fail the build.
  */
-export async function getOgPlayerPhoto(photoUrl: string | null | undefined): Promise<string | null> {
+export async function getOgPlayerPhoto(photoUrl: string | null | undefined, width = 300, height = 300): Promise<string | null> {
   if (!photoUrl) return null
   try {
     const buffer = await readPhotoBuffer(photoUrl)
     if (!buffer || !isImageBytes(buffer)) return null
-    const png = await sharp(buffer).resize(300, 300, { fit: 'cover' }).png().toBuffer()
+    const png = await sharp(buffer).resize(width, height, { fit: 'cover', position: width === height ? 'centre' : 'north' }).png().toBuffer()
     return `data:image/png;base64,${png.toString('base64')}`
   } catch {
     return null

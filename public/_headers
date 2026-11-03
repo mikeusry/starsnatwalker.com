@@ -1,0 +1,4 @@
+/og.png
+  Cache-Control: public, max-age=300, must-revalidate
+/players/og/*
+  Cache-Control: public, max-age=300, must-revalidate

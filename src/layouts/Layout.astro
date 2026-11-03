@@ -13,7 +13,7 @@ const {
   noindex = false
 } = Astro.props;
 
-const siteUrl = "https://starsnatwalker.com";
+const siteUrl = "https://topgunwalker.com";
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 
 // Structured data for organization
@@ -156,7 +156,7 @@ const organizationStructuredData = {
         // arrive from email (?c=&s=), search, or direct — never by walking our
         // internal hub. Treat own-hub referrals to player pages as bots so they
         // don't drown the dashboard.
-        var OWN_HUB_REFERRER = /starsnatwalker\.com\/(recruiting|pitchers|catchers|roster)\b/i;
+        var OWN_HUB_REFERRER = /(topgunwalker|starsnatwalker)\.com\/(recruiting|pitchers|catchers|roster)\b/i;
 
         function isBot() {
           var ua = navigator.userAgent || '';

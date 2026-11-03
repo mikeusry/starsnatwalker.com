@@ -30,21 +30,21 @@
     {
       "name": "Joe Walker",
       "title": "Head Coach",
-      "email": "joe.walker@starsnatwalker.com",
+      "email": "joe.walker@topgunwalker.com",
       "photo": "https://res.cloudinary.com/southland-organics/image/upload/v1779807570/StarsNationalWalker/joe-walker-coach.jpg",
       "bio": "Coach Joe Walker founded the Stars National Walker program with a vision of developing elite softball players who excel both on the field and in the classroom. An expert in lock-down defense and game strategy, he works directly with infielders to build fundamentally sound players. His deep understanding of the recruiting landscape prepares athletes for success at the next level."
     },
     {
       "name": "Adrian Diaz",
       "title": "Outfield Coach",
-      "email": "adrian.diaz@starsnatwalker.com",
+      "email": "adrian.diaz@topgunwalker.com",
       "photo": "https://res.cloudinary.com/southland-organics/image/upload/v1779807295/StarsNationalWalker/adrian-diaz.jpg",
       "bio": "Coach Adrian specializes in outfield development, teaching players to read balls off the bat, take efficient routes, and make accurate throws. His player-first mentality and ability to communicate adjustments help outfielders develop into confident, reliable defenders."
     },
     {
       "name": "Jeremiah Perez",
       "title": "Assistant Coach",
-      "email": "jeremiah.perez@starsnatwalker.com",
+      "email": "jeremiah.perez@topgunwalker.com",
       "photo": "https://res.cloudinary.com/southland-organics/image/upload/v1779807423/StarsNationalWalker/jeremiah-perez.jpg",
       "bio": "Coach Jeremiah focuses on hitting and infield development, with a keen eye for mechanical adjustments that unlock power and consistency at the plate. His positive coaching style and attention to detail help players build confidence and reach their full potential."
     }
@@ -52,12 +52,12 @@
   "headCoach": {
     "name": "Joe Walker",
     "title": "Head Coach",
-    "email": "joe.walker@starsnatwalker.com"
+    "email": "joe.walker@topgunwalker.com"
   },
   "recruitingCoordinator": {
     "name": "Mike Usry",
     "title": "Recruiting Coordinator",
-    "email": "mike@starsnatwalker.com",
+    "email": "mike@topgunwalker.com",
     "photo": "https://res.cloudinary.com/southland-organics/image/upload/w_500,h_600,c_fill,q_auto,f_auto,g_face/Southland%20Website/team/MIKE_Usry",
     "bio": "Mike played Division I football at Georgia and South Florida, so he knows the recruiting process from the inside — what college coaches are actually evaluating, and what it takes to earn a spot at the next level. As Top Gun National Walker's recruiting coordinator, that's the work he owns: building each player's target school list, getting her video and profile in front of the right coaches, and managing the outreach and follow-up that turns interest into offers.\n\nMike treats recruiting as the team's responsibility, not something families have to figure out alone. He has helped athletes across multiple sports secure Division I scholarships, and brings that same hands-on advocacy to every player on the roster — finding the right athletic, academic, and cultural fit for each one."
   },

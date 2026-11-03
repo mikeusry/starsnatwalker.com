@@ -232,7 +232,7 @@ import Layout from '../../layouts/Layout.astro';
 
       const refCounts = {};
       referrerViews.forEach(v => {
-        if (v.referrer_domain && v.referrer_domain !== 'starsnatwalker.com' && !EXCLUDED_REFERRERS.some(ex => v.referrer_domain.includes(ex))) {
+        if (v.referrer_domain && v.referrer_domain !== 'topgunwalker.com' && v.referrer_domain !== 'starsnatwalker.com' && !EXCLUDED_REFERRERS.some(ex => v.referrer_domain.includes(ex))) {
           refCounts[v.referrer_domain] = (refCounts[v.referrer_domain] || 0) + 1;
         }
       });

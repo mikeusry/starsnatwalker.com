@@ -45,7 +45,7 @@ export function generateEventSlug(name: string): string {
     .replace(/-+/g, '-');
 }
 
-const SITE_URL = 'https://starsnatwalker.com';
+const SITE_URL = 'https://topgunwalker.com';
 
 function stripBioLinks(bio: string): string {
   return bio.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1');

@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Page Not Found | Top Gun National Walker"
+  description="The page you requested could not be found."
+  noindex={true}
+>
+  <Header />
+  <main class="pt-20">
+    <section class="bg-stars-navy py-24 md:py-32">
+      <div class="container-narrow text-center">
+        <p class="text-stars-gold font-semibold tracking-wide uppercase mb-3">404</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Page not found</h1>
+        <p class="text-lg text-white/70 max-w-xl mx-auto mb-8">
+          That URL does not exist. Head back to the roster or home page.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a href="/" class="inline-flex items-center px-5 py-2.5 bg-stars-gold text-stars-navy font-semibold rounded-lg hover:bg-white transition-colors">Home</a>
+          <a href="/recruiting/" class="inline-flex items-center px-5 py-2.5 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 transition-colors">Recruiting</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

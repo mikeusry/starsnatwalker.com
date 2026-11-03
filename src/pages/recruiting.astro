@@ -6,6 +6,7 @@ import players from '../data/players.json';
 import team from '../data/team.json';
 import schedule from '../data/schedule.json';
 import { generatePlayerSlug } from '../lib/slug';
+import { playerInitials, showPlayerPhoto } from '../lib/player-photo';
 
 // Sort players by grad year, then last name
 const sortedPlayers = [...players].sort((a, b) => {
@@ -43,13 +44,13 @@ const upcomingEvents = schedule.events?.slice(0, 3) || [];
 ---
 
 <Layout
-  title="College Coach Recruiting Hub | Top Gun Walker 16U Softball"
-  description="College coaches: evaluate our uncommitted 2027-2029 student-athletes with verified metrics, video, and academics. Top Gun Walker 16U elite travel softball."
+  title="College Coach Recruiting Hub | Top Gun National Walker 16U Softball"
+  description="College coaches: evaluate our uncommitted 2027-2029 student-athletes with verified metrics, video, and academics. Top Gun National Walker 16U elite travel softball."
 >
   <Header />
   <main class="pt-20">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-stars-navy to-stars-navy-light py-16 md:py-20">
+    <section class="bg-tg-navy py-16 md:py-20">
       <div class="container-narrow text-center">
         <div class="inline-flex items-center gap-2 bg-stars-gold/20 text-stars-gold px-4 py-2 rounded-full text-sm font-semibold mb-6">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -64,7 +65,7 @@ const upcomingEvents = schedule.events?.slice(0, 3) || [];
           {teamStats.uncommitted} uncommitted student-athletes • Classes of {gradYears.join(', ')} • Verified metrics and video
         </p>
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="#roster" class="btn-primary bg-stars-gold text-stars-navy hover:bg-yellow-400">
+          <a href="#roster" class="inline-flex items-center justify-center px-6 py-3 bg-white text-tg-navy font-semibold rounded-full hover:bg-tg-sky transition-colors">
             View Roster
           </a>
           <a href="#inquiry" class="btn-secondary border-white text-white hover:bg-white hover:text-stars-navy">
@@ -156,12 +157,12 @@ const upcomingEvents = schedule.events?.slice(0, 3) || [];
               >
                 <a href={`/players/${slug}/`} class="block">
                   <div class="flex items-start gap-4 p-6">
-                    <div class="w-16 h-16 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
-                      {player.photoUrl ? (
+                    <div class="w-16 h-16 rounded-full bg-tg-navy overflow-hidden flex-shrink-0">
+                      {showPlayerPhoto(player) ? (
                         <img src={player.photoUrl} alt="" class="w-full h-full object-cover" />
                       ) : (
-                        <div class="w-full h-full flex items-center justify-center text-stars-navy font-bold text-lg">
-                          {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                        <div class="w-full h-full flex items-center justify-center bg-tg-navy text-white font-bold text-lg">
+                          {playerInitials(player.firstName, player.lastName)}
                         </div>
                       )}
                     </div>
@@ -368,13 +369,13 @@ const upcomingEvents = schedule.events?.slice(0, 3) || [];
       </div>
     </section>
 
-    <!-- About Top Gun Walker -->
+    <!-- About Top Gun National Walker -->
     <section class="section-padding bg-gray-50">
       <div class="container-narrow">
         <div class="max-w-3xl mx-auto text-center">
-          <h2 class="text-3xl font-bold text-gray-900 mb-6">About Top Gun Walker</h2>
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">About Top Gun National Walker</h2>
           <p class="text-lg text-gray-600 mb-6">
-            Top Gun Walker is an elite 16U travel softball team competing on a national schedule.
+            Top Gun National Walker is an elite 16U travel softball team competing on a national schedule.
             Part of the Top Gun Fastpitch organization (formerly Stars National Walker), we focus on player development, academic excellence,
             and college placement. Our players come from across the country and compete in top-tier
             tournaments including PGF, TCS, and Alliance events.

@@ -32,7 +32,7 @@ export const GET: APIRoute = async () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#1F2D5C',
+          backgroundColor: '#2C3669',
           padding: '40px',
         },
         children: [
@@ -82,7 +82,7 @@ export const GET: APIRoute = async () => {
                     style: {
                       display: 'flex',
                       backgroundColor: '#FFFFFF',
-                      color: '#1F2D5C',
+                      color: '#2C3669',
                       fontSize: 30,
                       fontWeight: 700,
                       textAlign: 'center',

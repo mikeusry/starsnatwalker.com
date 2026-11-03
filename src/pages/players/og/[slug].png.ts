@@ -6,6 +6,7 @@ import { join } from 'path'
 import sharp from 'sharp'
 import players from '../../../data/players.json'
 import { generatePlayerSlug } from '../../../lib/slug'
+import { showPlayerPhoto } from '../../../lib/player-photo'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return players.map((player) => ({
@@ -32,7 +33,7 @@ export const GET: APIRoute = async ({ props }) => {
 
   // Fetch and convert player photo to base64
   let photoDataUrl: string | null = null
-  if (player.photoUrl) {
+  if (showPlayerPhoto(player)) {
     try {
       let buffer: Buffer | null = null
       if (player.photoUrl.startsWith('/')) {
@@ -64,7 +65,7 @@ export const GET: APIRoute = async ({ props }) => {
           height: '100%',
           width: '100%',
           display: 'flex',
-          backgroundColor: '#1F2D5C',
+          backgroundColor: '#2C3669',
           padding: '50px 60px',
         },
         children: [
@@ -176,7 +177,7 @@ export const GET: APIRoute = async ({ props }) => {
                             fontWeight: 700,
                             color: 'rgba(255,255,255,0.6)',
                           },
-                          children: 'Top Gun Walker',
+                          children: 'Top Gun National Walker',
                         },
                       },
                     ],

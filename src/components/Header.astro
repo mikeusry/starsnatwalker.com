@@ -13,27 +13,20 @@ const isActive = (href: string) => {
   if (href === '/') return currentPath === '/';
   return currentPath.startsWith(href);
 };
-const isPositionActive = positionLinksActive();
-function positionLinksActive() {
-  return ['/pitchers/', '/catchers/', '/infielders/', '/outfielders/'].some(h => Astro.url.pathname.startsWith(h));
-}
 
-const navLinks = [
+const leftLinks = [
   { href: '/', label: 'Home' },
   { href: '/#roster', label: 'Roster' },
   { href: '/#schedule', label: 'Schedule' },
   { href: '/#about', label: 'About' },
-  { href: '/contact/', label: 'Contact' },
-  { href: '/recruiting/', label: 'College Coaches', highlight: 'primary' },
-  { href: '/tryout/', label: 'Join Us', highlight: 'secondary' },
 ];
 
-const positionLinks = [
-  { href: '/pitchers/', label: 'Pitchers' },
-  { href: '/catchers/', label: 'Catchers' },
-  { href: '/infielders/', label: 'Infielders' },
-  { href: '/outfielders/', label: 'Outfielders' },
+const rightLinks = [
+  { href: '/contact/', label: 'Contact' },
+  { href: '/recruiting/', label: 'College Coaches' },
 ];
+
+const joinUs = { href: '/tryout/', label: 'Join Us' };
 ---
 
 <header
@@ -48,7 +41,7 @@ const positionLinks = [
       <!-- Left column -->
       <div class="flex items-center h-full min-w-0">
         <div class="hidden lg:flex items-center gap-6 h-full">
-          {navLinks.slice(0, 4).map(link => (
+          {leftLinks.map(link => (
             <a
               href={link.href}
               class:list={[
@@ -60,30 +53,12 @@ const positionLinks = [
               {link.label}
             </a>
           ))}
-          <!-- Positions Dropdown -->
-          <div class:list={["relative group h-full flex items-center border-b-[3px]", isPositionActive ? "border-tg-orange" : "border-transparent"]}>
-            <button class="text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors flex items-center gap-1">
-              Positions
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="absolute top-full left-0 mt-0 w-40 bg-white border border-tg-line rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              {positionLinks.map(link => (
-                <a
-                  href={link.href}
-                  class="block px-4 py-2 text-tg-navy font-medium hover:bg-tg-sky first:rounded-t-lg last:rounded-b-lg transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
 
-      <!-- Center: logo (full-color logo is only used on white) -->
-      <a href="/" class="flex flex-col items-center justify-center gap-0.5 group" aria-label="Top Gun Walker home">
+      <!-- Center: logo (full-color logo is only used on white).
+           Clear space = logo height × 0.25 (h-9/h-10 → ~9–10px). -->
+      <a href="/" class="flex flex-col items-center justify-center gap-0.5 group p-2.5" aria-label="Top Gun National Walker home">
         <img
           src="/topgun-logo.png"
           alt="Top Gun logo"
@@ -97,32 +72,23 @@ const positionLinks = [
       <!-- Right column -->
       <div class="flex items-center justify-end h-full gap-5">
         <div class="hidden lg:flex items-center gap-5 h-full">
-          <a
-            href={navLinks[4].href}
-            class:list={[
-              "tg-nav-link text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors h-full flex items-center border-b-[3px] whitespace-nowrap",
-              isActive(navLinks[4].href) ? "border-tg-orange" : "border-transparent"
-            ]}
-          >
-            {navLinks[4].label}
-          </a>
-          {navLinks.slice(5).map(link => (
-            link.highlight === 'primary' ? (
-              <a
-                href={link.href}
-                class="text-[15px] font-semibold px-5 py-2 rounded-full bg-tg-navy text-white hover:bg-tg-navy-deep transition-colors whitespace-nowrap"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <a
-                href={link.href}
-                class="text-[15px] font-semibold px-4 py-2 rounded-full border border-tg-navy text-tg-navy hover:bg-tg-sky transition-colors whitespace-nowrap"
-              >
-                {link.label}
-              </a>
-            )
+          {rightLinks.map(link => (
+            <a
+              href={link.href}
+              class:list={[
+                "tg-nav-link text-[15px] font-semibold text-tg-navy hover:text-tg-orange transition-colors h-full flex items-center border-b-[3px] whitespace-nowrap",
+                isActive(link.href) ? "border-tg-orange" : "border-transparent"
+              ]}
+            >
+              {link.label}
+            </a>
           ))}
+          <a
+            href={joinUs.href}
+            class="text-[15px] font-semibold px-5 py-2 rounded-full bg-tg-navy text-white hover:bg-tg-navy-deep transition-colors whitespace-nowrap"
+          >
+            {joinUs.label}
+          </a>
           <!-- X/Twitter Link -->
           <a
             href={team.socialLinks.twitter}
@@ -155,7 +121,7 @@ const positionLinks = [
   <!-- Mobile Menu (white drawer) -->
   <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-tg-line shadow-lg max-h-[calc(100vh-72px)] overflow-y-auto">
     <div class="container-narrow py-4 space-y-1">
-      {navLinks.slice(0, 5).map(link => (
+      {[...leftLinks, ...rightLinks].map(link => (
         <a
           href={link.href}
           class:list={["block font-semibold py-2 text-tg-navy hover:text-tg-orange border-l-[3px] pl-3", isActive(link.href) ? "border-tg-orange" : "border-transparent"]}
@@ -164,30 +130,10 @@ const positionLinks = [
         </a>
       ))}
 
-      <div class="border-t border-tg-line pt-3 mt-3">
-        <p class="text-tg-muted text-sm mb-2 pl-3">By Position</p>
-        {positionLinks.map(link => (
-          <a
-            href={link.href}
-            class="block font-medium py-2 text-tg-navy hover:text-tg-orange pl-6"
-          >
-            {link.label}
-          </a>
-        ))}
-      </div>
-
-      <div class="border-t border-tg-line pt-4 mt-3 flex flex-col gap-3">
-        {navLinks.slice(5).map(link => (
-          link.highlight === 'primary' ? (
-            <a href={link.href} class="block text-center font-semibold py-2.5 rounded-full bg-tg-navy text-white">
-              {link.label}
-            </a>
-          ) : (
-            <a href={link.href} class="block text-center font-semibold py-2.5 rounded-full border border-tg-navy text-tg-navy">
-              {link.label}
-            </a>
-          )
-        ))}
+      <div class="border-t border-tg-line pt-4 mt-3">
+        <a href={joinUs.href} class="block text-center font-semibold py-2.5 rounded-full bg-tg-navy text-white">
+          {joinUs.label}
+        </a>
       </div>
 
       <a

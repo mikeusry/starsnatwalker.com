@@ -149,12 +149,12 @@ const cards = ORDER.map((slug) => {
 }).filter(Boolean) as NonNullable<ReturnType<typeof Object>>[] as any[];
 ---
 
-<Layout title="X Graphics | Top Gun Walker" noindex={true}>
+<Layout title="X Graphics | Top Gun National Walker" noindex={true}>
   <div class="min-h-screen bg-gray-100">
     <header class="bg-stars-navy text-white shadow-lg">
       <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-3">
         <div class="flex items-center gap-4">
-          <img src="/star-white.png" alt="Top Gun Walker" class="h-8 w-8" />
+          <img src="/star-white.png" alt="Top Gun National Walker" class="h-8 w-8" />
           <div>
             <h1 class="text-xl font-bold">X Post Graphics</h1>
             <p class="text-sm text-white/70">One card per player — download as PNG</p>
@@ -305,9 +305,8 @@ const cards = ORDER.map((slug) => {
         var stats = JSON.parse(el.dataset.stats || '[]');
         var twitter = el.dataset.twitter;
 
-        // Ground. Flat navy across the whole card — an earlier version put a
-        // gradient on the right half and it left a visible vertical seam where
-        // the two fills met.
+        // Ground. Flat navy across the whole card — an earlier version split
+        // the fill and it left a visible vertical seam where the two fills met.
         ctx.fillStyle = NAVY;
         ctx.fillRect(0, 0, W, H);
 

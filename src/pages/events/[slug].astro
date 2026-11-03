@@ -6,6 +6,7 @@ import players from '../../data/players.json';
 import schedule from '../../data/schedule.json';
 import { generatePlayerSlug } from '../../lib/slug';
 import { buildCloudinaryUrl } from '../../lib/cloudinary';
+import { playerInitials, showPlayerPhoto } from '../../lib/player-photo';
 
 // Generate event slug from name
 function generateEventSlug(name: string): string {
@@ -92,16 +93,16 @@ const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
 
 <Layout
   title={hasResult
-    ? `${event.result} — ${event.name} | Top Gun Walker`
-    : `${event.name} | Top Gun Walker Roster`}
+    ? `${event.result} — ${event.name} | Top Gun National Walker`
+    : `${event.name} | Top Gun National Walker Roster`}
   description={hasResult
     ? `Stars National Walker finished ${event.result} at the ${event.name} (${event.dates}, ${event.location}). See the roster of ${players.length} elite 16U softball players.`
-    : `See the Top Gun Walker roster for ${event.name} (${event.dates}). ${players.length} elite 16U softball players competing in ${event.location}.`}
+    : `See the Top Gun National Walker roster for ${event.name} (${event.dates}). ${players.length} elite 16U softball players competing in ${event.location}.`}
 >
   <Header />
   <main class="pt-20">
     <!-- Event Hero -->
-    <section class="bg-gradient-to-br from-stars-navy to-stars-navy-light py-12 md:py-16">
+    <section class="bg-tg-navy py-12 md:py-16">
       <div class="container-narrow">
         <div class="text-center mb-8">
           {hasResult ? (
@@ -126,7 +127,7 @@ const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
                 {event.result}
               </h1>
               <p class="text-xl md:text-2xl text-stars-gold font-semibold mb-2">
-                Top Gun Walker &middot; {event.name}
+                Top Gun National Walker &middot; {event.name}
               </p>
               <p class="text-lg text-white/80">{event.dates} &middot; {event.location}</p>
               {event.resultDetail && (
@@ -136,7 +137,7 @@ const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
           ) : (
             <>
               <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                Top Gun Walker
+                Top Gun National Walker
               </h1>
               <p class="text-2xl text-stars-gold font-semibold mb-2">{event.name}</p>
               <p class="text-xl text-white/80">{event.dates}</p>
@@ -282,12 +283,12 @@ const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
                     <td class="px-4 py-3 text-gray-500 font-mono">{(idx + 1).toString().padStart(2, '0')}</td>
                     <td class="px-4 py-3">
                       <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
-                          {player.photoUrl ? (
+                        <div class="w-8 h-8 rounded-full bg-tg-navy overflow-hidden flex-shrink-0">
+                          {showPlayerPhoto(player) ? (
                             <img src={player.photoUrl} alt="" class="w-full h-full object-cover" loading="lazy" />
                           ) : (
-                            <div class="w-full h-full flex items-center justify-center text-stars-navy font-bold text-xs">
-                              {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+                            <div class="w-full h-full flex items-center justify-center bg-tg-navy text-white font-bold text-xs">
+                              {playerInitials(player.firstName, player.lastName)}
                             </div>
                           )}
                         </div>
@@ -339,7 +340,7 @@ const resultPhotos = rawResultPhotos.map((photo: any, index: number) => {
         <h2 class="text-2xl font-bold text-white mb-4">Interested in Our Players?</h2>
         <p class="text-white/80 mb-6">Request detailed stats, video, transcripts, and schedule a conversation</p>
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="/recruiting/#inquiry" class="inline-block bg-stars-gold text-stars-navy font-bold py-3 px-8 rounded-lg hover:bg-yellow-400 transition-colors">
+          <a href="/recruiting/#inquiry" class="inline-block bg-white text-tg-navy font-bold py-3 px-8 rounded-lg hover:bg-tg-sky transition-colors">
             Request Information
           </a>
           <a href="/recruiting/" class="inline-block border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-stars-navy transition-colors">

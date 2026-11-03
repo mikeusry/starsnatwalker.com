@@ -1,7 +1,8 @@
 // Cloudinary URL builder - no SDK required
 // Uses direct URL construction for optimal bundle size
 
-const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
+// Public cloud name (already in 34 hardcoded URLs). Fallback so CI builds without .env still work.
+const cloudName = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME || 'southland-organics';
 
 if (!cloudName) {
   console.warn('Missing PUBLIC_CLOUDINARY_CLOUD_NAME environment variable');

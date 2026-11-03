@@ -128,6 +128,7 @@ const hasStats = statsSeasons.length > 0;
 
 // Check for additional photos
 const photos = (player as any).photos || [];
+const commitGallery = (player as any).commitGallery as { title?: string; photos: { url: string; fullUrl?: string; alt?: string }[] } | undefined;
 
 // OG image: generated at build time via satori (1200x630)
 const slug = generatePlayerSlug(player.firstName, player.lastName);
@@ -301,6 +302,22 @@ const ogImage = `/players/og/${slug}.png`;
         </div>
       </div>
     </section>
+
+    <!-- Commitment Gallery (data: commitGallery) -->
+    {commitGallery?.photos?.length > 0 && (
+      <section class="section-padding bg-gray-50" id="commitment" data-commit-gallery>
+        <div class="container-narrow">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">{commitGallery.title || 'Commitment'}</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            {commitGallery.photos.map((photo, i) => (
+              <a href={photo.fullUrl || photo.url} target="_blank" rel="noopener" class="block rounded-xl overflow-hidden bg-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                <img src={photo.url} alt={photo.alt || `${player.firstName} ${player.lastName} commitment photo ${i + 1}`} loading="lazy" decoding="async" class="w-full h-full aspect-[4/5] object-cover" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- Bio Section -->
     {(player.bio || (player.achievements && player.achievements.length > 0)) && (

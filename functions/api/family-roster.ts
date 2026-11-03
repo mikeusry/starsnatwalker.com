@@ -11,7 +11,7 @@ interface Env { FAMILY_PASS?: string; FAMILY_CONTACTS?: string }
 const headers = {
   'Content-Type': 'application/json',
   'Cache-Control': 'private, no-store',
-  'Access-Control-Allow-Origin': 'https://starsnatwalker.com',
+  'Access-Control-Allow-Origin': 'https://topgunwalker.com',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, x-family-pass',
 };

@@ -179,7 +179,7 @@ const players = (playersData as any[])
         }
         const bucket = byPlayer30[v.player_slug];
         bucket.total++;
-        if (v.referrer_domain && v.referrer_domain !== 'starsnatwalker.com') {
+        if (v.referrer_domain && v.referrer_domain !== 'topgunwalker.com' && v.referrer_domain !== 'starsnatwalker.com') {
           bucket.refs[v.referrer_domain] = (bucket.refs[v.referrer_domain] || 0) + 1;
         }
         if (v.city) {

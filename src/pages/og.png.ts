@@ -1,21 +1,12 @@
 import type { APIRoute } from 'astro';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import sharp from 'sharp';
 import team from '../data/team.json';
+import { getOgFonts, getOgLogoDataUrl } from '../lib/og';
 
 export const GET: APIRoute = async () => {
-  // Load Inter font
-  const interBold = readFileSync(
-    join(process.cwd(), 'node_modules/@fontsource/inter/files/inter-latin-700-normal.woff')
-  ).buffer;
-
-  // Convert webp logo to PNG base64 for satori compatibility
-  const logoPath = join(process.cwd(), 'public/star-white.png');
-  const logoPngBuffer = await sharp(logoPath).png().toBuffer();
-  const logoDataUrl = `data:image/png;base64,${logoPngBuffer.toString('base64')}`;
+  const fonts = getOgFonts();
+  const logoDataUrl = await getOgLogoDataUrl();
 
   // The top achievement doubles as the share-card headline. Keeping it derived
   // from team.json means the card follows the roster's best current credential.
@@ -100,14 +91,7 @@ export const GET: APIRoute = async () => {
     {
       width: 1200,
       height: 630,
-      fonts: [
-        {
-          name: 'Inter',
-          data: interBold,
-          weight: 700,
-          style: 'normal',
-        },
-      ],
+      fonts,
     }
   );
 

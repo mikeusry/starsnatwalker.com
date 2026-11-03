@@ -119,12 +119,8 @@
     "firstName": "Baylee",
     "lastName": "Giese Edney",
     "gradYear": 2029,
-    "position": "Utility",
-    "secondaryPositions": [
-      "1B",
-      "3B",
-      "OF"
-    ],
+    "position": "1B",
+    "secondaryPositions": [],
     "bats": "R",
     "throws": "R",
     "twitter": "BayGieseedney",
@@ -364,9 +360,7 @@
     "lastName": "LaManche",
     "gradYear": 2029,
     "position": "Pitcher",
-    "secondaryPositions": [
-      "Utility"
-    ],
+    "secondaryPositions": [],
     "bats": "R",
     "throws": "R",
     "twitter": "KLamanche2011",
@@ -427,7 +421,7 @@
     "firstName": "Charlotte",
     "lastName": "Llaneza",
     "gradYear": 2028,
-    "position": "Catcher/3B",
+    "position": "3B / Catcher",
     "secondaryPositions": [],
     "bats": "R",
     "throws": "R",
@@ -479,9 +473,7 @@
     "lastName": "Orlando",
     "gradYear": 2028,
     "position": "Outfield",
-    "secondaryPositions": [
-      "IF"
-    ],
+    "secondaryPositions": [],
     "bats": "R",
     "throws": "R",
     "twitter": "Caraorlando2028",
@@ -560,9 +552,7 @@
     "lastName": "Perez",
     "gradYear": 2028,
     "position": "Middle Infield",
-    "secondaryPositions": [
-      "Utility"
-    ],
+    "secondaryPositions": [],
     "bats": "L",
     "throws": "R",
     "twitter": "SophiaPerez_28",
@@ -908,7 +898,7 @@
     "firstName": "Riley",
     "lastName": "Walker",
     "gradYear": 2029,
-    "position": "Catcher/Corner IF",
+    "position": "Catcher / 1B",
     "secondaryPositions": [],
     "bats": "R",
     "throws": "R",
@@ -1074,9 +1064,7 @@
     "lastName": "Wunderlich",
     "gradYear": 2028,
     "position": "RHP",
-    "secondaryPositions": [
-      "Utility"
-    ],
+    "secondaryPositions": [],
     "bats": "R",
     "throws": "R",
     "twitter": "kierrawunder",

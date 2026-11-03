@@ -210,7 +210,14 @@
     "videos": {
       "highlightUrl": null,
       "skillsUrl": null,
-      "gameFootageUrl": null
+      "gameFootageUrl": null,
+      "muxVideos": [
+        {
+          "playbackId": "1ZE5Rf01yQ1A9gHwFWUZHvflhwTIhjKan9D5rdUA5ibw",
+          "title": "Outfield Skills — Elon commit",
+          "description": "Maddie Diaz, #28 OF, outfield skills reel. Elon commit."
+        }
+      ]
     },
     "targetSchools": {
       "dream": [

@@ -239,7 +239,7 @@ function icsDescription(event: ScheduleEvent): string {
     event.hotel && `Hotel: ${event.hotel}`,
     eventPagePath(event) && `${SITE}${eventPagePath(event)}`,
   ].filter(Boolean);
-  return parts.join('\n') || 'Top Gun Walker';
+  return parts.join('\n') || 'Top Gun National Walker';
 }
 
 function escapeIcs(text: string): string {
@@ -288,14 +288,14 @@ function vevent(event: ScheduleEvent): string {
 
 export function buildIcs(
   events: ScheduleEvent[],
-  opts: { name: string; family?: boolean } = { name: 'Top Gun Walker' },
+  opts: { name: string; family?: boolean } = { name: 'Top Gun National Walker' },
 ): string {
   const selected = upcomingEvents(events, { family: opts.family }).filter(eventStartYmd);
   const blocks = selected.map(vevent).filter(Boolean);
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Top Gun Walker//Calendar//EN',
+    'PRODID:-//Top Gun National Walker//Calendar//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     `X-WR-CALNAME:${escapeIcs(opts.name)}`,

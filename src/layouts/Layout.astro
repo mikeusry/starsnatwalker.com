@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title,
-  description = "Top Gun Walker (formerly Stars National Walker) - Elite 16U Travel Softball Team based in Charlotte, NC with players from around the country. Competing in top-tier national tournaments and dedicated to player development and college placement.",
+  description = "Top Gun National Walker (formerly Stars National Walker) - Elite 16U Travel Softball Team based in Charlotte, NC with players from around the country. Competing in top-tier national tournaments and dedicated to player development and college placement.",
   image = "/og.png",
   noindex = false
 } = Astro.props;
@@ -20,7 +20,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 const organizationStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'SportsTeam',
-  name: 'Top Gun Walker',
+  name: 'Top Gun National Walker',
   sport: 'Softball',
   url: siteUrl,
   alternateName: 'Stars National Walker',
@@ -58,16 +58,16 @@ const organizationStructuredData = {
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Keywords -->
-    <meta name="keywords" content="Top Gun Walker, 16U softball, travel softball, Charlotte softball, North Carolina softball, college softball recruiting, Top Gun Fastpitch, Stars National Walker, youth softball, elite softball team, softball players, NCAA softball" />
+    <meta name="keywords" content="Top Gun National Walker, 16U softball, travel softball, Charlotte softball, North Carolina softball, college softball recruiting, Top Gun Fastpitch, Stars National Walker, youth softball, elite softball team, softball players, NCAA softball" />
 
     <!-- Author and Copyright -->
-    <meta name="author" content="Top Gun Walker" />
-    <meta name="copyright" content="Top Gun Walker" />
+    <meta name="author" content="Top Gun National Walker" />
+    <meta name="copyright" content="Top Gun National Walker" />
     <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Top Gun Walker" />
+    <meta property="og:site_name" content="Top Gun National Walker" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

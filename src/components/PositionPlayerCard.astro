@@ -1,4 +1,6 @@
 ---
+import { playerInitials, showPlayerPhoto } from '../lib/player-photo';
+
 interface Props {
   player: any;
   slug: string;
@@ -38,18 +40,20 @@ const formatHeight = (inches: number | null) => {
 
 // Check for video
 const hasVideo = player.videos?.muxVideos?.length > 0 || player.videos?.highlightUrl || player.videos?.skillsUrl;
+const visiblePhoto = showPlayerPhoto(player);
+const initials = playerInitials(player.firstName, player.lastName);
 ---
 
 <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
   <a href={`/players/${slug}/`} class="block">
     <!-- Header with photo -->
     <div class="flex items-start gap-4 p-5">
-      <div class="w-16 h-16 rounded-full bg-stars-navy/10 overflow-hidden flex-shrink-0">
-        {player.photoUrl ? (
+      <div class="w-16 h-16 rounded-full bg-tg-navy overflow-hidden flex-shrink-0">
+        {visiblePhoto ? (
           <img src={player.photoUrl} alt="" class="w-full h-full object-cover" loading="lazy" />
         ) : (
-          <div class="w-full h-full flex items-center justify-center text-stars-navy font-bold text-lg">
-            {player.firstName.charAt(0)}{player.lastName.charAt(0)}
+          <div class="w-full h-full flex items-center justify-center bg-tg-navy text-white font-bold text-lg">
+            {initials}
           </div>
         )}
       </div>

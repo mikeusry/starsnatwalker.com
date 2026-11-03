@@ -170,6 +170,16 @@ const ogImage = `/players/og/${slug}.png`;
                   </span>
                 </div>
               )}
+              <!-- Commit School Badge -->
+              {player.committedTo && player.committedLogoUrl && (
+                <div
+                  class="absolute bottom-3 left-3 md:bottom-4 md:left-4 w-16 h-16 md:w-20 md:h-20 bg-white rounded-full shadow-lg ring-2 ring-white/80 p-2.5 flex items-center justify-center"
+                  title={`Committed to ${player.committedTo}`}
+                  data-commit-badge
+                >
+                  <img src={player.committedLogoUrl} alt={`${player.committedTo} commit`} class="w-full h-full object-contain" loading="eager" />
+                </div>
+              )}
               <!-- Recruiting Status Badge -->
               {player.recruitingStatus && (
                 <div class={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-bold ${

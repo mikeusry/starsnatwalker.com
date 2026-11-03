@@ -22,7 +22,7 @@ const next = nextEvent(events, { family: true });
 const weekends = upcoming.filter((event) => eventType(event) !== 'camp');
 const camps = upcoming.filter((event) => eventType(event) === 'camp');
 
-const familyIcs = 'https://starsnatwalker.com/family/calendar.ics';
+const familyIcs = 'https://topgunwalker.com/family/calendar.ics';
 const webcal = familyIcs.replace('https://', 'webcal://');
 const googleSubscribe = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(familyIcs)}`;
 ---

@@ -4,7 +4,7 @@ import schedule from '../data/schedule.json';
 import team from '../data/team.json';
 import { generatePlayerSlug } from '../lib/slug';
 
-const siteUrl = 'https://starsnatwalker.com';
+const siteUrl = 'https://topgunwalker.com';
 
 // Every URL here MUST carry a trailing slash. Cloudflare Pages 308s the
 // slashless form, so a sitemap of slashless URLs is a sitemap of redirects —

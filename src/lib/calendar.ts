@@ -36,7 +36,7 @@ export interface ScheduleEvent {
   result?: string;
 }
 
-const SITE = 'https://starsnatwalker.com';
+const SITE = 'https://topgunwalker.com';
 const DEFAULT_TZ = 'America/New_York';
 
 const TYPE_LABEL: Record<EventType, string> = {
@@ -271,7 +271,7 @@ function vevent(event: ScheduleEvent): string {
   const loc = locationLine(event);
   const lines = [
     'BEGIN:VEVENT',
-    `UID:${eventId(event)}@starsnatwalker.com`,
+    `UID:${eventId(event)}@topgunwalker.com`,
     `DTSTAMP:${compactDate(start)}T120000Z`,
     `DTSTART;VALUE=DATE:${compactDate(start)}`,
     `DTEND;VALUE=DATE:${compactDate(addDays(endYmd, 1))}`,

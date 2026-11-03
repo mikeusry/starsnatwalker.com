@@ -127,7 +127,7 @@
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807444/StarsNationalWalker/baylee-giese-edney-profile.jpg",
     "jerseyOk": true,
-    "bio": "A 2026 NCHSAA 5A state champion as a freshman, Baylee started varsity for Enka High School and led the Sugar Jets in home runs and RBI on their way to the program's fourth state title. Her signature game came in the 5A West Regional Finals, where she hit three home runs — two of them grand slams — in a 12-1 win over North Davidson. In the deciding game of the championship series against West Carteret, her fifth-inning RBI double broke a scoreless tie and sent Enka to a 4-0 win and a 12-game closing streak. She was named to the North Carolina Softball Coaches all-state team as a freshman.\n\nA true utility bat who has played first, third, and the outfield, Baylee carries a 4.3 GPA on an all-honors course load with A honor roll every year since third grade. She plans to study business as a pre-law track toward becoming a family law attorney, and volunteers through Key Club, Special Olympics, and her school's Student Leadership Program.",
+    "bio": "A 2026 NCHSAA 5A state champion as a freshman, Baylee started varsity for Enka High School and led the Sugar Jets in home runs and RBI on their way to the program's fourth state title. Her signature game came in the 5A West Regional Finals, where she hit three home runs — two of them grand slams — in a 12-1 win over North Davidson. In the deciding game of the championship series against West Carteret, her fifth-inning RBI double broke a scoreless tie and sent Enka to a 4-0 win and a 12-game closing streak. She was named to the North Carolina Softball Coaches all-state team as a freshman.\n\nA versatile bat who has played first, third, and the outfield, Baylee carries a 4.3 GPA on an all-honors course load with A honor roll every year since third grade. She plans to study business as a pre-law track toward becoming a family law attorney, and volunteers through Key Club, Special Olympics, and her school's Student Leadership Program.",
     "achievements": [
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
       "2026 5A NC State Champion - Softball (EHS), HR and RBI leader",
@@ -570,8 +570,8 @@
     "highSchool": "Pueblo Central",
     "highSchoolState": "CO",
     "ncaaId": "2501487047",
-    "recruitingStatus": "uncommitted",
-    "committedTo": null,
+    "recruitingStatus": "committed",
+    "committedTo": "Creighton University",
     "measurables": {
       "sixtyYard": null,
       "exitVelo": null,
@@ -683,6 +683,7 @@
       ]
     },
     "achievements": [
+      "Committed to Creighton University (Class of 2028)",
       "#1 in the nation in batting average — .817, 2026 high school regular season (MaxPreps)",
       "#1 batting average in Colorado, all classifications — 2026 (49-for-60)",
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
@@ -1071,7 +1072,7 @@
     "featured": false,
     "photoUrl": "https://res.cloudinary.com/southland-organics/image/upload/v1779807461/StarsNationalWalker/kierra-wunderlich-profile.jpg",
     "jerseyOk": true,
-    "bio": "Kierra is a fierce competitor on the mound and a versatile utility player who can impact the game from anywhere on the field. A 2x USSSA All-American, she brings power, intensity, and a winning mindset to every outing.",
+    "bio": "Kierra is a fierce competitor on the mound and a power arm who can take over a game from the circle. A 2x USSSA All-American, she brings power, intensity, and a winning mindset to every outing.",
     "achievements": [
       "2026 Alliance Fastpitch 16U Tier III National Runner-Up",
       "2x USSSA All-American"
